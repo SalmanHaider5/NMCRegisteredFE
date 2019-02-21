@@ -1,0 +1,31 @@
+.logo {
+    width: 285px;
+    height: 35px;
+    background: rgba(255,255,255,.2);
+    margin: 16px 24px 16px 0;
+    float: left;
+    color: #35e30c;
+    font-weight: 500;
+    font-size: 20px;
+    text-align: center;
+    line-height: 1.5;
+    font-family: 'Avenir','-apple-system','BlinkMacSystemFont','Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei','Helvetica Neue',Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol',sans-serif;
+}
+.layout .menu{
+    line-height: 64px;
+}
+.content{
+    padding: 0 50px;
+    min-height: 100vh;
+}
+.content-div{
+    padding: 24;
+    min-height: 100vh;
+    background: #ffffff;
+}
+.footer{
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    text-align: center;
+}

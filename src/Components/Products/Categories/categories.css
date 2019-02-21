@@ -1,0 +1,24 @@
+.categories-container{
+    position: relative;
+    width: 90%;
+    margin: 0px auto;
+    top: 30px;
+}
+.categories-form{
+    width: 85%;
+    margin:0px auto;
+    text-align: right;
+}
+.categories-table{
+    width: 85%;
+    margin: 0px auto;
+}
+
+.category-name{
+    width: 450px;
+    border: none;
+    border-bottom: 1px solid lightgray;
+}
+.field{
+    padding: 10px;
+}
