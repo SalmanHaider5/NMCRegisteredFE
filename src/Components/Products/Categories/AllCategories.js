@@ -1,14 +1,15 @@
-import React, { Component } from 'react'
-import { Divider } from 'antd'
+import React from 'react'
+import { Divider, Table } from 'antd'
+import { categoryColumns as columns } from '../../../constants'
 
-class AllCategories extends Component {
-    render() {
-        return (
-            <div>
-                <Divider>All Categories</Divider>
-            </div>
-        );
-    }
-}
+const AllCategories = (props) => {
+  const { categories } = props
+  return (
+    <div>
+      <Divider>All Categories</Divider>
+        <Table columns={columns} dataSource={categories} rowKey={category => category.id} />
+    </div>
+  );
+};
 
-export default AllCategories;
+export default AllCategories

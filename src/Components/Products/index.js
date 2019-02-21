@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues } from 'redux-form'
 
-import { postCategory } from '../../actions'
+import { postCategory, getCategories } from '../../actions'
 import Categories from './Categories'
 
 class Products extends Component {
@@ -11,6 +11,11 @@ class Products extends Component {
     this.state = {
       categoryModal: false
     }
+  }
+
+  componentDidMount(){
+    const { dispatch } = this.props
+    dispatch(getCategories())
   }
 
   showCategoryModal = () => {
@@ -23,12 +28,12 @@ class Products extends Component {
 
   addCategory = () => {
     const { formValues, dispatch } = this.props
-    // console.log(formValues)
     dispatch(postCategory(formValues))
   } 
   
   render() {
     const { categoryModal } = this.state
+    const { categories: { isLoading, categories } } = this.props
     return (
       <div>
         <Categories
@@ -36,6 +41,8 @@ class Products extends Component {
           showCategoryModal={this.showCategoryModal}
           hideCategoryModal={this.hideCategoryModal}
           addCategory={this.addCategory}
+          isLoading={isLoading}
+          categories={categories}
         />
       </div>
     );
@@ -44,7 +51,8 @@ class Products extends Component {
 
 const mapStateToProps = state => {
   return {
-    formValues: getFormValues('category')(state)
+    formValues: getFormValues('category')(state),
+    categories: state.categories
   }
 }
 export default connect(mapStateToProps)(
