@@ -13,6 +13,7 @@ const Categories = (props) => {
     showCategoryModal,
     hideCategoryModal,
     addCategory,
+    deleteCategory,
     isLoading,
     categories
   } = props
@@ -35,6 +36,7 @@ const Categories = (props) => {
         <Spin spinning={isLoading} tip="Loading...">
           <AllCategories
             categories={categories}
+            deleteCategory={deleteCategory}
           />
         </Spin>
       </div>

@@ -1,5 +1,12 @@
 import { SERVER_URL as url } from '../constants'
 
+export const ADD_CATEGORY_SUCCESS = 'ADD_CATEGORY_SUCCESS'
+export const ADD_CATEGORY_FAILURE = 'ADD_CATEGORY_FAILURE'
+export const FETCH_CATEGORIES_REQUEST = 'FETCH_CATEGORIES_REQUEST'
+export const FETCH_CATEGORIES_FAILURE = 'FETCH_CATEGORIES_FAILURE'
+export const FETCH_CATEGORIES_SUCCESS = 'FETCH_CATEGORIES_SUCCESS'
+export const DELETE_CATEGORY_SUCCESS = 'DELETE_CATEGORY_SUCCESS'
+
 export const postCategory = formData => dispatch => {
   const { title, img, img: { name } } = formData
   const form = new FormData();
@@ -13,18 +20,20 @@ export const postCategory = formData => dispatch => {
     body: form
   }).then((res) => res.json())
   .then((data) => {
-    console.log(data)
-    dispatch({ type: 'SUCCESS' })
+    const { insertId } = data
+    formData.id = insertId
+    formData.name = title
+    formData.img = name
+    formData.date = new Date().toJSON().slice(0, 19).replace('T', ' ')
+    dispatch({
+      type: ADD_CATEGORY_SUCCESS,
+      payload: formData
+    })
   })
   .catch((err) => {
-    console.log(err)
-    dispatch({ type: 'ERROR' })
+    dispatch({ type: ADD_CATEGORY_FAILURE, error: 'Error' })
   })
 }
-
-export const FETCH_CATEGORIES_REQUEST = 'FETCH_CATEGORIES_REQUEST'
-export const FETCH_CATEGORIES_FAILURE = 'FETCH_CATEGORIES_FAILURE'
-export const FETCH_CATEGORIES_SUCCESS = 'FETCH_CATEGORIES_SUCCESS'
 
 export const getCategories = () => dispatch => {
 
@@ -46,4 +55,16 @@ export const getCategories = () => dispatch => {
       })
     }
   )
+}
+
+export const deleteCategory = id => dispatch => {
+  fetch(url+'categories/'+id, {
+    method: 'DELETE'
+  }).then((res) => res.json())
+  .then((data) => {
+    dispatch({
+      type: DELETE_CATEGORY_SUCCESS,
+      payload: id
+    })
+  })
 }

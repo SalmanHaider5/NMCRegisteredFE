@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues } from 'redux-form'
 
-import { postCategory, getCategories } from '../../actions'
+import { postCategory, getCategories, deleteCategory } from '../../actions'
 import Categories from './Categories'
 
 class Products extends Component {
@@ -29,7 +29,14 @@ class Products extends Component {
   addCategory = () => {
     const { formValues, dispatch } = this.props
     dispatch(postCategory(formValues))
-  } 
+    this.setState({categoryModal: false})
+  }
+
+  deleteCategory = (event) => {
+    const { dispatch } = this.props
+    const { target: { id } } = event
+    dispatch(deleteCategory(id))
+  }
   
   render() {
     const { categoryModal } = this.state
@@ -41,6 +48,7 @@ class Products extends Component {
           showCategoryModal={this.showCategoryModal}
           hideCategoryModal={this.hideCategoryModal}
           addCategory={this.addCategory}
+          deleteCategory={this.deleteCategory}
           isLoading={isLoading}
           categories={categories}
         />
