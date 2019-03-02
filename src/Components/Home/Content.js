@@ -3,9 +3,11 @@ import { Route, withRouter } from 'react-router-dom'
 import { Layout } from 'antd'
 
 import Orders from '../Orders'
-import Products from '../Products'
+import CategoriesContainer from '../Categories'
 import FAQs from '../FAQs'
 import Subscribers from '../Subscribers'
+import Products from '../Products'
+import SingleProduct from '../Products/SingleProduct'
 
 
 import './home.css'
@@ -18,7 +20,9 @@ class Contents extends Component {
       <Content className="content">
         <div className="content-div">
           <Route path="/orders" component={Orders} />
-          <Route path="/products" component={Products} />
+          <Route path="/categories" component={CategoriesContainer} />
+          <Route path="/category/:id/products" component={Products} />
+          <Route path="/product/:id" component={SingleProduct} />
           <Route path="/FAQs" component={FAQs} />
           <Route path="/subscribers" component={Subscribers} />
         </div>

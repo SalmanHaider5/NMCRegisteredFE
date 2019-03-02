@@ -22,7 +22,7 @@ class Banner extends Component {
             </Link>
           </Item>
           <Item key="2">
-            <Link to="/products">
+            <Link to="/categories">
               <Icon type="bars" />
               <span>Products</span>
             </Link>

@@ -2,69 +2,69 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues } from 'redux-form'
 
-import { postCategory, getCategories, deleteCategory } from '../../actions'
-import Categories from './Categories'
+import { getProducts, postProduct, deleteProduct } from '../../actions'
+import Products from './Products'
 
-class Products extends Component {
+class ProductsContainer extends Component {
   constructor(props){
     super(props)
     this.state = {
-      categoryModal: false
+      productModal: false
     }
   }
 
   componentDidMount(){
-    const { dispatch } = this.props
-    dispatch(getCategories())
+    const { dispatch, match: { params: { id } } } = this.props
+    dispatch(getProducts(id))
   }
 
-  showCategoryModal = () => {
-    this.setState({categoryModal: true})
+  showProductModal = () => {
+    this.setState({productModal: true})
   }
 
-  hideCategoryModal = () => {
-    this.setState({categoryModal: false})
+  hideProductModal = () => {
+    this.setState({productModal: false})
   }
 
-  addCategory = () => {
-    const { formValues, dispatch } = this.props
-    dispatch(postCategory(formValues))
-    this.setState({categoryModal: false})
+  addProduct = () => {
+    const { formValues, dispatch, match: { params: { id } } } = this.props
+    formValues.category = id
+    dispatch(postProduct(formValues))
+    this.setState({productModal: false})
   }
 
-  deleteCategory = (event) => {
+  deleteProduct = (event) => {
     const { dispatch } = this.props
     const { target: { id } } = event
-    dispatch(deleteCategory(id))
+    dispatch(deleteProduct(id))
   }
-  
   render() {
-    const { categoryModal } = this.state
-    const { categories: { isLoading, categories } } = this.props
+    
+    const { productModal } = this.state
+    const { products: { isLoading, products } } = this.props
+    
     return (
-      <div>
-        <Categories
-          categoryModal={categoryModal}
-          showCategoryModal={this.showCategoryModal}
-          hideCategoryModal={this.hideCategoryModal}
-          addCategory={this.addCategory}
-          deleteCategory={this.deleteCategory}
-          isLoading={isLoading}
-          categories={categories}
-        />
-      </div>
+      <Products
+        productModal={productModal}
+        showProductModal={this.showProductModal}
+        hideProductModal={this.hideProductModal}
+        products={products}
+        addProduct={this.addProduct}
+        isLoading={isLoading}
+        deleteProduct={this.deleteProduct}
+      />      
     );
   }
 }
 
 const mapStateToProps = state => {
   return {
-    formValues: getFormValues('category')(state),
-    categories: state.categories
+    formValues: getFormValues('product')(state),
+    products: state.products
   }
 }
 export default connect(mapStateToProps)(
   reduxForm({
-    form: 'category'
-  })(Products)
+    form: 'product'
+  })(ProductsContainer)
 )

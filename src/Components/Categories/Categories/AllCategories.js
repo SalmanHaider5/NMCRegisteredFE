@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Divider, Table, Button } from 'antd'
 
 const { ColumnGroup, Column } = Table
@@ -22,6 +23,7 @@ const AllCategories = (props) => {
             <Column
               title="Title"
               dataIndex="name"
+              render={ (name, category) => (<Link to={`/category/${category.id}/products`} > {name} </Link>) }
             />
             <Column
               title="Date"
