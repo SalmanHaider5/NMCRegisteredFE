@@ -6,7 +6,7 @@ import AllProducts from './AllProducts'
 
 const Products = (props) => {
   
-  const { productModal, showProductModal, hideProductModal, products, addProduct, isLoading, deleteProduct } = props
+  const { productModal, showProductModal, hideProductModal, products, addProduct, isLoading, deleteProduct, categoryId } = props
   return (
     <div className="products-container">
       <div className="products-form">
@@ -26,9 +26,11 @@ const Products = (props) => {
           <AllProducts
             products={products}
             deleteProduct={deleteProduct}
+            categoryId={categoryId}
           />
         </Spin>
       </div>
+      
     </div>
   );
 };

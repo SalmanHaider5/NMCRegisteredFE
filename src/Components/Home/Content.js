@@ -22,7 +22,7 @@ class Contents extends Component {
           <Route path="/orders" component={Orders} />
           <Route path="/categories" component={CategoriesContainer} />
           <Route path="/category/:id/products" component={Products} />
-          <Route path="/product/:id" component={SingleProduct} />
+          <Route path="/category/:categoryId/product/:id" component={SingleProduct} />
           <Route path="/FAQs" component={FAQs} />
           <Route path="/subscribers" component={Subscribers} />
         </div>

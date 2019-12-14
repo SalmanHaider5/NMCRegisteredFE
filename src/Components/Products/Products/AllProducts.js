@@ -7,7 +7,7 @@ const { Column } = Table
 
 const AllProducts = (props) => {
   
-  const { products, deleteProduct } = props
+  const { products, deleteProduct, categoryId } = props
   
   return (
     <div>
@@ -20,7 +20,7 @@ const AllProducts = (props) => {
           <Column
             title="Title"
             dataIndex="title"
-            render={(title, product) => (<Link to={`/product/${product.id}`}>{title}</Link>)}
+            render={(title, product) => (<Link to={`/category/${categoryId}/product/${product.id}`}>{title}</Link>)}
           />
           <Column
             title="Price"

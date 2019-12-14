@@ -41,7 +41,7 @@ class ProductsContainer extends Component {
   render() {
     
     const { productModal } = this.state
-    const { products: { isLoading, products } } = this.props
+    const { products: { isLoading, products }, match: { params: { id } }  } = this.props
     
     return (
       <Products
@@ -52,6 +52,7 @@ class ProductsContainer extends Component {
         addProduct={this.addProduct}
         isLoading={isLoading}
         deleteProduct={this.deleteProduct}
+        categoryId={id}
       />      
     );
   }
@@ -63,6 +64,7 @@ const mapStateToProps = state => {
     products: state.products
   }
 }
+
 export default connect(mapStateToProps)(
   reduxForm({
     form: 'product'

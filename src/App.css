@@ -7,3 +7,7 @@ input:focus{
   outline: none;
   background: #ffffff;
 }
+.list-delete-icon{
+  float: right;
+  color: #1890ff;
+}
