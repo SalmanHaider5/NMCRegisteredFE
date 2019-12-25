@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Layout, Menu, Icon } from 'antd'
+import { Menu, Icon } from 'antd'
 
 import './home.css'
 
-const { Header } = Layout,
-  { Item, SubMenu } = Menu
+const  { Item, SubMenu } = Menu
   
 class Navigation extends Component {
   

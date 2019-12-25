@@ -7,7 +7,7 @@ const { Column } = Table
 
 const AllProducts = (props) => {
   
-  const { products, deleteProduct, categoryId } = props
+  const { products, categoryId } = props
   
   return (
     <div>

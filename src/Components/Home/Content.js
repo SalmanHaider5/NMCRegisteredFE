@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { Route, withRouter } from 'react-router-dom'
 import { Layout } from 'antd'
 
-import Orders from '../Orders'
+// import Orders from '../Orders'
 import CategoriesContainer from '../Categories'
-import FAQs from '../FAQs'
-import Subscribers from '../Subscribers'
+// import FAQs from '../FAQs'
+// import Subscribers from '../Subscribers'
 
 
 import './home.css'

@@ -1,12 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Divider, Table, Button, Icon, Popconfirm } from 'antd'
+import { Table, Icon, Popconfirm } from 'antd'
 
 import { TableTitle } from '../../../utils/custom-components'
 
 const AllCategories = (props) => {
   const { categories, deleteCategory } = props
-  const { ColumnGroup, Column } = Table
+  const { Column } = Table
   
   return (
     <div>
@@ -25,7 +25,7 @@ const AllCategories = (props) => {
           {/* <Column
             title="Display"
             dataIndex="img"
-            render={img => (<div class="table-column-image"><img src={img} alt={img}/></div>)}
+            render={img => (<div className="table-column-image"><img src={img} alt={img}/></div>)}
           /> */}
           <Column
             title="Title"

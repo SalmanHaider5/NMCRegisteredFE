@@ -8,13 +8,13 @@ import { isRequired } from '../../../constants'
 import './categories.css'
 
 const NewCategories = (props) => {
-  const { categoryModal, hideCategoryModal, addCategory } = props
+  console.log(props)
+  const { categoryModal, hideCategoryModal, addCategory, isTitleDuplicated } = props
   return (
     <Modal
       title="New Category"
       visible={categoryModal}
       onOk={addCategory}
-      width={1000}
       onCancel={hideCategoryModal}
       className="category-modal"
     >
@@ -25,14 +25,14 @@ const NewCategories = (props) => {
             component={TextField}
             type="text"
             label="Category Name"
-            validate={[isRequired]}
+            validate={[isRequired, isTitleDuplicated]}
           />
         </div>
         <div className="field">
           <Field
             name="img"
             component={FileInput}
-            placeholder="Category Name"
+            validate={[isRequired]}
           />
         </div>
       </form>

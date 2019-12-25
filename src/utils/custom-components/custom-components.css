@@ -1,18 +1,17 @@
-.text-field input{
+.text-field Input{
     border: 1px solid rgba(0, 0, 0, 0.21);
     padding: 7px;
-    width: 750px;
+    width: 67%;
     border-radius: 4px;
     box-shadow: none;
-    position: relative;
-    margin-top: 20px;
-    left: 15px;
 }
-.text-field span{
-    position: relative;
-    left: 40px;
-    color: red;
-    font-size: 14px;
+/* Ant Tooltip */
+.ant-tooltip{
+    z-index: 10000 !important;
+    top: 220px !important;
+    /* position: relative;
+    left: 55.3% !important;
+    top: 176px !important; */
 }
 /* Table Title */
 div.table-title h2{
@@ -21,6 +20,7 @@ div.table-title h2{
 /* File Input */
 .file-input{
     position: relative;
-    top:40px;
-    left: 15px;    
+    top:30px;   
 }
+
+  

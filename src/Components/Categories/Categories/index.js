@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Icon, Spin } from 'antd'
+import { Button, Icon, Spin, Alert } from 'antd'
 
 import NewCategories from './NewCategories'
 import AllCategories from './AllCategories'
@@ -15,7 +15,10 @@ const Categories = (props) => {
     addCategory,
     deleteCategory,
     isLoading,
-    categories
+    categories,
+    isError,
+    isTitleDuplicated,
+    error
   } = props
 
   return (
@@ -24,8 +27,21 @@ const Categories = (props) => {
         hideCategoryModal={hideCategoryModal}
         categoryModal={categoryModal}
         addCategory={addCategory}
+        isTitleDuplicated={isTitleDuplicated}
       />
       <div className="categories-table">
+        {
+          isError ? 
+          <Alert
+            className="error-alert"
+            message="Error"
+            description={error}
+            type="error"
+            showIcon
+          /> :
+          null
+        }
+        
         <Spin spinning={isLoading} tip="Loading...">
           <AllCategories
             categories={categories}

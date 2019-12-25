@@ -1,13 +1,19 @@
 import { SERVER_URL as url } from '../constants'
 
+export const ADD_CATEGORY_REQUEST = 'ADD_CATEGORY_REQUEST'
 export const ADD_CATEGORY_SUCCESS = 'ADD_CATEGORY_SUCCESS'
 export const ADD_CATEGORY_FAILURE = 'ADD_CATEGORY_FAILURE'
 export const FETCH_CATEGORIES_REQUEST = 'FETCH_CATEGORIES_REQUEST'
 export const FETCH_CATEGORIES_FAILURE = 'FETCH_CATEGORIES_FAILURE'
 export const FETCH_CATEGORIES_SUCCESS = 'FETCH_CATEGORIES_SUCCESS'
+export const DELETE_CATEGORY_REQUEST = 'DELETE_CATEGORY_REQUEST'
 export const DELETE_CATEGORY_SUCCESS = 'DELETE_CATEGORY_SUCCESS'
+export const DELETE_CATEGORY_FAILURE = 'DELETE_CATEGORY_FAILURE'
 
 export const postCategory = formData => dispatch => {
+
+  dispatch({ type: ADD_CATEGORY_REQUEST })
+
   const { title, img, img: { name } } = formData
   const form = new FormData();
   form.append('name', title)
@@ -30,8 +36,11 @@ export const postCategory = formData => dispatch => {
       payload: formData
     })
   })
-  .catch((err) => {
-    dispatch({ type: ADD_CATEGORY_FAILURE, error: 'Error' })
+  .catch((e) => {
+    dispatch({
+      type: ADD_CATEGORY_FAILURE,
+      error: e
+    })
   })
 }
 
@@ -43,21 +52,35 @@ export const getCategories = () => dispatch => {
     (res) => res.json()
   ).then(
     (data) => {
-      dispatch({
-        type: FETCH_CATEGORIES_SUCCESS,
-        payload: data
-      })
-    }
-  ).catch(
-    (error) => {
-      dispatch({
-        type: FETCH_CATEGORIES_FAILURE
-      })
+      if(data){
+        const { isError = false } = data
+        if(!isError){
+          dispatch({
+            type: FETCH_CATEGORIES_SUCCESS,
+            payload: data
+          }) 
+        }else{
+          const { error: { code } } = data
+          dispatch({
+            type: FETCH_CATEGORIES_FAILURE,
+            error: code
+          })
+        }
+      }
     }
   )
+  .catch((error) => {
+    dispatch({
+      type: FETCH_CATEGORIES_FAILURE,
+      error
+    })
+  })
 }
 
 export const deleteCategory = id => dispatch => {
+
+  dispatch({ type: DELETE_CATEGORY_REQUEST })
+
   fetch(url+'categories/'+id, {
     method: 'DELETE'
   }).then((res) => res.json())
@@ -65,6 +88,12 @@ export const deleteCategory = id => dispatch => {
     dispatch({
       type: DELETE_CATEGORY_SUCCESS,
       payload: id
+    })
+  })
+  .catch((error) => {
+    dispatch({
+      type: DELETE_CATEGORY_FAILURE,
+      error
     })
   })
 }

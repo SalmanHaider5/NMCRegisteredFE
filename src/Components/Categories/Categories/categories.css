@@ -28,6 +28,9 @@ div.categories-table .ant-table-body table thead th {
 .ant-table .ant-table-title{
     background: #0f0000f5;
 }
+div.field{
+    width: 65%;
+}
 Button.add-button{
     width: 50px;
     height: 50px;
@@ -36,6 +39,7 @@ Button.add-button{
     position: fixed;
     bottom: 30px;
     right: 20px;
+    z-index: 10000;
 }
 Button.add-button Icon{
     font-size: 66px;
@@ -62,4 +66,8 @@ Button.add-button Icon{
 }
 .ant-modal-wrap{
     z-index: 10000 !important;
+}
+.error-alert{
+    position: relative;
+    bottom: 10px;
 }

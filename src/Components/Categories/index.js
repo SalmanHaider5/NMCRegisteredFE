@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Route, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { reduxForm, getFormValues } from 'redux-form'
+import { reduxForm, getFormValues, reset } from 'redux-form'
+import { filter, length } from 'ramda'
 import { notification } from 'antd'
 import { postCategory, getCategories, deleteCategory } from '../../actions'
 import Categories from './Categories'
@@ -20,50 +21,71 @@ class CategoriesContainer extends Component {
     dispatch(getCategories())
   }
 
+  componentWillReceiveProps(nextProps){
+    if(this.props.categories.addRequest !== nextProps.categories.addRequest){
+      if(!nextProps.categories.addRequest){
+        notification.success({
+          message: 'Add Success',
+          description: 'Category is successfully added.',
+          placement: 'bottomLeft',
+          style: {
+            backgroundColor: 'rgb(77, 141, 45)',
+            color: '#fff'
+          }
+        })
+      }
+    }
+    if(this.props.categories.deleteRequest !== nextProps.categories.deleteRequest){
+      if(!nextProps.categories.deleteRequest){
+        notification.success({
+          message: 'Delete Success',
+          description: 'Category is successfully deleted.',
+          placement: 'bottomLeft',
+          style: {
+            backgroundColor: 'rgb(77, 141, 45)',
+            color: '#fff'
+          }
+        })
+      }
+    }
+  }
+
   showCategoryModal = () => {
     this.setState({categoryModal: true})
   }
 
   hideCategoryModal = () => {
+    const { dispatch } = this.props
+    dispatch(reset('category'))
     this.setState({categoryModal: false})
   }
 
-  addCategory = () => {
+  addCategory = e => {
+    e.preventDefault();
     const { formValues, dispatch } = this.props
     dispatch(postCategory(formValues))
+    dispatch(reset('category'))
     this.setState({categoryModal: false})
-    notification.success({
-      message: 'Added',
-      description: 'Category is successfully added.',
-      placement: 'bottomLeft',
-      style: {
-        backgroundColor: 'rgb(77, 141, 45)',
-        color: '#fff'
-      }
-    })
   }
 
-  deleteCategory = (id) => {
+  deleteCategory = id => {
     const { dispatch } = this.props
     dispatch(deleteCategory(id))
-    notification.success({
-      message: 'Deleted',
-      description: 'Category is successfully deleted.',
-      placement: 'bottomLeft',
-      style: {
-        backgroundColor: 'rgb(77, 141, 45)',
-        color: '#fff'
-      }
-    })
+  }
+  
+  isTitleDuplicated = value => {
+    const { categories: { categories } } = this.props
+    const duplicates = length(filter(category => category.name === value, categories))
+    return duplicates > 0 ? 'Name is already used' : '' 
   }
   
   render() {
     const { categoryModal } = this.state
-    const { categories: { isLoading, categories }, match: { isExact } } = this.props
+    const { categories: { isLoading, categories, isError, error }, match: { isExact } } = this.props
     return (
       <div>
         {
-          isExact?
+          isExact ?
           <Categories
             categoryModal={categoryModal}
             showCategoryModal={this.showCategoryModal}
@@ -71,6 +93,9 @@ class CategoriesContainer extends Component {
             addCategory={this.addCategory}
             deleteCategory={this.deleteCategory}
             isLoading={isLoading}
+            isError={isError}
+            isTitleDuplicated={this.isTitleDuplicated}
+            error={error}
             categories={categories}
           />:
           null
