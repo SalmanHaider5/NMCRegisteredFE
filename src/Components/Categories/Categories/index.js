@@ -18,7 +18,8 @@ const Categories = (props) => {
     categories,
     isError,
     isTitleDuplicated,
-    error
+    error,
+    onSearch
   } = props
 
   return (
@@ -46,6 +47,7 @@ const Categories = (props) => {
           <AllCategories
             categories={categories}
             deleteCategory={deleteCategory}
+            onSearch={onSearch}
           />
         </Spin>
       </div>

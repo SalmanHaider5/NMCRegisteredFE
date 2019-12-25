@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
-import { Route, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset } from 'redux-form'
-import { filter, length } from 'ramda'
+import { filter, length, contains, toLower } from 'ramda'
 import { notification } from 'antd'
 import { postCategory, getCategories, deleteCategory } from '../../actions'
 import Categories from './Categories'
-import Products from './Products'
 
 class CategoriesContainer extends Component {
   constructor(props){
@@ -78,6 +76,17 @@ class CategoriesContainer extends Component {
     const duplicates = length(filter(category => category.name === value, categories))
     return duplicates > 0 ? 'Name is already used' : '' 
   }
+
+  onSearch = e => {
+    const { categories: { categories }, dispatch } = this.props
+    const value = e.target.value 
+    if(value.length === 0) { dispatch(getCategories()) }
+    const filteredCategories = filter(category => contains(toLower(value), toLower(category.name)), categories)
+    dispatch({
+      type: 'FETCH_CATEGORIES_SUCCESS',
+      payload: filteredCategories
+    })
+  }
   
   render() {
     const { categoryModal } = this.state
@@ -97,10 +106,10 @@ class CategoriesContainer extends Component {
             isTitleDuplicated={this.isTitleDuplicated}
             error={error}
             categories={categories}
+            onSearch={this.onSearch}
           />:
           null
         }
-        <Route path="/categories/:id/products" component={Products} />
       </div>
     );
   }
@@ -112,8 +121,8 @@ const mapStateToProps = state => {
     categories: state.categories
   }
 }
-export default withRouter(connect(mapStateToProps)(
+export default connect(mapStateToProps)(
   reduxForm({
     form: 'category'
   })(CategoriesContainer)
-))
+)

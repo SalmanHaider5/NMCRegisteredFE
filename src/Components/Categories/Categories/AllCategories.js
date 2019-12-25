@@ -1,11 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { Table, Icon, Popconfirm } from 'antd'
 
 import { TableTitle } from '../../../utils/custom-components'
 
 const AllCategories = (props) => {
-  const { categories, deleteCategory } = props
+  const { categories, deleteCategory, onSearch } = props
   const { Column } = Table
   
   return (
@@ -15,27 +14,31 @@ const AllCategories = (props) => {
           bordered={true}
           size="middle"
           rowKey={category => category.id}
-          title={()=> <TableTitle title="Categories" />}
+          title={()=> <TableTitle title="Categories" onSearch={onSearch} />}
           pagination={false}
         >
           <Column
             title="ID"
             dataIndex="id"
           />
-          {/* <Column
+          <Column
             title="Display"
             dataIndex="img"
-            render={img => (<div className="table-column-image"><img src={img} alt={img}/></div>)}
-          /> */}
-          <Column
-            title="Title"
-            dataIndex="name"
-            render={ (name, category) => (<Link to={`/categories/${category.id}/products`} > {name} </Link>) }
+            render={(img, data) => (
+              <div>
+                <div className="table-column-image">
+                  <img src={data.img} alt={data.img}/>
+                </div>
+                <span className="table-column-image-title">
+                {data.name}
+                </span>
+              </div>
+            )}
           />
-          {/* <Column
+          <Column
             title="Date"
             dataIndex="date"
-          /> */}
+          />
           <Column
             title="Action"
             dataIndex='id'

@@ -9,13 +9,25 @@
 .ant-tooltip{
     z-index: 10000 !important;
     top: 220px !important;
-    /* position: relative;
-    left: 55.3% !important;
-    top: 176px !important; */
 }
 /* Table Title */
+div.table-title{
+    height: 35px;
+}
 div.table-title h2{
     color: #fff;
+    width: 50%;
+    float: left;
+}
+div.table-title .ant-input-search{
+    display: block;
+}
+.ant-input-search .ant-input{
+    width: 30%;
+    float: right;
+}
+.ant-input-search .ant-input-suffix{
+    margin-top: 15px;
 }
 /* File Input */
 .file-input{

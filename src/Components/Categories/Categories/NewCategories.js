@@ -8,7 +8,6 @@ import { isRequired } from '../../../constants'
 import './categories.css'
 
 const NewCategories = (props) => {
-  console.log(props)
   const { categoryModal, hideCategoryModal, addCategory, isTitleDuplicated } = props
   return (
     <Modal
