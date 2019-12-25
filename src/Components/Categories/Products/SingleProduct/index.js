@@ -1,50 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { split } from 'ramda'
-import { Spin, Descriptions, List, Icon, Input, Button, Divider, Popconfirm, notification, Upload, Modal } from 'antd'
+import { Spin, Descriptions, List, Icon, Input, Button, Divider, Popconfirm, notification } from 'antd'
 
-import { getSingleProduct } from '../../../actions'
+import { getSingleProduct } from '../../../../actions'
 
 class SingleProduct extends Component {
   constructor(props){
     super(props)
     this.state = {
-      previewVisible: false,
-    previewImage: '',
-    fileList: [
-      {
-        uid: '-1',
-        name: 'image.png',
-        status: 'done',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      },
-      {
-        uid: '-2',
-        name: 'image.png',
-        status: 'done',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      },
-      {
-        uid: '-3',
-        name: 'image.png',
-        status: 'done',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      },
-      {
-        uid: '-4',
-        name: 'image.png',
-        status: 'done',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      },
-      {
-        uid: '-5',
-        name: 'image.png',
-        status: 'error',
-      },
-    ],
+      product: {}
     }
   }
-
+  
   deleteTip = () => {
     notification.success({
       message: 'Tip Deleted',
@@ -71,8 +39,9 @@ class SingleProduct extends Component {
   }
 
   componentDidMount(){
-    const { dispatch, match: { params: { id } } } = this.props
-    dispatch(getSingleProduct(id))
+    const { dispatch, match: { params: { productId } } } = this.props
+    dispatch(getSingleProduct(productId))
+    
   }
 
   getBase64(file) {
@@ -113,14 +82,9 @@ class SingleProduct extends Component {
           }
         }
       } = this.props
+      
       const { Item } = Descriptions
-      const { previewVisible, previewImage, fileList } = this.state;
-      const uploadButton = (
-        <div>
-          <Icon type="plus" />
-          <div className="ant-upload-text">Upload</div>
-        </div>
-      );
+      
       let netPrice = 0
       if(!isLoading){
         netPrice = price - (price*discount/100)
@@ -171,7 +135,7 @@ class SingleProduct extends Component {
             <Item label="Add New Tip">
               <Input type="text" />
               <Divider className="small-divider" />
-              <Button block="true" type="primary" onClick={this.addTip}>
+              <Button block={true} type="primary" onClick={this.addTip}>
                 <Icon type="check" /> Save
               </Button>
             </Item>
@@ -180,20 +144,6 @@ class SingleProduct extends Component {
             </Item>
           </Descriptions>
           <br />
-          <div>
-            <Upload
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-              listType="picture-card"
-              fileList={fileList}
-              onPreview={this.handlePreview}
-              onChange={this.handleChange}
-            >
-              {fileList.length >= 8 ? null : uploadButton}
-            </Upload>
-            <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-              <img alt="example" style={{ width: '100%' }} src={previewImage} />
-            </Modal>
-          </div>
         </div>
       </Spin>
     );

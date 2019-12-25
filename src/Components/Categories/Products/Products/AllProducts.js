@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Divider, Table, Button } from 'antd'
+import { Divider, Table } from 'antd'
 
 const { Column } = Table
 
@@ -11,6 +11,7 @@ const AllProducts = (props) => {
   
   return (
     <div>
+      <Link to={`/categories/${categoryId}/products/newProduct`}>Add</Link>
       <Divider>All Products</Divider>
         <Table dataSource={products} rowKey={product => product.id} bordered>
           <Column
@@ -20,7 +21,7 @@ const AllProducts = (props) => {
           <Column
             title="Title"
             dataIndex="title"
-            render={(title, product) => (<Link to={`/category/${categoryId}/product/${product.id}`}>{title}</Link>)}
+            render={(title, product) => (<Link to={`/categories/${categoryId}/products/${product.id}`}>{title}</Link>)}
           />
           <Column
             title="Price"
@@ -33,14 +34,6 @@ const AllProducts = (props) => {
               { title: 'Blade Length', dataIndex: 'bladelength' },
               { title: 'Handle Length', dataIndex: 'handlelength' }
             ]}
-          />
-          <Column
-            title="Action"
-            dataIndex='id'
-            key="action"
-            render={ id => (
-              <Button type="primary" onClick={deleteProduct}  id={id}>Delete</Button>
-            )}
           />
         </Table>
     </div>

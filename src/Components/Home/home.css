@@ -1,31 +1,26 @@
-.logo {
-    width: 285px;
-    height: 35px;
-    background: rgba(255,255,255,.2);
-    margin: 16px 24px 16px 0;
-    float: left;
-    color: #35e30c;
-    font-weight: 500;
-    font-size: 20px;
-    text-align: center;
-    line-height: 1.5;
-    font-family: 'Avenir','-apple-system','BlinkMacSystemFont','Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei','Helvetica Neue',Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol',sans-serif;
+aside{
+    flex: none !important;
+    min-width: 0px !important;
+    max-width: 500px !important;
+    width: 250px !important;
+    height: 100vh;
+
 }
-.layout .menu{
-    line-height: 64px;
+.nav-title{
+    color: #fff;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 1000;
 }
-.content{
-    padding: 0 50px;
-    min-height: 100vh;
-}
-.content-div{
-    padding: 24;
-    min-height: 100vh;
-    background: #ffffff;
-}
-.footer{
+.banner.ant-layout-header{
+    background: #fff;
+    border-bottom: 1px solid #92a1ac;
+    z-index: 10000;
     position: fixed;
-    bottom: 0;
-    width: 100vw;
+    top: 0px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    min-width: 100vw;
+}
+.ant-layout-footer{
     text-align: center;
 }

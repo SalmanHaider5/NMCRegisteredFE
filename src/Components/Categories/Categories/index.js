@@ -20,18 +20,11 @@ const Categories = (props) => {
 
   return (
     <div className="categories-container">
-      <div className="categories-form">
-        <Button type="primary" onClick={showCategoryModal}>
-          <Icon type="plus" /> Add New Category
-        </Button>
-
-        <NewCategories
-          hideCategoryModal={hideCategoryModal}
-          categoryModal={categoryModal}
-          addCategory={addCategory}
-        />
-
-      </div>
+      <NewCategories
+        hideCategoryModal={hideCategoryModal}
+        categoryModal={categoryModal}
+        addCategory={addCategory}
+      />
       <div className="categories-table">
         <Spin spinning={isLoading} tip="Loading...">
           <AllCategories
@@ -40,6 +33,9 @@ const Categories = (props) => {
           />
         </Spin>
       </div>
+      <Button type="primary" size="large" className="add-button" onClick={showCategoryModal}>
+        <Icon type="plus" size="large" />
+      </Button>
     </div>
   );
 };

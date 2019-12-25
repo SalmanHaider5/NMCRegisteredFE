@@ -10,10 +10,8 @@ const { Footer } = Layout
 class FooterComponent extends Component {
   render() {
     return (
-      <div>
-        <Footer className="footer">
+      <div className="footer">
           {TITLE} created by <a href={PROFILE_LINK}>{PROFILE_NAME}</a>
-        </Footer>
       </div>
     );
   }

@@ -15,6 +15,8 @@ export const FileInput = ({
   ...props
 }) => {
   return (
+    <div className="file-input">
+    <label>Image Upload: </label>
     <input
       onChange={adaptFileEventToValue(onChange)}
       onBlur={adaptFileEventToValue(onBlur)}
@@ -22,5 +24,6 @@ export const FileInput = ({
       {...inputProps}
       {...props}
     />
+    </div>
   )
 }

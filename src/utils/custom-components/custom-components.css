@@ -1,0 +1,26 @@
+.text-field input{
+    border: 1px solid rgba(0, 0, 0, 0.21);
+    padding: 7px;
+    width: 750px;
+    border-radius: 4px;
+    box-shadow: none;
+    position: relative;
+    margin-top: 20px;
+    left: 15px;
+}
+.text-field span{
+    position: relative;
+    left: 40px;
+    color: red;
+    font-size: 14px;
+}
+/* Table Title */
+div.table-title h2{
+    color: #fff;
+}
+/* File Input */
+.file-input{
+    position: relative;
+    top:40px;
+    left: 15px;    
+}
