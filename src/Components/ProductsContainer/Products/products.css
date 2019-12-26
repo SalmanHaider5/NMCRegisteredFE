@@ -1,0 +1,56 @@
+.products-container{
+    position: relative;
+    width: 100%;
+    margin: 0px auto;
+    top: 64px;
+}
+.products-table{
+    top: 0px;
+    width: 95%;
+    position: relative;
+    top: 20px;
+    margin: 0 auto;
+}
+div.products-table .ant-table{
+    z-index: 10000;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+div.products-table .ant-table-body table thead th {
+    background: #1890ff;
+    border-right: none;
+    color: #fff;
+}
+.ant-table .ant-table-title{
+    background: #001529;
+}
+div.products-form .ant-card{
+    width: 95%;
+    margin: 0 auto;
+    top: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+div.products-form .ant-card .ant-card-head{
+    background: #001529;
+    color: #fff;
+}
+div.products-form .ant-card div.form{
+    width: 65%;
+    float: left;
+}
+div.products-form .ant-card div.progress{
+    width: 35%;
+    float: left;
+    /* text-align: center; */
+}
+div.products-form .ant-card div.ant-tabs-bar{
+    text-align: center;
+}
+.next-button, .save-button{
+    float: right;
+}
+.prev-button{
+    float: left;
+}
+.save-buttons{
+    padding-top: 40px;
+}

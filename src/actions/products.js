@@ -1,4 +1,5 @@
 import { SERVER_URL as url } from '../constants'
+import { isNil } from 'ramda'
 
 export const ADD_PRODUCT_SUCCESS = 'ADD_PRODUCT_SUCCESS'
 export const ADD_PRODUCT_FAILURE = 'ADD_PRODUCT_FAILURE'
@@ -36,8 +37,9 @@ export const postProduct = formData => dispatch => {
 export const getProducts = (id) => dispatch => {
 
   dispatch({ type: FETCH_PRODUCTS_REQUEST })
-
-  fetch(url + 'products/'+id).then(
+  
+  const requestURL = isNil(id) ? `products` : `products/${id}` 
+  fetch(url+requestURL).then(
     (res) => res.json()
   ).then(
     (data) => {
@@ -48,6 +50,7 @@ export const getProducts = (id) => dispatch => {
     }
   ).catch(
     (error) => {
+      console.log(error)
       dispatch({
         type: FETCH_PRODUCTS_FAILURE
       })

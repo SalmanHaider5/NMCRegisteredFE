@@ -1,5 +1,7 @@
 import React from 'react'
-import { Upload, message, Button, Icon } from 'antd'
+import { Upload, message, Button, Icon, Form } from 'antd'
+
+const FormItem = Form.Item
 
 export const FileInput = ({
   input: { name, value, onChange, onBlur },
@@ -28,13 +30,14 @@ export const FileInput = ({
   }
 }) => {
   return (
-    <div className="form-group">
-      <label>{label}</label>
-      <Upload {...props}>
-      <Button>
-        <Icon type="upload" /> Attach an Image
-      </Button>
-    </Upload>
+    <div className="file-input">
+      <FormItem>
+        <Upload {...props}>
+          <Button>
+            <Icon type="upload" /> {label}
+          </Button>
+        </Upload>
+      </FormItem>
     </div>
   )
 }

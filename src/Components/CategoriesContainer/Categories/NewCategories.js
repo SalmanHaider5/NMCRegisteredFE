@@ -31,6 +31,7 @@ const NewCategories = (props) => {
           <Field
             name="img"
             component={FileInput}
+            label="Attach an Image"
             validate={[isRequired]}
           />
         </div>

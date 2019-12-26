@@ -27,8 +27,10 @@ class Navigation extends Component {
             </Link>
           </Item>
           <Item key="3">
-            <Icon type="container" />
-            <span>Products</span>
+            <Link to='/products'>
+              <Icon type="container" />
+              <span>Products</span>
+            </Link>
           </Item>
           <Item key="4">
             <Icon type="question-circle" />
