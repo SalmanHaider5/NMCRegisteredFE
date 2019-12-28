@@ -8,7 +8,24 @@ import './products.css'
 
 const Products = (props) => {
   
-  const { products, isLoading, deleteProduct, categories, isExact, tabKey, handleNextTab, handlePrevTab, handleTabChange, formValues } = props
+  const {
+    products,
+    isLoading,
+    addProduct,
+    deleteProduct,
+    categories,
+    isExact,
+    tabKey,
+    handleNextTab,
+    handlePrevTab,
+    handleTabChange,
+    formValues,
+    formValid,
+    progress,
+    onSearch,
+    isIdDuplicated,
+    onSelectFilter
+  } = props
   return (
     <div className="products-container">
       {
@@ -22,8 +39,12 @@ const Products = (props) => {
                 tabKey={tabKey}
                 handleNextTab={handleNextTab}
                 handlePrevTab={handlePrevTab}
+                addProduct={addProduct}
                 handleTabChange={handleTabChange}
                 formValues={formValues}
+                formValid={formValid}
+                progress={progress}
+                isIdDuplicated={isIdDuplicated}
               />
             } 
           />
@@ -31,8 +52,11 @@ const Products = (props) => {
         <div className="products-table">
           <Spin spinning={isLoading} tip="Loading...">
             <AllProducts
+              categories={categories}
               products={products}
               deleteProduct={deleteProduct}
+              onSearch={onSearch}
+              onSelectFilter={onSelectFilter}
             />
           </Spin>
         </div>

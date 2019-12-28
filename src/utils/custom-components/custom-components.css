@@ -15,7 +15,11 @@ div.table-title{
 }
 div.table-title h2{
     color: #fff;
-    width: 50%;
+    width: 20%;
+    float: left;
+}
+div.table-title .select-filter{
+    width: 35%;
     float: left;
 }
 div.table-title .ant-input-search{
@@ -25,13 +29,10 @@ div.table-title .ant-input-search{
     width: 30%;
     float: right;
 }
-.ant-input-search .ant-input-suffix{
+.search-input.ant-input-search .ant-input-suffix{
     margin-top: 15px;
 }
 /* File Input */
-.file-input{
-    position: relative;
-    top:30px;   
-}
+
 
   

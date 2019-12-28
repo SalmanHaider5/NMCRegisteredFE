@@ -11,30 +11,18 @@ export const TextField = ({
   hintText,
   type,
   readOnly,
-  tooltipPlacement = "right",
+  tooltipPlacement = "top",
   isRequired,
   disabled,
   addonAfterText,
   id,
   data
 }) => {
-  const isLabelExist = label,
-    labelProp = isLabelExist
-      ? {
-        label: (
-          <span title={label}>
-            {label}
-
-          </span>
-        )
-      }
-      : {}
-
   return (
     <div className="field-container">
       <FormItem
         validateStatus={touched && error ? 'error' : ''}
-        {...labelProp}
+        label={label}
         colon={false}
       >
         <Tooltip title={error} placement={tooltipPlacement} visible={error !== undefined && touched}>

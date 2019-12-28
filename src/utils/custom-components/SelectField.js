@@ -9,6 +9,7 @@ const { Option } = Select,
 export const SelectField = ({
   hintText,
   onSearch,
+  label,
   input: { value, onChange },
   options = []
 }) => {
@@ -17,7 +18,7 @@ export const SelectField = ({
   }, options)
   return(
     <div className="select-field">
-      <FormItem>
+      <FormItem label={label}>
         <Select
           placeholder={hintText}
           style={{ width: '100%' }}

@@ -12,7 +12,6 @@
     margin: 0 auto;
 }
 div.products-table .ant-table{
-    z-index: 10000;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 div.products-table .ant-table-body table thead th {
@@ -34,16 +33,15 @@ div.products-form .ant-card .ant-card-head{
     color: #fff;
 }
 div.products-form .ant-card div.form{
-    width: 65%;
-    float: left;
+    width: 100%;
 }
-div.products-form .ant-card div.progress{
-    width: 35%;
-    float: left;
-    /* text-align: center; */
-}
+
 div.products-form .ant-card div.ant-tabs-bar{
     text-align: center;
+}
+.form-buttons{
+    width: inherit;
+    padding-right: 5%;
 }
 .next-button, .save-button{
     float: right;
@@ -51,6 +49,7 @@ div.products-form .ant-card div.ant-tabs-bar{
 .prev-button{
     float: left;
 }
-.save-buttons{
-    padding-top: 40px;
+.form-buttons .save-button{
+    background-color: #28a745;
+    border-color: #28a745;
 }

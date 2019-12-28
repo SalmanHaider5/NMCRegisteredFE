@@ -20,7 +20,7 @@ export const postCategory = formData => dispatch => {
   form.append('img', name)
   form.append('date', new Date().toJSON().slice(0, 19).replace('T', ' '))
   form.append('image', img)
-
+  
   fetch(url + 'categories', {
     method: 'POST',
     body: form

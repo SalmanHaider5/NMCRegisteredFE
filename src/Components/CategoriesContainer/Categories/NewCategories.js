@@ -17,26 +17,30 @@ const NewCategories = (props) => {
       onCancel={hideCategoryModal}
       className="category-modal"
     >
-      <form>
-        <div className="field">
-          <Field
-            name="title"
-            component={TextField}
-            type="text"
-            label="Category Name"
-            validate={[isRequired, isTitleDuplicated]}
-          />
+      <div className="form">
+        <div className="form-fields">
+          <div className="field">
+            <Field
+              name="title"
+              component={TextField}
+              type="text"
+              label="Category Name"
+              tooltipPlacement="right"
+              validate={[isRequired, isTitleDuplicated]}
+            />
+          </div>
         </div>
-        <div className="field">
-          <Field
-            name="img"
-            component={FileInput}
-            label="Attach an Image"
-            validate={[isRequired]}
-          />
+        <div className="form-fields">  
+          <div className="field">
+            <Field
+              name="img"
+              component={FileInput}
+              label="Attach an Image"
+              validate={[isRequired]}
+            />
+          </div>
         </div>
-      </form>
-      <br/><br/>
+      </div>
     </Modal>
   );
 };

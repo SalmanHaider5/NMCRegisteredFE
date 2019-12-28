@@ -27,7 +27,7 @@ export const MultilineTextField = ({
           rows={4}
           id={id}
           {...input}
-          autosize={{ minRows: rows, maxRows: rowsMax }}
+          autoSize={{ minRows: rows, maxRows: rowsMax }}
           placeholder={placeholder}
         />
       </FormItem>

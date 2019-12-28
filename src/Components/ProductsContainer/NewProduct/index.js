@@ -1,6 +1,6 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { isNil } from 'ramda'
+import { isEmpty, isNil } from 'ramda'
 import { Tabs, Card, Progress, Button, Icon } from 'antd'
 import { TextField, SelectField, MultilineTextField, FileInput } from '../../../utils/custom-components/'
 import { isRequired, isNumber } from '../../../constants'
@@ -13,232 +13,248 @@ const NewProduct = ({
   handleNextTab,
   handlePrevTab,
   handleTabChange,
-  formValues: {
-    category,
-    id,
-    title,
-    openlength,
-    bladelength,
-    handlelength,
-    decription,
-    tips,
-    imageOne,
-    imageTwo
-  }
+  formValid,
+  formValues,
+  formValues: { price, imgs },
+  progress,
+  addProduct,
+  isIdDuplicated
 }) => {
-  const categoryScore = isNil(category) ? 0 : 10
-  const idScore = isNil(id) ? 0 : 5
-  const titleScore = isNil(title) ? 0 : 5
-  const generalScore = categoryScore + idScore + titleScore
+  
   return(
     <Card title="Add New Product">
+      <Progress
+        strokeLinecap="square"
+        percent={progress === 80 && !isNil(imgs) ? 100 : progress}
+        status={progress === 0 || !formValid ? 'exception' : progress === 100 ? 'success' : 'normal'}
+      />
       <Tabs activeKey={`${tabKey}`} onChange={handleTabChange} >
-        <TabPane tab="Basic Information" key="1">
+        <TabPane tab="Basic Information" key="1" disabled={parseInt(tabKey) > 2 && isNil(price)}>
           <h2>General</h2>
           <div className="form">
-            <div className="field">
-              <Field
-                name="category"
-                component={SelectField}
-                hintText="Choose a Category"
-                options={categories}
-                validate={[isRequired]}
-              />
+            <div className="form-fields">
+              <div className="field">
+                <Field
+                  name="category"
+                  label="Category"
+                  component={SelectField}
+                  hintText="Choose a Category"
+                  options={categories}
+                  validate={[isRequired]}
+                />
+              </div>
             </div>
-            <div className="field">
-              <Field
-                name="id"
-                component={TextField}
-                hintText="Enter ID"
-                type="text"
-                validate={[isRequired]}
-              />
+            <div className="form-fields">
+              <div className="field"> 
+                <Field
+                  name="id"
+                  label="Product ID"
+                  component={TextField}
+                  hintText="Enter ID"
+                  type="text"
+                  validate={[isRequired, isIdDuplicated]}
+                />
+              </div>
+              <div className="field">
+                <Field
+                  name="title"
+                  label="Product Name"
+                  component={TextField}
+                  hintText="Enter Product Name"
+                  type="text"
+                  validate={[isRequired]}
+                />
+              </div>
             </div>
-            <div className="field">
-              <Field
-                name="title"
-                component={TextField}
-                hintText="Enter Product Name"
-                type="text"
-                validate={[isRequired]}
-              />
-            </div>
-            <div className="field">
+            <div className="form-buttons">
               <Button
                 type="primary"
                 onClick={handleNextTab}
                 className="next-button"
-                disabled={generalScore === 20 ? false : true}
+                disabled={isEmpty(formValues) || !formValid}
+              >
+                Next <Icon type="right" />
+              </Button> 
+            </div>
+          </div>
+        </TabPane>
+        <TabPane tab="Dimensions" key="2" disabled={isEmpty(formValues) || !formValid}>
+          <h2>Dimensions</h2>
+          <div className="form">
+            <div className="form-fields">
+              <div className="field">
+                <Field
+                  name="openlength"
+                  label="Open Length"
+                  component={TextField}
+                  hintText="Enter Open Length e.g. 1.1"
+                  type="text"
+                  validate={[isNumber]}
+                />
+              </div>
+              <div className="field">
+                <Field
+                  name="handlelength"
+                  label="Handle Length"
+                  component={TextField}
+                  hintText="Enter Handle Length e.g. 1.1"
+                  type="text"
+                  validate={[isNumber]}
+                />
+              </div>
+            </div>
+            <div className="form-fields">
+              <div className="field">
+                <Field
+                  name="bladelength"
+                  label="Blade Length"
+                  component={TextField}
+                  hintText="Enter Blade Length e.g. 1.1"
+                  type="text"
+                  validate={[isNumber]}
+                />
+              </div>
+            </div>
+            <div className="form-buttons">
+              <Button type="primary" disabled={isEmpty(formValues) || !formValid} onClick={handleNextTab} className="next-button">
+                Next <Icon type="right" />
+              </Button>
+              <Button type="danger" onClick={handlePrevTab} disabled={isEmpty(formValues) || !formValid} className="prev-button">
+                <Icon type="left" /> Back
+              </Button>
+            </div>
+          </div>
+          
+        </TabPane>
+        <TabPane tab="Price and Shipping" key="3" disabled={tabKey !==3 && (isEmpty(formValues) || !formValid)}>
+          <h2>Price and Shipping Details</h2>
+          <div className="form">
+            <div className="form-fields">
+              <div className="field">
+                <Field
+                  name="price"
+                  component={TextField}
+                  label="Price"
+                  hintText="Price in USD $ e.g. 60"
+                  type="text"
+                  validate={[isRequired, isNumber]}
+                />
+              </div>
+              <div className="field">
+                <Field
+                  name="discount"
+                  label="Discount"
+                  component={TextField}
+                  hintText="Discount in Percentage e.g. 10"
+                  type="text"
+                  validate={[isNumber]}
+                />
+              </div>
+            </div>
+            <div className="form-fields">
+              <div className="field">
+                <Field
+                  name="shipping"
+                  label="Shipping Charges"
+                  component={TextField}
+                  hintText="Shipping Charges in USD $ e.g. 10"
+                  type="text"
+                  validate={[isNumber]}
+                />
+              </div>
+              <div className="field">
+                <Field
+                  name="stock"
+                  label="In Stock"
+                  component={TextField}
+                  hintText="Enter Quantity e.g. 10"
+                  type="text"
+                  validate={[isNumber]}
+                /> 
+              </div>
+            </div>
+            <div className="form-buttons">
+              <Button type="primary" disabled={isEmpty(formValues) || !formValid} onClick={handleNextTab} className="next-button">
+                Next <Icon type="right" />
+              </Button>
+              <Button type="danger" onClick={handlePrevTab} disabled={isEmpty(formValues) || !formValid} className="prev-button">
+                <Icon type="left" /> Back
+              </Button>
+            </div>
+          </div>
+          
+        </TabPane>
+        <TabPane tab="Description and Tips" key="4" disabled={isEmpty(formValues) || isNil(price) || !formValid}>
+          <h2>Description and Details</h2>
+          <div className="form">
+            <div className="form-fields">
+              <div className="field">
+                <Field
+                  name="description"
+                  label="Decripton"
+                  component={MultilineTextField}
+                  rows={4}
+                  rowsMax={7}
+                  placeholder="Enter Description..."
+                />
+              </div>
+              <div className="field">
+                <Field
+                  name="tips"
+                  label="Tips"
+                  component={MultilineTextField}
+                  rows={4}
+                  rowsMax={7}
+                  placeholder="Enter Tips..."
+                />
+              </div>
+            </div>
+            <div className="form-buttons">
+              <Button
+                type="primary"
+                onClick={handleNextTab}
+                disabled={isEmpty(formValues) || isNil(price)  || !formValid}
+                className="next-button"
               >
                 Next <Icon type="right" />
               </Button>
-            </div>
-          </div>
-          <div className="progress">
-            <Progress
-              type="circle"
-              percent={generalScore}
-            />
-          </div>
-        </TabPane>
-        <TabPane tab="Dimensions" disabled={generalScore < 20} key="2">
-          <h2>Dimensions</h2>
-          <div className="form">
-            <div className="field">
-              <Field
-                name="openlength"
-                component={TextField}
-                hintText="Enter Open Length e.g. 1.1"
-                type="text"
-              />
-            </div>
-            <div className="field">
-              <Field
-                name="handlelength"
-                component={TextField}
-                hintText="Enter Handle Length e.g. 1.1"
-                type="text"
-              />
-            </div>
-            <div className="field">
-              <Field
-                name="bladelength"
-                component={TextField}
-                hintText="Enter Blade Length e.g. 1.1"
-                type="text"
-              />
-            </div>
-            <div className="field">
-              <Button type="primary" onClick={handleNextTab} className="next-button">
-                Next <Icon type="right" />
-              </Button>
-              <Button type="danger" onClick={handlePrevTab} className="prev-button">
+              <Button
+                type="danger"
+                onClick={handlePrevTab}
+                disabled={isEmpty(formValues) || isNil(price)  || !formValid}
+                className="prev-button"
+              >
                 <Icon type="left" /> Back
               </Button>
             </div>
           </div>
-          <div className="progress">
-            <Progress type="circle" percent={40} />
-          </div>
         </TabPane>
-        <TabPane tab="Price and Discount" disabled={generalScore < 20} key="3">
-          <h2>Price and Discount</h2>
-          <div className="form">
-            <div className="field">
-              <Field
-                name="price"
-                component={TextField}
-                hintText="Price e.g. 60"
-                type="text"
-                validate={[isRequired, isNumber]}
-              />
-            </div>
-            <div className="field">
-              <Field
-                name="discount"
-                component={TextField}
-                hintText="Discount in Percent e.g. 10"
-                type="text"
-                validate={[isNumber]}
-              />
-            </div>
-            <div className="field">
-              <Button type="primary" onClick={handleNextTab} className="next-button">
-                Next <Icon type="right" />
-              </Button>
-              <Button type="danger" onClick={handlePrevTab} className="prev-button">
-                <Icon type="left" /> Back
-              </Button>
-            </div>
-          </div>
-          <div className="progress">
-            <Progress type="circle" percent={60} />
-          </div>
-        </TabPane>
-        <TabPane tab="Description and Tips" disabled={generalScore < 20} key="4">
-          <h2>Description and Details</h2>
-          <div className="form">
-            <div className="field">
-              <Field
-                name="description"
-                component={MultilineTextField}
-                rows={4}
-                rowsMax={7}
-                placeholder="Enter Description..."
-              />
-            </div>
-            <div className="field">
-              <Field
-                name="tips"
-                component={MultilineTextField}
-                rows={4}
-                rowsMax={7}
-                placeholder="Enter Tips..."
-              />
-            </div>
-            <div className="field">
-              <Button type="primary" onClick={handleNextTab} className="next-button">
-                Next <Icon type="right" />
-              </Button>
-              <Button type="danger" onClick={handlePrevTab} className="prev-button">
-                <Icon type="left" /> Back
-              </Button>
-            </div>
-          </div>
-          <div className="progress">
-            <Progress type="circle" percent={80} />
-          </div>
-        </TabPane>
-        <TabPane tab="Images" disabled={generalScore < 20} key="5">
+        <TabPane tab="Images" key="5" disabled={isEmpty(formValues) || isNil(price) || !formValid}>
           <h2>Images</h2>
           <div className="form">
-            <div className="field">
               <Field
-                name="imgOne"
-                component={FileInput}
-                label="Attach Image 1"
-                validate={[isRequired]}
-              />
-            </div>
-            <div className="field">
-              <Field
-                name="imgTwo"
-                label="Attach Image 2"
+                name="img"
+                label="Attach an Image"
                 component={FileInput}
               />
-            </div>
-            <div className="field">
-              <Field
-                name="imgThree"
-                label="Attach Image 3"
-                component={FileInput}
-              />
-            </div>
-            <div className="field">
-              <Field
-                name="imgFour"
-                label="Attach Image 4"
-                component={FileInput}
-              />
-            </div>
-            <div className="field">
-              <Field
-                name="imgFive"
-                label="Attach Image 5"
-                component={FileInput}
-              />
-            </div>
-            <div className="field save-buttons">
-              <Button type="primary" className="save-button">
-                Save <Icon type="check" />
+            <div className="form-buttons">
+              <Button
+                type="primary"
+                className="save-button"
+                disabled={isEmpty(formValues) || !formValid }
+                onClick={addProduct}
+
+              >
+                <Icon type="check" /> Save
               </Button>
-              <Button type="danger" onClick={handlePrevTab} className="prev-button">
+              <Button
+                type="danger"
+                onClick={handlePrevTab}
+                disabled={isEmpty(formValues) || !formValid}
+                className="prev-button">
                 <Icon type="left" /> Back
               </Button>
             </div>
-          </div>
-          <div className="progress">
-            <Progress type="circle" percent={100} />
           </div>
         </TabPane>
       </Tabs>

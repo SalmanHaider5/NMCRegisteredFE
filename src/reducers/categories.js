@@ -27,13 +27,6 @@ const categories = (state = initState, action) => {
         addRequest: false,
         categories: append(payload, categories)
       }
-    case actions.ADD_CATEGORY_FAILURE:
-      return{
-        ...state,
-        isLoading: true,
-        isError: true,
-        error: `${error}`
-      }
     case actions.FETCH_CATEGORIES_REQUEST:
       return {
         ...state,
@@ -44,13 +37,6 @@ const categories = (state = initState, action) => {
         ...state,
         isLoading: false,
         categories: payload
-      }
-    case actions.FETCH_CATEGORIES_FAILURE:
-      return {
-        ...state,
-        isLoading: true,
-        isError: true,
-        error: `${error}`
       }
     case actions.DELETE_CATEGORY_REQUEST:
       return{
@@ -65,7 +51,9 @@ const categories = (state = initState, action) => {
         deleteRequest: false,
         categories: remove(findIndex(propEq('id', parseInt(payload)))(categories), 1, categories)
       }
-    case actions.DELETE_CATEGORY_FAILURE:
+      case actions.ADD_CATEGORY_FAILURE:
+      case actions.FETCH_CATEGORIES_FAILURE:
+      case actions.DELETE_CATEGORY_FAILURE:
         return{
           ...state,
           isLoading: true,

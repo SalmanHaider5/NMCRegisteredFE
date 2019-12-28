@@ -1,6 +1,7 @@
 import React from 'react'
 import { Table, Icon, Popconfirm } from 'antd'
 
+import { SERVER_URL as url } from '../../../constants'
 import { TableTitle } from '../../../utils/custom-components'
 
 const AllCategories = (props) => {
@@ -27,7 +28,7 @@ const AllCategories = (props) => {
           render={(img, data) => (
             <div>
               <div className="table-column-image">
-                <img src={data.img} alt={data.img}/>
+                <img src={url+'categories/'+data.img} alt={data.img}/>
               </div>
               <span className="table-column-image-title">
               {data.name}

@@ -1,53 +1,118 @@
 import React, { Component } from 'react'
 import {  withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { reduxForm, getFormValues } from 'redux-form'
-
+import { reduxForm, reset, getFormValues } from 'redux-form'
+import { filter, contains, length, toLower } from 'ramda'
+import { notification } from 'antd'
 import { getCategories, getProducts, postProduct, deleteProduct } from '../../actions'
+import { getProductInitialValues } from '../../utils/helpers'
 import Products from './Products'
-
-// import SingleProduct from './SingleProduct'
 
 class ProductsContainer extends Component {
   constructor(props){
     super(props)
     this.state = {
-      tabKey: 1
+      tabKey: 1,
+      products: []
     }
   }
 
   componentDidMount(){
-    const { dispatch } = this.props
+    const { dispatch, products: { products } } = this.props
     dispatch(getProducts())
     dispatch(getCategories())
+    this.setState({ products })
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(this.props.products.addRequest !== nextProps.products.addRequest){
+      if(!nextProps.products.addRequest){
+        notification.success({
+          message: 'Add Success',
+          description: 'Product is successfully added.',
+          placement: 'bottomLeft',
+          style: {
+            backgroundColor: 'rgb(77, 141, 45)',
+            color: '#fff'
+          }
+        })
+      }
+    }
+    if(this.props.products.deleteRequest !== nextProps.products.deleteRequest){
+      if(!nextProps.products.deleteRequest){
+        notification.success({
+          message: 'Delete Success',
+          description: 'Product is successfully deleted.',
+          placement: 'bottomLeft',
+          style: {
+            backgroundColor: 'rgb(77, 141, 45)',
+            color: '#fff'
+          }
+        })
+      }
+    }
   }
 
   addProduct = () => {
-    const { formValues, dispatch, match: { params: { id } } } = this.props
-    formValues.category = id
+    const { formValues, dispatch, history } = this.props
     dispatch(postProduct(formValues))
+    dispatch(reset('product'))
+    history.push('/products')
   }
-  
-  deleteProduct = event => {
+
+  deleteProduct = id => {
     const { dispatch } = this.props
-    const { target: { id } } = event
     dispatch(deleteProduct(id))
   }
+
   handleTabChange = key => {
     this.setState ({ tabKey: parseInt(key) })
   }
+
   handleNextTab = () =>{
     const { tabKey } = this.state
     this.setState({ tabKey: parseInt(tabKey) + 1 })
   }
+
   handlePrevTab = () => {
     const { tabKey } = this.state
     this.setState({ tabKey: parseInt(tabKey) - 1 })
   }
 
+  onSearch = e => {
+    const { products: { products }, dispatch } = this.props
+    const value = e.target.value 
+    if(value.length === 0) { dispatch(getProducts()) }
+    const filteredProducts = filter(product => contains(toLower(value), toLower(product.title)), products)
+    dispatch({
+      type: 'FETCH_PRODUCTS_SUCCESS',
+      payload: filteredProducts
+    })
+  }
+  
+  onSelectFilter = value => {
+    const { dispatch } = this.props
+    dispatch(getProducts(value))
+  }
+
+  isIdDuplicated = value => {
+    const { products: { products } } = this.props
+    const duplicates = length(filter(product => product.id === value, products))
+    return duplicates > 0 ? 'ID is already used' : '' 
+  }
+
   render() {
-    const { products: { isLoading, products }, categories: { categories }, match: { isExact }, formValues = {} } = this.props
+    const {
+      products: { isLoading, products },
+      categories: { categories },
+      match: { isExact },
+      formValues = {},
+      valid
+    } = this.props
     const { tabKey } = this.state
+
+    const progressScore = (parseInt(tabKey) - 1) * 20 
+
     return (
       <div>
         <Products
@@ -62,6 +127,11 @@ class ProductsContainer extends Component {
           handlePrevTab={this.handlePrevTab}
           handleTabChange={this.handleTabChange}
           formValues={formValues}
+          formValid={valid}
+          progress={progressScore} 
+          onSearch={this.onSearch}
+          isIdDuplicated={this.isIdDuplicated}
+          onSelectFilter={this.onSelectFilter}
         />
       </div>      
     );
@@ -78,6 +148,7 @@ const mapStateToProps = state => {
 
 export default withRouter(connect(mapStateToProps)(
   reduxForm({
-    form: 'product'
+    form: 'product',
+    initialValues: getProductInitialValues()
   })(ProductsContainer)
 ))
