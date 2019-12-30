@@ -1,9 +1,10 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Switch,Route } from 'react-router-dom'
 import { Spin } from 'antd'
 
 import AllProducts from './AllProducts'
 import NewProduct from '../NewProduct'
+import SingleProduct from '../SingleProduct'
 import './products.css'
 
 const Products = (props) => {
@@ -31,23 +32,26 @@ const Products = (props) => {
       {
         !isExact?
         <div className="products-form">
-          <Route
-            path='/products/new-product'
-            render={() => 
-              <NewProduct
-                categories={categories}
-                tabKey={tabKey}
-                handleNextTab={handleNextTab}
-                handlePrevTab={handlePrevTab}
-                addProduct={addProduct}
-                handleTabChange={handleTabChange}
-                formValues={formValues}
-                formValid={formValid}
-                progress={progress}
-                isIdDuplicated={isIdDuplicated}
-              />
-            } 
-          />
+          <Switch>
+            <Route
+              path='/products/new-product'
+              render={() => 
+                <NewProduct
+                  categories={categories}
+                  tabKey={tabKey}
+                  handleNextTab={handleNextTab}
+                  handlePrevTab={handlePrevTab}
+                  addProduct={addProduct}
+                  handleTabChange={handleTabChange}
+                  formValues={formValues}
+                  formValid={formValid}
+                  progress={progress}
+                  isIdDuplicated={isIdDuplicated}
+                />
+              } 
+            />
+            <Route path="/products/:id" component={SingleProduct} />
+          </Switch>
         </div>:
         <div className="products-table">
           <Spin spinning={isLoading} tip="Loading...">

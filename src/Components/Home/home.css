@@ -2,9 +2,8 @@ aside{
     flex: none !important;
     min-width: 0px !important;
     max-width: 500px !important;
-    width: 250px !important;
+    width: 300px !important;
     height: 100vh;
-
 }
 .nav-title{
     color: #fff;
@@ -15,7 +14,7 @@ aside{
 .banner.ant-layout-header{
     background: #fff;
     border-bottom: 1px solid #92a1ac;
-    z-index: 10000;
+    z-index: 1;
     position: fixed;
     top: 0px;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);

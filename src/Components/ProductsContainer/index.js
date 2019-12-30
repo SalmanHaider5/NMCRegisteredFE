@@ -19,6 +19,7 @@ class ProductsContainer extends Component {
 
   componentDidMount(){
     const { dispatch, products: { products } } = this.props
+    console.log('Match', this.props.match)
     dispatch(getProducts())
     dispatch(getCategories())
     this.setState({ products })

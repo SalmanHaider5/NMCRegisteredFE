@@ -10,7 +10,7 @@ class Navigation extends Component {
   
   render(){
     return (
-      <div>
+      <div className="nav-panel">
         <div className="ant-layout-header nav-title">
           Admin Panel
         </div>

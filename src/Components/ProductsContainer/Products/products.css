@@ -53,3 +53,56 @@ div.products-form .ant-card div.ant-tabs-bar{
     background-color: #28a745;
     border-color: #28a745;
 }
+i.edit-icon{
+    color: #7fffd4;
+}
+.products-container .ant-card.products-card{
+    margin-bottom: 100px;
+}
+.products-container .img-card{
+    padding: 2px;
+    position: relative;
+    border-radius: 5px;
+    height: 120px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    top: 10px;
+}
+.products-container .img-card img{
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+.products-container .ant-col.product-images{
+    padding-bottom: 50px;
+}
+.products-container .delete-image-icon{
+    position: absolute;
+    top: 12px;
+    z-index: 1;
+    left: 11px;
+    width: 25px;
+    height: 25px;
+    background-color: transparent;
+    font-size: 19px;
+    text-align: center;
+    color: #fff;
+}
+.products-container .delete-image-icon:hover{
+    color: rgb(12, 4, 61);
+    background-color: #fff;
+}
+.products-container .image-upload-field{
+    padding-left: 47px;
+    display: flex;
+}
+.products-container .image-upload-field button.add-image{
+    top: 4px;
+    left: 20px;
+    width: 35px;
+    height: 32px;
+    text-align: center;
+}
+.products-container .image-upload-field button.add-image i{
+    margin-left: -5px;
+}

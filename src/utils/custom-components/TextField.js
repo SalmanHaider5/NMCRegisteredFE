@@ -14,9 +14,10 @@ export const TextField = ({
   tooltipPlacement = "top",
   isRequired,
   disabled,
+  specialText,
   addonAfterText,
-  id,
-  data
+  fieldData,
+  id
 }) => {
   return (
     <div className="field-container">
@@ -24,6 +25,7 @@ export const TextField = ({
         validateStatus={touched && error ? 'error' : ''}
         label={label}
         colon={false}
+        extra={specialText}
       >
         <Tooltip title={error} placement={tooltipPlacement} visible={error !== undefined && touched}>
           <Input
@@ -32,13 +34,13 @@ export const TextField = ({
             placeholder={hintText}
             onFocus={onFocus}
             onBlur={onBlur}
-            onChange={e => {
+            onChange={(e) => {
               onChange(e.target.value)
             }}
             disabled={disabled}
             type={type}
             readOnly={readOnly}
-            value={value}
+            value={readOnly ? fieldData : value}
             addonAfter={addonAfterText}
           />
         </Tooltip>

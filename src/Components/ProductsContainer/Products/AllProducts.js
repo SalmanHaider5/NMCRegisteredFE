@@ -72,14 +72,19 @@ const AllProducts = (props) => {
           dataIndex='id'
           key="action"
           render={ id => (
-            <Popconfirm
-              title={`Are you sure?`}
-              onConfirm={() => deleteProduct(id)}
-              okText="Yes"
-              cancelText="No"
-            >
-              <Icon type="delete" theme="filled" />
-            </Popconfirm>
+            <span>
+              <Popconfirm
+                title={`Are you sure?`}
+                onConfirm={() => deleteProduct(id)}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Icon type="delete" theme="filled" />
+              </Popconfirm>
+              <Link to={`/products/${id}`}>
+                <Icon type="eye"></Icon>
+              </Link>
+            </span>
           )}
         />
       </Table>

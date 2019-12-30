@@ -11,9 +11,11 @@ export const MultilineTextField = ({
   label,
   fullWidth,
   placeholder,
+  readOnly,
   rows,
   rowsMax,
   classes,
+  fieldData,
   id
 }) => {
   return (
@@ -28,6 +30,7 @@ export const MultilineTextField = ({
           id={id}
           {...input}
           autoSize={{ minRows: rows, maxRows: rowsMax }}
+          value={readOnly ? fieldData : value}
           placeholder={placeholder}
         />
       </FormItem>
