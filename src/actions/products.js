@@ -200,31 +200,26 @@ export const deleteProductImage = (id, name) => dispatch => {
 
   dispatch({ type: DELETE_PRODUCT_IMAGE_REQUEST })
 
-  dispatch({
-    type: DELETE_PRODUCT_IMAGE_SUCCESS,
-    payload: { id, name }
+  const requestUrl = `${url}${id}/deleteImage/${name}`
+  fetch(requestUrl, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type':'application/json'
+    }
   })
-
-  // const requestUrl = `${url}${id}/deleteImage/${name}`
-  // fetch(requestUrl, {
-  //   method: 'DELETE',
-  //   headers: {
-  //     'Content-Type':'application/json'
-  //   }
-  // })
-  // .then(res => res.json())
-  // .then(data => {
-  //   console.log('Response', data)
-  //   dispatch({
-  //     type: DELETE_PRODUCT_IMAGE_SUCCESS,
-  //     payload: { id, name }
-  //   })
-  // })
-  // .catch(err => {
-  //   dispatch({
-  //     type: DELETE_PRODUCT_IMAGE_FAILURE,
-  //     error: err
-  //   })
-  // })
+  .then(res => res.json())
+  .then(data => {
+    console.log('Response', data)
+    dispatch({
+      type: DELETE_PRODUCT_IMAGE_SUCCESS,
+      payload: { id, name }
+    })
+  })
+  .catch(err => {
+    dispatch({
+      type: DELETE_PRODUCT_IMAGE_FAILURE,
+      error: err
+    })
+  })
 
 }

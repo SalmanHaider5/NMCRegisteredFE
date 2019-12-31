@@ -33,12 +33,16 @@ class Navigation extends Component {
             </Link>
           </Item>
           <Item key="4">
-            <Icon type="question-circle" />
-            <span>FAQs</span>
+            <Link to ="/FAQs">
+              <Icon type="question-circle" />
+              <span>FAQs</span>
+            </Link>
           </Item>
           <Item key="5">
-            <Icon type="pull-request" />
-            <span>Subscribers</span>
+            <Link to="/subscribers">
+              <Icon type="pull-request" />
+              <span>Subscribers</span>
+            </Link>
           </Item>
           <Item key="6">
             <Icon type="gift" />

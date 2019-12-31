@@ -12,7 +12,8 @@ export const TableTitle = ({
   onSelectFilter,
   selectOptions=[],
   selectFilter = false,
-  selectHint
+  selectHint,
+  searchHint
 }) =>{
   const options = map(option => {
     return <Option value={option.id} key={option.id}>{option.name}</Option>
@@ -33,7 +34,7 @@ export const TableTitle = ({
         null
       }
       <Search
-        placeholder={`Search by ${title} Name`}
+        placeholder={searchHint}
         className="search-input"
         onChange={onSearch}
       />

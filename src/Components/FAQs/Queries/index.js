@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Icon, Spin } from 'antd'
+import { Tabs, Card, Spin } from 'antd'
 
 import NewQuery from './NewQuery'
 import AllQueries from './AllQueries'
@@ -9,37 +9,31 @@ import './query.css'
 const Queries = (props) => {
 
   const {
-    faqsModal,
-    showFaqsModal,
-    hideFaqsModal,
     addQuery,
     deleteQuery,
     isLoading,
     queries
   } = props
+
+  const { TabPane } = Tabs
   
   return (
-    <div className="categories-container">
-      <div className="categories-form">
-        <Button type="primary" onClick={showFaqsModal}>
-          <Icon type="plus" /> Add New Query
-        </Button>
-
-        <NewQuery
-          hideCategoryModal={hideFaqsModal}
-          faqsModal={faqsModal}
-          addQuery={addQuery}
-        />
-
-      </div>
-      <div className="categories-table">
-        <Spin spinning={isLoading} tip="Loading...">
-          <AllQueries
-            queries={queries}
-            deleteQuery={deleteQuery}
-          />
-        </Spin>
-      </div>
+    <div className="queries-container">
+      <Card title="Frequently Asked Questions" className="queries-card">
+        <Tabs defaultActiveKey="1">
+          <TabPane tab="All Questions" key="1">
+            <Spin spinning={isLoading} tip="Loading...">
+              <AllQueries
+                queries={queries}
+                deleteQuery={deleteQuery}
+              />
+            </Spin>
+          </TabPane>
+          <TabPane tab="Add New" key="2">
+            <NewQuery addQuery={addQuery} />
+          </TabPane>
+        </Tabs>
+      </Card>
     </div>
   );
 };

@@ -3,11 +3,13 @@ import { findIndex, propEq, remove } from 'ramda'
 
 const initState = {
   isLoading: false,
+  deleteRequest: false,
+  error: '',
   subscribers: []
 }
 
 const subscribers = (state = initState, action) => {
-  const { type, payload } = action
+  const { type, payload, error } = action
   const { subscribers } = state
   switch (type) {
     case actions.FETCH_SUBSCRIBERS_REQUEST:
@@ -21,10 +23,25 @@ const subscribers = (state = initState, action) => {
         isLoading: false,
         subscribers: payload
       }
+    case actions.DELETE_SUBSCRIBERS_REQUEST:
+      return{
+        ...state,
+        isLoading: true,
+        deleteRequest: true
+      }
     case actions.DELETE_SUBSCRIBERS_SUCCESS:
       return {
         ...state,
+        deleteRequest: false,
         subscribers: remove(findIndex(propEq('id', parseInt(payload)))(subscribers), 1, subscribers)
+      }
+    case actions.DELETE_SUBSCRIBERS_FAILURE:
+    case actions.FETCH_SUBSCRIBERS_FAILURE:
+      return{
+        ...state,
+        isLoading: true,
+        deleteRequest: true,
+        error: error
       }
     default:
       return state

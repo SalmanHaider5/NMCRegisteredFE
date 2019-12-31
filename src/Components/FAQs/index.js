@@ -1,15 +1,39 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { reduxForm, getFormValues } from 'redux-form'
+import { reduxForm, getFormValues, reset } from 'redux-form'
+import { notification } from 'antd'
 
 import { getQueries, postQuery, deleteQuery } from '../../actions'
 import Queries from './Queries'
 
 class FAQs extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      faqsModal: false
+  
+  componentWillReceiveProps(nextProps){
+    if(this.props.queries.addRequest !== nextProps.queries.addRequest){
+      if(!nextProps.queries.addRequest){
+        notification.success({
+          message: 'Add Success',
+          description: 'Query is successfully added.',
+          placement: 'bottomLeft',
+          style: {
+            backgroundColor: 'rgb(77, 141, 45)',
+            color: '#fff'
+          }
+        })
+      }
+    }
+    if(this.props.queries.deleteRequest !== nextProps.queries.deleteRequest){
+      if(!nextProps.queries.deleteRequest){
+        notification.success({
+          message: 'Delete Success',
+          description: 'Query is successfully deleted.',
+          placement: 'bottomLeft',
+          style: {
+            backgroundColor: 'rgb(77, 141, 45)',
+            color: '#fff'
+          }
+        })
+      }
     }
   }
 
@@ -18,36 +42,24 @@ class FAQs extends Component {
     dispatch(getQueries())
   }
 
-  showFaqsModal = () => {
-    this.setState({faqsModal: true})
-    console.log(this.state.faqsModal)
-  }
-
-  hideFaqsModal = () => {
-    this.setState({faqsModal: false})
-  }
 
   addQuery = () => {
     const { formValues, dispatch } = this.props
     dispatch(postQuery(formValues))
-    this.setState({faqsModal: false})
+    dispatch(reset('faqs'))
   }
 
-  deleteQuery = (event) => {
+  deleteQuery = (id) => {
     const { dispatch } = this.props
-    const { target: { id } } = event
     dispatch(deleteQuery(id))
   }
   
   render() {
-    const { faqsModal } = this.state
+    console.log(this.props)
     const { queries: { isLoading, queries} } = this.props
     return (
       <div>
         <Queries
-          faqsModal={faqsModal}
-          showFaqsModal={this.showFaqsModal}
-          hideFaqsModal={this.hideFaqsModal}
           addQuery={this.addQuery}
           deleteQuery={this.deleteQuery}
           isLoading={isLoading}

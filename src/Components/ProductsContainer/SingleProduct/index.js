@@ -60,7 +60,7 @@ class SingleProduct extends Component {
       }
     }
     if(this.props.products.addImageRequest !== nextProps.products.addImageRequest){
-      if(!nextProps.products.addImageRequest && !nextProps.products.isLoading){
+      if(!nextProps.products.addImageRequest){
         notification.success({
           message: 'Add Success',
           description: 'Product Image is successfully uploaded.',

@@ -1,40 +1,43 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { Modal } from 'antd'
-
+import { Button, Icon } from 'antd'
+import { TextField, MultilineTextField } from '../../../utils/custom-components/'
+import { isRequired } from '../../../constants'
 import './query.css'
 
 const NewQuery = (props) => {
-  const { faqsModal, hideFaqsModal, addQuery } = props
+  const { addQuery } = props
   return (
-    <Modal
-      title="New Query"
-      visible={faqsModal}
-      onOk={addQuery}
-      onCancel={hideFaqsModal}
-      className="query-modal"
-    >
-      <form>
+    <div className="form">
+      <div className="form-fields">
         <div className="field">
           <Field
             name="question"
-            component="input"
-            type="text"
-            placeholder="Question"
-            className="query-field"
+            label="Add Question"
+            component={TextField}
+            hintText="Enter Question"
+            validate={[isRequired]}
           />
         </div>
+      </div>
+      <div className="form-fields">
         <div className="field">
           <Field
             name="answer"
-            component="textarea"
-            type="text"
-            placeholder="Answer"
-            className="answer-field"
+            label="Add Answer"
+            component={MultilineTextField}
+            rows={4}
+            rowsMax={7}
+            placeholder="Enter Description..."
           />
         </div>
-      </form>
-    </Modal>
+      </div>
+      <div className="form-buttons">
+        <Button onClick={addQuery} type="primary">
+          <Icon type="check" /> Save
+        </Button>
+      </div>
+    </div>
   );
 };
 

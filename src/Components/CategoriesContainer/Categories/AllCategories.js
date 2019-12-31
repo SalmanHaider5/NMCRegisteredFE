@@ -15,7 +15,12 @@ const AllCategories = (props) => {
         bordered={true}
         size="middle"
         rowKey={category => category.id}
-        title={()=> <TableTitle title="Categories" onSearch={onSearch} />}
+        title={()=>
+          <TableTitle
+            title="Categories"
+            onSearch={onSearch}
+            searchHint="Search by Category Name"
+          />}
         pagination={false}
       >
         <Column

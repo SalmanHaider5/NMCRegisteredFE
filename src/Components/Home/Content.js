@@ -5,8 +5,8 @@ import { Layout } from 'antd'
 // import Orders from '../Orders'
 import CategoriesContainer from '../CategoriesContainer'
 import ProductsContainer from '../ProductsContainer'
-// import FAQs from '../FAQs'
-// import Subscribers from '../Subscribers'
+import FAQs from '../FAQs'
+import Subscribers from '../Subscribers'
 
 
 import './home.css'
@@ -21,8 +21,8 @@ class Contents extends Component {
           {/* <Route path="/orders" component={Orders} /> */}
           <Route path="/categories" component={CategoriesContainer} />
           <Route path="/products" component={ProductsContainer} />
-          {/* <Route path="/FAQs" component={FAQs} />
-          <Route path="/subscribers" component={Subscribers} /> */}
+          <Route path="/FAQs" component={FAQs} />
+          <Route path="/subscribers" component={Subscribers} />
         </div>
       </Content>
     );

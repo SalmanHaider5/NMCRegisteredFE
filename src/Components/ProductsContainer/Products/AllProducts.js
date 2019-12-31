@@ -25,6 +25,7 @@ const AllProducts = (props) => {
             selectHint="Choose a Category"
             selectOptions={categories}
             onSearch={onSearch}
+            searchHint="Search by Product Name"
           />}
         pagination={false}
       >
