@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Field, initialize } from 'redux-form'
 import { map, isNil } from 'ramda'
 import { Card, Spin, Icon, BackTop, Row, Col, Modal, Button, notification, Popconfirm } from 'antd'
-import { TextField, MultilineTextField, FileInput } from '../../../utils/custom-components/'
+import { TextField, MultilineTextField, FileInput, Reviews } from '../../../utils/custom-components/'
 import { isRequired, isNumber, SERVER_URL } from '../../../constants'
 import { getSingleProduct, addProductImage, updateProduct, deleteProductImage } from '../../../actions'
 
@@ -154,7 +154,8 @@ class SingleProduct extends Component {
           stock,
           description,
           tips,
-          images = []
+          images = [],
+          feedback = []
         }
       }
     } = this.props
@@ -353,6 +354,10 @@ class SingleProduct extends Component {
               <Modal visible={loadImageModal} footer={null} onCancel={this.closeModal}>
                 <img src={modalImage} alt={modalImage} style={{height: '100%', width: '100%'}} />
               </Modal>
+          </div>
+          <div className="form">
+            <h2>Reviews and Feedback</h2>
+            <Reviews feedback={feedback} />
           </div>
         </Card>
       </Spin>

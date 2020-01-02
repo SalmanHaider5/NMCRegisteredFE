@@ -45,8 +45,10 @@ class Navigation extends Component {
             </Link>
           </Item>
           <Item key="6">
-            <Icon type="gift" />
-            <span>Reviews & Feedback</span>
+            <Link to="/reviews">
+              <Icon type="gift" />
+              <span>Reviews & Feedback</span>
+            </Link>
           </Item>
           <Item key="7">
             <Icon type="user" />

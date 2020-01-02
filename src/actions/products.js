@@ -159,7 +159,6 @@ export const getSingleProduct = id => dispatch => {
   fetch(url+'product/'+id)
   .then(res => res.json())
   .then(data => {
-    
     dispatch({
       type: FETCH_SINGLE_PRODUCT_SUCCESS,
       payload: data
