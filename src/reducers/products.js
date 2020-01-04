@@ -1,5 +1,5 @@
 import * as actions from '../actions'
-import { append, findIndex, propEq, remove, head, filter } from 'ramda'
+import { append, findIndex, propEq, remove, head, filter, set, lensProp, update } from 'ramda'
 
 const initState = {
   isLoading: false,
@@ -9,6 +9,7 @@ const initState = {
   addImageRequest: false,
   updateRequest: false,
   deleteImageRequest: false,
+  updateFeedbackRequest: false,
   error: '',
   products: [],
   product: {}
@@ -111,6 +112,7 @@ const products = (state = initState, action) => {
     case actions.FETCH_SINGLE_PRODUCT_FAILURE:
     case actions.ADD_PRODUCT_FAILURE:
     case actions.ADD_PRODUCT_IMAGE_FAILURE:
+    case actions.UPDATE_FEEDBACK_FAILURE:
     case actions.DELETE_PRODUCT_FAILURE:{
       return{
         ...state,
@@ -129,6 +131,24 @@ const products = (state = initState, action) => {
         ...state,
         isLoading: false,
         product: head(payload)
+      }
+    case actions.UPDATE_FEEDBACK_REQUEST:
+      return{
+        ...state,
+        isLoading: true,
+        updateFeedbackRequest: true
+      }
+    case actions.UPDATE_FEEDBACK_SUCCESS:
+      const { product, product: { feedback } } = state
+      const { id, status } = payload
+      const updatedFeedback = set(lensProp('status'), status === 'Active' ? 'Hidden' : 'Active', payload )
+      const updatedFeedbackArray = update(findIndex(propEq('id', parseInt(id)))(feedback), updatedFeedback, feedback)
+      product.feedback =  updatedFeedbackArray
+      return{
+        ...state,
+        isLoading: false,
+        updateFeedbackRequest: false,
+        product: product
       }
     default:
       return state

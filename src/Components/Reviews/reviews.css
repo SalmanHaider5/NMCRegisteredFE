@@ -1,0 +1,14 @@
+div.reviews-container .ant-card{
+    position: relative;
+    width: 95%;
+    margin: 0 auto;
+    top: 84px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+div.reviews-container .ant-card .ant-card-head{
+    background: #001529;
+    color: #fff;
+}
+/* div.reviews-container .ant-card div.form{
+    width: 100%;
+} */

@@ -36,24 +36,25 @@ export const updateReviewsStatus = values => dispatch => {
   dispatch({ type: UPDATE_REVIEWS_REQUEST })
 
   const { id } = values
-  const apiUrl = `reviews/${id}`
+  const apiUrl = `${url}review/${id}`
   fetch(apiUrl, {
     method: 'PUT',
     headers: {
       'Content-Type':'application/json'
     },
     body: JSON.stringify(values)
-  }).then((res) => res.json())
-    .then((data) => {
-      dispatch({
-        type: UPDATE_REVIEWS_SUCCESS,
-        payload: id
-      })
+  })
+  .then((res) => res.json())
+  .then((data) => {
+    dispatch({
+      type: UPDATE_REVIEWS_SUCCESS,
+      payload: values
     })
-    .catch(error => {
-      dispatch({
-        type: UPDATE_REVIEWS_FAILURE,
-        error
-      })
+  })
+  .catch(error => {
+    dispatch({
+      type: UPDATE_REVIEWS_FAILURE,
+      error
     })
+  })
 }

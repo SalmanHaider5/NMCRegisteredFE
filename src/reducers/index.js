@@ -5,6 +5,7 @@ import faqs from './faqs'
 import subscribers from './subscribers'
 import products from './products'
 import reviews from './reviews'
+import orders from './orders'
 
 const rootReducer = combineReducers({
     form: formReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
     faqs,
     subscribers,
     products,
-    reviews
+    reviews,
+    orders
 })
 
 export default rootReducer

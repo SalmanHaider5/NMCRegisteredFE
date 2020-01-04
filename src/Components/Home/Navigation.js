@@ -17,8 +17,10 @@ class Navigation extends Component {
         
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
           <Item key="1">
-            <Icon type="unordered-list" />
-            <span>Orders</span>
+            <Link to="/orders">
+              <Icon type="unordered-list" />
+              <span>Orders</span>
+            </Link>
           </Item>
           <Item key="2">
             <Link to='/categories'>
@@ -58,23 +60,16 @@ class Navigation extends Component {
             key="sub1"
             title={
               <span>
-                <Icon type="file" />
-                <span>Contact Details</span>
+                <Icon type="radius-setting" />
+                <span>System Configuration</span>
               </span>
             }
           >
-            <Item key="8">My Details</Item>
+            <Item key="8">Geberal Details</Item>
             <Item key="9">Members</Item>
-            <Item key="10">Roles</Item>
+            <Item key="10">Social Media Links</Item>
+            <Item key="11">Slideshow Pictures</Item>
           </SubMenu>
-          <Item key="11">
-            <Icon type="share-alt" />
-            <span>Social Media Links</span>
-          </Item>
-          <Item key="12">
-            <Icon type="desktop" />
-            <span>Slideshow</span>
-          </Item>
         </Menu>
       </div>
     );

@@ -22,6 +22,9 @@ export const UPDATE_PRODUCT_FAILURE = 'UPDATE_PRODUCT_FAILURE'
 export const DELETE_PRODUCT_IMAGE_REQUEST = 'DELETE_PRODUCT_IMAGE_REQUEST'
 export const DELETE_PRODUCT_IMAGE_SUCCESS = 'DELETE_PRODUCT_IMAGE_SUCCESS'
 export const DELETE_PRODUCT_IMAGE_FAILURE = 'DELETE_PRODUCT_IMAGE_FAILURE'
+export const UPDATE_FEEDBACK_REQUEST = 'UPDATE_FEEDBACK_REQUEST'
+export const UPDATE_FEEDBACK_SUCCESS = 'UPDATE_FEEDBACK_SUCCESS'
+export const UPDATE_FEEDBACK_FAILURE = 'UPDATE_FEEDBACK_FAILURE'
 
 const getImageName = img => {
   return isNil(img) ? '' : img.name
@@ -220,5 +223,35 @@ export const deleteProductImage = (id, name) => dispatch => {
       error: err
     })
   })
+}
 
+export const updateFeedbackStatus = values => dispatch => {
+
+  dispatch({ type: UPDATE_FEEDBACK_REQUEST })
+
+  const { id } = values
+
+  const apiUrl = `${url}feedback/${id}`
+  fetch(apiUrl, {
+    method: 'PUT',
+    headers: {
+      'Content-Type':'application/json'
+    },
+    body: JSON.stringify(values)
+  })
+  .then((res) => res.json())
+  .then((data) => {
+    
+    dispatch({
+      type: UPDATE_FEEDBACK_SUCCESS,
+      payload: values
+    })
+  })
+  .catch(error => {
+    
+    dispatch({
+      type: UPDATE_FEEDBACK_FAILURE,
+      error
+    })
+  })
 }

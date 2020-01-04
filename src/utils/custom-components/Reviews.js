@@ -2,8 +2,21 @@ import React from 'react'
 import { Button, List, Icon, Rate } from 'antd'
 import './custom-components.css'
 
+const ListTitle = ({ review }) => {
+  return(
+    <span>
+      <h2>
+        {review.name}
+      </h2>
+      <Rate disabled defaultValue={review.rate} />
+      <p>{review.email}</p>
+    </span>
+  )
+}
+
 export const Reviews = ({
-  feedback
+  feedback,
+  hideOrShowReview
 }) => {
   return (
     <List
@@ -13,13 +26,13 @@ export const Reviews = ({
       renderItem={review => (
         <List.Item>
           <List.Item.Meta
-            title={<span><Button type="primary">
-              <Icon type={review.status === 'Active' ? 'minus' : 'plus'} />
-            </Button><h2>{review.name}</h2><p>{review.email}</p></span>}
+            title={<ListTitle review={review} />}
             description={<h4>{review.text}</h4>}
           />
           <div>
-            <Rate disabled defaultValue={review.rating} />
+            <Button type="primary" onClick={() => hideOrShowReview(review)}>
+              <Icon type={review.status === 'Active' ? 'minus' : 'plus'} />
+            </Button>
           </div>
         </List.Item>
       )}

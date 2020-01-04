@@ -32,7 +32,10 @@ div.table-title .ant-input-search{
 .search-input.ant-input-search .ant-input-suffix{
     margin-top: 15px;
 }
-/* File Input */
+.ant-list-item-meta-title span p{
+    font-weight: 400;
+    color: #b0a3a3;
+}
 
 
   

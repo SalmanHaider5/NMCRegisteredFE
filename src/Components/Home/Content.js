@@ -8,6 +8,7 @@ import ProductsContainer from '../ProductsContainer'
 import FAQs from '../FAQs'
 import Subscribers from '../Subscribers'
 import ReviewsContainer from '../Reviews'
+import Orders from '../Orders'
 
 
 import './home.css'
@@ -19,12 +20,12 @@ class Contents extends Component {
     return (
       <Content className="content">
         <div className="content-div">
-          {/* <Route path="/orders" component={Orders} /> */}
           <Route path="/categories" component={CategoriesContainer} />
           <Route path="/products" component={ProductsContainer} />
           <Route path="/FAQs" component={FAQs} />
           <Route path="/subscribers" component={Subscribers} />
           <Route path="/reviews" component={ReviewsContainer} />
+          <Route path="/orders" component={Orders} />
         </div>
       </Content>
     );

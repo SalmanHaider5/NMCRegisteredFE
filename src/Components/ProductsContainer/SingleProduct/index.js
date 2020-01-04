@@ -5,7 +5,7 @@ import { map, isNil } from 'ramda'
 import { Card, Spin, Icon, BackTop, Row, Col, Modal, Button, notification, Popconfirm } from 'antd'
 import { TextField, MultilineTextField, FileInput, Reviews } from '../../../utils/custom-components/'
 import { isRequired, isNumber, SERVER_URL } from '../../../constants'
-import { getSingleProduct, addProductImage, updateProduct, deleteProductImage } from '../../../actions'
+import { getSingleProduct, addProductImage, updateProduct, deleteProductImage, updateFeedbackStatus } from '../../../actions'
 
 const ImageCard = ({ images, loadImage, deleteImage }) => {
   return map(image => {
@@ -85,6 +85,20 @@ class SingleProduct extends Component {
         })
       }
     }
+    if(this.props.products.updateFeedbackRequest !== nextProps.products.updateFeedbackRequest){
+      if(!nextProps.products.updateFeedbackRequest){
+        notification.success({
+          message: 'Update Success',
+          description: 'Feedback status is successfully updated',
+          placement: 'bottomLeft',
+          style: {
+            backgroundColor: 'rgb(77, 141, 45)',
+            color: '#fff'
+          }
+        })
+      }
+    }
+    
   }
 
   componentDidMount() {
@@ -126,6 +140,11 @@ class SingleProduct extends Component {
       loadImageModal: true,
       modalImage: img
     })
+  }
+
+  hideOrShowReview = review =>{
+    const { dispatch } = this.props
+    dispatch(updateFeedbackStatus(review))
   }
 
   deleteImage = image => {
@@ -357,7 +376,7 @@ class SingleProduct extends Component {
           </div>
           <div className="form">
             <h2>Reviews and Feedback</h2>
-            <Reviews feedback={feedback} />
+            <Reviews feedback={feedback} hideOrShowReview={this.hideOrShowReview} />
           </div>
         </Card>
       </Spin>
