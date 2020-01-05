@@ -5,6 +5,7 @@ import { filter, contains } from 'ramda'
 import { Spin } from 'antd'
 import { getOrders } from '../../actions'
 import AllOrders from './AllOrders'
+import SingleOrder from './SingleOrder'
 import './orders.css'
 
 class Orders extends Component {
@@ -36,7 +37,7 @@ class Orders extends Component {
             />
           </Spin>:
           <Switch>
-            <Route path="/orders/:id/customer/:customerId" />
+            <Route path="/orders/:id/customer/:customerId" component={SingleOrder} />
           </Switch>
         }
       </div>

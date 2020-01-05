@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import { Route, withRouter } from 'react-router-dom'
 import { Layout } from 'antd'
 
-// import Orders from '../Orders'
 import CategoriesContainer from '../CategoriesContainer'
 import ProductsContainer from '../ProductsContainer'
 import FAQs from '../FAQs'
 import Subscribers from '../Subscribers'
 import ReviewsContainer from '../Reviews'
 import Orders from '../Orders'
+import Customers from '../Customers'
 
 
 import './home.css'
@@ -26,6 +26,7 @@ class Contents extends Component {
           <Route path="/subscribers" component={Subscribers} />
           <Route path="/reviews" component={ReviewsContainer} />
           <Route path="/orders" component={Orders} />
+          <Route path="/customers" component={Customers} />
         </div>
       </Content>
     );

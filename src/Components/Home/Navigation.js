@@ -53,8 +53,10 @@ class Navigation extends Component {
             </Link>
           </Item>
           <Item key="7">
-            <Icon type="user" />
-            <span>Clients</span>
+            <Link to="/customers">
+              <Icon type="user" />
+              <span>Customers</span>
+            </Link>
           </Item>
           <SubMenu
             key="sub1"

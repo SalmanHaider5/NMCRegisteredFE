@@ -54,9 +54,9 @@ const AllOrders = (props) => {
           title="Actions"
           dataIndex='id'
           key="action"
-          render={ id => (
+          render={ (id, order) => (
             <span>
-              <Link to={`/products/${id}`}>
+              <Link to={`/orders/${id}/customer/${order.customerId}`}>
                 <Icon type="eye"></Icon>
               </Link>
             </span>
