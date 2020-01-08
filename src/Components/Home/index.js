@@ -1,33 +1,32 @@
 import React, { Component } from 'react'
-import { Layout } from 'antd'
+import { connect } from 'react-redux'
+import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
 
-import Navigation from './Navigation'
-import Contents from './Content'
-import FooterComponent from './Footer'
+import Home from './Home'
+import Login from './Login'
 
 class App extends Component {
   
   render() {
-    const { Sider, Header, Content, Footer } = Layout
+    const { login: { auth } } = this.props
+    console.log(this.props)
     return (
-      <Layout>
-        <Sider>
-          <Navigation />
-        </Sider>
-        <Layout>
-          <Header className="banner">
-            Theme: Dark/Light; Notification Icon
-          </Header>
-          <Content>
-            <Contents />
-          </Content>
-          <Footer>
-            <FooterComponent />
-          </Footer>
-        </Layout>
-      </Layout>
+      <div>
+        <Switch>
+          <Route path="/login" component={Login} />
+          { auth && (<Route path="/" component={Home} />) }
+          { !auth && (<Redirect to="/login" />) }
+          <Redirect to="/orders" />
+        </Switch>
+      </div>
     )
   }
 }
 
-export default App
+const mapStateToProps = state => {
+  return{
+    login: state.login.verification
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(App))

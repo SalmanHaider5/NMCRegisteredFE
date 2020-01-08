@@ -1,0 +1,18 @@
+.settings-container.ant-card{
+    width: 95%;
+    margin: 0 auto;
+    top: 84px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.settings-container.ant-card .ant-card-head{
+    background: #001529;
+    color: #fff;
+}
+.settings-container div.form h2{
+    display: inline-block;
+}
+.settings-container div.form button.basics-edit-button{
+    float: right;
+    position: relative;
+    right: 55px;
+}

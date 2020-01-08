@@ -4,7 +4,7 @@ import { Menu, Icon } from 'antd'
 
 import './home.css'
 
-const  { Item, SubMenu } = Menu
+const  { Item } = Menu
   
 class Navigation extends Component {
   
@@ -58,20 +58,12 @@ class Navigation extends Component {
               <span>Customers</span>
             </Link>
           </Item>
-          <SubMenu
-            key="sub1"
-            title={
-              <span>
-                <Icon type="radius-setting" />
-                <span>System Configuration</span>
-              </span>
-            }
-          >
-            <Item key="8">Geberal Details</Item>
-            <Item key="9">Members</Item>
-            <Item key="10">Social Media Links</Item>
-            <Item key="11">Slideshow Pictures</Item>
-          </SubMenu>
+          <Item key="8">
+            <Link to="/settings">
+              <Icon type="radius-setting" />
+              <span>System Configuration</span>
+            </Link>
+          </Item>
         </Menu>
       </div>
     );

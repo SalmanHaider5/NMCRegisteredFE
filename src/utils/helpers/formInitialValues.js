@@ -14,3 +14,13 @@ export const getProductInitialValues = () => {
         data: '2020-01-01'
     }
 }
+export const getSettingsInitialValues = () =>{
+    return{
+        primaryemail: '',
+        secondaryemail: '',
+        phone: '',
+        whatsapp: '',
+        address: '',
+        paypal: ''
+    }
+}

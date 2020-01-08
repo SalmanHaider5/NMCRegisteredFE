@@ -23,3 +23,29 @@ aside{
 .ant-layout-footer{
     text-align: center;
 }
+.login-page{
+    background-color: #000;
+}
+.login-page .login{
+    background-image: url('http://localhost:1000/login/login.jpg');
+    width: 100vw;
+    height: 100vh;
+}
+.login-page .login .login-form{
+    position: relative;
+    top: 20vh;
+    margin: 0 auto;
+    width: 800px;
+    height: fit-content;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.login-page .login .login-form .login-error, .login-message{
+    position: relative;
+    bottom: 25px;
+}
+.login-error{
+    color: rgba(255, 0, 0, 0.904);
+}
+.login-message{
+    color: #1890ff;
+}

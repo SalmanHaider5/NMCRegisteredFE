@@ -109,7 +109,7 @@ class SingleProduct extends Component {
   editForm = () => {
     const { dispatch, products: { product } } = this.props
     dispatch(initialize('product', product))
-    this.setState({ readOnly: false, editIcon: false })
+    this.setState({ readOnly: false })
   }
 
   addImage = () => {
