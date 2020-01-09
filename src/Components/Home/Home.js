@@ -17,8 +17,8 @@ class Home extends Component {
           </Sider>
           <Layout>
             <Header className="banner">
-              Theme: Dark/Light; Notification Icon
-              </Header>
+              <div>Logout</div>
+            </Header>
             <Content>
               <Contents />
             </Content>

@@ -24,3 +24,12 @@ export const getSettingsInitialValues = () =>{
         paypal: ''
     }
 }
+export const getMembersInitialValues = () => {
+    return{
+        name: '',
+        phone: '',
+        email: '',
+        address: '',
+        img: ''
+    }
+}

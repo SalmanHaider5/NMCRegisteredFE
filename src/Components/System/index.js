@@ -6,8 +6,8 @@ import { Tabs, Card, Spin, notification } from 'antd'
 import { getBasics, updateBasics } from '../../actions'
 import { getSettingsInitialValues } from '../../utils/helpers'
 import { Basics } from './Basics'
-
-import './settings.css'
+import Members from './Members'
+import Slideshow from './Slideshow'
 
 class SettingsContainer extends Component {
   constructor(props){
@@ -65,14 +65,14 @@ class SettingsContainer extends Component {
                   saveBasicsForm={this.saveBasicsForm}
                 />
               </TabPane>
-              <TabPane tab="Team Mambers" key="2">
-                Team Members
+              <TabPane tab="Team Members" key="2">
+                <Members />
               </TabPane>
               <TabPane tab="Social Media Links" key="3">
                 Social Media Links
               </TabPane>
               <TabPane tab="Slideshow Images" key="4">
-                Slideshow Images
+                <Slideshow />
               </TabPane>
             </Tabs>
           </Spin>
