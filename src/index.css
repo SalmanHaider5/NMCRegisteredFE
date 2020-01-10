@@ -36,6 +36,9 @@ section.ant-layout-has-sider section{
 .ant-layout{
   overflow: hidden;
 }
+i{
+  font-size: 16px;
+}
 /* .evermade-app i{
   font-size: 26px;
   padding: 10px;

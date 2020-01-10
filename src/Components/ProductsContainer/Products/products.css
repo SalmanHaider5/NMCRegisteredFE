@@ -106,3 +106,7 @@ i.edit-icon{
 .products-container .image-upload-field button.add-image i{
     margin-left: -5px;
 }
+.products-table-icon{
+    font-size: 20px;
+    padding: 5px;
+}

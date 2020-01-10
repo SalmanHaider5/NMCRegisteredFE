@@ -12,6 +12,7 @@ export const ADMIN_REGISTER_FAILURE = 'ADMIN_REGISTER_FAILURE'
 export const ADMIN_LOGIN_REQUEST = 'ADMIN_LOGIN_REQUEST'
 export const ADMIN_LOGIN_SUCCESS = 'ADMIN_LOGIN_SUCCESS'
 export const ADMIN_LOGIN_FAILURE = 'ADMIN_LOGIN_FAILURE'
+export const LOGOUT_REQUEST = 'LOGOUT_REQUEST'
 
 export const checkEmail = email => dispatch => {
 
@@ -109,4 +110,10 @@ export const login = values => dispatch => {
         })
     })
 
+}
+
+export const logout = () => dispatch => {
+  
+  dispatch({ type: LOGOUT_REQUEST })
+  
 }

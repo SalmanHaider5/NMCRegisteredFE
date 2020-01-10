@@ -57,7 +57,7 @@ const AllOrders = (props) => {
           render={ (id, order) => (
             <span>
               <Link to={`/orders/${id}/customer/${order.customerId}`}>
-                <Icon type="eye"></Icon>
+                <Icon type="eye" className="view-icon"></Icon>
               </Link>
             </span>
           )}

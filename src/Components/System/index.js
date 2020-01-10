@@ -68,10 +68,7 @@ class SettingsContainer extends Component {
               <TabPane tab="Team Members" key="2">
                 <Members />
               </TabPane>
-              <TabPane tab="Social Media Links" key="3">
-                Social Media Links
-              </TabPane>
-              <TabPane tab="Slideshow Images" key="4">
+              <TabPane tab="Slideshow Images" key="3">
                 <Slideshow />
               </TabPane>
             </Tabs>

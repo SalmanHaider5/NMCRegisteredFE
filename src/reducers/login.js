@@ -50,6 +50,12 @@ const login = (state = initState, action) => {
         isLoading: true,
         error: error
       }
+    case actions.LOGOUT_REQUEST:
+      Cookies.remove('authToken')
+      return{
+        ...state,
+        verification: { auth: false, token: '' }
+      }
     default:
       return{
         ...state,

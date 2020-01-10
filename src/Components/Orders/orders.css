@@ -78,3 +78,12 @@ div.order-details{
     display: inline-block;
     padding-bottom: 40px;
 }
+.view-icon{
+    font-size: 22px;
+    position: relative;
+    left: 30%;
+    top: 5px;
+}
+.orders-card i{
+    font-size: 16px;
+}

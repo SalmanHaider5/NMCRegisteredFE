@@ -49,3 +49,20 @@ aside{
 .login-message{
     color: #1890ff;
 }
+.header-buttons .logout-button{
+    float: right;
+    position: fixed;
+    right: 50px;
+    top: 15px;
+}
+.header-buttons .notification-button{
+    float: left;
+    position: relative;
+    top: 15px;
+}
+.header-buttons .messages-button{
+    float: left;
+    position: relative;
+    top: 15px;
+    left: 20px;
+}

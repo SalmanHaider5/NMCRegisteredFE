@@ -80,10 +80,10 @@ const AllProducts = (props) => {
                 okText="Yes"
                 cancelText="No"
               >
-                <Icon type="delete" theme="filled" />
+                <Icon type="delete" theme="filled" className="products-table-icon" />
               </Popconfirm>
               <Link to={`/products/${id}`}>
-                <Icon type="eye"></Icon>
+                <Icon type="eye" className="products-table-icon"></Icon>
               </Link>
             </span>
           )}
