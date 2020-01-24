@@ -26,8 +26,8 @@ export const TextField = ({
       <FormItem
         validateStatus={touched && error ? 'error' : ''}
         label={label}
-        labelCol={isNil(label) ? undefined : { span: 3 } }
-        wrapperCol={isNil(label) ? undefined :{ span: 8, offset: 1 }}
+        labelCol={isNil(label) ? undefined : { span: 5, offset: 3 } }
+        wrapperCol={isNil(label) ? undefined :{ span: 12, offset: 1 }}
         labelAlign='left'
         colon={false}
         required={isRequired}
