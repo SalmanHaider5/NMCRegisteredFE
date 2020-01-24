@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 
 import { store } from './store'
-import Home from './Components'
+import Application from './Components'
 import './App.css'
 
 class App extends Component {
@@ -11,7 +11,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <BrowserRouter>
-          <Home className="App" />
+          <Application className="App" />
         </BrowserRouter>
       </Provider>
     );

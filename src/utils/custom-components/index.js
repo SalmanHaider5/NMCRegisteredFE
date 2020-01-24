@@ -1,6 +1,4 @@
 export * from './FileInput'
 export * from './TextField'
-export * from './TableTitle'
 export * from './SelectField'
 export * from './MultilineTextField'
-export * from './Reviews'

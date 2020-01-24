@@ -10,9 +10,9 @@ export const TextField = ({
   label,
   hintText,
   type,
+  size,
   readOnly,
   tooltipPlacement = "top",
-  isRequired,
   disabled,
   specialText,
   addonAfterText,
@@ -31,6 +31,7 @@ export const TextField = ({
           <Input
             name={name}
             id={id}
+            size={size}
             placeholder={hintText}
             onFocus={onFocus}
             onBlur={onBlur}
