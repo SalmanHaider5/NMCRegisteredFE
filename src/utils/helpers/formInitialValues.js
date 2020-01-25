@@ -24,3 +24,18 @@ export const getCompanyFormValues = () => {
         subsidiaryName: ''
     }
 }
+
+export const getProfessionalFormValues = () => {
+    return {
+        status: false,
+        fullName: '',
+        phone: '',
+        dateOfBirth: '',
+        postalCode: '',
+        address: '',
+        city: '',
+        nmcPin: '',
+        hasTransport: false,
+        experience: ''
+    }
+}

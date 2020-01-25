@@ -36,4 +36,6 @@ div.table-title .ant-input-search{
     font-weight: 400;
     color: #b0a3a3;
 }
-  
+div.checkbox-container,div.datepicker-container div.ant-form-item-control{
+    text-align: left;
+}

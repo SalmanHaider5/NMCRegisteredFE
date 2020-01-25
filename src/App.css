@@ -59,3 +59,13 @@
   background-color: #ff686861;
   border-left: 5px solid #ff0000;
 }
+.success-btn{
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+.success-btn:hover{
+  color: #fff;
+  background-color: #449d44;
+  border-color: #398439;
+}
