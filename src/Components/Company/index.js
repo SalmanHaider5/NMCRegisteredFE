@@ -114,7 +114,7 @@ class Company extends Component {
                 }
                 {
                   current > 0 && (
-                    <Button size="large" className="prev-button" onClick={() => this.prev()}>
+                    <Button size="large" type="primary" className="prev-button" onClick={() => this.prev()}>
                       <Icon type="left" /> Previous
                     </Button>
                   )

@@ -9,6 +9,9 @@
     width: 80%;
     margin: 0 auto;
 }
+.ant-col-offset-1 {
+    margin-left: 0% !important; 
+}
 .steps-content {
     margin-top: 16px;
     border: 1px dashed #e9e9e9;
@@ -16,7 +19,7 @@
     background-color: #fafafa;
     min-height: 200px;
     text-align: center;
-    padding-top: 40px;
+    padding: 40px 10px 10px 10px;
   }
   
 .steps-action {
