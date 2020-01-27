@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues } from 'redux-form'
 import { map } from 'ramda'
-import { Steps, Button, message, Row, Col, Icon } from 'antd'
+import { Steps, Button, message, Row, Col, Icon, Spin } from 'antd'
 import { getClientPaymentToken } from '../../actions'
 import { getCompanyFormValues } from '../../utils/helpers'
 import BasicForm from './BasicForm'
 import BusinessForm from './BusinessForm'
+import PaymentForm from './PaymentForm'
 
 import './company.css'
 
@@ -18,7 +19,8 @@ class Company extends Component {
     this.state = {
       current: 0,
       charity: false,
-      subsidiary: false
+      subsidiary: false,
+      paymentMethod: ''
     };
   }
 
@@ -46,10 +48,26 @@ class Company extends Component {
     const { subsidiary } = this.state
     this.setState({ subsidiary: !subsidiary })
   }
+
+  changePaymentMethod = e => {
+    this.setState({ paymentMethod: e.target.value })
+  }
   
   render() {
-    const { current, charity, subsidiary } = this.state
+    const { current, charity, subsidiary, paymentMethod } = this.state
+    const { company: { clientToken, isLoading } } = this.props
+    
     const steps = [
+      {
+        title: 'Payment Method',
+        content: <Spin spinning={isLoading} tip="Loading...">
+                  <PaymentForm
+                    token={clientToken}
+                    paymentMethod={paymentMethod}
+                    changePaymentMethod={this.changePaymentMethod}
+                  />
+                 </Spin>,
+      },
       {
         title: 'Basic Information',
         content: <BasicForm/>,
@@ -62,10 +80,6 @@ class Company extends Component {
                   charityStatusChange={this.charityStatusChange}
                   subsidiaryStatusChange={this.subsidiaryStatusChange}
                 />,
-      },
-      {
-        title: 'Payment Method',
-        content: 'Third-content',
       },
       {
         title: 'Done',
@@ -135,7 +149,8 @@ class Company extends Component {
 
 const mapStateToProps = state => {
   return {
-    formValues: getFormValues('company')(state)
+    formValues: getFormValues('company')(state),
+    company: state.company
   }
 }
 

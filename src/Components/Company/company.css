@@ -47,3 +47,10 @@
 .signup-headers{
   background-image: url(https://ezmediart.com/static12/preview200/stock-video-abstract-animated-blue-hexagons-background-loop-182832.jpg);
 }
+div.ant-spin-container div.payment-container{
+    text-align: left;;
+}
+label.radio-button{
+    display: block;
+    line-height: 30px;
+}
