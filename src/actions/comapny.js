@@ -8,7 +8,6 @@ export const getClientPaymentToken = userId => dispatch => {
     fetch(endpoint)
     .then(res => res.json())
     .then(data => {
-        console.log(data)
         const { code } = data
         if(code === 'success'){
             dispatch({
@@ -20,6 +19,33 @@ export const getClientPaymentToken = userId => dispatch => {
     .catch(error => {
         dispatch({
             type: types.CLINET_TOKEN_FAILURE,
+            error
+        })
+    })
+}
+
+export const addDetails = (userId, formValues) => dispatch => {
+    dispatch({ type: types.ADD_COMPANY_DETAILS_REQUEST })
+    const endpoint = `${url}${userId}/company`
+    fetch(endpoint, {
+        method: 'POST',
+        body: JSON.stringify(formValues),
+        headers: {
+            'Content-Type':'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(response => {
+        const { code, response: { title, message } } = response
+        showToast(title, message, code)
+        dispatch({
+            type: types.ADD_COMPANY_DETAILS_SUCCESS,
+            payload: formValues
+        })
+    })
+    .catch(error => {
+        dispatch({
+            type: types.ADD_COMPANY_DETAILS_FAILURE,
             error
         })
     })

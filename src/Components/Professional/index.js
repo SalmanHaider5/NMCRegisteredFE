@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { reduxForm, getFormValues } from 'redux-form'
+import { reduxForm, getFormValues, reset } from 'redux-form'
 import { map } from 'ramda'
-import { Steps, Button, message, Row, Col, Icon } from 'antd'
+import { Steps, Button, Row, Col, Icon } from 'antd'
+import { createDetails, addPhone, verifyPhone } from '../../actions'
 import { getProfessionalFormValues } from '../../utils/helpers'
 import BasicForm from './BasicForm'
 import AddressForm from './AddressForm'
 import Response from './Response'
+import AddPhoneForm from './AddPhoneForm'
 
 const { Step } = Steps;
 
@@ -25,7 +27,27 @@ class Professional extends Component {
   }
 
   showVerificationModal = () => {
+    const { formValues: { phone }, match: { params: { userId } }, dispatch } = this.props
+    const values = {}
+    values.phone = phone
+    dispatch(addPhone(userId, values))
     this.setState({ verificationModal: true })
+  }
+
+  saveDetails = () => {
+    const { dispatch, match: { params: { userId } }, formValues } = this.props
+    dispatch(createDetails(userId, formValues))
+    dispatch(reset('professional'))
+    this.next()
+  }
+
+  verifyProfessionalPhone = () => {
+    const { formValues: { phoneCode }, dispatch, match: { params: { userId } } } = this.props
+    const values = {}
+    values.code = phoneCode
+    dispatch(verifyPhone(userId, values))
+    dispatch(reset('professional'))
+    this.hideVerificationModal()
   }
 
   hideVerificationModal = () => {
@@ -38,7 +60,17 @@ class Professional extends Component {
   }
   render() {
     const { current, verificationModal } = this.state
+    const { professional: { isLoading, code, response, phoneVerified }, invalid } = this.props
     const steps = [
+      {
+        title: 'Mobile Verification',
+        content:  <AddPhoneForm
+                    verificationModal={verificationModal}
+                    showVerificationModal={this.showVerificationModal}
+                    hideVerificationModal={this.hideVerificationModal}
+                    verifyProfessionalPhone={this.verifyProfessionalPhone}
+                  />
+      },
       {
         title: 'Basic Information',
         content: <BasicForm
@@ -53,7 +85,11 @@ class Professional extends Component {
       },
       {
         title: 'Done',
-        content: <Response />,
+        content:  <Response
+                    isLoading={isLoading}
+                    code={code}
+                    response={response}
+                  />,
       },
     ]
     return (
@@ -90,15 +126,21 @@ class Professional extends Component {
                 <div className="steps-action">
                 {
                   current < steps.length - 2 && (
-                    <Button className="next-button" type="primary" size="large" onClick={() => this.next()}>
+                    <Button className="next-button" type="primary" disabled={!phoneVerified} size="large" onClick={() => this.next()}>
                       Next <Icon type="right" />
                     </Button>
                   )
                 }
                 {
                   current === steps.length - 2 && (
-                    <Button size="large" className="next-button" type="primary" onClick={() => message.success('Varification link has been sent your Email ')}>
-                      <Icon type="save" /> Save
+                    <Button
+                      size="large"
+                      className="next-button success-btn"
+                      type="primary"
+                      onClick={this.saveDetails}
+                      disabled={invalid}
+                    >
+                      <Icon type="check" /> Save
                     </Button>
                   )
                 }
@@ -119,7 +161,8 @@ class Professional extends Component {
 
 const mapStateToProps = state => {
   return{
-    formValues: getFormValues('professional')(state)
+    formValues: getFormValues('professional')(state),
+    professional: state.professional
   }
 }
 

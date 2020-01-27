@@ -1,13 +1,16 @@
 import React from 'react'
-import { Result } from 'antd'
+import { Result, Spin } from 'antd'
 
-const Response = () => {
+const Response = ({ isLoading, code, response }) => {
+  console.log('Response', response)
   return (
-    <Result
-      status="success"
-      title="Profile Updated"
-      subTitle="Your profile data is successfully updated"
-    />
+    <Spin spinning={isLoading} tip="Loading...">
+      <Result
+        status={code}
+        title={response.title}
+        subTitle={response.message}
+      />
+    </Spin>
   )
 }
 

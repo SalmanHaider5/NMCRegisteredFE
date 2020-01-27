@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { reduxForm, getFormValues } from 'redux-form'
-import { map } from 'ramda'
+import { reduxForm, getFormValues, reset } from 'redux-form'
+import { map, concat, omit } from 'ramda'
 import { Steps, Button, message, Row, Col, Icon, Spin } from 'antd'
-import { getClientPaymentToken } from '../../actions'
+import { getClientPaymentToken, addDetails } from '../../actions'
 import { getCompanyFormValues } from '../../utils/helpers'
 import BasicForm from './BasicForm'
 import BusinessForm from './BusinessForm'
@@ -39,6 +39,18 @@ class Company extends Component {
     this.setState({ current: current - 1 })
   }
 
+  saveDetails = () => {
+    const { dispatch, formValues, match: { params: { userId } } } = this.props
+    const { businessAdressLineOne, businessAdressLineTwo } = formValues
+    const address = concat(businessAdressLineOne, businessAdressLineTwo)
+    const values = omit(['businessAdressLineOne', 'businessAdressLineTwo'], formValues)
+    values.address = address
+    dispatch(addDetails(userId, values))
+    dispatch(reset('company'))
+    const { current } = this.state
+    this.setState({ current: current + 1 })
+  }
+
   charityStatusChange = () => {
     const { charity } = this.state
     this.setState({ charity: !charity })
@@ -55,19 +67,8 @@ class Company extends Component {
   
   render() {
     const { current, charity, subsidiary, paymentMethod } = this.state
-    const { company: { clientToken, isLoading } } = this.props
-    
+    const { company: { clientToken, isLoading }, invalid } = this.props
     const steps = [
-      {
-        title: 'Payment Method',
-        content: <Spin spinning={isLoading} tip="Loading...">
-                  <PaymentForm
-                    token={clientToken}
-                    paymentMethod={paymentMethod}
-                    changePaymentMethod={this.changePaymentMethod}
-                  />
-                 </Spin>,
-      },
       {
         title: 'Basic Information',
         content: <BasicForm/>,
@@ -80,6 +81,16 @@ class Company extends Component {
                   charityStatusChange={this.charityStatusChange}
                   subsidiaryStatusChange={this.subsidiaryStatusChange}
                 />,
+      },
+      {
+        title: 'Payment Method',
+        content: <Spin spinning={isLoading} tip="Loading...">
+                  <PaymentForm
+                    token={clientToken}
+                    paymentMethod={paymentMethod}
+                    changePaymentMethod={this.changePaymentMethod}
+                  />
+                 </Spin>,
       },
       {
         title: 'Done',
@@ -119,9 +130,22 @@ class Company extends Component {
                 </div>
                 <div className="steps-action">
                 {
-                  current < steps.length - 1 && (
+                  current < steps.length - 1 && current !== 1 && (
                     <Button className="next-button" type="primary" size="large" onClick={() => this.next()}>
                       Next <Icon type="right" />
+                    </Button>
+                  )
+                }
+                {
+                  current === 1 && (
+                    <Button
+                      className="next-button success-btn"
+                      type="primary"
+                      size="large"
+                      onClick={this.saveDetails}
+                      disabled={invalid}
+                    >
+                      <Icon type="check" />  Save
                     </Button>
                   )
                 }

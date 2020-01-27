@@ -54,3 +54,28 @@ label.radio-button{
     display: block;
     line-height: 30px;
 }
+
+.braintree-paypal.braintree-sheet {
+    background: transparent;
+    border: none;
+}
+.braintree-sheet__header{
+    display: none;
+}
+.braintree-card.braintree-form{
+    background: transparent;
+    border: none;
+}
+.braintree-sheet__content.braintree-sheet__content--form{
+    width: 50%;
+}
+.payment-container div.card-container  div.braintree-form__label{
+    display: none;
+}
+.braintree-placeholder {
+    display: none;
+}
+div.braintree-form__hosted-field{
+    border-radius: 5px;
+    background: #fff;
+}

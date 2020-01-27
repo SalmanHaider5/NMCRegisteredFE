@@ -22,7 +22,7 @@ const BusinessForm = ({
         tooltipPlacement={'topRight'}
       />
       <Field
-        name="businessAdressLineOne"
+        name="businessAdressLineTwo"
         component={TextField}
         label={'Address Line 2'}
         size={'large'}
@@ -78,7 +78,7 @@ const BusinessForm = ({
         null
       }
       <Form.Item
-        label='Charity'
+        label='Subsidiary'
         labelAlign='left'
         labelCol={{ span: 5, offset: 3 }}
         wrapperCol={{ span: 12, offset: 1 }}

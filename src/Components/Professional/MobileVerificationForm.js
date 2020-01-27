@@ -1,19 +1,21 @@
 import React from 'react'
-import { Form, Input } from 'antd'
+import { Field } from 'redux-form'
+import { TextField } from '../../utils/custom-components'
+import { isRequired } from '../../constants'
 
 const MobileVerificationForm = () => {
   return (
     <div>
       <p>If you have not received your code, please click on Resend button</p>
-      <Form.Item
+      <Field
+        name="phoneCode"
+        component={TextField}
         label={'Code'}
-        colon={false}
-        labelAlign='left'
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 17, offset: 1 }}
-      >
-        <Input />
-      </Form.Item>
+        size={'large'}
+        type="text"
+        validate={[isRequired]}
+        tooltipPlacement={'topRight'}
+      />
     </div>
   )
 }
