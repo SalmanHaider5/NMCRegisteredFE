@@ -41,7 +41,7 @@
 
   /**  CSS for Toasts     **/
 .ant-notification-notice-success{
-  background-color: #2cca042e;
+  background-color: #def2d6;
   border-left: 5px solid #52c41a;
 }
 .ant-notification-notice-info{
@@ -50,13 +50,13 @@
 }
 
 .ant-notification-notice-warning{
-  background-color: #ff953a2e;
+  background-color: #f8f3d6;
   border-left: 5px solid #faad14;
   height: 50px;
 }
 
 .ant-notification-notice-error{
-  background-color: #ff686861;
+  background-color: #ebc8c4;
   border-left: 5px solid #ff0000;
 }
 .success-btn{
@@ -68,4 +68,7 @@
   color: #fff;
   background-color: #449d44;
   border-color: #398439;
+}
+.ant-spin-nested-loading{
+  position: inherit;
 }

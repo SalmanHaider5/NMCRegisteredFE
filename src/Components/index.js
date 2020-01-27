@@ -13,6 +13,7 @@ class Application extends Component {
         <Route path="/company/:userId" component={Company} />
         <Route path="/professional/:userId" component={Professional} />
         <Route path="/Errorpage/:userId" component={ErrorPage} />
+        <Route path="/:userId/verify/:token" component={Home} />
       </Switch>
     )
   }

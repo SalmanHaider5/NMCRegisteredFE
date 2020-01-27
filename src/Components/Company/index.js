@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { reduxForm, getFormValues } from 'redux-form'
 import { map } from 'ramda'
 import { Steps, Button, message, Row, Col, Icon } from 'antd'
+import { getClientPaymentToken } from '../../actions'
 import { getCompanyFormValues } from '../../utils/helpers'
 import BasicForm from './BasicForm'
 import BusinessForm from './BusinessForm'
@@ -19,6 +20,11 @@ class Company extends Component {
       charity: false,
       subsidiary: false
     };
+  }
+
+  componentDidMount(){
+    const { match: { params: { userId } }, dispatch } = this.props
+    dispatch(getClientPaymentToken(userId))
   }
   
   next() {
