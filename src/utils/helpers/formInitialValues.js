@@ -11,23 +11,25 @@ export const getCompanyFormValues = () => {
         firstName: '',
         lastName: '',
         organization: '',
+        tradingName: '',
         businessAdressLineOne: '',
         businessAdressLineTwo: '',
         city: '',
-        country: '',
+        county: '',
         postalCode: '',
         website: '',
         phone: '',
         registration: '',
         charity: '',
         subsidiary: false,
-        subsidiaryName: ''
+        subsidiaryName: '',
+        subsidiaryAddress: ''
     }
 }
 
 export const getProfessionalFormValues = () => {
     return {
-        status: false,
+        status: '',
         fullName: '',
         phone: '',
         dateOfBirth: '',

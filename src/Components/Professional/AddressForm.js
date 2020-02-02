@@ -6,6 +6,9 @@ import { isRequired } from '../../constants'
 const AddressForm = () => {
   return (
     <div>
+      <div className="steps-header">
+        <h3>Address Details</h3>
+      </div>
       <Field
         name="address"
         component={TextField}
@@ -25,9 +28,9 @@ const AddressForm = () => {
         tooltipPlacement={'topRight'}
       />
       <Field
-        name="country"
+        name="county"
         component={TextField}
-        label={'Country'}
+        label={'County'}
         size={'large'}
         type="text"
       />

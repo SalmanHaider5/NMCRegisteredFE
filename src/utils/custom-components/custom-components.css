@@ -39,3 +39,6 @@ div.table-title .ant-input-search{
 div.checkbox-container,div.datepicker-container div.ant-form-item-control{
     text-align: left;
 }
+div.ant-form-extra{
+    text-align: left;
+}

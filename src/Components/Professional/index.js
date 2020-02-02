@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset } from 'redux-form'
 import { map } from 'ramda'
 import { Steps, Button, Row, Col, Icon } from 'antd'
-import { createDetails, addPhone, verifyPhone } from '../../actions'
-import { getProfessionalFormValues } from '../../utils/helpers'
+import { createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails } from '../../actions'
+import { Response } from '../../utils/custom-components'
+import { getProfessionalFormValues, showToast } from '../../utils/helpers'
 import BasicForm from './BasicForm'
 import AddressForm from './AddressForm'
-import Response from './Response'
 import AddPhoneForm from './AddPhoneForm'
 
 const { Step } = Steps;
@@ -16,14 +16,45 @@ class Professional extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      current: 0,
+      current: 1,
       verificationModal: false
     };
   }
+
+  componentDidMount(){
+    const { application: { authentication: { auth, role } }, history, dispatch, match: { params: { userId } } } = this.props
+    dispatch(getProfessionalDetails(userId))
+    if(!auth && role !== 'professional'){
+      history.push('/')
+    }
+  }
+
+  componentDidUpdate(prevProps){
+    if(prevProps.professional.professionalDetails !== this.props.professional.professionalDetails){
+      const { professional: { professionalDetails: { code, codeType, response: { title, message } } } } = this.props
+      if(code === 'success'){
+        this.setState({ current: 3 })
+      }else{
+        this.setState({ current: 1 })
+        if(codeType === 1){
+          showToast(title, message, code)
+          this.setState({ current: 0 })
+        }else{
+          showToast(title, message, code)
+          this.setState({ current: 1 })
+        }
+      }
+    }
+  }
   
-  next() {
+  next = () => {
     const { current } = this.state
     this.setState({ current: current + 1 })
+  }
+
+  prev = () => {
+    const { current } = this.state
+    this.setState({ current: current - 1 })
   }
 
   showVerificationModal = () => {
@@ -31,7 +62,6 @@ class Professional extends Component {
     const values = {}
     values.phone = phone
     dispatch(addPhone(userId, values))
-    this.setState({ verificationModal: true })
   }
 
   saveDetails = () => {
@@ -41,57 +71,66 @@ class Professional extends Component {
     this.next()
   }
 
+  logout = () => {
+    const { dispatch, application: { auth, role }, history } = this.props
+    dispatch(logoutUser())
+    if(!auth && role !== 'company'){
+      history.push('/')
+    }
+  }
+
   verifyProfessionalPhone = () => {
     const { formValues: { phoneCode }, dispatch, match: { params: { userId } } } = this.props
     const values = {}
     values.code = phoneCode
     dispatch(verifyPhone(userId, values))
     dispatch(reset('professional'))
-    this.hideVerificationModal()
   }
 
   hideVerificationModal = () => {
-    this.setState({ verificationModal: false })
+    const { formValues: { phone }, match: { params: { userId } }, dispatch } = this.props
+    const values = {}
+    values.phone = phone
+    dispatch(addPhone(userId, values))
   }
 
-  prev() {
-    const { current } = this.state
-    this.setState({ current: current - 1 })
-  }
   render() {
     const { current, verificationModal } = this.state
-    const { professional: { isLoading, code, response, phoneVerified }, invalid } = this.props
+    const { professional: { isLoading, code, phoneVerified, professionalDetails }, invalid } = this.props
+    
     const steps = [
       {
         title: 'Mobile Verification',
         content:  <AddPhoneForm
-                    verificationModal={verificationModal}
-                    showVerificationModal={this.showVerificationModal}
-                    hideVerificationModal={this.hideVerificationModal}
-                    verifyProfessionalPhone={this.verifyProfessionalPhone}
-                  />
+          code={code}
+          phoneVerified={phoneVerified}
+          showVerificationModal={this.showVerificationModal}
+          hideVerificationModal={this.hideVerificationModal}
+          verifyProfessionalPhone={this.verifyProfessionalPhone}
+        />
       },
       {
         title: 'Basic Information',
         content: <BasicForm
-                  verificationModal={verificationModal}
-                  showVerificationModal={this.showVerificationModal}
-                  hideVerificationModal={this.hideVerificationModal}
-                />,
+          verificationModal={verificationModal}
+          showVerificationModal={this.showVerificationModal}
+          hideVerificationModal={this.hideVerificationModal}
+        />
       },
       {
-        title: 'Address',
+        title: 'Address Details',
         content: <AddressForm />,
       },
       {
         title: 'Done',
         content:  <Response
-                    isLoading={isLoading}
-                    code={code}
-                    response={response}
-                  />,
-      },
+          isLoading={isLoading}
+          code={professionalDetails.code}
+          response={professionalDetails.response}
+        />
+      }
     ]
+    console.log(steps[1])
     return (
       <div>
         <header>
@@ -103,7 +142,7 @@ class Professional extends Component {
                   </Col>
                   <Col xs={15} sm={16} md={16} lg={16} xl={16}></Col>
                   <Col xs={5} sm={4} md={4} lg={4} xl={4}>
-                    <Button ghost>Logout</Button>
+                    <Button ghost onClick={this.logout}>Logout</Button>
                   </Col>
                 </Row>
               </div>
@@ -126,7 +165,7 @@ class Professional extends Component {
                 <div className="steps-action">
                 {
                   current < steps.length - 2 && (
-                    <Button className="next-button" type="primary" disabled={!phoneVerified} size="large" onClick={() => this.next()}>
+                    <Button className="next-button" type="primary" size="large" onClick={() => this.next()}>
                       Next <Icon type="right" />
                     </Button>
                   )
@@ -144,13 +183,13 @@ class Professional extends Component {
                     </Button>
                   )
                 }
-                {
-                  current > 0 && (
+                {/*{
+                  current > 0 && current < steps.length - 1 (
                     <Button size="large" className="prev-button" onClick={() => this.prev()}>
                       <Icon type="left" /> Previous
                     </Button>
                   )
-                }
+                } */}
               </div>
             </div>
         </div>
@@ -162,7 +201,8 @@ class Professional extends Component {
 const mapStateToProps = state => {
   return{
     formValues: getFormValues('professional')(state),
-    professional: state.professional
+    professional: state.professional,
+    application: state.signup
   }
 }
 

@@ -6,6 +6,9 @@ import { isRequired } from '../../constants'
 function BasicForm() {
   return (
     <div>
+      <div className="steps-header">
+        <h3>Basic Information</h3>
+      </div>
       <Field
         name="firstName"
         component={TextField}
@@ -31,6 +34,14 @@ function BasicForm() {
         size={'large'}
         type="text"
         validate={[isRequired]}
+        tooltipPlacement={'topRight'}
+      />
+      <Field
+        name="tradingName"
+        component={TextField}
+        label={'Trading Name'}
+        size={'large'}
+        type="text"
         tooltipPlacement={'topRight'}
       />
       <Field

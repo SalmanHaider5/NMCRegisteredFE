@@ -1,11 +1,15 @@
 import Cookies from 'js-cookie'
+import { defaultTo } from 'ramda'
 import * as actions from '../actions'
 
 const initState = {
     isLoading: false,
-    auth: false,
-    role: '',
-    authToken: '',
+    authentication: {
+        auth: false,
+        authToken: '',
+        role: '',
+        userId: 0
+    },
     error: ''
 }
 
@@ -32,21 +36,37 @@ const signup = (state=initState, action) => {
                 ...state,
                 isLoading: true,
             }
-        case actions.VERIFY_ACCOUNT_SUCCESS:{
-            Cookies.set('authToken', payload.token)
+        case actions.VERIFY_ACCOUNT_SUCCESS:
+            const authentication = {}
+            authentication.auth = true
+            authentication.authToken = payload.token
+            authentication.role = payload.role
+            authentication.userId = payload.userId
+            Cookies.set('authToken', authentication)
             return{
                 ...state,
                 isLoading: false,
-                auth: true,
-                authToken: payload.token,
-                role: payload.role,
-                userId: payload.userId
+                authentication
             }
-        }
+        case actions.ACCOUNT_LOGOUT_REQUEST:
+            Cookies.remove('authToken')
+            return{
+                authentication: {
+                    auth: false,
+                    authToken: '',
+                    role: '',
+                    userId: 0
+                }
+            }
+        case actions.VERIFY_ACCOUNT_FAILURE:
+            return{
+                ...state,
+                isLoading: false
+            }
         default:
             return{
                 ...state,
-                authToken: Cookies.get('authToken')
+                authentication: defaultTo(initState.authentication, Cookies.getJSON('authToken'))
             }
     }
 }

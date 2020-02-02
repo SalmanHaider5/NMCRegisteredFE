@@ -1,11 +1,11 @@
 import * as actions from '../actions'
-import { prop } from 'ramda'
+import { equals } from 'ramda'
 
 const initState = {
     isLoading: false,
     code: '',
     phoneVerified: false,
-    response: {}
+    professionalDetails: {}
 }
 
 const professional = (state=initState, action) => {
@@ -22,26 +22,40 @@ const professional = (state=initState, action) => {
             return{
                 ...state,
                 isLoading: false,
-                code: prop('code', payload),
-                response: prop('response', payload)
+                professionalDetails: payload
             }
         case actions.ADD_PROFESSIONAL_PHONE_SUCCESS:
             return{
                 ...state,
-                isLoading: false
+                isLoading: false,
+                code: payload
             }
         case actions.VERIFY_PROFESSIONAL_PHONE_SUCCESS:
             return{
                 ...state,
                 isLoading: false,
-                phoneVerified: true
+                code: payload,
+                phoneVerified: equals(payload, 'success') ? true : false,
+
+            }
+        case actions.FETCH_PROFESSIONAL_DETAILS_REQUEST:
+            return{
+                ...state,
+                isLoading: true
+            }
+        case actions.FETCH_PROFESSIONAL_DETAILS_SUCCESS:
+            return{
+                ...state,
+                professionalDetails: payload,
+                isLoading: false
             }
         case actions.ADD_PROFESSIONAL_PHONE_FAILURE:
         case actions.ADD_PROFESSIONAL_DETAILS_FAILURE:
         case actions.VERIFY_PROFESSIONAL_PHONE_FAILURE:
+        case actions.FETCH_PROFESSIONAL_DETAILS_FAILURE:
             return{
                 ...state,
-                isLoading: true
+                isLoading: false
             }
         
         default:

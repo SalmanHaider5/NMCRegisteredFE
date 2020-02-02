@@ -1,8 +1,8 @@
 import React from 'react'
 import { Result, Spin } from 'antd'
 
-const Response = ({ isLoading, code, response }) => {
-  console.log('Response', response)
+export const Response = ({ isLoading, code, response }) => {
+  
   return (
     <Spin spinning={isLoading} tip="Loading...">
       <Result
@@ -13,5 +13,3 @@ const Response = ({ isLoading, code, response }) => {
     </Spin>
   )
 }
-
-export default Response

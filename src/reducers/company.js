@@ -2,7 +2,8 @@ import * as actions from '../actions'
 
 const initState = {
     isLoading: false,
-    clientToken: ''
+    clientToken: '',
+    companyDetails: {}
 }
 
 const company = (state=initState, action) => {
@@ -25,7 +26,33 @@ const company = (state=initState, action) => {
                 ...state,
                 isLoading: false
             }
-        
+        case actions.ADD_COMPANY_DETAILS_REQUEST:
+            return{
+                ...state,
+                isLoading: true
+            }
+        case actions.ADD_COMPANY_DETAILS_SUCCESS:
+            return{
+                ...state,
+                isLoading: false,
+                companyDetails: payload
+            }
+        case actions.FETCH_COMPANY_DETAILS_REQUEST:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case actions.FETCH_COMPANY_DETAILS_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                companyDetails: payload
+            }
+        case actions.FETCH_COMPANY_DETAILS_FAILURE:
+            return{
+                ...state,
+                isLoading: false
+            }
         default:
             return{
                 ...state

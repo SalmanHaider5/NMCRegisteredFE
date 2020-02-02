@@ -36,7 +36,6 @@ export const verifyAccount = formValues => dispatch => {
     fetch(endpoint)
     .then(res => res.json())
     .then(data => {
-        console.log(data)
         const { code, response: { title, message } } = data
         if(code !== 'success'){
             showToast(title, message, code)  
@@ -53,4 +52,8 @@ export const verifyAccount = formValues => dispatch => {
             error
         })
     })
+}
+
+export const logoutUser = () => dispatch => {
+    dispatch({ type: types.ACCOUNT_LOGOUT_REQUEST })
 }

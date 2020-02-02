@@ -1,6 +1,7 @@
 import React from 'react'
 import { DatePicker, Tooltip, Form } from 'antd'
 import { isNil } from 'ramda'
+import { DATE_FORMAT } from '../../constants'
 import './custom-components.css'
 
 const FormItem = Form.Item
@@ -39,6 +40,7 @@ export const DatePickerField = ({
             onChange={onChange}
             disabled={disabled}
             readOnly={readOnly}
+            format={DATE_FORMAT}
           />
         </Tooltip>
       </FormItem>

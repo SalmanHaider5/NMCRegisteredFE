@@ -38,6 +38,9 @@ const PaymentForm = ({ token, paymentMethod, changePaymentMethod }) => {
   }
   return (
     <div className="payment-container">
+      <div className="steps-header">
+        <h3>Payment Method</h3>
+      </div>
       <Radio.Group value={paymentMethod} onChange={changePaymentMethod}>
         <Radio className="radio-button" value={'Paypal'}>
           Paypal

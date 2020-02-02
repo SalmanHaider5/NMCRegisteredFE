@@ -5,6 +5,7 @@ import { reduxForm, getFormValues, reset } from 'redux-form'
 import { isNil, prop } from 'ramda'
 import { Row, Col, Button, Input, Divider, Spin } from 'antd'
 import { register, verifyAccount } from '../../actions'
+import { TITLE } from '../../constants'
 import { getSignupFormValues } from '../../utils/helpers'
 import SignupForm from './SignupForm'
 
@@ -40,9 +41,9 @@ class Home extends Component {
   render() {
 
     const { selected } = this.state
-    const { valid, formValues= {}, application: { isLoading, auth, role, userId } } = this.props
+    const { valid, formValues= {}, application: { isLoading, authentication: { auth, role, userId } } } = this.props
     const { TextArea } = Input
-
+    
     if(auth){
       return <Redirect to={role === 'professional' ? `/professional/${userId}` : `/company/${userId}` } />
     }
@@ -67,15 +68,15 @@ class Home extends Component {
                     <Col xs={22} sm={9} md={10} lg={10} xl={9}>
                       <div className='intro-header'>
                         <div className='spacer'></div>
-                        <h1 className='header-h1'>Welcome to NightAngel</h1>
+                            <h1 className='header-h1'>Welcome to {TITLE}</h1>
                         <Divider className='header-divider' />
                         <div>
                           <p className="header-text">Lorem ipsum Dummy text, Lorem ipsum dolor</p>
                         </div>
                       </div>
                     </Col>
-                    <Col xs={2} sm={0} md={0} lg={2} xl={1}> </Col>
-                    <Col xs={20} sm={13} md={10} lg={8} xl={7}>
+                    <Col xs={2} sm={0} md={0} lg={2} xl={2}> </Col>
+                    <Col xs={20} sm={13} md={10} lg={8} xl={6}>
                       <SignupForm
                         selected={selected}
                         selectUser={this.selectUser}

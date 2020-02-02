@@ -14,6 +14,7 @@ export const createDetails = (userId, formValues) => dispatch => {
     })
     .then(res => res.json())
     .then(response => {
+        response.professional = formValues
         dispatch({
             type: types.ADD_PROFESSIONAL_DETAILS_SUCCESS,
             payload: response
@@ -76,6 +77,25 @@ export const verifyPhone = (userId, values) => dispatch => {
     .catch(error => {
         dispatch({
             type: types.VERIFY_PROFESSIONAL_PHONE_FAILURE,
+            error
+        })
+    })
+}
+
+export const getProfessionalDetails = userId => dispatch => {
+    dispatch({ type: types.FETCH_PROFESSIONAL_DETAILS_REQUEST })
+    const endpoint = `${url}${userId}/professional`
+    fetch(endpoint)
+    .then(res => res.json())
+    .then(data => {
+        dispatch({
+            type: types.FETCH_PROFESSIONAL_DETAILS_SUCCESS,
+            payload: data
+        })
+    })
+    .catch(error => {
+        dispatch({
+            type: types.FETCH_PROFESSIONAL_DETAILS_FAILURE,
             error
         })
     })

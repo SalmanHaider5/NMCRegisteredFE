@@ -12,6 +12,9 @@ const BusinessForm = ({
 }) => {
   return (
     <div>
+      <div className="steps-header">
+        <h3>Address Details</h3>
+      </div>
       <Field
         name="businessAdressLineOne"
         component={TextField}
@@ -39,9 +42,9 @@ const BusinessForm = ({
         tooltipPlacement={'topRight'}
       />
       <Field
-        name="country"
+        name="county"
         component={TextField}
-        label={'Country'}
+        label={'County'}
         size={'large'}
         type="text"
         tooltipPlacement={'topRight'}
@@ -89,14 +92,24 @@ const BusinessForm = ({
       </Form.Item>
       {
         subsidiary ?
-        <Field
-          name="subsidiaryName"
-          component={TextField}
-          label={'Subsidiary Name'}
-          size={'large'}
-          type="text"
-          tooltipPlacement={'topRight'}
-        /> :
+        <>
+          <Field
+            name="subsidiaryName"
+            component={TextField}
+            label={'Subsidiary Name'}
+            size={'large'}
+            type="text"
+            tooltipPlacement={'topRight'}
+          />
+          <Field
+            name="subsidiaryAddress"
+            component={TextField}
+            label={'Subsidiary Address'}
+            size={'large'}
+            type="text"
+            tooltipPlacement={'topRight'}
+          />
+        </>:
         null
       }
     </div>

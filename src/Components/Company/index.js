@@ -2,12 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset } from 'redux-form'
 import { map, concat, omit } from 'ramda'
-import { Steps, Button, message, Row, Col, Icon, Spin } from 'antd'
-import { getClientPaymentToken, addDetails } from '../../actions'
-import { getCompanyFormValues } from '../../utils/helpers'
+import { Steps, Button, Row, Col, Icon, Spin } from 'antd'
+import { getClientPaymentToken, addDetails, logoutUser, getCompanyDetails } from '../../actions'
+import { getCompanyFormValues, showToast } from '../../utils/helpers'
+import { Response } from '../../utils/custom-components'
 import BasicForm from './BasicForm'
-import BusinessForm from './BusinessForm'
 import PaymentForm from './PaymentForm'
+import BusinessForm from './BusinessForm'
 
 import './company.css'
 
@@ -25,16 +26,31 @@ class Company extends Component {
   }
 
   componentDidMount(){
-    const { match: { params: { userId } }, dispatch } = this.props
+    const { match: { params: { userId } }, dispatch, application: { authentication: { auth, role } }, history } = this.props
     dispatch(getClientPaymentToken(userId))
+    dispatch(getCompanyDetails(userId))
+    if(!auth && role !== 'company'){
+      history.push('/')
+    }
+  }
+
+  componentDidUpdate(prevProps){
+    if(prevProps.company.companyDetails !== this.props.company.companyDetails){
+      const { company: { companyDetails: { code, response: { title, message } } } } = this.props
+      if(code === 'success'){
+        this.setState({ current: 2 })
+      }else{
+        showToast(title, message, code)
+      }
+    }
   }
   
-  next() {
+  next = () => {
     const { current } = this.state
     this.setState({ current: current + 1 })
   }
 
-  prev() {
+  prev = () => {
     const { current } = this.state
     this.setState({ current: current - 1 })
   }
@@ -56,6 +72,12 @@ class Company extends Component {
     this.setState({ charity: !charity })
   }
 
+  logout = () => {
+    const { dispatch, history } = this.props
+    dispatch(logoutUser())
+    history.push('/')
+  }
+
   subsidiaryStatusChange = () => {
     const { subsidiary } = this.state
     this.setState({ subsidiary: !subsidiary })
@@ -67,7 +89,7 @@ class Company extends Component {
   
   render() {
     const { current, charity, subsidiary, paymentMethod } = this.state
-    const { company: { clientToken, isLoading }, invalid } = this.props
+    const { invalid, company: { companyDetails, isLoading, clientToken } } = this.props
     const steps = [
       {
         title: 'Basic Information',
@@ -76,25 +98,29 @@ class Company extends Component {
       {
         title: 'Address',
         content:<BusinessForm
-                  charity={charity}
-                  subsidiary={subsidiary}
-                  charityStatusChange={this.charityStatusChange}
-                  subsidiaryStatusChange={this.subsidiaryStatusChange}
-                />,
+          charity={charity}
+          subsidiary={subsidiary}
+          charityStatusChange={this.charityStatusChange}
+          subsidiaryStatusChange={this.subsidiaryStatusChange}
+        />,
       },
       {
         title: 'Payment Method',
         content: <Spin spinning={isLoading} tip="Loading...">
-                  <PaymentForm
-                    token={clientToken}
-                    paymentMethod={paymentMethod}
-                    changePaymentMethod={this.changePaymentMethod}
-                  />
-                 </Spin>,
+          <PaymentForm
+            token={clientToken}
+            paymentMethod={paymentMethod}
+            changePaymentMethod={this.changePaymentMethod}
+          />
+        </Spin>,
       },
       {
         title: 'Done',
-        content: 'Last-content',
+        content: <Response
+          isLoading={isLoading}
+          code={companyDetails.code}
+          response={companyDetails.response}
+        />,
       },
     ]    
     return (
@@ -108,7 +134,7 @@ class Company extends Component {
                   </Col>
                   <Col xs={15} sm={16} md={16} lg={16} xl={16}></Col>
                   <Col xs={5} sm={4} md={4} lg={4} xl={4}>
-                    <Button ghost>Logout</Button>
+                    <Button ghost onClick={this.logout}>Logout</Button>
                   </Col>
                 </Row>
               </div>
@@ -138,29 +164,20 @@ class Company extends Component {
                 }
                 {
                   current === 1 && (
-                    <Button
-                      className="next-button success-btn"
-                      type="primary"
-                      size="large"
-                      onClick={this.saveDetails}
-                      disabled={invalid}
-                    >
-                      <Icon type="check" />  Save
-                    </Button>
-                  )
-                }
-                {
-                  current === steps.length - 1 && (
-                    <Button size="large" className="next-button" type="primary" onClick={() => message.success('Varification link has been sent your Email ')}>
-                      <Icon type="save" /> Done
-                    </Button>
-                  )
-                }
-                {
-                  current > 0 && (
-                    <Button size="large" type="primary" className="prev-button" onClick={() => this.prev()}>
-                      <Icon type="left" /> Previous
-                    </Button>
+                    <>
+                      <Button size="large" type="primary" className="prev-button" onClick={() => this.prev()}>
+                        <Icon type="left" /> Previous
+                      </Button>
+                      <Button
+                        className="next-button success-btn"
+                        type="primary"
+                        size="large"
+                        onClick={this.saveDetails}
+                        disabled={invalid}
+                      >
+                        <Icon type="check" />  Save
+                      </Button>
+                    </>
                   )
                 }
               </div>
@@ -174,7 +191,8 @@ class Company extends Component {
 const mapStateToProps = state => {
   return {
     formValues: getFormValues('company')(state),
-    company: state.company
+    company: state.company,
+    application: state.signup
   }
 }
 
