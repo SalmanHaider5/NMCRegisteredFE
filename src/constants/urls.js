@@ -1,1 +1,1 @@
-export const SERVER_URL = 'http://localhost:1000/'
+export const SERVER_URL = 'https://intelligent-innovation.herokuapp.com/'

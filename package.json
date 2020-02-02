@@ -2,6 +2,10 @@
   "name": "nightingale",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "npm": "6.4.1",
+    "node": "10.15.3"
+  },
   "dependencies": {
     "antd": "^3.26.7",
     "braintree-web": "^3.57.0",
@@ -19,9 +23,9 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "set PORT=3005 && react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "set PORT=8080 && react-scripts start",
+    "postinstall": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
