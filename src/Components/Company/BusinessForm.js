@@ -1,28 +1,49 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { Checkbox, Form } from 'antd'
-import { TextField, SelectField } from '../../utils/custom-components'
+import { Checkbox, Form, Spin } from 'antd'
+import { TextField, ButtonTextField, SelectField } from '../../utils/custom-components'
 import { isRequired } from '../../constants'
 
 const BusinessForm = ({
   charity,
   subsidiary,
   charityStatusChange,
-  subsidiaryStatusChange
+  subsidiaryStatusChange,
+  addresses: { isLoading, addresses },
+  findAddresses,
+  addressSelectHandler
 }) => {
   return (
-    <div>
+    <Spin spinning={isLoading} tip="Loading...">
       <div className="steps-header">
         <h3>Address Details</h3>
       </div>
-      {/* <Field
+      <Field
+				name="postCode"
+				component={ButtonTextField}
+				enterButton={'Find Address'}
+				onSearch={findAddresses}
+				label={'Postal Code'}
+				size={'large'}
+				type="text"
+				validate={[isRequired]}
+				tooltipPlacement={'topRight'}
+			/>
+      <Field
+        name="addressId"
+        component={SelectField}
+        label={'Choose Address'}
+        options={addresses}
+        hintText={'Address'}
+        onBlur={addressSelectHandler}
+        validate={[isRequired]}
+      />
+      <Field
         name="businessAdressLineOne"
         component={TextField}
         label={'Adress Line 1'}
         size={'large'}
         type="text"
-        validate={[isRequired]}
-        tooltipPlacement={'topRight'}
       />
       <Field
         name="businessAdressLineTwo"
@@ -30,7 +51,6 @@ const BusinessForm = ({
         label={'Address Line 2'}
         size={'large'}
         type="text"
-        tooltipPlacement={'topRight'}
       />
       <Field
         name="city"
@@ -38,8 +58,6 @@ const BusinessForm = ({
         label={'Town/City'}
         size={'large'}
         type="text"
-        validate={[isRequired]}
-        tooltipPlacement={'topRight'}
       />
       <Field
         name="county"
@@ -47,25 +65,6 @@ const BusinessForm = ({
         label={'County'}
         size={'large'}
         type="text"
-        tooltipPlacement={'topRight'}
-      /> */}
-
-      <Field
-        name="postalCode"
-        component={TextField}
-        label={'Post Code'}
-        size={'large'}
-        type="text"
-        validate={[isRequired]}
-        tooltipPlacement={'topRight'}
-      />
-      <Field
-        name="address"
-        component={SelectField}
-        label={'Address'}
-        options={[]}
-        hintText={'Address'}
-        validate={[isRequired]}
       />
       <Form.Item
         label='Charity'
@@ -121,7 +120,7 @@ const BusinessForm = ({
         </>:
         null
       }
-    </div>
+    </Spin>
   )
 }
 

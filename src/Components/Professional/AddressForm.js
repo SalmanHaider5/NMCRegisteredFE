@@ -1,14 +1,39 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { TextField, CheckboxField } from '../../utils/custom-components'
+import { Spin } from 'antd'
+import { TextField, CheckboxField, ButtonTextField, SelectField } from '../../utils/custom-components'
 import { isRequired } from '../../constants'
 
-const AddressForm = () => {
+const AddressForm = ({
+  findAddresses,
+  addressSelectHandler,
+  addresses: { isLoading, addresses }
+}) => {
   return (
-    <div>
+    <Spin spinning={isLoading}>
       <div className="steps-header">
         <h3>Address Details</h3>
       </div>
+      <Field
+				name="postCode"
+				component={ButtonTextField}
+				enterButton={'Find Address'}
+				onSearch={findAddresses}
+				label={'Postal Code'}
+				size={'large'}
+				type="text"
+				validate={[isRequired]}
+				tooltipPlacement={'topRight'}
+			/>
+      <Field
+        name="addressId"
+        component={SelectField}
+        label={'Choose Address'}
+        options={addresses}
+        hintText={'Address'}
+        onBlur={addressSelectHandler}
+        validate={[isRequired]}
+      />
       <Field
         name="address"
         component={TextField}
@@ -35,15 +60,6 @@ const AddressForm = () => {
         type="text"
       />
       <Field
-        name="postalCode"
-        component={TextField}
-        label={'Post Code'}
-        size={'large'}
-        type="text"
-        validate={[isRequired]}
-        tooltipPlacement={'topRight'}
-      />
-      <Field
         name="hasTransport"
         component={CheckboxField}
         label={'Has own Transport'}
@@ -52,7 +68,7 @@ const AddressForm = () => {
         type="text"
         tooltipPlacement={'topRight'}
       />
-    </div>
+    </Spin>
   )
 }
 

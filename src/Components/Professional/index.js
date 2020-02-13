@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { reduxForm, getFormValues, reset } from 'redux-form'
-import { map } from 'ramda'
+import { reduxForm, getFormValues, reset, change } from 'redux-form'
+import { map, trim, split, prop, propEq, concat, find } from 'ramda'
 import { Steps, Button, Row, Col, Icon } from 'antd'
-import { createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails } from '../../actions'
+import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails } from '../../actions'
 import { Response } from '../../utils/custom-components'
 import { getProfessionalFormValues, showToast } from '../../utils/helpers'
 import BasicForm from './BasicForm'
@@ -16,7 +16,7 @@ class Professional extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      current: 1,
+      current: 0,
       verificationModal: false
     };
   }
@@ -74,9 +74,22 @@ class Professional extends Component {
   logout = () => {
     const { dispatch, application: { auth, role }, history } = this.props
     dispatch(logoutUser())
-    if(!auth && role !== 'company'){
+    if(!auth && role !== 'professional'){
       history.push('/')
     }
+  }
+
+  findAddresses = () => {
+    const { dispatch, formValues: { postCode } } = this.props
+    dispatch(getAdresses(trim(postCode)))
+  }
+
+  addressSelectHandler = () => {
+    const { dispatch, formValues: { addressId }, addresses: { addresses } } = this.props
+    const address = split(',', prop('name', find(propEq('id', addressId))(addresses)))
+    dispatch(change('professional', 'address', concat(address[0], address[1])))
+    dispatch(change('professional', 'city', address[5]))
+    dispatch(change('professional', 'county', address[6]))
   }
 
   verifyProfessionalPhone = () => {
@@ -96,7 +109,7 @@ class Professional extends Component {
 
   render() {
     const { current, verificationModal } = this.state
-    const { professional: { isLoading, code, phoneVerified, professionalDetails }, invalid } = this.props
+    const { professional: { isLoading, code, phoneVerified, professionalDetails }, invalid, addresses } = this.props
     
     const steps = [
       {
@@ -119,7 +132,11 @@ class Professional extends Component {
       },
       {
         title: 'Address Details',
-        content: <AddressForm />,
+        content: <AddressForm
+          addresses={addresses}
+          findAddresses={this.findAddresses}
+          addressSelectHandler={this.addressSelectHandler}
+        />,
       },
       {
         title: 'Done',
@@ -130,7 +147,6 @@ class Professional extends Component {
         />
       }
     ]
-    console.log(steps[1])
     return (
       <div>
         <header>
@@ -202,6 +218,7 @@ const mapStateToProps = state => {
   return{
     formValues: getFormValues('professional')(state),
     professional: state.professional,
+    addresses: state.addresses,
     application: state.signup
   }
 }

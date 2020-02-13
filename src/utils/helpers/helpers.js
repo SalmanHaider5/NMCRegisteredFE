@@ -1,4 +1,5 @@
 import { notification } from 'antd'
+import { addIndex, map } from 'ramda'
 
 const getClassName = (type)  =>{
     switch (type) {
@@ -22,3 +23,5 @@ export const showToast = (title, message, type)  => {
         className: getClassName(type)
     })
 }
+
+export const mapIndexed = addIndex(map)

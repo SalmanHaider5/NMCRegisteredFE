@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { reduxForm, getFormValues, reset } from 'redux-form'
-import { map, concat, omit } from 'ramda'
+import { reduxForm, getFormValues, reset, change } from 'redux-form'
+import { map, concat, omit, trim, find, propEq, split, prop } from 'ramda'
 import { Steps, Button, Row, Col, Icon, Spin } from 'antd'
-import { getClientPaymentToken, addDetails, logoutUser, getCompanyDetails } from '../../actions'
+import { getClientPaymentToken, addDetails, logoutUser, getCompanyDetails, getAdresses } from '../../actions'
 import { getCompanyFormValues, showToast } from '../../utils/helpers'
 import { Response } from '../../utils/custom-components'
 import BasicForm from './BasicForm'
@@ -29,9 +29,9 @@ class Company extends Component {
     const { match: { params: { userId } }, dispatch, application: { authentication: { auth, role } }, history } = this.props
     dispatch(getClientPaymentToken(userId))
     dispatch(getCompanyDetails(userId))
-    // if(!auth && role !== 'company'){
-    //   history.push('/')
-    // }
+    if(!auth && role !== 'company'){
+      history.push('/')
+    }
   }
 
   componentDidUpdate(prevProps){
@@ -83,14 +83,33 @@ class Company extends Component {
     this.setState({ subsidiary: !subsidiary })
   }
 
+  findAddresses = () => {
+    const { dispatch, formValues: { postCode } } = this.props
+    dispatch(getAdresses(trim(postCode)))
+  }
+
   changePaymentMethod = e => {
     this.setState({ paymentMethod: e.target.value })
+  }
+
+  addressSelectHandler = () => {
+    const { dispatch, formValues: { addressId }, addresses: { addresses } } = this.props
+    const address = split(',', prop('name', find(propEq('id', addressId))(addresses)))
+    console.log(address)
+    dispatch(change('company', 'businessAdressLineOne', address[0]))
+    dispatch(change('company', 'businessAdressLineTwo', address[1]))
+    dispatch(change('company', 'city', address[5]))
+    dispatch(change('company', 'county', address[6]))
   }
   
   render() {
     const { current, charity, subsidiary, paymentMethod } = this.state
-    const { invalid, company: { companyDetails, isLoading, clientToken } } = this.props
+    const { invalid, company: { companyDetails, isLoading, clientToken }, addresses } = this.props
     const steps = [
+      {
+        title: 'Basic Information',
+        content: <BasicForm/>,
+      },
       {
         title: 'Address',
         content:<BusinessForm
@@ -98,22 +117,21 @@ class Company extends Component {
           subsidiary={subsidiary}
           charityStatusChange={this.charityStatusChange}
           subsidiaryStatusChange={this.subsidiaryStatusChange}
+          addresses={addresses}
+          findAddresses={this.findAddresses}
+          addressSelectHandler={this.addressSelectHandler}
         />,
       },
-      {
-        title: 'Basic Information',
-        content: <BasicForm/>,
-      },
-      {
-        title: 'Payment Method',
-        content: <Spin spinning={isLoading} tip="Loading...">
-          <PaymentForm
-            token={clientToken}
-            paymentMethod={paymentMethod}
-            changePaymentMethod={this.changePaymentMethod}
-          />
-        </Spin>,
-      },
+      // {
+      //   title: 'Payment Method',
+      //   content: <Spin spinning={isLoading} tip="Loading...">
+      //     <PaymentForm
+      //       token={clientToken}
+      //       paymentMethod={paymentMethod}
+      //       changePaymentMethod={this.changePaymentMethod}
+      //     />
+      //   </Spin>,
+      // },
       {
         title: 'Done',
         content: <Response
@@ -192,6 +210,7 @@ const mapStateToProps = state => {
   return {
     formValues: getFormValues('company')(state),
     company: state.company,
+    addresses: state.addresses,
     application: state.signup
   }
 }
