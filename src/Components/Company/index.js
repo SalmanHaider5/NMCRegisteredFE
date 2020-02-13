@@ -2,12 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import { map, concat, omit, trim, find, propEq, split, prop } from 'ramda'
-import { Steps, Button, Row, Col, Icon, Spin } from 'antd'
-import { getClientPaymentToken, addDetails, logoutUser, getCompanyDetails, getAdresses } from '../../actions'
+import { Steps, Button, Row, Col, Icon } from 'antd'
+import { addDetails, logoutUser, getCompanyDetails, getAdresses } from '../../actions'
 import { getCompanyFormValues, showToast } from '../../utils/helpers'
 import { Response } from '../../utils/custom-components'
 import BasicForm from './BasicForm'
-import PaymentForm from './PaymentForm'
 import BusinessForm from './BusinessForm'
 
 import './company.css'
@@ -27,7 +26,6 @@ class Company extends Component {
 
   componentDidMount(){
     const { match: { params: { userId } }, dispatch, application: { authentication: { auth, role } }, history } = this.props
-    dispatch(getClientPaymentToken(userId))
     dispatch(getCompanyDetails(userId))
     if(!auth && role !== 'company'){
       history.push('/')
@@ -103,8 +101,8 @@ class Company extends Component {
   }
   
   render() {
-    const { current, charity, subsidiary, paymentMethod } = this.state
-    const { invalid, company: { companyDetails, isLoading, clientToken }, addresses } = this.props
+    const { current, charity, subsidiary } = this.state
+    const { invalid, company: { companyDetails, isLoading }, addresses } = this.props
     const steps = [
       {
         title: 'Basic Information',
@@ -122,16 +120,6 @@ class Company extends Component {
           addressSelectHandler={this.addressSelectHandler}
         />,
       },
-      // {
-      //   title: 'Payment Method',
-      //   content: <Spin spinning={isLoading} tip="Loading...">
-      //     <PaymentForm
-      //       token={clientToken}
-      //       paymentMethod={paymentMethod}
-      //       changePaymentMethod={this.changePaymentMethod}
-      //     />
-      //   </Spin>,
-      // },
       {
         title: 'Done',
         content: <Response

@@ -48,6 +48,11 @@ class Home extends Component {
     this.setState({ loginModal: false })
   }
 
+  login = () => {
+    const { formValues: { login } } = this.props
+    console.log(login)
+  }
+
 
   render() {
 
@@ -55,9 +60,9 @@ class Home extends Component {
     const { valid, formValues= {}, application: { isLoading, authentication: { auth, role, userId } } } = this.props
     const { TextArea } = Input
     
-    // if(auth){
-    //   return <Redirect to={role === 'professional' ? `/professional/${userId}` : `/company/${userId}` } />
-    // }
+    if(auth){
+      return <Redirect to={role === 'professional' ? `/professional/${userId}` : `/company/${userId}` } />
+    }
 
     return (
       <Spin spinning={isLoading} tip="Loading...">
@@ -173,7 +178,7 @@ class Home extends Component {
           content={<FormSection name="login"> <LoginForm /> </FormSection>}
           submitText={'Login'}
           cancelText={'Cancel'}
-          // submitHandler={verifyProfessionalPhone}
+          submitHandler={this.login}
           cancelHandler={this.hideLoginModal}
         />
       </Spin>

@@ -153,6 +153,9 @@ div.ant-modal-header{
 div.ant-modal-header div.ant-modal-title{
     color: #fff;
 }
-div.ant-modal-body, div.ant-modal-footer{
+div.ant-modal-body{
     background-color: #d8d8e17a;
+}
+div.ant-modal-footer{
+    background-color: #d8d8e12b;
 }
