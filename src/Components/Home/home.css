@@ -144,3 +144,15 @@ button.contact-btn{
 .contact-span{
     display: flow-root;
 }
+button.ant-modal-close{
+    color: #fff;
+}
+div.ant-modal-header{
+    background-color: #1890ff;
+}
+div.ant-modal-header div.ant-modal-title{
+    color: #fff;
+}
+div.ant-modal-body, div.ant-modal-footer{
+    background-color: #d8d8e17a;
+}

@@ -29,9 +29,9 @@ class Company extends Component {
     const { match: { params: { userId } }, dispatch, application: { authentication: { auth, role } }, history } = this.props
     dispatch(getClientPaymentToken(userId))
     dispatch(getCompanyDetails(userId))
-    if(!auth && role !== 'company'){
-      history.push('/')
-    }
+    // if(!auth && role !== 'company'){
+    //   history.push('/')
+    // }
   }
 
   componentDidUpdate(prevProps){
@@ -92,10 +92,6 @@ class Company extends Component {
     const { invalid, company: { companyDetails, isLoading, clientToken } } = this.props
     const steps = [
       {
-        title: 'Basic Information',
-        content: <BasicForm/>,
-      },
-      {
         title: 'Address',
         content:<BusinessForm
           charity={charity}
@@ -103,6 +99,10 @@ class Company extends Component {
           charityStatusChange={this.charityStatusChange}
           subsidiaryStatusChange={this.subsidiaryStatusChange}
         />,
+      },
+      {
+        title: 'Basic Information',
+        content: <BasicForm/>,
       },
       {
         title: 'Payment Method',

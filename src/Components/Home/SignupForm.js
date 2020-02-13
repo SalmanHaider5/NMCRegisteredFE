@@ -2,7 +2,7 @@ import React from 'react'
 import { Row, Col, Button, Icon, Divider } from 'antd'
 import { Field } from 'redux-form'
 import { TextField } from '../../utils/custom-components'
-import { isRequired, isValidEmail, isPasswordMatched } from '../../constants'
+import { isRequired, isValidEmail, isPasswordMatched, isNumericCharacterExist, isCapitalCharacterExist, isMaxLengthValid } from '../../constants'
 
 
 
@@ -48,11 +48,6 @@ const SignupForm = ({
                 </Col>
                 </Row>
             </div>
-            {/* google button for sign-up */}
-            {/* <Button className='h-radio-btn2 form-google-btn' type="primary" size='large' block>
-                <Icon type="google" /> 
-                    Signup with Google
-              </Button>*/}
             <Divider>Register</Divider>
             <div className='register-field'>
               <Field
@@ -72,7 +67,7 @@ const SignupForm = ({
                 hintText={'Enter New Password'}
                 size={'large'}
                 type={'password'}
-                validate={[isRequired]}
+                validate={[isRequired, isCapitalCharacterExist, isNumericCharacterExist, isMaxLengthValid]}
                 tooltipPlacement={'topRight'}
               />
             </div>

@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { reduxForm, getFormValues, reset } from 'redux-form'
+import { reduxForm, getFormValues, reset, FormSection } from 'redux-form'
 import { isNil, prop } from 'ramda'
 import { Row, Col, Button, Input, Divider, Spin } from 'antd'
 import { register, verifyAccount } from '../../actions'
 import { TITLE } from '../../constants'
-import { getSignupFormValues } from '../../utils/helpers'
+import { ModalBox } from '../../utils/custom-components'
+import { getUsersFormValues } from '../../utils/helpers'
 import SignupForm from './SignupForm'
+import LoginForm from './LoginForm'
 
 import './home.css'
 
@@ -15,7 +17,8 @@ class Home extends Component {
   constructor(props){
     super(props)
     this.state = {
-      selected: ''
+      selected: '',
+      loginModal: false
     }
   }
 
@@ -37,16 +40,24 @@ class Home extends Component {
     dispatch(reset('signup'))
   }
 
+  showLoginModal = () => {
+    this.setState({ loginModal: true })
+  }
+
+  hideLoginModal = () => {
+    this.setState({ loginModal: false })
+  }
+
 
   render() {
 
-    const { selected } = this.state
+    const { selected, loginModal } = this.state
     const { valid, formValues= {}, application: { isLoading, authentication: { auth, role, userId } } } = this.props
     const { TextArea } = Input
     
-    if(auth){
-      return <Redirect to={role === 'professional' ? `/professional/${userId}` : `/company/${userId}` } />
-    }
+    // if(auth){
+    //   return <Redirect to={role === 'professional' ? `/professional/${userId}` : `/company/${userId}` } />
+    // }
 
     return (
       <Spin spinning={isLoading} tip="Loading...">
@@ -59,7 +70,7 @@ class Home extends Component {
                     </Col>
                     <Col xs={16} sm={16} md={16} lg={16} xl={16}></Col>
                     <Col xs={4} sm={4} md={4} lg={4} xl={4}>
-                      <Button ghost>Login</Button>
+                      <Button ghost onClick={this.showLoginModal}>Login</Button>
                     </Col>
                   </Row>
 
@@ -68,7 +79,7 @@ class Home extends Component {
                     <Col xs={22} sm={9} md={10} lg={10} xl={9}>
                       <div className='intro-header'>
                         <div className='spacer'></div>
-                            <h1 className='header-h1'>Welcome to {TITLE}</h1>
+                          <h1 className='header-h1'>Welcome to {TITLE}</h1>
                         <Divider className='header-divider' />
                         <div>
                           <p className="header-text">Lorem ipsum Dummy text, Lorem ipsum dolor</p>
@@ -77,18 +88,18 @@ class Home extends Component {
                     </Col>
                     <Col xs={2} sm={0} md={0} lg={2} xl={2}> </Col>
                     <Col xs={20} sm={13} md={10} lg={8} xl={6}>
-                      <SignupForm
-                        selected={selected}
-                        selectUser={this.selectUser}
-                        valid={valid}
-                        formValues={formValues}
-                        registerUser={this.registerUser}
-                      />
+                      <FormSection name="signup">
+                        <SignupForm
+                          selected={selected}
+                          selectUser={this.selectUser}
+                          valid={valid}
+                          formValues={formValues}
+                          registerUser={this.registerUser}
+                        />
+                      </FormSection>
                     </Col>
                     <Col xs={2} sm={1} md={2} lg={2} xl={4}> </Col>
-                  </Row>
-
-                
+                  </Row> 
               </div>
           </header>
           {/* header complete */}
@@ -156,6 +167,15 @@ class Home extends Component {
             </div>
           </section>
         </div>
+        <ModalBox
+          title={`Login`}
+          visible={loginModal}
+          content={<FormSection name="login"> <LoginForm /> </FormSection>}
+          submitText={'Login'}
+          cancelText={'Cancel'}
+          // submitHandler={verifyProfessionalPhone}
+          cancelHandler={this.hideLoginModal}
+        />
       </Spin>
     )
   }
@@ -163,14 +183,14 @@ class Home extends Component {
 
 const mapStateToProps = state => {
   return {
-    formValues: getFormValues('signup')(state),
+    formValues: getFormValues('users')(state),
     application: state.signup
   }
 }
 
 export default connect(mapStateToProps)(
   reduxForm({
-    form: 'signup',
-    initialValues: getSignupFormValues()
+    form: 'users',
+    initialValues: getUsersFormValues()
   })(Home)
 )

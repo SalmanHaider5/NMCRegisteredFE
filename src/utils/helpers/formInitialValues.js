@@ -1,8 +1,14 @@
-export const getSignupFormValues = () => {
+export const getUsersFormValues = () => {
     return {
-        email: '',
-        password: '',
-        confirmPassword: ''
+        signup: {
+            email: '',
+            password: '',
+            confirmPassword: ''
+        },
+        login: {
+            email: '',
+            password: ''
+        }
     }
 }
 

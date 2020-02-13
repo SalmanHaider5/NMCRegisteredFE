@@ -1,7 +1,7 @@
 import React from 'react'
 import { Field } from 'redux-form'
 import { Checkbox, Form } from 'antd'
-import { TextField } from '../../utils/custom-components'
+import { TextField, SelectField } from '../../utils/custom-components'
 import { isRequired } from '../../constants'
 
 const BusinessForm = ({
@@ -15,7 +15,7 @@ const BusinessForm = ({
       <div className="steps-header">
         <h3>Address Details</h3>
       </div>
-      <Field
+      {/* <Field
         name="businessAdressLineOne"
         component={TextField}
         label={'Adress Line 1'}
@@ -48,7 +48,8 @@ const BusinessForm = ({
         size={'large'}
         type="text"
         tooltipPlacement={'topRight'}
-      />
+      /> */}
+
       <Field
         name="postalCode"
         component={TextField}
@@ -57,6 +58,14 @@ const BusinessForm = ({
         type="text"
         validate={[isRequired]}
         tooltipPlacement={'topRight'}
+      />
+      <Field
+        name="address"
+        component={SelectField}
+        label={'Address'}
+        options={[]}
+        hintText={'Address'}
+        validate={[isRequired]}
       />
       <Form.Item
         label='Charity'
