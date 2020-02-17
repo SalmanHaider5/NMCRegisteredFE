@@ -93,7 +93,6 @@ class Company extends Component {
   addressSelectHandler = () => {
     const { dispatch, formValues: { addressId }, addresses: { addresses } } = this.props
     const address = split(',', prop('name', find(propEq('id', addressId))(addresses)))
-    console.log(address)
     dispatch(change('company', 'businessAdressLineOne', address[0]))
     dispatch(change('company', 'businessAdressLineTwo', address[1]))
     dispatch(change('company', 'city', address[5]))

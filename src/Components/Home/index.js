@@ -34,10 +34,10 @@ class Home extends Component {
   }
 
   registerUser = () => {
-    const { formValues: { email, password }, dispatch } = this.props
+    const { formValues: { signup: { email, password } }, dispatch } = this.props
     const { selected } = this.state
     dispatch(register({ email, password, role: selected }))
-    dispatch(reset('signup'))
+    dispatch(reset('users'))
   }
 
   showLoginModal = () => {

@@ -1,0 +1,48 @@
+.weekly-row{
+    padding-left: 120px;
+}
+.weekly-row .ant-card-head{
+    min-height: 0px;
+    padding: 0;
+    height: 35px;
+    font-size: 15px;
+}
+.weekly-row .ant-card-head-wrapper{
+    height: inherit;
+}
+.weekly-row .ant-card-head-title{
+    background-color: #1e1c5d;
+    color: #fff;
+    height: inherit;
+    padding: 5px;
+}
+.weekly-row .ant-card-body{
+    padding: 0;
+}
+.weekly-row .ant-card-body button{
+    width: 100%;
+    height: 70px;
+    padding: 0;
+    border: 0;
+    background-color: #fff;
+    border-radius: 0;
+    color: #0000007a;
+    font-size: 40px;
+}
+div.timesheet-drawer{
+    position: absolute;
+}
+
+div.timesheet-drawer button.select-button{
+    margin-top: 10px;
+    border-radius: 0;
+}
+
+.ant-drawer-body p{
+    text-align: left;
+}
+
+div.steps-content{
+    position: relative;
+    overflow: hidden;
+}

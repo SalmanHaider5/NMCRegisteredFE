@@ -42,3 +42,7 @@ div.checkbox-container,div.datepicker-container div.ant-form-item-control{
 div.ant-form-extra{
     text-align: left;
 }
+span.ant-time-picker{
+    width: 100%;
+    margin-top: 10px;
+}
