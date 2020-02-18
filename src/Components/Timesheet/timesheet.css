@@ -1,5 +1,9 @@
 .weekly-row{
-    padding-left: 120px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.weekly-row h3{
+    text-align: left;
 }
 .weekly-row .ant-card-head{
     min-height: 0px;
@@ -19,7 +23,7 @@
 .weekly-row .ant-card-body{
     padding: 0;
 }
-.weekly-row .ant-card-body button{
+.weekly-row .ant-card-body button.add-schedule-button{
     width: 100%;
     height: 70px;
     padding: 0;
@@ -36,6 +40,12 @@ div.timesheet-drawer{
 div.timesheet-drawer button.select-button{
     margin-top: 10px;
     border-radius: 0;
+    min-height: 60px;
+    height: auto;
+}
+
+div.timesheet-drawer button.select-button h4{
+    margin-top: 10px;
 }
 
 .ant-drawer-body p{
@@ -45,4 +55,60 @@ div.timesheet-drawer button.select-button{
 div.steps-content{
     position: relative;
     overflow: hidden;
+}
+div.ant-drawer-header{
+    background-color: #1e1c5d;
+}
+
+div.ant-drawer-header div.ant-drawer-title{
+    color: #fff;
+}
+.ant-card-body button.shift-add-button.add-schedule-button{
+    background-color: #74a274fc;
+}
+.selected-time{
+    font-size: 16px;
+}
+.selected-time h5{
+    color: #fff;
+}
+button.save-schedule-button{
+    width: 100%;
+    height: 70px;
+    border: 0;
+    border-radius: 0;
+    font-size: 40px;
+}
+.weekly-row .ant-card{
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.timesheet-card{
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.ant-card-bordered{
+    margin: 20px;
+}
+.timesheet-card .ant-card-head{
+    padding: 0;
+    background-color: #1e1c5d;
+    color: #fff;
+}
+.timesheet-card .ant-list-items{
+    text-align: left;
+    color: #1890ff;
+}
+.timesheet-card .ant-card-head-title{
+    text-align: left;
+    padding-left: 20px;
+}
+.timesheet-card .ant-card-extra{
+    padding-right: 20px;
+    color: #fff;
+    font-size: 18px;
+}
+.timesheets-row{
+    padding: 50px;
+}
+.ant-col{
+    padding-bottom: 50px;
 }

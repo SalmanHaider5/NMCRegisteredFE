@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Field, reduxForm, getFormValues } from 'redux-form'
-import { Row, Col, Button, Result, Icon, Divider, Drawer } from 'antd'
-import { TimePickerField } from '../../utils/custom-components'
-import { TIMESHEET_DAYS as days, TIMESHEET_SHIFTS as shifts } from '../../constants'
+import { reduxForm, getFormValues, change, reset } from 'redux-form'
+import { isEmpty, length, add, find, propEq } from 'ramda'
+import { Row, Col, Button, Result, Icon, Divider, Drawer, TimePicker } from 'antd'
+import { getTimesheetValues } from '../../utils/helpers'
+import { addDailySchedule, addTimesheet } from '../../actions'
+import { TIMESHEET_DAYS as days, TIMESHEET_SHIFTS as shifts, TIME_FORMAT as timeFormat } from '../../constants'
 import WeekdaySelectBox from './WeekdaySelectBox'
 import ShiftsSelectBox from './ShiftsSelectBox'
+import SingleTimesheet from './SingleTimesheet'
 import './timesheet.css'
 
 class Timesheet extends Component {
@@ -14,33 +17,73 @@ class Timesheet extends Component {
     this.state = {
       visible: false,
       selectedDay: '',
-      selectedShift: ''
+      selectedShift: '',
+      scheduleForm: false
     }
   }
 
   showDrawer = (day) => {
-    const { name } = day
+    const { dispatch } = this.props
+    const { id, name } = day
     this.setState({
       visible: true,
       selectedDay: name,
       selectedShift: ''
     })
+    dispatch(change('timesheet', 'id', id))
+    dispatch(change('timesheet', 'day', name))
   }
 
   selectShift = (shift) => {
-    const { name } = shift
+    const { dispatch } = this.props
+    const { name, startTime, endTime } = shift
     this.setState({ selectedShift: name })
+    dispatch(change('timesheet', 'shift',  name))
+    dispatch(change('timesheet', 'startTime',  startTime))
+    dispatch(change('timesheet', 'endTime',  endTime))
   }
 
   hideDrawer = () => {
+    const { dispatch } = this.props
     this.setState({
       visible: false,
       selectedDay: ''
     })
+    dispatch(reset('timesheet'))
+  }
+
+  showScheduleForm = () => {
+    this.setState({ scheduleForm: true })
+  }
+
+  addStartTime = (time, timeString) => {
+    const { dispatch } = this.props
+    dispatch(change('timesheet', 'startTime', timeString))
+  }
+
+  addEndTime = (time, timeString) => {
+    const { dispatch } = this.props
+    dispatch(change('timesheet', 'endTime', timeString))
+  }
+
+  addTimesheetDaySchedule = () => {
+    const { formValues, dispatch } = this.props
+    dispatch(addDailySchedule(formValues))
+    this.hideDrawer()
+  }
+
+  getScheduleByDay = id => {
+    const {timesheet: { weeklySchedule } } = this.props
+    return find(propEq('id', id))(weeklySchedule)
+  }
+  addTimesheet = () => {
+    const { timesheet: { weeklySchedule }, dispatch } = this.props
+    dispatch(addTimesheet(weeklySchedule))
   }
 
   render() {
-    const { visible, selectedDay, selectedShift } = this.state
+    const { visible, selectedDay, selectedShift, scheduleForm } = this.state
+    const { timesheet: { timesheet: { schedule } } } = this.props
     return (
       <div>
         <headers>
@@ -65,16 +108,43 @@ class Timesheet extends Component {
                 <h3>Timesheet Management</h3>
               </div>
               <div>
-                <Row gutter={16} className="weekly-row">
-                  <WeekdaySelectBox days={days} showDrawer={this.showDrawer} />
-                </Row>
+                {
+                  scheduleForm ?
+                  <Row gutter={16} className="weekly-row">
+                    <Divider>Week {add(length(schedule), 1)}</Divider>
+                    <WeekdaySelectBox
+                      days={days}
+                      showDrawer={this.showDrawer}
+                      getScheduleByDay={this.getScheduleByDay}
+                      addTimesheet={this.addTimesheet}
+                    />
+                  </Row>:
+                  ''
+                }
               </div>
               <Divider>Timesheets</Divider>
-              <Result
-                title="No Timesheets Added"
-                subTitle="You have not added any timesheet yet"
-                extra={<Button type="primary"><Icon type="plus" />Add new Timesheet</Button>}
-              />
+              {
+                isEmpty(schedule) ?
+                <Result
+                  title="No Timesheets Added"
+                  subTitle="You have not added any timesheet yet"
+                  extra={<Button type="primary" onClick={this.showScheduleForm}><Icon type="plus" />Add new Timesheet</Button>}
+                /> :
+                <Row gutter={16} className="timesheets-row">
+                  <Col span={12}>
+                    <SingleTimesheet days={days} />
+                  </Col>
+                  <Col span={12}>
+                    <SingleTimesheet days={days} />
+                  </Col>
+                  <Col span={12}>
+                    <SingleTimesheet days={days} />
+                  </Col>
+                  <Col span={12}>
+                    <SingleTimesheet days={days} />
+                  </Col>
+                </Row>
+              }
               <div className="drawer">
                 <Drawer
                   title={`${selectedDay} Timesheet`}
@@ -93,26 +163,17 @@ class Timesheet extends Component {
                     selectShift={this.selectShift}
                   />
                   {
-                    selectedShift === 'custom' ?
+                    selectedShift === 'Customized Shift' ?
                     <>
-                      <Field
-                        name="startTime"
-                        component={TimePickerField}
-                        hintText={'Start Time'}
-                        use12hours={true}
-                      />
-                      <Field
-                        name="endTime"
-                        component={TimePickerField}
-                        hintText={'End Time'}
-                        use12Hours={true}
-                      />
+                      <TimePicker use12Hours format={timeFormat} onChange={this.addStartTime} placeholder="Start Time" />
+                      <TimePicker use12Hours format={timeFormat} onChange={this.addEndTime} placeholder="End Time" />
                     </> :
                     ''
                   }
                   <Button
                     block
                     className="success-btn select-button"
+                    onClick={this.addTimesheetDaySchedule}
                     disabled={selectedShift === ''}
                   >
                     <Icon type="check" />
@@ -131,11 +192,13 @@ class Timesheet extends Component {
 const mapStateToProps = state => {
   return {
     formValues: getFormValues('timesheet')(state),
+    timesheet: state.timesheet
   }
 }
 
 export default connect(mapStateToProps)(
   reduxForm({
-    form: 'timesheet'
+    form: 'timesheet',
+    initialValues: getTimesheetValues()  
   })(Timesheet)
 )

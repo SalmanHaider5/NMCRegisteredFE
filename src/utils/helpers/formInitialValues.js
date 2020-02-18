@@ -47,3 +47,13 @@ export const getProfessionalFormValues = () => {
         experience: ''
     }
 }
+
+export const getTimesheetValues = () => {
+    return{
+        id: 0,
+        day: '',
+        shift: '',
+        startTime: '',
+        endTime: ''
+    }
+}

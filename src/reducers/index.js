@@ -4,13 +4,15 @@ import signup from './signup'
 import company from './company'
 import professional from './professional'
 import addresses from './addresses'
+import timesheet from './timesheet'
 
 const rootReducer = combineReducers({
     form: formReducer,
     signup,
     company,
     professional,
-    addresses
+    addresses,
+    timesheet
 })
 
 export default rootReducer

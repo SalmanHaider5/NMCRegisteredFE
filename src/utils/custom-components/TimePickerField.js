@@ -15,7 +15,6 @@ export const TimePickerField = ({
   tooltipPlacement = "top",
   disabled,
   specialText,
-  use12Hours,
   isRequired,
   id
 }) => {

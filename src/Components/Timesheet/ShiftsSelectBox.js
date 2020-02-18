@@ -1,5 +1,5 @@
 import React from 'react'
-import { map } from 'ramda'
+import { map, isNil } from 'ramda'
 import { Button } from 'antd'
 
 const ShiftsSelectBox = ({ shifts, selectedShift, selectShift }) => {
@@ -7,7 +7,7 @@ const ShiftsSelectBox = ({ shifts, selectedShift, selectShift }) => {
     <>
       {
         map(shift => {
-          const { id, name, time } = shift
+          const { id, name, startTime, endTime } = shift
           return(
             <Button
               block 
@@ -16,19 +16,16 @@ const ShiftsSelectBox = ({ shifts, selectedShift, selectShift }) => {
               type={selectedShift === name ? 'primary': 'default'}
               onClick={() => selectShift(shift)}
             >
-              {name} {time}
+              <h4>{name}</h4>
+              {
+                isNil(startTime) || isNil(endTime) ?
+                '' :
+                <h5>{startTime}-{endTime}</h5>
+              }
             </Button>
           )
         }, shifts)
       }
-      <Button
-        block
-        className="select-button"
-        onClick={() => selectShift({name: 'custom'})}
-        type={selectedShift === 'custom' ? 'primary' : 'default'}
-      >
-        Custom - Create your Own Time
-      </Button>
     </>
   )
 }

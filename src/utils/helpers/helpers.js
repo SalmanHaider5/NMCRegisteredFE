@@ -1,5 +1,5 @@
 import { notification } from 'antd'
-import { addIndex, map } from 'ramda'
+import { addIndex, map, isEmpty, isNil } from 'ramda'
 
 const getClassName = (type)  =>{
     switch (type) {
@@ -25,3 +25,4 @@ export const showToast = (title, message, type)  => {
 }
 
 export const mapIndexed = addIndex(map)
+export const isEmptyOrNull = value => isEmpty(value) || isNil(value) ? true : false

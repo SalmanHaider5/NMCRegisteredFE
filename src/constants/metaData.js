@@ -12,8 +12,9 @@ export const TIMESHEET_DAYS = [
     {id: 7, name: 'Sunday'}
 ]
 export const TIMESHEET_SHIFTS = [
-    {id: 1, name: 'Early Shift', time: '07AM-03PM'},
-    {id: 2, name: 'Late Shift', time: '02PM-10PM'},
-    {id: 3, name: 'Night Shift', time: '08PM-08AM'},
-    {id: 4, name: 'Early Long Shift', time: '07AM-08PM'}
+    {id: 1, name: 'Early Shift', startTime: '07:00 AM', endTime: '03:00 PM'},
+    {id: 2, name: 'Late Shift', startTime: '02:00 PM', endTime: '10:00 PM'},
+    {id: 3, name: 'Night Shift', startTime: '08:00 PM', endTime: '08:00 AM'},
+    {id: 4, name: 'Early Long Shift', startTime: '07:00 AM', endTime: '08:00 PM'},
+    {id: 5, name: 'Customized Shift'}
 ]
