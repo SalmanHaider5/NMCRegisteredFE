@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, change, reset } from 'redux-form'
-import { isEmpty, length, add, find, propEq } from 'ramda'
+import { isEmpty, length, add, find, propEq, map } from 'ramda'
 import { Row, Col, Button, Result, Icon, Divider, Drawer, TimePicker } from 'antd'
 import { getTimesheetValues } from '../../utils/helpers'
-import { addDailySchedule, addTimesheet } from '../../actions'
+import { addDailySchedule, addTimesheet, resetScheduleForm, removeTimesheet } from '../../actions'
 import { TIMESHEET_DAYS as days, TIMESHEET_SHIFTS as shifts, TIME_FORMAT as timeFormat } from '../../constants'
 import WeekdaySelectBox from './WeekdaySelectBox'
 import ShiftsSelectBox from './ShiftsSelectBox'
@@ -52,7 +52,13 @@ class Timesheet extends Component {
     dispatch(reset('timesheet'))
   }
 
+  deleteTimesheet = id => {
+    const { dispatch } = this.props
+    dispatch(removeTimesheet(id))
+  }
   showScheduleForm = () => {
+    const { dispatch } = this.props
+    dispatch(resetScheduleForm())
     this.setState({ scheduleForm: true })
   }
 
@@ -73,17 +79,25 @@ class Timesheet extends Component {
   }
 
   getScheduleByDay = id => {
-    const {timesheet: { weeklySchedule } } = this.props
-    return find(propEq('id', id))(weeklySchedule)
+    const { timesheet: { timesheet: { schedule } } } = this.props
+    return find(propEq('id', id))(schedule)
   }
   addTimesheet = () => {
-    const { timesheet: { weeklySchedule }, dispatch } = this.props
-    dispatch(addTimesheet(weeklySchedule))
+    const { timesheet: { timesheet }, dispatch } = this.props
+    dispatch(addTimesheet(timesheet))
+    this.setState({ scheduleForm: false })
   }
+
+  getTimesheetShiftByDay = (timesheetId, dayId) => {
+    const { timesheet: { timesheets } } = this.props
+    const selectedTimesheet = find(propEq('id', timesheetId))(timesheets)
+    const { schedule } = selectedTimesheet
+    return find(propEq('id', dayId))(schedule)
+  } 
 
   render() {
     const { visible, selectedDay, selectedShift, scheduleForm } = this.state
-    const { timesheet: { timesheet: { schedule } } } = this.props
+    const { timesheet: { timesheets } } = this.props
     return (
       <div>
         <headers>
@@ -111,7 +125,7 @@ class Timesheet extends Component {
                 {
                   scheduleForm ?
                   <Row gutter={16} className="weekly-row">
-                    <Divider>Week {add(length(schedule), 1)}</Divider>
+                    <Divider>Week {add(length(timesheets), 1)}</Divider>
                     <WeekdaySelectBox
                       days={days}
                       showDrawer={this.showDrawer}
@@ -124,25 +138,37 @@ class Timesheet extends Component {
               </div>
               <Divider>Timesheets</Divider>
               {
-                isEmpty(schedule) ?
+                isEmpty(timesheets) ?
                 <Result
                   title="No Timesheets Added"
                   subTitle="You have not added any timesheet yet"
                   extra={<Button type="primary" onClick={this.showScheduleForm}><Icon type="plus" />Add new Timesheet</Button>}
                 /> :
                 <Row gutter={16} className="timesheets-row">
-                  <Col span={12}>
-                    <SingleTimesheet days={days} />
+                  <Col span={24}>
+                    <Button
+                      type="primary"
+                      disabled={ length(timesheets) > 4 ? true : false }
+                      onClick={this.showScheduleForm}
+                    >
+                      <Icon type="plus" />
+                      Add new Timesheet
+                    </Button>
                   </Col>
-                  <Col span={12}>
-                    <SingleTimesheet days={days} />
-                  </Col>
-                  <Col span={12}>
-                    <SingleTimesheet days={days} />
-                  </Col>
-                  <Col span={12}>
-                    <SingleTimesheet days={days} />
-                  </Col>
+                  {
+                    map(timesheet => {
+                      return(
+                        <Col span={12}>
+                          <SingleTimesheet
+                            days={days}
+                            timesheet={timesheet}
+                            getTimesheetShiftByDay={this.getTimesheetShiftByDay}
+                            deleteTimesheet={this.deleteTimesheet}
+                          />
+                        </Col>
+                      )
+                    }, timesheets)
+                  }
                 </Row>
               }
               <div className="drawer">

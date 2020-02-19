@@ -1,4 +1,4 @@
-import { append } from 'ramda'
+import { append, length, add, findIndex, propEq, remove } from 'ramda'
 import * as actions from '../actions'
 
 const initState = {
@@ -6,9 +6,9 @@ const initState = {
     timesheet: {
         id: '',
         userId: '',
-        schedule: [{id: 1}]
+        schedule: []
     },
-    weeklySchedule: []
+    timesheets: []
 }
 
 const timesheet = (state=initState, action) => {
@@ -31,17 +31,33 @@ const timesheet = (state=initState, action) => {
                 isLoading: false
             }
         case actions.ADD_TIMESHEET_DAILY_SCHEDULE:
-            const { weeklySchedule } = state
+            const { timesheet, timesheet: { schedule } } = state
+            timesheet.id = add(length(state.timesheets), 1)
+            timesheet.schedule = append(payload, schedule)
             return{
                 ...state,
-                weeklySchedule: append(payload, weeklySchedule)
+                timesheet
             }
         case actions.ADD_TIMESHEET_SUCCESS:
-            let { timesheet } = state
-            timesheet.schedule = payload
+            const { timesheets } = state
             return{
                 ...state,
-                timesheet: payload
+                timesheets: append(payload, timesheets)
+            }
+        case actions.RESET_SCHEDULE_FORM:
+            return{
+                ...state,
+                timesheet: {
+                    id: '',
+                    userId: '',
+                    schedule: []
+                }
+            }
+        case actions.REMOVE_TIMESHEET_SUCCESS:
+            const index = findIndex(propEq('id', payload))(state.timesheets)
+            return {
+                ...state,
+                timesheets: remove(index, 1, state.timesheets)
             }
         default:
             return{

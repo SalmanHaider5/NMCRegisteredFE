@@ -15,3 +15,17 @@ export const addTimesheet = data => dispatch => {
     })
     showToast('Timesheet Added', 'Timesheet successfully added', 'success')
 }
+
+export const resetScheduleForm = () => dispatch => {
+    dispatch({
+        type: types.RESET_SCHEDULE_FORM
+    })
+}
+
+export const removeTimesheet = id => dispatch => {
+    dispatch({
+        type: types.REMOVE_TIMESHEET_SUCCESS,
+        payload: id
+    })
+    showToast('Delete Success', 'Timesheet successfully deleted', 'success')
+}
