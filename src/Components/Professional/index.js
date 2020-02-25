@@ -3,7 +3,7 @@ import { Switch, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import { map, trim, split, prop, propEq, concat, find } from 'ramda'
-import { Steps, Button, Row, Col, Icon, Menu, Layout } from 'antd'
+import { Steps, Button, Row, Col, Icon, Menu, Layout, Breadcrumb } from 'antd'
 import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails } from '../../actions'
 import { Response } from '../../utils/custom-components'
 import { getProfessionalFormValues, showToast } from '../../utils/helpers'
@@ -11,6 +11,8 @@ import BasicForm from './BasicForm'
 import AddressForm from './AddressForm'
 import AddPhoneForm from './AddPhoneForm'
 import Timesheet from './Timesheet'
+import Profile from './Profile'
+import SecurityAndLogin from './Security'
 
 const { Step } = Steps;
 
@@ -26,10 +28,10 @@ class Professional extends Component {
 
   componentDidMount(){
     const { application: { authentication: { auth, role } }, history, dispatch, match: { params: { userId } } } = this.props
-    dispatch(getProfessionalDetails(userId))
-    if(!auth && role !== 'professional'){
-      history.push('/')
-    }
+    // dispatch(getProfessionalDetails(userId))
+    // if(!auth && role !== 'professional'){
+    //   history.push('/')
+    // }
   }
 
   componentDidUpdate(prevProps){
@@ -193,12 +195,16 @@ class Professional extends Component {
                   </Link>
                 </Menu.Item>
                 <Menu.Item>
-                  <Icon type="profile" />
-                  <span>View Profile</span>
+                  <Link to={`/professional/${userId}/profile`}>
+                    <Icon type="profile" />
+                    <span>View Profile</span>
+                  </Link>
                 </Menu.Item>
                 <Menu.Item>
-                  <Icon type="lock" />
-                  <span>Security & Login</span>
+                  <Link to={`/professional/${userId}/security`}>
+                    <Icon type="lock" />
+                    <span>Security & Login</span>
+                  </Link>
                 </Menu.Item>
                 <Menu.Item>
                   <Icon type="mail" />
@@ -207,10 +213,11 @@ class Professional extends Component {
               </Menu>
             </Sider>
             <Layout>
-              <Header />
               <Content>
                 <Switch>
                   <Route path="/professional/:userId/timesheet" component={Timesheet} />
+                  <Route path="/professional/:userId/profile" component={Profile} />
+                  <Route path="/professional/:userId/security" component={SecurityAndLogin}  />
                 </Switch>
               </Content>
               <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>

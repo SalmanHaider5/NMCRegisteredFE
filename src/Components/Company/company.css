@@ -6,8 +6,8 @@
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 .inner-wrapper{
-    padding-top: 30px;
-    width: 80%;
+    padding-top: 0px;
+    width: 95%;
     margin: 0 auto;
 }
 .ant-col-offset-1 {
@@ -18,7 +18,7 @@
     border: 1px dashed #e9e9e9;
     border-radius: 6px;
     background-color: #fafafa;
-    min-height: 200px;
+    min-height: 75vh;
     text-align: center;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }

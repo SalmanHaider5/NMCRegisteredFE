@@ -100,98 +100,96 @@ class Timesheet extends Component {
     const { timesheet: { timesheets } } = this.props
     return (
       <div>
-        <div className="signup-wrapper">
-          <div className="inner-wrapper">
-            <div className="steps-content">
-              <div className="steps-header">
-                <h3>Timesheet Management</h3>
-              </div>
-              <div>
+        <div className="inner-wrapper">
+          <div className="steps-content">
+            <div className="steps-header">
+              <h3>Timesheet Management</h3>
+            </div>
+            <div>
+              {
+                scheduleForm ?
+                <Row gutter={16} className="weekly-row">
+                  <Divider>Week {add(length(timesheets), 1)}</Divider>
+                  <WeekdaySelectBox
+                    days={days}
+                    showDrawer={this.showDrawer}
+                    getScheduleByDay={this.getScheduleByDay}
+                    addTimesheet={this.addTimesheet}
+                  />
+                </Row>:
+                ''
+              }
+            </div>
+            <Divider>Timesheets</Divider>
+            {
+              isEmpty(timesheets) ?
+              <Result
+                title="No Timesheets Added"
+                subTitle="You have not added any timesheet yet"
+                extra={<Button type="primary" onClick={this.showScheduleForm}><Icon type="plus" />Add new Timesheet</Button>}
+              /> :
+              <Row gutter={16} className="timesheets-row">
+                <Col span={24}>
+                  <Button
+                    type="primary"
+                    disabled={ length(timesheets) > 4 ? true : false }
+                    onClick={this.showScheduleForm}
+                  >
+                    <Icon type="plus" />
+                    Add new Timesheet
+                  </Button>
+                </Col>
                 {
-                  scheduleForm ?
-                  <Row gutter={16} className="weekly-row">
-                    <Divider>Week {add(length(timesheets), 1)}</Divider>
-                    <WeekdaySelectBox
-                      days={days}
-                      showDrawer={this.showDrawer}
-                      getScheduleByDay={this.getScheduleByDay}
-                      addTimesheet={this.addTimesheet}
-                    />
-                  </Row>:
+                  map(timesheet => {
+                    return(
+                      <Col span={12}>
+                        <SingleTimesheet
+                          days={days}
+                          timesheet={timesheet}
+                          getTimesheetShiftByDay={this.getTimesheetShiftByDay}
+                          deleteTimesheet={this.deleteTimesheet}
+                        />
+                      </Col>
+                    )
+                  }, timesheets)
+                }
+              </Row>
+            }
+            <div className="drawer">
+              <Drawer
+                title={`${selectedDay} Timesheet`}
+                placement="right"
+                closable="false"
+                onClose={this.hideDrawer}
+                visible={visible}
+                getContainer={false}
+                className="timesheet-drawer"
+                width={'400px'}
+              >
+                <p>Choose your Shift</p>
+                <ShiftsSelectBox
+                  shifts={shifts}
+                  selectedShift={selectedShift}
+                  selectShift={this.selectShift}
+                />
+                {
+                  selectedShift === 'Customized Shift' ?
+                  <>
+                    <TimePicker use12Hours format={timeFormat} onChange={this.addStartTime} placeholder="Start Time" />
+                    <TimePicker use12Hours format={timeFormat} onChange={this.addEndTime} placeholder="End Time" />
+                  </> :
                   ''
                 }
-              </div>
-              <Divider>Timesheets</Divider>
-              {
-                isEmpty(timesheets) ?
-                <Result
-                  title="No Timesheets Added"
-                  subTitle="You have not added any timesheet yet"
-                  extra={<Button type="primary" onClick={this.showScheduleForm}><Icon type="plus" />Add new Timesheet</Button>}
-                /> :
-                <Row gutter={16} className="timesheets-row">
-                  <Col span={24}>
-                    <Button
-                      type="primary"
-                      disabled={ length(timesheets) > 4 ? true : false }
-                      onClick={this.showScheduleForm}
-                    >
-                      <Icon type="plus" />
-                      Add new Timesheet
-                    </Button>
-                  </Col>
-                  {
-                    map(timesheet => {
-                      return(
-                        <Col span={12}>
-                          <SingleTimesheet
-                            days={days}
-                            timesheet={timesheet}
-                            getTimesheetShiftByDay={this.getTimesheetShiftByDay}
-                            deleteTimesheet={this.deleteTimesheet}
-                          />
-                        </Col>
-                      )
-                    }, timesheets)
-                  }
-                </Row>
-              }
-              <div className="drawer">
-                <Drawer
-                  title={`${selectedDay} Timesheet`}
-                  placement="right"
-                  closable="false"
-                  onClose={this.hideDrawer}
-                  visible={visible}
-                  getContainer={false}
-                  className="timesheet-drawer"
-                  width={'400px'}
+                <Button
+                  block
+                  className="success-btn select-button"
+                  onClick={this.addTimesheetDaySchedule}
+                  disabled={selectedShift === ''}
                 >
-                  <p>Choose your Shift</p>
-                  <ShiftsSelectBox
-                    shifts={shifts}
-                    selectedShift={selectedShift}
-                    selectShift={this.selectShift}
-                  />
-                  {
-                    selectedShift === 'Customized Shift' ?
-                    <>
-                      <TimePicker use12Hours format={timeFormat} onChange={this.addStartTime} placeholder="Start Time" />
-                      <TimePicker use12Hours format={timeFormat} onChange={this.addEndTime} placeholder="End Time" />
-                    </> :
-                    ''
-                  }
-                  <Button
-                    block
-                    className="success-btn select-button"
-                    onClick={this.addTimesheetDaySchedule}
-                    disabled={selectedShift === ''}
-                  >
-                    <Icon type="check" />
-                    Save
-                  </Button>
-                </Drawer>
-              </div>
+                  <Icon type="check" />
+                  Save
+                </Button>
+              </Drawer>
             </div>
           </div>
         </div>
