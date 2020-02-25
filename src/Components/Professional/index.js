@@ -186,7 +186,6 @@ class Professional extends Component {
                 defaultSelectedKeys={['1']}
                 mode="inline"
                 theme="dark"
-                inlineCollapsed={false}
               >
                 <Menu.Item key="1">
                   <Link to={`/professional/${userId}/timesheet`}>

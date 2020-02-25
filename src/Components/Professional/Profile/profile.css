@@ -1,0 +1,22 @@
+.profile-view{
+    text-align: left;
+}
+.profile-view .ant-card{
+    width: 95%;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    margin-bottom: 30px;
+}
+.profile-view .profile-details .text-label{
+    padding-left: 30px;
+    padding-top: 10px;
+}
+.profile-view .profile-details .ant-col h1{
+    font-size: 32px;
+    margin-bottom: 0px;
+}
+.profile-view .profile-details .text-label span{
+    font-weight: 500;
+    font-size: 14px;
+    color: #806b6b;
+}

@@ -33,6 +33,13 @@ export const getCompanyFormValues = () => {
     }
 }
 
+const changePassword = {
+    twoFactorAuthentication: false,
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+}
+
 export const getProfessionalFormValues = () => {
     return {
         status: '',
@@ -44,7 +51,8 @@ export const getProfessionalFormValues = () => {
         city: '',
         nmcPin: '',
         hasTransport: false,
-        experience: ''
+        experience: '',
+        changePassword
     }
 }
 

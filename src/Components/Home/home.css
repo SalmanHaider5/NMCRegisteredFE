@@ -160,3 +160,6 @@ div.ant-modal-footer{
 button.ant-btn.link-button.ant-btn-link{
     padding: 0;
 }
+.form-align-buttons{
+    text-align: right;
+}
