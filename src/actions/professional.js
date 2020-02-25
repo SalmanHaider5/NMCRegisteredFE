@@ -1,6 +1,8 @@
+import Cookies from 'js-cookie'
 import { SERVER_URL as url } from '../constants'
 import * as types from './'
 import { showToast } from '../utils/helpers'
+import { defaultTo } from 'ramda'
 
 export const createDetails = (userId, formValues) => dispatch => {
     dispatch({ type: types.ADD_PROFESSIONAL_DETAILS_REQUEST })
@@ -83,9 +85,14 @@ export const verifyPhone = (userId, values) => dispatch => {
 }
 
 export const getProfessionalDetails = userId => dispatch => {
+    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
     dispatch({ type: types.FETCH_PROFESSIONAL_DETAILS_REQUEST })
     const endpoint = `${url}${userId}/professional`
-    fetch(endpoint)
+    fetch(endpoint, {
+        headers: {
+            authorization: token
+        }
+    })
     .then(res => res.json())
     .then(data => {
         dispatch({

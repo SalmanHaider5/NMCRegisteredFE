@@ -13,7 +13,7 @@ const initState = {
     error: ''
 }
 
-const signup = (state=initState, action) => {
+const account = (state=initState, action) => {
     const { type, payload } = action
     switch(type){
         case actions.SIGNUP_REQUEST:
@@ -37,6 +37,7 @@ const signup = (state=initState, action) => {
                 isLoading: true,
             }
         case actions.VERIFY_ACCOUNT_SUCCESS:
+        case actions.LOGIN_SUCCESS:
             const authentication = {}
             authentication.auth = true
             authentication.authToken = payload.token
@@ -51,6 +52,7 @@ const signup = (state=initState, action) => {
         case actions.ACCOUNT_LOGOUT_REQUEST:
             Cookies.remove('authToken')
             return{
+                isLoading: false,
                 authentication: {
                     auth: false,
                     authToken: '',
@@ -71,4 +73,4 @@ const signup = (state=initState, action) => {
     }
 }
 
-export default signup
+export default account

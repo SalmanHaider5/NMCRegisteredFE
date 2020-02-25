@@ -78,7 +78,7 @@ button.save-schedule-button{
     border: 0;
     border-radius: 0;
     font-size: 18px;
-    background-color: #1e1c5d;
+    /* background-color: #1e1c5d; */
 }
 .weekly-row .ant-card{
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
@@ -112,6 +112,6 @@ button.save-schedule-button{
 
     text-align: left;
 }
-.ant-col{
+.weekly-row .ant-col{
     padding-bottom: 50px;
 }

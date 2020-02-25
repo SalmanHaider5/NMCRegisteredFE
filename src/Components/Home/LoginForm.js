@@ -1,9 +1,10 @@
 import React from 'react'
 import { Field } from 'redux-form'
+import { Button } from 'antd'
 import { TextField } from '../../utils/custom-components'
 import { isRequired, isValidEmail } from '../../constants'
 
-const LoginForm = () => {
+const LoginForm = ({ showForgetPasswordForm }) => {
   return (
     <div>
       <Field
@@ -21,7 +22,15 @@ const LoginForm = () => {
         label={'Password'}
         size={'large'}
         type="password"
-        specialText={'Forgot Password?'}
+        specialText={
+          <Button
+            type="link"
+            className="link-button"
+            onClick={showForgetPasswordForm}
+          >
+            Forget Password?
+          </Button>
+        }
         validate={[isRequired]}
         tooltipPlacement={'top'}
       />

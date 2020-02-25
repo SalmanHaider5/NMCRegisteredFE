@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import { reduxForm, getFormValues, change, reset } from 'redux-form'
 import { isEmpty, length, add, find, propEq, map } from 'ramda'
 import { Row, Col, Button, Result, Icon, Divider, Drawer, TimePicker } from 'antd'
-import { getTimesheetValues } from '../../utils/helpers'
-import { addDailySchedule, addTimesheet, resetScheduleForm, removeTimesheet } from '../../actions'
-import { TIMESHEET_DAYS as days, TIMESHEET_SHIFTS as shifts, TIME_FORMAT as timeFormat } from '../../constants'
+import { getTimesheetValues } from '../../../utils/helpers'
+import { addDailySchedule, addTimesheet, resetScheduleForm, removeTimesheet } from '../../../actions'
+import { TIMESHEET_DAYS as days, TIMESHEET_SHIFTS as shifts, TIME_FORMAT as timeFormat } from '../../../constants'
 import WeekdaySelectBox from './WeekdaySelectBox'
 import ShiftsSelectBox from './ShiftsSelectBox'
 import SingleTimesheet from './SingleTimesheet'
@@ -100,21 +100,6 @@ class Timesheet extends Component {
     const { timesheet: { timesheets } } = this.props
     return (
       <div>
-        <headers>
-          <div className='signup-headers'>
-            <div className='header-body'>
-                <Row>
-                  <Col xs={4} sm={4} md={4} lg={4} xl={4}>
-                    <p className='logo'>LOGO</p>
-                  </Col>
-                  <Col xs={15} sm={16} md={16} lg={16} xl={16}></Col>
-                  <Col xs={5} sm={4} md={4} lg={4} xl={4}>
-                    <Button ghost onClick={this.logout}>Logout</Button>
-                  </Col>
-                </Row>
-              </div>
-          </div>
-        </headers>
         <div className="signup-wrapper">
           <div className="inner-wrapper">
             <div className="steps-content">

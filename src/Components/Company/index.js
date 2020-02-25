@@ -104,10 +104,6 @@ class Company extends Component {
     const { invalid, company: { companyDetails, isLoading }, addresses } = this.props
     const steps = [
       {
-        title: 'Basic Information',
-        content: <BasicForm/>,
-      },
-      {
         title: 'Address',
         content:<BusinessForm
           charity={charity}
@@ -119,6 +115,11 @@ class Company extends Component {
           addressSelectHandler={this.addressSelectHandler}
         />,
       },
+      {
+        title: 'Basic Information',
+        content: <BasicForm/>,
+      },
+      
       {
         title: 'Done',
         content: <Response
@@ -198,7 +199,7 @@ const mapStateToProps = state => {
     formValues: getFormValues('company')(state),
     company: state.company,
     addresses: state.addresses,
-    application: state.signup
+    application: state.account
   }
 }
 

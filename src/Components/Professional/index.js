@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
+import { Switch, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import { map, trim, split, prop, propEq, concat, find } from 'ramda'
-import { Steps, Button, Row, Col, Icon } from 'antd'
+import { Steps, Button, Row, Col, Icon, Menu, Layout } from 'antd'
 import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails } from '../../actions'
 import { Response } from '../../utils/custom-components'
 import { getProfessionalFormValues, showToast } from '../../utils/helpers'
 import BasicForm from './BasicForm'
 import AddressForm from './AddressForm'
 import AddPhoneForm from './AddPhoneForm'
+import Timesheet from './Timesheet'
 
 const { Step } = Steps;
 
@@ -17,7 +19,8 @@ class Professional extends Component {
     super(props);
     this.state = {
       current: 0,
-      verificationModal: false
+      verificationModal: false,
+      collapsed: false
     };
   }
 
@@ -107,10 +110,15 @@ class Professional extends Component {
     dispatch(addPhone(userId, values))
   }
 
+  onCollapse = () => {
+    const { collapsed } = this.state
+    this.setState({ collapsed: !collapsed })
+  }
+
   render() {
-    const { current, verificationModal } = this.state
-    const { professional: { isLoading, code, phoneVerified, professionalDetails }, invalid, addresses } = this.props
-    
+    const { current, verificationModal, collapsed } = this.state
+    const { professional: { isLoading, code, phoneVerified, professionalDetails }, invalid, addresses, match: { params: { userId } } } = this.props
+    const { Header, Content, Footer, Sider } = Layout
     const steps = [
       {
         title: 'Mobile Verification',
@@ -149,66 +157,105 @@ class Professional extends Component {
     ]
     return (
       <div>
-        <header>
-          <div className='signup-headers'>
-            <div className='header-body'>
-                <Row>
-                  <Col xs={4} sm={4} md={4} lg={4} xl={4}>
-                    <p className='logo'>LOGO</p>
-                  </Col>
-                  <Col xs={15} sm={16} md={16} lg={16} xl={16}></Col>
-                  <Col xs={5} sm={4} md={4} lg={4} xl={4}>
-                    <Button ghost onClick={this.logout}>Logout</Button>
-                  </Col>
-                </Row>
-              </div>
-          </div>
-        </header>
-          <div className='signup-wrapper'>
-              <div className='inner-wrapper'>
-                <Steps current={current}>
-                    { 
-                      map(item => (
-                        <Step key={item.title} title={item.title} />
-                      ), steps)
-                    }
-                </Steps>
-                <div className="steps-content">
-                  <div>
-                    {steps[current].content}
-                  </div>
-                </div>
-                <div className="steps-action">
-                {
-                  current < steps.length - 2 && (
-                    <Button className="next-button" type="primary" size="large" onClick={() => this.next()}>
-                      Next <Icon type="right" />
-                    </Button>
-                  )
-                }
-                {
-                  current === steps.length - 2 && (
-                    <Button
-                      size="large"
-                      className="next-button success-btn"
-                      type="primary"
-                      onClick={this.saveDetails}
-                      disabled={invalid}
-                    >
-                      <Icon type="check" /> Save
-                    </Button>
-                  )
-                }
-                {/*{
-                  current > 0 && current < steps.length - 1 (
-                    <Button size="large" className="prev-button" onClick={() => this.prev()}>
-                      <Icon type="left" /> Previous
-                    </Button>
-                  )
-                } */}
-              </div>
+        <div className='signup-headers'>
+          <div className='header-body'>
+              <Row>
+                <Col xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <p className='logo'>LOGO</p>
+                </Col>
+                <Col xs={15} sm={16} md={16} lg={16} xl={16}></Col>
+                <Col xs={5} sm={4} md={4} lg={4} xl={4}>
+                  <Button ghost onClick={this.logout}>
+                    <Icon type="logout" />
+                    Logout
+                  </Button>
+                </Col>
+              </Row>
             </div>
         </div>
+        <div>
+          <Layout style={{ minHeight: '90vh' }}>
+            <Sider
+              collapsible
+              collapsed={collapsed}
+              onCollapse={this.onCollapse}
+            >
+              <Menu
+                defaultSelectedKeys={['1']}
+                mode="inline"
+                theme="dark"
+                inlineCollapsed={false}
+              >
+                <Menu.Item key="1">
+                  <Link to={`/professional/${userId}/timesheet`}>
+                    <Icon type="snippets" />
+                    <span>Timesheets</span>
+                  </Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Icon type="profile" />
+                  <span>View Profile</span>
+                </Menu.Item>
+                <Menu.Item>
+                  <Icon type="lock" />
+                  <span>Security & Login</span>
+                </Menu.Item>
+                <Menu.Item>
+                  <Icon type="mail" />
+                  <span>Contact Us</span>
+                </Menu.Item>
+              </Menu>
+            </Sider>
+            <Layout>
+              <Header />
+              <Content>
+                <Switch>
+                  <Route path="/professional/:userId/timesheet" component={Timesheet} />
+                </Switch>
+              </Content>
+              <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+              </Layout>
+          </Layout>
+          
+        </div>
+        {/* <div className='signup-wrapper'>
+            <div className='inner-wrapper'>
+              <Steps current={current}>
+                  { 
+                    map(item => (
+                      <Step key={item.title} title={item.title} />
+                    ), steps)
+                  }
+              </Steps>
+              <div className="steps-content">
+                <div>
+                  {steps[current].content}
+                </div>
+              </div>
+              <div className="steps-action">
+              {
+                current < steps.length - 2 && (
+                  <Button className="next-button" type="primary" size="large" onClick={() => this.next()}>
+                    Next <Icon type="right" />
+                  </Button>
+                )
+              }
+              {
+                current === steps.length - 2 && (
+                  <Button
+                    size="large"
+                    className="next-button success-btn"
+                    type="primary"
+                    onClick={this.saveDetails}
+                    disabled={invalid}
+                  >
+                    <Icon type="check" /> Save
+                  </Button>
+                )
+              }
+            </div>
+          </div>
+        </div> */}
       </div>
     )
   }
@@ -219,7 +266,7 @@ const mapStateToProps = state => {
     formValues: getFormValues('professional')(state),
     professional: state.professional,
     addresses: state.addresses,
-    application: state.signup
+    application: state.account
   }
 }
 

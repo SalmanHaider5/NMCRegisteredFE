@@ -3,13 +3,14 @@ import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, FormSection } from 'redux-form'
 import { isNil, prop } from 'ramda'
-import { Row, Col, Button, Input, Divider, Spin } from 'antd'
-import { register, verifyAccount } from '../../actions'
+import { Row, Col, Button, Input, Divider, Spin, Icon } from 'antd'
+import { register, verifyAccount, userLogin } from '../../actions'
 import { TITLE } from '../../constants'
 import { ModalBox } from '../../utils/custom-components'
 import { getUsersFormValues } from '../../utils/helpers'
 import SignupForm from './SignupForm'
 import LoginForm from './LoginForm'
+import ForgetPasswordForm from './ForgetPasswordForm'
 
 import './home.css'
 
@@ -18,7 +19,8 @@ class Home extends Component {
     super(props)
     this.state = {
       selected: '',
-      loginModal: false
+      loginModal: false,
+      forgetPassword: false
     }
   }
 
@@ -49,14 +51,23 @@ class Home extends Component {
   }
 
   login = () => {
-    const { formValues: { login } } = this.props
-    console.log(login)
+    const { formValues: { login }, dispatch } = this.props
+    dispatch(userLogin(login))
+    dispatch(reset('users'))
+  }
+
+  showForgetPasswordForm = () => {
+    this.setState({ forgetPassword: true })
+  }
+
+  showLoginForm = () => {
+    this.setState({ forgetPassword: false })
   }
 
 
   render() {
 
-    const { selected, loginModal } = this.state
+    const { selected, loginModal, forgetPassword } = this.state
     const { valid, formValues= {}, application: { isLoading, authentication: { auth, role, userId } } } = this.props
     const { TextArea } = Input
     
@@ -173,10 +184,33 @@ class Home extends Component {
           </section>
         </div>
         <ModalBox
-          title={`Login`}
+          title={forgetPassword ? `Forget Password` : `Login`}
+          size="large"
           visible={loginModal}
-          content={<FormSection name="login"> <LoginForm /> </FormSection>}
-          submitText={'Login'}
+          content={forgetPassword ?
+            <FormSection name="forgetPassword">
+              <ForgetPasswordForm
+                showLoginForm={this.showLoginForm}
+              />
+            </FormSection> :
+            <FormSection
+              name="login"
+            >
+              <LoginForm
+                showForgetPasswordForm={this.showForgetPasswordForm}
+              />
+            </FormSection>
+          }
+          submitText={forgetPassword ?
+            <span>
+              <Icon type="check" />
+              &nbsp;Save
+            </span> :
+            <span>
+              <Icon type="login" />  
+              &nbsp;Login
+            </span>
+          }
           cancelText={'Cancel'}
           submitHandler={this.login}
           cancelHandler={this.hideLoginModal}
@@ -189,7 +223,7 @@ class Home extends Component {
 const mapStateToProps = state => {
   return {
     formValues: getFormValues('users')(state),
-    application: state.signup
+    application: state.account
   }
 }
 

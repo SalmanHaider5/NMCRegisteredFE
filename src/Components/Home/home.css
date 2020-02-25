@@ -157,3 +157,6 @@ div.ant-modal-body{
 div.ant-modal-footer{
     background-color: #d8d8e12b;
 }
+button.ant-btn.link-button.ant-btn-link{
+    padding: 0;
+}
