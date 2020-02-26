@@ -1,8 +1,8 @@
+import { defaultTo, isNil } from 'ramda'
 import Cookies from 'js-cookie'
 import { SERVER_URL as url } from '../constants'
 import * as types from './'
 import { showToast } from '../utils/helpers'
-import { defaultTo } from 'ramda'
 
 export const createDetails = (userId, formValues) => dispatch => {
     dispatch({ type: types.ADD_PROFESSIONAL_DETAILS_REQUEST })
@@ -85,6 +85,7 @@ export const verifyPhone = (userId, values) => dispatch => {
 }
 
 export const getProfessionalDetails = userId => dispatch => {
+    if(isNil(Cookies.getJSON('authToken'))) return undefined
     const token = defaultTo('', Cookies.getJSON('authToken').authToken)
     dispatch({ type: types.FETCH_PROFESSIONAL_DETAILS_REQUEST })
     const endpoint = `${url}${userId}/professional`
@@ -95,10 +96,17 @@ export const getProfessionalDetails = userId => dispatch => {
     })
     .then(res => res.json())
     .then(data => {
-        dispatch({
-            type: types.FETCH_PROFESSIONAL_DETAILS_SUCCESS,
-            payload: data
-        })
+        const { code } = data
+        if(code === 'success'){
+            dispatch({
+                type: types.FETCH_PROFESSIONAL_DETAILS_SUCCESS,
+                payload: data
+            })
+        }else{
+            dispatch({
+                type: types.FETCH_PROFESSIONAL_DETAILS_FAILURE
+            })
+        }
     })
     .catch(error => {
         dispatch({

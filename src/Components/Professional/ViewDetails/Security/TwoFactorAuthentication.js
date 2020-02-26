@@ -1,7 +1,7 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { defaultTo, prop } from 'ramda'
-import { SwitchField } from '../../../utils/custom-components'
+import { prop } from 'ramda'
+import { SwitchField } from '../../../../utils/custom-components'
 
 const TwoFactorAuthentication = ({ formValues }) => {
   const twoFactorAuthentication = prop('twoFactorAuthentication', prop('changePassword', formValues))
@@ -14,7 +14,6 @@ const TwoFactorAuthentication = ({ formValues }) => {
         label="Two Factor Authentication"
         defaultStatus={false}
         checked={twoFactorAuthentication}
-        // specialText={twoFactorAuthentication ? `Enabled` : `Disabled`}
         text={twoFactorAuthentication ? `Enabled` : `Disabled`}
       />
     </div>

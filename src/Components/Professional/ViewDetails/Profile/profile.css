@@ -8,15 +8,32 @@
     margin-bottom: 30px;
 }
 .profile-view .profile-details .text-label{
-    padding-left: 30px;
+    padding-left: 0px;
     padding-top: 10px;
 }
 .profile-view .profile-details .ant-col h1{
-    font-size: 32px;
+    font-size: 22px;
     margin-bottom: 0px;
+}
+.profile-view .profile-details .ant-col h1 span.ant-tag{
+    background-color: #449d44;
+    border-color: #b7eb8f;
+    color: #fff;
 }
 .profile-view .profile-details .text-label span{
     font-weight: 500;
     font-size: 14px;
     color: #806b6b;
+}
+
+i.anticon{
+    padding-right: 5px;
+}
+.profile-view .profile-list .ant-list-item label{
+    font-weight: 500;
+}
+
+.profile-view .profile-list .ant-list-item span.label-value{
+    position: absolute;
+    right: 0;
 }

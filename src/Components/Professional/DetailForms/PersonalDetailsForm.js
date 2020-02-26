@@ -1,11 +1,11 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { TextField, SelectField, DatePickerField } from '../../utils/custom-components'
-import { isRequired } from '../../constants'
+import { TextField, SelectField, DatePickerField } from '../../../utils/custom-components'
+import { isRequired } from '../../../constants'
 
 
 
-const BasicForm = () => {
+const PersonalDetailsForm = () => {
   const options = [
     { id: 1, name: 'MBBS' },
     { id: 2, name: 'FCPS' }
@@ -19,9 +19,6 @@ const BasicForm = () => {
 
   return (
     <div>
-      <div className="steps-header">
-        <h3>Basic Information</h3>
-      </div>
       <Field
         name="status"
         component={SelectField}
@@ -71,4 +68,4 @@ const BasicForm = () => {
   )
 }
 
-export default BasicForm
+export default PersonalDetailsForm

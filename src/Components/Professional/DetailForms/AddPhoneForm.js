@@ -1,8 +1,8 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { ButtonTextField, ModalBox } from '../../utils/custom-components'
-import { isRequired, isNumber } from '../../constants'
-import MobileVerificationForm from './MobileVerificationForm'
+import { ButtonTextField, ModalBox } from '../../../utils/custom-components'
+import { isRequired, isNumber } from '../../../constants'
+import MobileVerificationForm from '../MobileVerificationForm'
 
 const AddPhoneForm = ({
 	code,

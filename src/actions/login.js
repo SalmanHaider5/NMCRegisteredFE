@@ -15,13 +15,14 @@ export const userLogin = formValues => dispatch => {
     })
     .then(res => res.json())
     .then(response => {
-        console.log('resposnse', response)
         const { code, response: { title, message } } = response
         showToast(title, message, code)
-        dispatch({
-            type: types.LOGIN_SUCCESS,
-            payload: response
-        })
+        if(code === 'success'){
+            dispatch({
+                type: types.LOGIN_SUCCESS,
+                payload: response
+            })
+        }
     })
     .catch(error => {
         dispatch({

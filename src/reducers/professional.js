@@ -5,7 +5,11 @@ const initState = {
     isLoading: false,
     code: '',
     phoneVerified: false,
-    professionalDetails: {}
+    professionalDetails: {
+        professional: {
+            phone: {}
+        }
+    }
 }
 
 const professional = (state=initState, action) => {
