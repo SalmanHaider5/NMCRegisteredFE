@@ -1,19 +1,20 @@
 import React from 'react'
 import { Field } from 'redux-form'
 import { Spin } from 'antd'
-import { TextField, CheckboxField, ButtonTextField, SelectField } from '../../utils/custom-components'
-import { isRequired } from '../../constants'
+import { TextField, CheckboxField, ButtonTextField, SelectField } from '../../../utils/custom-components'
+import { isRequired } from '../../../constants'
 
 const AddressForm = ({
   findAddresses,
   addressSelectHandler,
-  addresses: { isLoading, addresses }
+  addresses: {
+    isLoading,
+    addresses
+  }
 }) => {
+  
   return (
-    <Spin spinning={isLoading}>
-      <div className="steps-header">
-        <h3>Address Details</h3>
-      </div>
+     <Spin spinning={isLoading} tip="Loading..."> 
       <Field
 				name="postCode"
 				component={ButtonTextField}
@@ -65,7 +66,15 @@ const AddressForm = ({
         label={'Has own Transport'}
         text={'Yes'}
         size={'large'}
+        tooltipPlacement={'topRight'}
+      />
+      <Field
+        name="distance"
+        component={TextField}
+        label={'Distance (m/s)'}
+        size={'large'}
         type="text"
+        specialText={`You can travel`}
         tooltipPlacement={'topRight'}
       />
     </Spin>

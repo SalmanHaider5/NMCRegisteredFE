@@ -12,8 +12,13 @@ const ViewDetails = ({
   collapsed,
   onCollapse,
   professional,
-  personalDetailsEditForm,
-  editPersonalDetails
+  formModal,
+  formName,
+  showEditFormModal,
+  hideEditFormModal,
+  findAddresses,
+  addressSelectHandler,
+  addresses
 }) => {
   const { Sider, Footer, Content } = Layout
   return (
@@ -60,8 +65,13 @@ const ViewDetails = ({
               <Profile
                 professional={professional}
                 isLoading={isLoading}
-                personalDetailsEditForm={personalDetailsEditForm}
-                editPersonalDetails={editPersonalDetails}
+                formModal={formModal}
+                formName={formName}
+                showEditFormModal={showEditFormModal}
+                hideEditFormModal={hideEditFormModal}
+                findAddresses={findAddresses}
+                addressSelectHandler={addressSelectHandler}
+                addresses={addresses}
               />
             </Route>
             <Route path="/professional/:userId/security" component={SecurityAndLogin}  />

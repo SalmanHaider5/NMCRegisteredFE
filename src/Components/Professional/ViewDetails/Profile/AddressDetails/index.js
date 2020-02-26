@@ -6,6 +6,7 @@ const AddressDetails = ({ professional }) => {
     postalCode,
     address,
     city,
+    county,
     hasTransport,
     distance
   } = professional
@@ -28,9 +29,16 @@ const AddressDetails = ({ professional }) => {
       <List.Item>
         <label>
           <Icon type="compass" />
-          City
+          City/Town
         </label>
         <span className="label-value">{city}</span>
+      </List.Item>
+      <List.Item>
+        <label>
+          <Icon type="home" />
+          County
+        </label>
+        <span className="label-value">{county}</span>
       </List.Item>
       <List.Item>
         <label>

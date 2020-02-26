@@ -15,7 +15,8 @@ class Professional extends Component {
       current: 0,
       verificationModal: false,
       collapsed: false,
-      personalDetailsEditForm: false
+      formModal: false,
+      formName: ''
     };
   }
 
@@ -44,9 +45,17 @@ class Professional extends Component {
     dispatch(addPhone(userId, values))
   }
 
-  editPersonalDetails = () => {
+  showEditFormModal = (name) => {
     this.setState({
-      personalDetailsEditForm: true
+      formModal: true,
+      formName: name
+    })
+  }
+
+  hideEditFormModal = () => {
+    this.setState({
+      formModal: false,
+      formName: ''
     })
   }
 
@@ -66,6 +75,7 @@ class Professional extends Component {
   }
 
   findAddresses = () => {
+    console.log('Invoked')
     const { dispatch, formValues: { postCode } } = this.props
     dispatch(getAdresses(trim(postCode)))
   }
@@ -99,8 +109,9 @@ class Professional extends Component {
   }
 
   render() {
-    const { collapsed, personalDetailsEditForm } = this.state
+    const { collapsed, formModal, formName } = this.state
     const {
+      addresses,
       professional: {
         isLoading,
         professionalDetails
@@ -125,10 +136,16 @@ class Professional extends Component {
             collapsed={collapsed}
             onCollapse={this.onCollapse}
             professional={professionalDetails.professional}
-            personalDetailsEditForm={personalDetailsEditForm}
-            editPersonalDetails={this.editPersonalDetails}
+            formModal={formModal}
+            formName={formName}
+            showEditFormModal={this.showEditFormModal}
+            hideEditFormModal={this.hideEditFormModal}
+            findAddresses={this.findAddresses}
+            addressSelectHandler={this.addressSelectHandler}
+            addresses={addresses}
           /> :
-          <AddDetails />}
+          <AddDetails />
+        }
           
       </div>
     )

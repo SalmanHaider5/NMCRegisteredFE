@@ -18,3 +18,9 @@ export const TIMESHEET_SHIFTS = [
     {id: 4, name: 'Early Long Shift', startTime: '07:00 AM', endTime: '08:00 PM'},
     {id: 5, name: 'Customized Shift'}
 ]
+
+export const GENDER_OPTIONS = [
+    { id: 1, name: 'Male' },
+    { id: 2, name: 'Female' },
+    { id: 3, name: 'Others' }
+  ]

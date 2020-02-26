@@ -1,29 +1,19 @@
 import React from 'react'
 import { Field } from 'redux-form'
 import { TextField, SelectField, DatePickerField } from '../../../utils/custom-components'
-import { isRequired } from '../../../constants'
+import { isRequired, GENDER_OPTIONS as genders } from '../../../constants'
 
 
 
 const PersonalDetailsForm = () => {
-  const options = [
-    { id: 1, name: 'MBBS' },
-    { id: 2, name: 'FCPS' }
-  ]
-
-  const genderOptions = [
-    { id: 1, name: 'Male' },
-    { id: 2, name: 'Female' },
-    { id: 3, name: 'Others' }
-  ]
-
   return (
     <div>
       <Field
         name="status"
         component={SelectField}
         label={'Status'}
-        options={genderOptions}
+        size={'large'}
+        options={genders}
         hintText={'Gender'}
         validate={[isRequired]}
       />
@@ -42,25 +32,6 @@ const PersonalDetailsForm = () => {
         label={'Date of Birth'}
         size={'large'}
         type="text"
-        validate={[isRequired]}
-        tooltipPlacement={'topRight'}
-      />
-      <Field
-        name="nmcPin"
-        component={TextField}
-        label={'NMC Pin Number'}
-        size={'large'}
-        type="text"
-        validate={[isRequired]}
-        tooltipPlacement={'topRight'}
-      />
-      <Field
-        name="qualification"
-        component={SelectField}
-        label={'Qualification'}
-        size={'large'}
-        options={options}
-        hintText={'Choose your Qualification'}
         validate={[isRequired]}
         tooltipPlacement={'topRight'}
       />
