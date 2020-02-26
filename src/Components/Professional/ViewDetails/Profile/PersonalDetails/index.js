@@ -17,6 +17,13 @@ const PersonalDetails = ({ professional }) => {
     <List className="profile-list">
       <List.Item>
         <label>
+          <Icon type="api" />
+          Status
+        </label>
+        <span className="label-value">{professional.status}</span>
+      </List.Item>
+      <List.Item>
+        <label>
           <Icon type="user" />
           Full Name
         </label>

@@ -1,7 +1,10 @@
 import React from 'react'
 import { Card, Icon, Button, Row, Col, Spin } from 'antd'
 import PersonalDetails from './PersonalDetails/'
-import PersonalDetailsForm from '../../DetailForms/PersonalDetailsForm'
+import AddressDetails from './AddressDetails/'
+import ProfessionalDetails from './ProfessionalDetails/'
+import WorkExperience from './WorkExperience/'
+// import PersonalDetailsForm from '../../DetailForms/PersonalDetailsForm'
 import './profile.css'
 
 const Profile = ({ isLoading, professional, personalDetailsEditForm, editPersonalDetails }) => {
@@ -14,17 +17,17 @@ const Profile = ({ isLoading, professional, personalDetailsEditForm, editPersona
           </div>
           <div className="profile-view">
             <Row>
-              <Col span={personalDetailsEditForm ? 24 : 12} offset={1}>
+              <Col span={10} offset={1}>
                 <Card
                   title={
                     <span>
-                      <Icon type="solution" />
+                      <Icon type="user" />
                       Personal Details
                     </span>
                   }
                   extra={
                     <Button
-                      type={personalDetailsEditForm ? "default" : "primary"}
+                      type={personalDetailsEditForm ? "default" : "link"}
                       className={personalDetailsEditForm ? "success-btn" : ""}
                       onClick={editPersonalDetails}>
                       <Icon
@@ -34,36 +37,78 @@ const Profile = ({ isLoading, professional, personalDetailsEditForm, editPersona
                   }
                 >
                   {
-                    personalDetailsEditForm ?
-                    <PersonalDetailsForm /> :
                     <PersonalDetails
                       professional={professional}
                     />
                   }
                 </Card>
+                <Row>
+                  <Col span={24}>
+                    <Card
+                      title={
+                        <span>
+                          <Icon type="solution" />
+                          Professional Details
+                        </span>
+                      }
+                      extra={
+                        <Button type="link" onClick={editPersonalDetails}>
+                          <Icon type="edit" />
+                        </Button>
+                      }
+                    >
+                      {
+                        <ProfessionalDetails
+                          professional={professional}
+                        />
+                      }
+                    </Card>
+                  </Col>
+                </Row>
               </Col>
-              <Col span={12} offset={1}>
+              <Col span={14} offset={1}>
                 <Card
                   title={
                     <span>
-                      <Icon type="solution" />
-                      Personal Details
+                      <Icon type="environment" />
+                      Address Details
                     </span>
                   }
                   extra={
-                    <Button type="primary" onClick={editPersonalDetails}>
+                    <Button type="link" onClick={editPersonalDetails}>
                       <Icon type="edit" />
                     </Button>
                   }
                 >
                   {
-                    personalDetailsEditForm ?
-                    <PersonalDetailsForm /> :
-                    <PersonalDetails
+                    <AddressDetails
                       professional={professional}
                     />
                   }
                 </Card>
+                <Row>
+                  <Col span={24}>
+                    <Card
+                      title={
+                        <span>
+                          <Icon type="book" />
+                          Work Experience
+                        </span>
+                      }
+                      extra={
+                        <Button type="link" onClick={editPersonalDetails}>
+                          <Icon type="edit" />
+                        </Button>
+                      }
+                    >
+                      {
+                        <WorkExperience
+                          professional={professional}
+                        />
+                      }
+                    </Card>
+                  </Col>
+                </Row>
               </Col>
             </Row>
           </div>  

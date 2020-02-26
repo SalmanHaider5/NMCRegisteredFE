@@ -21,10 +21,10 @@ class Professional extends Component {
 
   componentDidMount(){
     const { application: { authentication: { auth, role } }, history, dispatch, match: { params: { userId } } } = this.props
-    dispatch(getProfessionalDetails(userId))
-    if(!auth && role !== 'professional'){
-      history.push('/')
-    }
+    // dispatch(getProfessionalDetails(userId))
+    // if(!auth && role !== 'professional'){
+    //   history.push('/')
+    // }
   }
   
   next = () => {

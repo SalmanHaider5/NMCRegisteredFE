@@ -28,12 +28,17 @@
 
 i.anticon{
     padding-right: 5px;
+    font-size: 20px;
 }
 .profile-view .profile-list .ant-list-item label{
     font-weight: 500;
+    font-size: 14px;
+    color: #000;
 }
 
 .profile-view .profile-list .ant-list-item span.label-value{
     position: absolute;
     right: 0;
+    font-weight: 500;
+    opacity: 0.5;
 }
