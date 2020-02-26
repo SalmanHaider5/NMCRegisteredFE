@@ -5,7 +5,7 @@ import { trim, split, prop, propEq, concat, find, isNil } from 'ramda'
 import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails } from '../../actions'
 import { getProfessionalFormValues } from '../../utils/helpers'
 import Header from '../Header'
-import AddDetails from './AddDetails'
+import AddDetails from './DetailForms'
 import ViewDetails from './ViewDetails'
 
 class Professional extends Component {
