@@ -5,7 +5,7 @@ import { trim, split, prop, propEq, concat, find, isNil } from 'ramda'
 import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails } from '../../actions'
 import { getProfessionalFormValues } from '../../utils/helpers'
 import Header from '../Header'
-import AddDetails from './DetailForms'
+import AddDetails from './AddDetails'
 import ViewDetails from './ViewDetails'
 
 class Professional extends Component {
@@ -123,14 +123,14 @@ class Professional extends Component {
         }
       }
     } = this.props
-    console.log('Props', this.props)
+    
     return (
       <div>
         <Header
           logout={this.logout}
         />
         {
-          !isNil(professionalDetails) ? 
+          isNil(professionalDetails) ? 
           <ViewDetails
             userId={userId}
             isLoading={isLoading}
@@ -145,7 +145,11 @@ class Professional extends Component {
             addressSelectHandler={this.addressSelectHandler}
             addresses={addresses}
           /> :
-          <AddDetails />
+          <AddDetails
+            findAddresses={this.findAddresses}
+            addressSelectHandler={this.addressSelectHandler}
+            addresses={addresses}
+          />
         }
           
       </div>

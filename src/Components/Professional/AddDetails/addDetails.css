@@ -1,0 +1,40 @@
+.addform-container{
+    min-height: 91vh;
+    padding: 30px;
+    background-color: #8dbec3;
+}
+.addform-container .addform-panel{
+    background-color: #1e1c5d;
+    min-height: 80vh;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.addform-container .form-panel{
+    background-color: white;
+    height: 80vh;
+    
+}
+.addform-container .ant-steps .ant-steps-item .ant-steps-item-content .ant-steps-item-title{
+    color: #fff;
+}
+.addform-container .progress-panel i.anticon{
+    color: #fff;
+}
+.addform-container .progress-tail{
+    text-align: center;
+    border: 10px solid #fff;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    border-radius: 50%;
+    display: table;
+    position: relative;
+    top: 20vh;
+}
+.addform-container .form-icon{
+    font-size: 100px;
+    display: table-cell;
+    vertical-align: middle;
+}
+.addform-container .form-actions{
+    text-align: right;
+}
