@@ -7,6 +7,8 @@ import ProfessionalDetails from './ProfessionalDetails/'
 import WorkExperience from './WorkExperience/'
 import PersonalDetailsForm from '../../DetailForms/PersonalDetailsForm'
 import AddressForm from '../../DetailForms/AddressForm'
+import ProfessionalDetailsForm from '../../DetailForms/ProfessionalDetailsForm'
+import WorkExperienceForm from '../../DetailForms/WorkExperienceForm'
 import './profile.css'
 
 const Profile = ({
@@ -65,7 +67,7 @@ const Profile = ({
                         </span>
                       }
                       extra={
-                        <Button type="link">
+                        <Button type="link" onClick={() => showEditFormModal("Professional")} >
                           <Icon type="edit" />
                         </Button>
                       }
@@ -109,7 +111,7 @@ const Profile = ({
                         </span>
                       }
                       extra={
-                        <Button type="link">
+                        <Button type="link" onClick={() => showEditFormModal("Experience")}>
                           <Icon type="edit" />
                         </Button>
                       }
@@ -127,7 +129,7 @@ const Profile = ({
             <ModalBox
               title={`Edit ${formName} Details`}
               visible={formModal}
-              size={800}
+              size={formName === 'Experience' ? 500 : 800}
               content={
                 formName === 'Personal' ?
                 <PersonalDetailsForm /> :
@@ -137,6 +139,10 @@ const Profile = ({
                   addressSelectHandler={addressSelectHandler}
                   addresses={addresses}
                 /> :
+                formName === 'Professional' ?
+                <ProfessionalDetailsForm /> :
+                formName === 'Experience' ?
+                <WorkExperienceForm /> :
                 ''
               }
               submitText={

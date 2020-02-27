@@ -185,7 +185,7 @@ class Home extends Component {
         </div>
         <ModalBox
           title={forgetPassword ? `Forget Password` : `Login`}
-          size="large"
+          size={600}
           visible={loginModal}
           content={forgetPassword ?
             <FormSection name="forgetPassword">

@@ -7,7 +7,8 @@ const initState = {
     phoneVerified: false,
     professionalDetails: {
         professional: {
-            phone: {}
+            phone: {},
+            picture: {}
         }
     }
 }

@@ -23,4 +23,14 @@ export const GENDER_OPTIONS = [
     { id: 1, name: 'Male' },
     { id: 2, name: 'Female' },
     { id: 3, name: 'Others' }
-  ]
+]
+export const QUALIFICATION_OPTIONS = [
+    { id: 1, name: 'Registered Nurse Learning Disabilities' },
+    { id: 2, name: 'Registered General Nurse' },
+    { id: 3, name: 'Registered Mental Nurse' },
+    { id: 4, name: `Registered Sick Children's Nurse` },
+    { id: 5, name: 'Advanced Nursing Practitioner' },
+    { id: 6, name: 'Emergency Nursing Practitioner' },
+    { id: 7, name: 'Operating Department Practitioner' },
+    { id: 8, name: 'ICU/HDU Nurse' }
+]

@@ -1,5 +1,5 @@
 import React from 'react'
-import { List, Tag, Icon } from 'antd'
+import { List, Icon } from 'antd'
 
 const AddressDetails = ({ professional }) => {
   const {

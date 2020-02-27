@@ -1,38 +1,36 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { TextField, SelectField, DatePickerField } from '../../../utils/custom-components'
-import { isRequired, GENDER_OPTIONS as genders } from '../../../constants'
-
-
+import { TextField, SelectField } from '../../../utils/custom-components'
+import { isRequired, QUALIFICATION_OPTIONS as qualifications } from '../../../constants'
 
 const ProfessionalDetailsForm = () => {
   return (
     <div>
       <Field
-        name="status"
-        component={SelectField}
-        label={'Status'}
-        size={'large'}
-        options={genders}
-        hintText={'Gender'}
-        validate={[isRequired]}
-      />
-      <Field
-        name="fullName"
+        name="nmcPin"
         component={TextField}
-        label={'Full Name'}
+        label={'NMC Pin'}
         size={'large'}
         type="text"
         validate={[isRequired]}
         tooltipPlacement={'topRight'}
       />
       <Field
-        name="dateOfBirth"
-        component={DatePickerField}
-        label={'Date of Birth'}
+        name="qualification"
+        component={SelectField}
+        label={'Qualification'}
+        size={'large'}
+        options={qualifications}
+        hintText={'Choose your Qualification'}
+        validate={[isRequired]}
+      />
+      <Field
+        name="cpdHours"
+        component={TextField}
+        label={'CPD Hours'}
         size={'large'}
         type="text"
-        validate={[isRequired]}
+        specialText={'Max 35 Hours'}
         tooltipPlacement={'topRight'}
       />
     </div>

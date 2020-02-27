@@ -1,5 +1,6 @@
 import React from 'react'
-import { List, Tag, Icon } from 'antd'
+import { List, Tag, Icon, Avatar } from 'antd'
+import moment from 'moment'
 
 const PersonalDetails = ({ professional }) => {
   const {
@@ -16,11 +17,7 @@ const PersonalDetails = ({ professional }) => {
   return (
     <List className="profile-list">
       <List.Item>
-        <label>
-          <Icon type="api" />
-          Status
-        </label>
-        <span className="label-value">{professional.status}</span>
+      <Avatar size={160} icon="user" />
       </List.Item>
       <List.Item>
         <label>
@@ -28,6 +25,13 @@ const PersonalDetails = ({ professional }) => {
           Full Name
         </label>
         <span className="label-value">{fullName}</span>
+      </List.Item>
+      <List.Item>
+        <label>
+          <Icon type="api" />
+          Status
+        </label>
+        <span className="label-value">{professional.status}</span>
       </List.Item>
       <List.Item>
         <label>
@@ -52,14 +56,16 @@ const PersonalDetails = ({ professional }) => {
           <Icon type="shop" />
           Date of Birth
         </label>
-        <span className="label-value">{dateOfBirth}</span>
+        <span className="label-value">
+          {dateOfBirth ? moment(dateOfBirth).format('LL') : ''}
+        </span>
       </List.Item>
       <List.Item>
         <label>
           <Icon type="calendar" />
           Joined At
         </label>
-        <span className="label-value">{createdAt}</span>
+        <span className="label-value">{moment(createdAt).format('LL')}</span>
       </List.Item>
     </List>
   )

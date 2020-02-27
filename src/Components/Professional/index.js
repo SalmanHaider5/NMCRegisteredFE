@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { reduxForm, getFormValues, reset, change } from 'redux-form'
+import { reduxForm, getFormValues, reset, change, initialize } from 'redux-form'
 import { trim, split, prop, propEq, concat, find, isNil } from 'ramda'
 import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails } from '../../actions'
 import { getProfessionalFormValues } from '../../utils/helpers'
@@ -46,6 +46,8 @@ class Professional extends Component {
   }
 
   showEditFormModal = (name) => {
+    const { dispatch, professional: { professionalDetails: { professional } } } = this.props
+    dispatch(initialize('professional', professional))
     this.setState({
       formModal: true,
       formName: name
@@ -75,7 +77,6 @@ class Professional extends Component {
   }
 
   findAddresses = () => {
-    console.log('Invoked')
     const { dispatch, formValues: { postCode } } = this.props
     dispatch(getAdresses(trim(postCode)))
   }
@@ -122,7 +123,7 @@ class Professional extends Component {
         }
       }
     } = this.props
-    
+    console.log('Props', this.props)
     return (
       <div>
         <Header

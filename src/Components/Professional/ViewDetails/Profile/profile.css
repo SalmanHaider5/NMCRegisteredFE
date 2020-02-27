@@ -42,3 +42,11 @@ i.anticon{
     font-weight: 500;
     opacity: 0.5;
 }
+.profile-view .ant-avatar{
+    margin: 0 auto;
+}
+.profile-view .ant-avatar i.anticon{
+    font-size: 80px;
+    padding-right: 0;
+    
+}
