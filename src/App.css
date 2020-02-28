@@ -72,3 +72,6 @@
 .ant-spin-nested-loading{
   position: inherit;
 }
+i.anticon{
+  padding-right: 5px;
+}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, Card, Timeline, Icon, Button } from 'antd'
+import { Row, Col, Card, Steps, Icon, Button } from 'antd'
 import AddPhoneForm from '../DetailForms/AddPhoneForm'
 import PersonalDetailsForm from '../DetailForms/PersonalDetailsForm'
 import AddressForm from '../DetailForms/AddressForm'
@@ -8,7 +8,7 @@ import ProfessionalDetailsForm from '../DetailForms/ProfessionalDetailsForm'
 import './addDetails.css'
 
 const AddDetails = ({ findAddresses, addressSelectHandler, addresses }) => {
-  // const { Step } = Steps
+  const { Step } = Steps
   return (
     <div className="addform-container">
       <Row gutter={16} className="addform-panel">
@@ -27,12 +27,12 @@ const AddDetails = ({ findAddresses, addressSelectHandler, addresses }) => {
             }
             bordered={false}
           >
-            <ProfessionalDetailsForm
+            <AddPhoneForm
             />
             <Row>
               <Col span={5} offset={3}></Col>
               <Col span={12} offset={1} className="form-actions">
-                <Button className="success-btn" size="large">
+                <Button className="success-btn">
                   <Icon type="check" />
                   Save
                 </Button>

@@ -57,3 +57,38 @@ export const verifyAccount = formValues => dispatch => {
 export const logoutUser = () => dispatch => {
     dispatch({ type: types.ACCOUNT_LOGOUT_REQUEST })
 }
+
+export const generatePasswordResetLink = values => dispatch => {
+
+    const endpoint = `${url}reset`
+    fetch(endpoint, {
+        method: 'POST',
+        body: JSON.stringify(values),
+        headers: {
+            'Content-Type':'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(response => {
+        const { code, response: { title, message } } = response
+        showToast(title, message, code)
+    })
+
+}
+
+export const resetUserPassword = (id, values) => dispatch => {
+    const endpoint = `${url}resetPassword/${id}`
+    const headers = new Headers()
+    headers.append('Content-Type', 'application/json')
+    headers.append('authorization', values.token)
+    fetch(endpoint, {
+        method: 'POST',
+        body: JSON.stringify(values),
+        headers
+    })
+    .then(res => res.json())
+    .then(response => {
+        const { code, response: { title, message } } = response
+        showToast(title, message, code)
+    })
+}

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, FormSection } from 'redux-form'
 import { isNil, prop } from 'ramda'
 import { Row, Col, Button, Input, Divider, Spin, Icon } from 'antd'
-import { register, verifyAccount, userLogin } from '../../actions'
+import { register, verifyAccount, userLogin, generatePasswordResetLink } from '../../actions'
 import { TITLE } from '../../constants'
 import { ModalBox } from '../../utils/custom-components'
 import { getUsersFormValues } from '../../utils/helpers'
@@ -62,6 +62,11 @@ class Home extends Component {
 
   showLoginForm = () => {
     this.setState({ forgetPassword: false })
+  }
+
+  sendPasswordResetLink = () => {
+    const { formValues: { forgetPassword }, dispatch } = this.props
+    dispatch(generatePasswordResetLink(forgetPassword))
   }
 
 
@@ -188,7 +193,9 @@ class Home extends Component {
           size={600}
           visible={loginModal}
           content={forgetPassword ?
-            <FormSection name="forgetPassword">
+            <FormSection
+              name="forgetPassword"
+            >
               <ForgetPasswordForm
                 showLoginForm={this.showLoginForm}
               />
@@ -203,8 +210,8 @@ class Home extends Component {
           }
           submitText={forgetPassword ?
             <span>
-              <Icon type="check" />
-              &nbsp;Save
+              <Icon type="link" />
+              &nbsp;Send Password Reset Link
             </span> :
             <span>
               <Icon type="login" />  
@@ -212,7 +219,9 @@ class Home extends Component {
             </span>
           }
           cancelText={'Cancel'}
-          submitHandler={this.login}
+          submitHandler={
+            forgetPassword ? this.sendPasswordResetLink : this.login
+          }
           cancelHandler={this.hideLoginModal}
         />
       </Spin>

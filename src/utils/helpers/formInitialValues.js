@@ -8,7 +8,17 @@ export const getUsersFormValues = () => {
         login: {
             email: '',
             password: ''
+        },
+        forgetPassword: {
+            email: ''
         }
+    }
+}
+
+export const getResetPasswordFormValues = () => {
+    return{
+        password: '',
+        confirmPassword: ''
     }
 }
 
