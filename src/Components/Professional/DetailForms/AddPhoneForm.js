@@ -4,25 +4,21 @@ import { ButtonTextField, TextField } from '../../../utils/custom-components'
 import { isRequired, isNumber } from '../../../constants'
 
 const AddPhoneForm = ({
-  code,
-  phoneVerified,
-  showVerificationModal,
-  hideVerificationModal,
-  verifyProfessionalPhone
+  sendVerificationCode
 }) => {
   return (
     <div>
       <Field
         name="phone"
         component={ButtonTextField}
-        enterButton={'Verify'}
-        onSearch={showVerificationModal}
+        enterButton={'Send Code'}
+        onSearch={sendVerificationCode}
         label={'Phone'}
         size={'large'}
         type="text"
         validate={[isRequired, isNumber]}
         tooltipPlacement={'topRight'}
-        specialText={'Please add your phone to verify your account'}
+        specialText={'If not received click again on Send Code'}
       />
       <Field
         name="phoneCode"

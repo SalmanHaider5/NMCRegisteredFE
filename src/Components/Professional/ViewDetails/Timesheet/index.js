@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import moment from 'moment'
 import { reduxForm, getFormValues, change, reset } from 'redux-form'
 import { isEmpty, length, add, find, propEq, map } from 'ramda'
 import { Row, Col, Button, Result, Icon, Divider, Drawer, TimePicker } from 'antd'
@@ -18,7 +19,8 @@ class Timesheet extends Component {
       visible: false,
       selectedDay: '',
       selectedShift: '',
-      scheduleForm: false
+      scheduleForm: false,
+      customizedShiftError: ''
     }
   }
 
@@ -64,18 +66,40 @@ class Timesheet extends Component {
 
   addStartTime = (time, timeString) => {
     const { dispatch } = this.props
-    dispatch(change('timesheet', 'startTime', timeString))
+    dispatch(change('timesheet', 'startTime', time))
   }
 
   addEndTime = (time, timeString) => {
+
     const { dispatch } = this.props
-    dispatch(change('timesheet', 'endTime', timeString))
+    dispatch(change('timesheet', 'endTime', time))
   }
 
   addTimesheetDaySchedule = () => {
     const { formValues, dispatch } = this.props
-    dispatch(addDailySchedule(formValues))
-    this.hideDrawer()
+    const { shift, startTime, endTime } = formValues
+    if(shift === "Customized Shift"){
+      const start = new moment(startTime)
+      const end = new moment(endTime)
+      const difference = end.diff(start, 'hours')
+      if(difference < 0){
+        this.setState({
+          customizedShiftError: 'End time can not be less than start time'
+        })
+      } else if(difference < 4){
+        this.setState({
+          customizedShiftError: 'At least 4 hours required'
+        })
+      }else{
+        formValues.startTime = moment(formValues.startTime).format('LT')
+        formValues.endTime = moment(formValues.endTime).format('LT')
+        dispatch(addDailySchedule(formValues))
+        this.hideDrawer()
+      }
+    }else{
+      dispatch(addDailySchedule(formValues))
+      this.hideDrawer()
+    }
   }
 
   getScheduleByDay = id => {
@@ -96,7 +120,7 @@ class Timesheet extends Component {
   } 
 
   render() {
-    const { visible, selectedDay, selectedShift, scheduleForm } = this.state
+    const { visible, selectedDay, selectedShift, scheduleForm, customizedShiftError } = this.state
     const { timesheet: { timesheets } } = this.props
     return (
       <div>
@@ -108,15 +132,17 @@ class Timesheet extends Component {
             <div>
               {
                 scheduleForm ?
-                <Row gutter={16} className="weekly-row">
-                  <Divider>Week {add(length(timesheets), 1)}</Divider>
-                  <WeekdaySelectBox
-                    days={days}
-                    showDrawer={this.showDrawer}
-                    getScheduleByDay={this.getScheduleByDay}
-                    addTimesheet={this.addTimesheet}
-                  />
-                </Row>:
+                <>
+                  <Row gutter={16} className="weekly-row">
+                    <Divider>Week {add(length(timesheets), 1)}</Divider>
+                    <WeekdaySelectBox
+                      days={days}
+                      showDrawer={this.showDrawer}
+                      getScheduleByDay={this.getScheduleByDay}
+                      addTimesheet={this.addTimesheet}
+                    />
+                  </Row>
+                </>:
                 ''
               }
             </div>
@@ -174,10 +200,11 @@ class Timesheet extends Component {
                 />
                 {
                   selectedShift === 'Customized Shift' ?
-                  <>
+                  <span>
                     <TimePicker use12Hours format={timeFormat} onChange={this.addStartTime} placeholder="Start Time" />
                     <TimePicker use12Hours format={timeFormat} onChange={this.addEndTime} placeholder="End Time" />
-                  </> :
+                    <p className="error-message">{customizedShiftError}</p>
+                  </span> :
                   ''
                 }
                 <Button

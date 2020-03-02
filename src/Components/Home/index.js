@@ -4,14 +4,14 @@ import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, FormSection } from 'redux-form'
 import { isNil, prop } from 'ramda'
 import { Row, Col, Button, Input, Divider, Spin, Icon } from 'antd'
-import { register, verifyAccount, userLogin, generatePasswordResetLink } from '../../actions'
+import { register, verifyAccount, userLogin, generatePasswordResetLink, verifyLogin } from '../../actions'
 import { TITLE } from '../../constants'
 import { ModalBox } from '../../utils/custom-components'
 import { getUsersFormValues } from '../../utils/helpers'
 import SignupForm from './SignupForm'
 import LoginForm from './LoginForm'
 import ForgetPasswordForm from './ForgetPasswordForm'
-
+import TwoFactorAuthForm from './TwoFactorAuthForm'
 import './home.css'
 
 class Home extends Component {
@@ -69,17 +69,70 @@ class Home extends Component {
     dispatch(generatePasswordResetLink(forgetPassword))
   }
 
+  verifyTwoFactorAuthentication = () => {
+    const { formValues: { twoFactorAuthForm: { code } }, dispatch, application: { authentication: { userId } } } = this.props
+    if(isNil(userId)) return undefined
+    let values = {}
+    values.code = code
+    values.professionalId = userId
+    dispatch(verifyLogin(values))
+  }
+
+  getLogimModalContent = (type) => {
+    if(type === 'Mobile Verification'){
+      return(
+        <FormSection name="twoFactorAuthForm">
+          <TwoFactorAuthForm />
+        </FormSection>
+      )
+    }
+    if(type === 'Forget Password'){
+      return(
+        <FormSection name="forgetPassword">
+          <ForgetPasswordForm showLoginForm={this.showLoginForm}/>
+        </FormSection>
+      )
+    }
+    return(
+      <FormSection name="login">
+        <LoginForm showForgetPasswordForm={this.showForgetPasswordForm}/>
+      </FormSection>
+    )
+  }
+
+  getModalSubmitText = (type) => {
+    if(type === 'Mobile Verification'){
+      return(
+        <span>
+          <Icon type="check-circle" /> Verify
+        </span>
+      )
+    }
+    if(type === 'Forget Password'){
+      return(
+        <span>
+          <Icon type="link" /> Send Password Resend Link
+        </span>
+      )
+    }
+    return(
+      <span>
+        <Icon type="login" /> Login
+      </span>
+    )
+  }
 
   render() {
 
     const { selected, loginModal, forgetPassword } = this.state
-    const { valid, formValues= {}, application: { isLoading, authentication: { auth, role, userId } } } = this.props
+    const { valid, formValues= {}, application: { isLoading, twoFactorAuth, authentication: { auth, role, userId } } } = this.props
     const { TextArea } = Input
+
+    const modalType = twoFactorAuth ? 'Mobile Verification' : forgetPassword ? 'Forget Password' : 'Login'
     
     if(auth){
       return <Redirect to={role === 'professional' ? `/professional/${userId}` : `/company/${userId}` } />
     }
-
     return (
       <Spin spinning={isLoading} tip="Loading...">
         <div>
@@ -91,7 +144,9 @@ class Home extends Component {
                     </Col>
                     <Col xs={16} sm={16} md={16} lg={16} xl={16}></Col>
                     <Col xs={4} sm={4} md={4} lg={4} xl={4}>
-                      <Button ghost onClick={this.showLoginModal}>Login</Button>
+                      <Button ghost onClick={this.showLoginModal}>
+                        <Icon type="login" /> Login
+                      </Button>
                     </Col>
                   </Row>
 
@@ -189,37 +244,14 @@ class Home extends Component {
           </section>
         </div>
         <ModalBox
-          title={forgetPassword ? `Forget Password` : `Login`}
+          title={modalType}
           size={600}
           visible={loginModal}
-          content={forgetPassword ?
-            <FormSection
-              name="forgetPassword"
-            >
-              <ForgetPasswordForm
-                showLoginForm={this.showLoginForm}
-              />
-            </FormSection> :
-            <FormSection
-              name="login"
-            >
-              <LoginForm
-                showForgetPasswordForm={this.showForgetPasswordForm}
-              />
-            </FormSection>
-          }
-          submitText={forgetPassword ?
-            <span>
-              <Icon type="link" />
-              &nbsp;Send Password Reset Link
-            </span> :
-            <span>
-              <Icon type="login" />  
-              &nbsp;Login
-            </span>
-          }
+          content={this.getLogimModalContent(modalType)}
+          submitText={this.getModalSubmitText(modalType)}
           cancelText={'Cancel'}
           submitHandler={
+            twoFactorAuth ? this.verifyTwoFactorAuthentication :
             forgetPassword ? this.sendPasswordResetLink : this.login
           }
           cancelHandler={this.hideLoginModal}

@@ -30,6 +30,7 @@ const AddressForm = ({
         name="addressId"
         component={SelectField}
         label={'Choose Address'}
+        size="large"
         options={addresses}
         hintText={'Address'}
         onBlur={addressSelectHandler}

@@ -16,11 +16,11 @@ const ShiftsSelectBox = ({ shifts, selectedShift, selectShift }) => {
               type={selectedShift === name ? 'primary': 'default'}
               onClick={() => selectShift(shift)}
             >
-              <h4>{name}</h4>
+              <h4 className="shift-name">{name}</h4>
               {
                 isNil(startTime) || isNil(endTime) ?
                 '' :
-                <h5>{startTime}-{endTime}</h5>
+                <h5 className="shift-time">{startTime}-{endTime}</h5>
               }
             </Button>
           )

@@ -1,4 +1,5 @@
 import React from 'react'
+import { isNil } from 'ramda'
 import { Input, Form } from 'antd'
 
 const FormItem = Form.Item,
@@ -23,6 +24,8 @@ export const MultilineTextField = ({
       <FormItem
         validateStatus={visited && error ? 'error' : ''}
         label={label}
+        labelCol={isNil(label) ? undefined : { span: 5, offset: 3 } }
+        wrapperCol={isNil(label) ? undefined :{ span: 12, offset: 1 }}
         colon={false}
       >
         <TextArea

@@ -3,8 +3,6 @@ import { Field } from 'redux-form'
 import { TextField, SelectField, DatePickerField } from '../../../utils/custom-components'
 import { isRequired, GENDER_OPTIONS as genders } from '../../../constants'
 
-
-
 const PersonalDetailsForm = () => {
   return (
     <div>

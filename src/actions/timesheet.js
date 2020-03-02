@@ -9,6 +9,7 @@ export const addDailySchedule = formValues => dispatch => {
 }
 
 export const addTimesheet = data => dispatch => {
+    console.log(data)
     dispatch({
         type: types.ADD_TIMESHEET_SUCCESS,
         payload: data

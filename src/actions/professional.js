@@ -96,8 +96,9 @@ export const getProfessionalDetails = userId => dispatch => {
     })
     .then(res => res.json())
     .then(data => {
-        const { code } = data
-        if(code === 'success'){
+        const { code, response: { title, message } } = data
+        showToast(title, message, code)
+        if(code === 'success' || code === 'info'){
             dispatch({
                 type: types.FETCH_PROFESSIONAL_DETAILS_SUCCESS,
                 payload: data

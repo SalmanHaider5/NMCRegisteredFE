@@ -40,8 +40,7 @@ const professional = (state=initState, action) => {
                 ...state,
                 isLoading: false,
                 code: payload,
-                phoneVerified: equals(payload, 'success') ? true : false,
-
+                phoneVerified: equals(payload, 'success') ? true : false
             }
         case actions.FETCH_PROFESSIONAL_DETAILS_REQUEST:
             return{

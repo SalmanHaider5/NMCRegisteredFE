@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route, Link } from 'react-router-dom'
+import { Switch, Route, Link, Redirect } from 'react-router-dom'
 import { Layout, Menu, Icon } from 'antd'
 import Timesheet from './Timesheet'
 import Profile from './Profile'
@@ -76,6 +76,7 @@ const ViewDetails = ({
             </Route>
             <Route path="/professional/:userId/security" component={SecurityAndLogin}  />
           </Switch>
+          <Redirect to={`/professional/${userId}/timesheet`} />
         </Content>
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
         </Layout>

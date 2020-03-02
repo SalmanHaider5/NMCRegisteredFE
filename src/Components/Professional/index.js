@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, change, initialize } from 'redux-form'
-import { trim, split, prop, propEq, concat, find, isNil } from 'ramda'
+import { Icon } from 'antd'
+import { trim, split, prop, propEq, concat, find, has, omit } from 'ramda'
 import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails } from '../../actions'
+import { GENDER_OPTIONS as genders, QUALIFICATION_OPTIONS as qualifications } from '../../constants'
 import { getProfessionalFormValues } from '../../utils/helpers'
 import Header from '../Header'
 import AddDetails from './AddDetails'
@@ -12,37 +14,41 @@ class Professional extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      current: 0,
-      verificationModal: false,
       collapsed: false,
       formModal: false,
-      formName: ''
+      formName: '',
+      current: 0
     };
   }
 
   componentDidMount(){
     const { application: { authentication: { auth, role } }, history, dispatch, match: { params: { userId } } } = this.props
-    // dispatch(getProfessionalDetails(userId))
-    // if(!auth && role !== 'professional'){
-    //   history.push('/')
-    // }
+    dispatch(getProfessionalDetails(userId))
+    if(!auth && role !== 'professional'){
+      history.push('/')
+    }
   }
   
-  next = () => {
-    const { current } = this.state
-    this.setState({ current: current + 1 })
-  }
 
-  prev = () => {
-    const { current } = this.state
-    this.setState({ current: current - 1 })
-  }
-
-  showVerificationModal = () => {
+  sendVerificationCode = () => {
     const { formValues: { phone }, match: { params: { userId } }, dispatch } = this.props
     const values = {}
     values.phone = phone
     dispatch(addPhone(userId, values))
+  }
+
+  next = () => {
+    const { current } = this.state
+    this.setState({
+      current: current + 1
+    })
+  }
+
+  prev = () => {
+    const { current } = this.state
+    this.setState({
+      current: current - 1
+    })
   }
 
   showEditFormModal = (name) => {
@@ -63,9 +69,12 @@ class Professional extends Component {
 
   saveDetails = () => {
     const { dispatch, match: { params: { userId } }, formValues } = this.props
-    dispatch(createDetails(userId, formValues))
+    const { status, qualification } = formValues
+    const values = omit(['status', 'phone', 'postalCode', 'changePassword', 'addressId'], formValues)
+    values.status = prop('name', find(propEq('id', status))(genders))
+    values.qualification = prop('name', find(propEq('id', qualification))(qualifications))
+    dispatch(createDetails(userId, values))
     dispatch(reset('professional'))
-    this.next()
   }
 
   logout = () => {
@@ -104,18 +113,30 @@ class Professional extends Component {
     dispatch(addPhone(userId, values))
   }
 
+  getFormIcon = (id, className) => {
+    switch(id){
+      case 0:
+        return <Icon type="user" className={className} />
+      case 1:
+        return <Icon type="environment" className={className} />
+      default:
+        return <Icon type="highlight" className={className} />
+    }
+  }
+
   onCollapse = () => {
     const { collapsed } = this.state
     this.setState({ collapsed: !collapsed })
   }
 
   render() {
-    const { collapsed, formModal, formName } = this.state
+    const { collapsed, formModal, formName, current } = this.state
     const {
       addresses,
       professional: {
         isLoading,
-        professionalDetails
+        professionalDetails,
+        phoneVerified
       },
       match: {
         params: {
@@ -123,14 +144,28 @@ class Professional extends Component {
         }
       }
     } = this.props
-    
+  
     return (
       <div>
         <Header
           logout={this.logout}
         />
         {
-          isNil(professionalDetails) ? 
+          !has('fullName', professionalDetails.professional) ?
+          <AddDetails
+            findAddresses={this.findAddresses}
+            addressSelectHandler={this.addressSelectHandler}
+            addresses={addresses}
+            professional={professionalDetails.professional}
+            sendVerificationCode={this.sendVerificationCode}
+            verifyProfessionalPhone={this.verifyProfessionalPhone}
+            phoneVerified={phoneVerified}
+            current={current}
+            next={this.next}
+            prev={this.prev}
+            getFormIcon={this.getFormIcon}
+            saveDetails={this.saveDetails}
+          /> :
           <ViewDetails
             userId={userId}
             isLoading={isLoading}
@@ -141,11 +176,6 @@ class Professional extends Component {
             formName={formName}
             showEditFormModal={this.showEditFormModal}
             hideEditFormModal={this.hideEditFormModal}
-            findAddresses={this.findAddresses}
-            addressSelectHandler={this.addressSelectHandler}
-            addresses={addresses}
-          /> :
-          <AddDetails
             findAddresses={this.findAddresses}
             addressSelectHandler={this.addressSelectHandler}
             addresses={addresses}

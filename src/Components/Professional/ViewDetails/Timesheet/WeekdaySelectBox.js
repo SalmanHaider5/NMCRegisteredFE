@@ -31,7 +31,7 @@ const WeekdaySelectBox = ({ days, showDrawer, getScheduleByDay, addTimesheet }) 
       <Col span={3}>
         <Card >
           <Button className="save-schedule-button success-btn" onClick={addTimesheet}>
-          <Icon type="check" /> Save
+          <Icon type="check-circle" /> Save
           </Button>
         </Card>
       </Col>

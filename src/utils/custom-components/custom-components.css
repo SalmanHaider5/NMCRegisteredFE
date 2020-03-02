@@ -50,3 +50,6 @@ span.ant-time-picker{
     font-weight: 500;
     padding-left: 20px;
 }
+div.text-area div.ant-form-item-label{
+    text-align: left;
+}

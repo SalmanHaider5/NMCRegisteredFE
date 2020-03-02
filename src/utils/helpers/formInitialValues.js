@@ -52,6 +52,7 @@ const changePassword = {
 
 export const getProfessionalFormValues = () => {
     return {
+        profilePicture: '',
         status: '',
         fullName: '',
         phone: '',

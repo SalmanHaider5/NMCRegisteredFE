@@ -10,6 +10,7 @@ const initState = {
         role: '',
         userId: 0
     },
+    twoFactorAuth: false,
     error: ''
 }
 
@@ -36,8 +37,23 @@ const account = (state=initState, action) => {
                 ...state,
                 isLoading: true,
             }
+        case actions.TWO_FACTOR_LOGIN:
+            let user = state.authentication
+            user.userId = payload.userId
+            return{
+                ...state,
+                isLoading: false,
+                twoFactorAuth: payload.twoFactorAuthenticationEnabled,
+                authentication: user
+            }
+        case actions.TWO_FACTOR_AUTHENTICATION_REQUEST:
+            return{
+                ...state,
+                isLoading: true
+            }
         case actions.VERIFY_ACCOUNT_SUCCESS:
         case actions.LOGIN_SUCCESS:
+        case actions.TWO_FACTOR_AUTHENTICATION_SUCCESS:
             const authentication = {}
             authentication.auth = true
             authentication.authToken = payload.token
@@ -47,6 +63,7 @@ const account = (state=initState, action) => {
             return{
                 ...state,
                 isLoading: false,
+                twoFactorAuth: false,
                 authentication
             }
         case actions.ACCOUNT_LOGOUT_REQUEST:
@@ -60,6 +77,7 @@ const account = (state=initState, action) => {
                     userId: 0
                 }
             }
+        case actions.TWO_FACTOR_AUTHENTICATION_FAILURE:
         case actions.VERIFY_ACCOUNT_FAILURE:
             return{
                 ...state,
