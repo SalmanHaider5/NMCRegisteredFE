@@ -5,6 +5,7 @@ import * as types from './'
 import { showToast } from '../utils/helpers'
 
 export const createDetails = (userId, formValues) => dispatch => {
+    console.log('Form', formValues)
     dispatch({ type: types.ADD_PROFESSIONAL_DETAILS_REQUEST })
     const endpoint = `${url}${userId}/professional`
     fetch(endpoint, {
@@ -113,6 +114,80 @@ export const getProfessionalDetails = userId => dispatch => {
         dispatch({
             type: types.FETCH_PROFESSIONAL_DETAILS_FAILURE,
             error
+        })
+    })
+}
+
+export const updateProfile = (userId, values) => dispatch => {
+    dispatch({ type: types.PROFESSIONAL_PROFILE_UPDATE_REQUEST })
+    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
+    const endpoint = `${url}${userId}/professional`
+    fetch(endpoint, {
+        method: 'PUT',
+        body: JSON.stringify(values),
+        headers: {
+            authorization: token,
+            'Content-Type':'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(response => {
+        const { code, response: { title, message }, error = '' } = response
+        showToast(title, message, code)
+        if(code === 'success'){
+            response.professional = values
+            dispatch({
+                type: types.PROFESSIONAL_PROFILE_UPDATE_SUCCESS,
+                payload: response
+            })
+        }else{
+            dispatch({
+                type: types.PROFESSIONAL_PROFILE_UPDATE_FAILURE,
+                error
+            })
+        }
+    })
+    .catch(err => {
+        dispatch({
+            type: types.PROFESSIONAL_PROFILE_UPDATE_FAILURE,
+            error: err
+        })
+    })
+}
+
+export const updateSecurityDetails = (userId, values) => dispatch => {
+    dispatch({ type: types.PROFESSIONAL_SECURITY_UPDATE_REQUEST })
+    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
+    const endpoint = `${url}${userId}/professional/security`
+    fetch(endpoint, {
+        method: 'PUT',
+        body: JSON.stringify(values),
+        headers: {
+            authorization: token,
+            'Content-Type':'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(response => {
+        const { code, response: { title, message }, error = '' } = response
+        showToast(title, message, code)
+        if(code === 'success'){
+            response.professional = values
+            dispatch({
+                type: types.PROFESSIONAL_SECURITY_UPDATE_FAILURE,
+                payload: response
+            })
+        }else{
+            dispatch({
+                type: types.PROFESSIONAL_SECURITY_UPDATE_FAILURE,
+                error
+            })
+        }
+    })
+    .catch(err => {
+        dispatch({
+            type: types.PROFESSIONAL_SECURITY_UPDATE_FAILURE,
+            error: err
         })
     })
 }

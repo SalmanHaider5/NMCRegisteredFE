@@ -1,5 +1,6 @@
 import React from 'react'
-import { List, Icon } from 'antd'
+import { List, Icon, Divider } from 'antd'
+import WorkExperience from '../WorkExperience'
 
 const ProfessionalDetails = ({ professional }) => {
   const {
@@ -8,29 +9,35 @@ const ProfessionalDetails = ({ professional }) => {
     qualification
   } = professional
   return (
-    <List className="profile-list">
-      <List.Item>
-        <label>
-          <Icon type="profile" />
-          NMC Pin
-        </label>
-        <span className="label-value">{nmcPin}</span>
-      </List.Item>
-      <List.Item>
-        <label>
-          <Icon type="highlight" />
-          Qualification
-        </label>
-        <span className="label-value">{qualification}</span>
-      </List.Item>
-      <List.Item>
-        <label>
-          <Icon type="hourglass" />
-          CPD Hours
-        </label>
-        <span className="label-value">{cpdHours}</span>
-      </List.Item>
-    </List>
+    <span>
+      <List className="profile-list">
+        <List.Item>
+          <label>
+            <Icon type="profile" />
+            NMC Pin
+          </label>
+          <span className="label-value">{nmcPin}</span>
+        </List.Item>
+        <List.Item>
+          <label>
+            <Icon type="highlight" />
+            Qualification
+          </label>
+          <span className="label-value">{qualification}</span>
+        </List.Item>
+        <List.Item>
+          <label>
+            <Icon type="hourglass" />
+            CPD Hours
+          </label>
+          <span className="label-value">{cpdHours}</span>
+        </List.Item>
+      </List>
+      <Divider orientation="left">Work Experience</Divider>
+      <WorkExperience
+        professional={professional}
+      />
+    </span>
   )
 }
 export default ProfessionalDetails

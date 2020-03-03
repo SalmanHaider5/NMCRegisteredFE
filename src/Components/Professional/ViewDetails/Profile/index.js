@@ -4,7 +4,6 @@ import { ModalBox } from '../../../../utils/custom-components'
 import PersonalDetails from './PersonalDetails/'
 import AddressDetails from './AddressDetails/'
 import ProfessionalDetails from './ProfessionalDetails/'
-import WorkExperience from './WorkExperience/'
 import PersonalDetailsForm from '../../DetailForms/PersonalDetailsForm'
 import AddressForm from '../../DetailForms/AddressForm'
 import ProfessionalDetailsForm from '../../DetailForms/ProfessionalDetailsForm'
@@ -20,9 +19,12 @@ const Profile = ({
   hideEditFormModal,
   findAddresses,
   addressSelectHandler,
-  addresses
+  addresses,
+  updateProfessionalDetails,
+  getProfileStatus,
+  invalid
 }) => {
-  
+  const { dateOfBirth } = professional
   return (
     <Spin spinning={isLoading} tip="Loading...">
       <div className="inner-wrapper">
@@ -54,32 +56,10 @@ const Profile = ({
                   {
                     <PersonalDetails
                       professional={professional}
+                      getProfileStatus={getProfileStatus}
                     />
                   }
                 </Card>
-                <Row>
-                  <Col span={24}>
-                    <Card
-                      title={
-                        <span>
-                          <Icon type="solution" />
-                          Professional Details
-                        </span>
-                      }
-                      extra={
-                        <Button type="link" onClick={() => showEditFormModal("Professional")} >
-                          <Icon type="edit" />
-                        </Button>
-                      }
-                    >
-                      {
-                        <ProfessionalDetails
-                          professional={professional}
-                        />
-                      }
-                    </Card>
-                  </Col>
-                </Row>
               </Col>
               <Col span={14} offset={1}>
                 <Card
@@ -111,13 +91,13 @@ const Profile = ({
                         </span>
                       }
                       extra={
-                        <Button type="link" onClick={() => showEditFormModal("Experience")}>
+                        <Button type="link" onClick={() => showEditFormModal("Professional")}>
                           <Icon type="edit" />
                         </Button>
                       }
                     >
                       {
-                        <WorkExperience
+                        <ProfessionalDetails
                           professional={professional}
                         />
                       }
@@ -132,7 +112,9 @@ const Profile = ({
               size={formName === 'Experience' ? 500 : 800}
               content={
                 formName === 'Personal' ?
-                <PersonalDetailsForm /> :
+                <PersonalDetailsForm
+                  dateOfBirth={dateOfBirth}
+                /> :
                 formName === 'Address' ?
                 <AddressForm
                   findAddresses={findAddresses}
@@ -152,7 +134,8 @@ const Profile = ({
                 </>
               }
               cancelText={'Cancel'}
-              // submitHandler={verifyProfessionalPhone}
+              submitDisabled={invalid}
+              submitHandler={updateProfessionalDetails}
               cancelHandler={hideEditFormModal}
             />
           </div>  

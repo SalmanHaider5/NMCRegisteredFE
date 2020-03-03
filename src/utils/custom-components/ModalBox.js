@@ -9,6 +9,7 @@ export const ModalBox = ({
   cancelHandler,
   submitText,
   cancelText,
+  submitDisabled,
   size
 }) => {
   return (
@@ -17,7 +18,7 @@ export const ModalBox = ({
       visible={visible}
       onOk={submitHandler}
       width={size}
-      okButtonProps={{ className: 'success-btn' }}
+      okButtonProps={{ className: 'success-btn', disabled: submitDisabled }}
       cancelButtonProps={{type: 'primary'}}
       onCancel={cancelHandler}
       okText={submitText}

@@ -16,7 +16,7 @@ export const DatePickerField = ({
   tooltipPlacement = "top",
   disabled,
   specialText,
-  addonAfterText,
+  defaultValue,
   isRequired,
   id
 }) => {
@@ -40,6 +40,7 @@ export const DatePickerField = ({
             onChange={onChange}
             disabled={disabled}
             readOnly={readOnly}
+            defaultValue={defaultValue}
             format={DATE_FORMAT}
           />
         </Tooltip>

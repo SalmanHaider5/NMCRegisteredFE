@@ -1,9 +1,12 @@
 import React from 'react'
 import { Field } from 'redux-form'
+import moment from 'moment'
+import { isNil } from 'ramda'
 import { TextField, SelectField, DatePickerField } from '../../../utils/custom-components'
-import { isRequired, GENDER_OPTIONS as genders } from '../../../constants'
+import { isRequired, GENDER_OPTIONS as genders, DATE_FORMAT as format } from '../../../constants'
 
-const PersonalDetailsForm = () => {
+const PersonalDetailsForm = ({ dateOfBirth }) => {
+  console.log('DOB', dateOfBirth)
   return (
     <div>
       <Field
@@ -27,6 +30,7 @@ const PersonalDetailsForm = () => {
       <Field
         name="dateOfBirth"
         component={DatePickerField}
+        defaultValue={isNil(dateOfBirth) ? null : moment(dateOfBirth, format)}
         label={'Date of Birth'}
         size={'large'}
         type="text"

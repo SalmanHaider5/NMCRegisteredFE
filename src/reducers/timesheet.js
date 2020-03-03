@@ -1,4 +1,4 @@
-import { append, length, add, findIndex, propEq, remove } from 'ramda'
+import { append, length, add, findIndex, propEq, remove, contains, update } from 'ramda'
 import * as actions from '../actions'
 
 const initState = {
@@ -33,7 +33,8 @@ const timesheet = (state=initState, action) => {
         case actions.ADD_TIMESHEET_DAILY_SCHEDULE:
             const { timesheet, timesheet: { schedule } } = state
             timesheet.id = add(length(state.timesheets), 1)
-            timesheet.schedule = append(payload, schedule)
+            timesheet.schedule = contains({ id: payload.id }, schedule) ? update(findIndex(propEq('id', payload.id)), payload, schedule) : append(payload, schedule)
+            console.log('Schedule', contains({ id: payload.id }, schedule), schedule, payload.id)
             return{
                 ...state,
                 timesheet

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route, Link, Redirect } from 'react-router-dom'
+import { Switch, Route, Link } from 'react-router-dom'
 import { Layout, Menu, Icon } from 'antd'
 import Timesheet from './Timesheet'
 import Profile from './Profile'
@@ -18,7 +18,12 @@ const ViewDetails = ({
   hideEditFormModal,
   findAddresses,
   addressSelectHandler,
-  addresses
+  addresses,
+  updateProfessionalDetails,
+  getProfileStatus,
+  invalid,
+  updateSecurityandLoginDetails,
+  formValues
 }) => {
   const { Sider, Footer, Content } = Layout
   return (
@@ -72,11 +77,19 @@ const ViewDetails = ({
                 findAddresses={findAddresses}
                 addressSelectHandler={addressSelectHandler}
                 addresses={addresses}
+                updateProfessionalDetails={updateProfessionalDetails}
+                getProfileStatus={getProfileStatus}
+                invalid={invalid}
               />
             </Route>
-            <Route path="/professional/:userId/security" component={SecurityAndLogin}  />
+            <Route path="/professional/:userId/security">
+              <SecurityAndLogin
+                updateSecurityandLoginDetails={updateSecurityandLoginDetails}
+                formValues={formValues}
+              />
+            </Route>
           </Switch>
-          <Redirect to={`/professional/${userId}/timesheet`} />
+          {/* <Redirect to={`/professional/${userId}/timesheet`} /> */}
         </Content>
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
         </Layout>

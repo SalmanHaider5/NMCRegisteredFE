@@ -2,7 +2,7 @@ import React from 'react'
 import { List, Tag, Icon, Avatar } from 'antd'
 import moment from 'moment'
 
-const PersonalDetails = ({ professional }) => {
+const PersonalDetails = ({ professional, getProfileStatus }) => {
   const {
     fullName,
     email,
@@ -11,7 +11,7 @@ const PersonalDetails = ({ professional }) => {
     createdAt,
     phone: {
       phone,
-      status
+      status = 1
     }
   } = professional
   return (

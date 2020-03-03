@@ -53,6 +53,18 @@ const professional = (state=initState, action) => {
                 professionalDetails: payload,
                 isLoading: false
             }
+        case actions.PROFESSIONAL_PROFILE_UPDATE_REQUEST:
+            return{
+                ...state,
+                isLoading: true
+            }
+        case actions.PROFESSIONAL_PROFILE_UPDATE_SUCCESS:
+            return{
+                ...state,
+                isLoading: false,
+                professionalDetails: payload
+            }
+        case actions.PROFESSIONAL_PROFILE_UPDATE_FAILURE:
         case actions.ADD_PROFESSIONAL_PHONE_FAILURE:
         case actions.ADD_PROFESSIONAL_DETAILS_FAILURE:
         case actions.VERIFY_PROFESSIONAL_PHONE_FAILURE:

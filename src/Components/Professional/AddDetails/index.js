@@ -62,7 +62,7 @@ const AddDetails = ({
             <Row>
               <Col span={5} offset={3}>
                 {
-                  current > 0 || current < 3 ?
+                  current > 0 && current < 3 ?
                   <Button type="primary" onClick={prev}>
                     <Icon type="left" /> Previous
                   </Button> :

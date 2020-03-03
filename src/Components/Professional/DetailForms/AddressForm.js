@@ -72,7 +72,7 @@ const AddressForm = ({
       <Field
         name="distance"
         component={TextField}
-        label={'Distance (m/s)'}
+        label={'Distance (miles)'}
         size={'large'}
         type="text"
         specialText={`You can travel`}

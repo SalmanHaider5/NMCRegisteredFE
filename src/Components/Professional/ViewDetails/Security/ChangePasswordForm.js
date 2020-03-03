@@ -1,7 +1,7 @@
 import React from 'react'
 import { Field } from 'redux-form'
 import { TextField } from '../../../../utils/custom-components'
-import { isRequired, isMaxLengthValid, isNumericCharacterExist, isPasswordMatched } from '../../../../constants'
+import { isRequired, isMaxLengthValid, isNumericCharacterExist } from '../../../../constants'
 
 const ChangePasswordForm = () => {
   return (
@@ -30,7 +30,7 @@ const ChangePasswordForm = () => {
         label={'Confirm Password'}
         size={'large'}
         type="password"
-        validate={[isRequired, isMaxLengthValid, isNumericCharacterExist, isPasswordMatched]}
+        validate={[isRequired, isMaxLengthValid, isNumericCharacterExist]}
         tooltipPlacement={'topRight'}
       />
     </div>

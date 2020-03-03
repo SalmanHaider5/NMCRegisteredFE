@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, change, initialize } from 'redux-form'
 import { Icon } from 'antd'
-import { trim, split, prop, propEq, concat, find, has, omit } from 'ramda'
-import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails } from '../../actions'
+import { trim, split, prop, propEq, concat, find, has, omit, dissoc } from 'ramda'
+import moment from 'moment'
+import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfile, updateSecurityDetails } from '../../actions'
 import { GENDER_OPTIONS as genders, QUALIFICATION_OPTIONS as qualifications } from '../../constants'
-import { getProfessionalFormValues } from '../../utils/helpers'
+import { getProfessionalFormValues, isEmptyOrNull } from '../../utils/helpers'
 import Header from '../Header'
 import AddDetails from './AddDetails'
 import ViewDetails from './ViewDetails'
@@ -29,6 +30,19 @@ class Professional extends Component {
     }
   }
   
+  updateProfessionalDetails = () => {
+    const { match: { params: { userId } }, dispatch, formValues } = this.props
+    const { status } = formValues
+    formValues.status = prop('name', find(propEq('id', status))(genders))
+    dispatch(updateProfile(userId, formValues))
+    this.hideEditFormModal()
+  }
+
+  updateSecurityandLoginDetails = () => {
+    const { formValues: { changePassword }, dispatch, match: { params: { userId } } } = this.props
+    const values = dissoc('confirmPassword', changePassword)
+    dispatch(updateSecurityDetails(userId, values))
+  }
 
   sendVerificationCode = () => {
     const { formValues: { phone }, match: { params: { userId } }, dispatch } = this.props
@@ -53,6 +67,8 @@ class Professional extends Component {
 
   showEditFormModal = (name) => {
     const { dispatch, professional: { professionalDetails: { professional } } } = this.props
+    const { dateOfBirth } = professional
+    professional.dateOfBirth = moment(dateOfBirth).format('L')
     dispatch(initialize('professional', professional))
     this.setState({
       formModal: true,
@@ -85,6 +101,10 @@ class Professional extends Component {
     }
   }
 
+  getProfileStatus = id => {
+    return prop('name', find(propEq('id', id))(genders))
+  }
+
   findAddresses = () => {
     const { dispatch, formValues: { postCode } } = this.props
     dispatch(getAdresses(trim(postCode)))
@@ -92,10 +112,12 @@ class Professional extends Component {
 
   addressSelectHandler = () => {
     const { dispatch, formValues: { addressId }, addresses: { addresses } } = this.props
-    const address = split(',', prop('name', find(propEq('id', addressId))(addresses)))
-    dispatch(change('professional', 'address', concat(address[0], address[1])))
-    dispatch(change('professional', 'city', address[5]))
-    dispatch(change('professional', 'county', address[6]))
+    if(!isEmptyOrNull(addresses) && !isEmptyOrNull(addressId)){
+      const address = split(',', prop('name', find(propEq('id', addressId))(addresses)))
+      dispatch(change('professional', 'address', concat(address[0], address[1])))
+      dispatch(change('professional', 'city', address[5]))
+      dispatch(change('professional', 'county', address[6]))
+    }
   }
 
   verifyProfessionalPhone = () => {
@@ -133,6 +155,8 @@ class Professional extends Component {
     const { collapsed, formModal, formName, current } = this.state
     const {
       addresses,
+      invalid,
+      formValues,
       professional: {
         isLoading,
         professionalDetails,
@@ -178,7 +202,12 @@ class Professional extends Component {
             hideEditFormModal={this.hideEditFormModal}
             findAddresses={this.findAddresses}
             addressSelectHandler={this.addressSelectHandler}
+            updateProfessionalDetails={this.updateProfessionalDetails}
             addresses={addresses}
+            getProfileStatus={this.getProfileStatus}
+            invalid={invalid}
+            updateSecurityandLoginDetails={this.updateSecurityandLoginDetails}
+            formValues={formValues}
           />
         }
           

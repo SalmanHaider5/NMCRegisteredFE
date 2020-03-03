@@ -1,7 +1,7 @@
 import React from 'react'
 import { Field } from 'redux-form'
 import { TextField, SelectField, MultilineTextField } from '../../../utils/custom-components'
-import { isRequired, QUALIFICATION_OPTIONS as qualifications } from '../../../constants'
+import { isRequired, QUALIFICATION_OPTIONS as qualifications, max35Hours } from '../../../constants'
 
 const ProfessionalDetailsForm = () => {
   return (
@@ -31,6 +31,7 @@ const ProfessionalDetailsForm = () => {
         size={'large'}
         type="text"
         specialText={'Max 35 Hours'}
+        validate={[max35Hours]}
         tooltipPlacement={'topRight'}
       />
       <Field

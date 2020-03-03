@@ -1,9 +1,10 @@
 import React from 'react'
+import { toUpper } from 'ramda'
 import { List, Icon } from 'antd'
 
 const AddressDetails = ({ professional }) => {
   const {
-    postalCode,
+    postCode,
     address,
     city,
     county,
@@ -17,7 +18,7 @@ const AddressDetails = ({ professional }) => {
           <Icon type="tag" />
           Postal Code
         </label>
-        <span className="label-value">{postalCode}</span>
+        <span className="label-value">{toUpper(postCode)}</span>
       </List.Item>
       <List.Item>
         <label>
