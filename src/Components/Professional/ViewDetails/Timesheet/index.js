@@ -125,8 +125,9 @@ class Timesheet extends Component {
   }
   addTimesheet = () => {
     const { timesheet: { timesheet }, dispatch } = this.props
-    dispatch(addTimesheet(timesheet))
-    this.setState({ scheduleForm: false })
+    console.log(timesheet)
+    // dispatch(addTimesheet(timesheet))
+    // this.setState({ scheduleForm: false })
   }
 
   getSpecificDate = day => {

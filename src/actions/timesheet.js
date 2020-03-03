@@ -1,3 +1,4 @@
+import { SERVER_URL as url } from '../constants'
 import * as types from './'
 import { showToast } from '../utils/helpers'
 
@@ -8,7 +9,10 @@ export const addDailySchedule = formValues => dispatch => {
     })
 }
 
-export const addTimesheet = data => dispatch => {
+export const addTimesheet = (userId, data) => dispatch => {
+    dispatch({ type: types.ADD_TIMESHEET_REQUEST })
+    const endpoint = `${url}${userId}/professional/addTimesheet`
+    console.log(data)
     dispatch({
         type: types.ADD_TIMESHEET_SUCCESS,
         payload: data
