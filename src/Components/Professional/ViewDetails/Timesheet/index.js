@@ -5,7 +5,7 @@ import { reduxForm, getFormValues, change, reset } from 'redux-form'
 import { isEmpty, length, add, find, propEq, map, range, init, head, last, nth, subtract } from 'ramda'
 import { Row, Col, Button, Result, Icon, Divider, Drawer, TimePicker } from 'antd'
 import { getTimesheetValues } from '../../../../utils/helpers'
-import { addDailySchedule, addTimesheet, resetScheduleForm, removeTimesheet } from '../../../../actions'
+import { addDailySchedule, addTimesheet, resetScheduleForm, removeTimesheet, fetchTimesheets } from '../../../../actions'
 import { TIMESHEET_DAYS as days, TIMESHEET_SHIFTS as shifts, TIME_FORMAT as timeFormat } from '../../../../constants'
 import WeekdaySelectBox from './WeekdaySelectBox'
 import ShiftsSelectBox from './ShiftsSelectBox'
@@ -24,6 +24,11 @@ class Timesheet extends Component {
       weeklyDates: [],
       specificDate: ''
     }
+  }
+
+  componentDidMount(){
+    const { match: { params: { userId } }, dispatch } = this.props
+    dispatch(fetchTimesheets(userId))
   }
 
   showDrawer = day => {
@@ -75,7 +80,6 @@ class Timesheet extends Component {
     const weeklyDates = map(day => {
       return moment(weekStart).add(day, 'days').format('LL')
     }, days)
-    console.log(weeklyDates)
     this.setState({
       scheduleForm: true,
       weeklyDates
@@ -124,10 +128,26 @@ class Timesheet extends Component {
     return find(propEq('id', id))(schedule)
   }
   addTimesheet = () => {
-    const { timesheet: { timesheet }, dispatch } = this.props
-    console.log(timesheet)
-    // dispatch(addTimesheet(timesheet))
-    // this.setState({ scheduleForm: false })
+    const { timesheet: { timesheet: { schedule } }, dispatch, match: { params: { userId } } } = this.props
+    const { weeklyDates } = this.state
+    let timesheetValues = {}
+    timesheetValues.startingDay = moment(head(weeklyDates)).format('L')
+    timesheetValues.endingDay = moment(last(weeklyDates)).format('L')
+    let scheduleValues = map(singleDay => {
+      const { day, shift, startTime, endTime } = singleDay
+      const specificDay = find(propEq('name', day))(days)
+      let singleTimesheet = {}
+      singleTimesheet.date = moment(this.getSpecificDate(specificDay)).format('L')
+      singleTimesheet.shift = shift
+      singleTimesheet.time = `${startTime}-${endTime}`
+      singleTimesheet.status = true
+      return singleTimesheet
+    }, schedule)
+    let values = {}
+    values.timesheet = timesheetValues
+    values.singleTimesheet = scheduleValues
+    dispatch(addTimesheet(userId, values))
+    this.setState({ scheduleForm: false })
   }
 
   getSpecificDate = day => {
@@ -136,6 +156,7 @@ class Timesheet extends Component {
     this.setState({
       specificDate: nth(subtract(id, 1), weeklyDates)
     })
+    return nth(subtract(id, 1), weeklyDates)
   }
 
   getTimesheetShiftByDay = (timesheetId, dayId) => {
@@ -170,6 +191,7 @@ class Timesheet extends Component {
                       showDrawer={this.showDrawer}
                       getSpecificDate={this.getSpecificDate}
                       getScheduleByDay={this.getScheduleByDay}
+                      addTimesheet={this.addTimesheet}
                     />
                   </Row>
                 </>:

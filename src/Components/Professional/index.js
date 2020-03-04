@@ -208,6 +208,7 @@ class Professional extends Component {
             invalid={invalid}
             updateSecurityandLoginDetails={this.updateSecurityandLoginDetails}
             formValues={formValues}
+            addTimesheet={this.addTimesheet}
           />
         }
           

@@ -1,11 +1,10 @@
-import { append, length, add, findIndex, propEq, remove, contains, find, update, isNil } from 'ramda'
+import { append, length, add, findIndex, propEq, remove, find, update, isNil } from 'ramda'
 import * as actions from '../actions'
 
 const initState = {
     isLoading: false,
     timesheet: {
         id: '',
-        userId: '',
         schedule: []
     },
     timesheets: []
@@ -13,19 +12,20 @@ const initState = {
 
 const timesheet = (state=initState, action) => {
     const { type, payload } = action
+    const { timesheets } = state
     switch(type){
-        case actions.FETCH_TIMESHEET_REQUEST:
+        case actions.FETCH_TIMESHEETS_REQUEST:
             return{
                 ...state,
                 isLoading: true
             }
-        case actions.FETCH_TIMESHEET_SUCCESS:
+        case actions.FETCH_TIMESHEETS_SUCCESS:
             return{
                 ...state,
                 isLoading: false,
-                timesheet: payload
+                timesheets: append(payload, timesheets)
             }
-        case actions.FETCH_TIMESHEET_FAILURE:
+        case actions.FETCH_TIMESHEETS_FAILURE:
             return{
                 ...state,
                 isLoading: false
@@ -40,7 +40,6 @@ const timesheet = (state=initState, action) => {
                 timesheet
             }
         case actions.ADD_TIMESHEET_SUCCESS:
-            const { timesheets } = state
             return{
                 ...state,
                 timesheets: append(payload, timesheets)
