@@ -5,7 +5,6 @@ import * as types from './'
 import { showToast } from '../utils/helpers'
 
 export const createDetails = (userId, formValues) => dispatch => {
-    console.log('Form', formValues)
     dispatch({ type: types.ADD_PROFESSIONAL_DETAILS_REQUEST })
     const endpoint = `${url}${userId}/professional`
     fetch(endpoint, {

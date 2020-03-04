@@ -22,7 +22,9 @@ const SecurityAndLogin = ({
             <FormSection name="changePassword">
               <Divider>Security</Divider>
               <div>
-                <TwoFactorAuthentication formValues={formValues} />
+                <TwoFactorAuthentication
+                  formValues={formValues}
+                />
               </div>
               <Divider>Change Password</Divider>
               <div>
