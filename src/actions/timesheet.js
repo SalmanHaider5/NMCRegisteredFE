@@ -55,7 +55,7 @@ export const fetchTimesheets = userId => dispatch => {
         showToast(title, message, code)
         forEach(timesheet => {
             dispatch({ type: types.FETCH_TIMESHEETS_REQUEST })
-            const { id } = timesheet
+            const { id, startingDay, endingDay } = timesheet
             const endpoint = `${url}timesheet/${id}`
             fetch(endpoint, {
                 headers: {
@@ -68,7 +68,7 @@ export const fetchTimesheets = userId => dispatch => {
                 if(code === 'success'){
                     dispatch({
                         type: types.FETCH_TIMESHEETS_SUCCESS,
-                        payload: { id, schedule: timesheet }
+                        payload: { id, startingDay, endingDay, schedule: timesheet }
                     })
                 }
                 else{
@@ -84,9 +84,35 @@ export const fetchTimesheets = userId => dispatch => {
 }
 
 export const removeTimesheet = id => dispatch => {
-    dispatch({
-        type: types.REMOVE_TIMESHEET_SUCCESS,
-        payload: id
+    dispatch({ type: types.REMOVE_TIMESHEET_REQUEST })
+    const endpoint = `${url}timesheet/${id}`
+    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
+    fetch(endpoint, {
+        method: 'DELETE',
+        headers: {
+            authorization: token
+        }
     })
-    showToast('Delete Success', 'Timesheet successfully deleted', 'success')
+    .then(res => res.json())
+    .then(response => {
+        const { code, response: { title, message } } = response
+        showToast(title, message, code)
+        if(code === 'success'){
+            dispatch({
+                type: types.REMOVE_TIMESHEET_SUCCESS,
+                payload: id
+            })
+        }else{
+            dispatch({
+                type: types.REMOVE_TIMESHEET_FAILURE,
+                error: response.error
+            })
+        }
+    })
+    .catch(err => {
+        dispatch({
+            type: types.REMOVE_TIMESHEET_FAILURE,
+            error: err
+        })
+    })
 }

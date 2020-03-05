@@ -124,3 +124,8 @@ button.ant-btn-primary h4, button.ant-btn-primary h5{
 p.error-message{
     color: #ed5959;
 }
+.edit-shift button.select-button{
+    min-height: 65px;
+    margin-top: 10px;
+    padding: 5px;
+}

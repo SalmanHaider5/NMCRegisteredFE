@@ -190,3 +190,78 @@ export const updateSecurityDetails = (userId, values) => dispatch => {
         })
     })
 }
+
+export const changeShiftStatus = (id, status, timesheet) => dispatch => {
+    dispatch({ type: types.SHIFT_STATUS_UPDATE_REQUEST })
+    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
+    const endpoint = `${url}shiftStatusChange/${id}/${status}`
+    fetch(endpoint, {
+        method: 'PUT',
+        headers: {
+            authorization: token,
+            'Content-Type':'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(response => {
+        const { code, response: { title, message } } = response
+        showToast(title, message, code)
+        if(code === 'success'){
+            dispatch({
+                type: types.SHIFT_STATUS_UPDATE_SUCCESS,
+                payload: { id, timesheetId: timesheet }
+            })
+        }else{
+            dispatch({
+                type: types.SHIFT_STATUS_UPDATE_FAILURE,
+                error: response.error
+            })
+        }
+    })
+    .catch(err => {
+        dispatch({
+            type: types.SHIFT_STATUS_UPDATE_FAILURE,
+            error: err
+        })
+    })
+}
+
+export const changeTimesheetShift = (values, timesheetId) => dispatch => {
+    dispatch({ type: types.UPDATE_SHIFT_REQUEST })
+    const { id } = values
+    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
+    const endpoint = `${url}shift/${id}`
+    fetch(endpoint, {
+        method: 'PUT',
+        body: JSON.stringify(values),
+        headers: {
+            authorization: token,
+            'Content-Type':'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(response => {
+        const { code, response: { title, message } } = response
+        showToast(title, message, code)
+        if(code === 'success'){
+            dispatch({
+                type: types.UPDATE_SHIFT_SUCCESS,
+                payload: {
+                    shift: values,
+                    id: timesheetId
+                }
+            })
+        }else{
+            dispatch({
+                type: types.UPDATE_SHIFT_FAILURE,
+                error: response.error
+            })
+        }
+    })
+    .catch(err => {
+        dispatch({
+            type: types.UPDATE_SHIFT_FAILURE,
+            error: err
+        })
+    })
+}

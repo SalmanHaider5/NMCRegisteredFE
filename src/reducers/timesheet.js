@@ -1,4 +1,4 @@
-import { append, length, add, findIndex, propEq, remove, find, update, isNil } from 'ramda'
+import { append, length, add, findIndex, propEq, remove, find, update, isNil, join } from 'ramda'
 import * as actions from '../actions'
 
 const initState = {
@@ -14,6 +14,9 @@ const timesheet = (state=initState, action) => {
     const { type, payload } = action
     const { timesheets } = state
     switch(type){
+        case actions.REMOVE_TIMESHEET_REQUEST:
+        case actions.UPDATE_SHIFT_REQUEST:
+        case actions.SHIFT_STATUS_UPDATE_REQUEST:
         case actions.FETCH_TIMESHEETS_REQUEST:
             return{
                 ...state,
@@ -25,6 +28,36 @@ const timesheet = (state=initState, action) => {
                 isLoading: false,
                 timesheets: append(payload, timesheets)
             }
+        case actions.SHIFT_STATUS_UPDATE_SUCCESS:
+            const { timesheetId, id } = payload
+            const selectedTimesheet = find(propEq('id', timesheetId))(timesheets)
+            const timesheetIndex = findIndex(propEq('id', timesheetId))(timesheets)
+            const selectedShift = find(propEq('id', id))(selectedTimesheet.schedule)
+            const shiftIndex = findIndex(propEq('id', id))(selectedTimesheet.schedule)
+            selectedShift.status = !selectedShift.status
+            const updatedTimesheet = update(timesheetIndex, update(shiftIndex, selectedShift, selectedTimesheet.schedule), state.timesheet)
+            return{
+                ...state,
+                isLoading: false,
+                timesheet: updatedTimesheet
+            }
+        case actions.UPDATE_SHIFT_SUCCESS:
+            const currentTimesheet = find(propEq('id', payload.id))(timesheets)
+            const currentTimesheetIndex = findIndex(propEq('id', payload.id))(timesheets)
+            const currentShift = find(propEq('id', payload.shift.id))(currentTimesheet.schedule)
+            const currentShiftIndex = findIndex(propEq('id', payload.shift.id))(currentTimesheet.schedule)
+            const updatedShift = currentShift
+            updatedShift.shift = payload.shift.shift
+            updatedShift.time = join('-', payload.shift.startTime, payload.shift.endTime)
+            const newTimesheet = update(currentTimesheetIndex, update(currentShiftIndex, currentShift, currentTimesheet.schedule), state.timesheet)
+            return{
+                ...state,
+                isLoading: false,
+                timesheet: newTimesheet
+            }
+        case actions.REMOVE_TIMESHEET_FAILURE:
+        case actions.UPDATE_SHIFT_FAILURE:
+        case actions.SHIFT_STATUS_UPDATE_FAILURE:
         case actions.FETCH_TIMESHEETS_FAILURE:
             return{
                 ...state,
@@ -53,10 +86,12 @@ const timesheet = (state=initState, action) => {
                     schedule: []
                 }
             }
+        
         case actions.REMOVE_TIMESHEET_SUCCESS:
             const index = findIndex(propEq('id', payload))(state.timesheets)
             return {
                 ...state,
+                isLoading: false,
                 timesheets: remove(index, 1, state.timesheets)
             }
         default:

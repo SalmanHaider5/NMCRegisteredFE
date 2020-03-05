@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
-import { reduxForm, getFormValues, change, reset } from 'redux-form'
-import { isEmpty, length, add, find, propEq, map, range, init, head, last, nth, subtract } from 'ramda'
-import { Row, Col, Button, Result, Icon, Divider, Drawer, TimePicker } from 'antd'
+import { reduxForm, getFormValues, change, reset, initialize } from 'redux-form'
+import { isEmpty, length, add, find, propEq, map, range, init, head, last, nth, prop, subtract, omit, filter, isNil, split } from 'ramda'
+import { Row, Col, Button, Result, Icon, Divider, Drawer } from 'antd'
 import { getTimesheetValues } from '../../../../utils/helpers'
-import { addDailySchedule, addTimesheet, resetScheduleForm, removeTimesheet, fetchTimesheets } from '../../../../actions'
-import { TIMESHEET_DAYS as days, TIMESHEET_SHIFTS as shifts, TIME_FORMAT as timeFormat } from '../../../../constants'
+import { ModalBox } from '../../../../utils/custom-components'
+import { addDailySchedule, addTimesheet, resetScheduleForm, removeTimesheet, fetchTimesheets, changeShiftStatus, changeTimesheetShift } from '../../../../actions'
+import { TIMESHEET_DAYS as days, TIMESHEET_SHIFTS as shifts, DATE_FORMAT as dateFormat } from '../../../../constants'
 import WeekdaySelectBox from './WeekdaySelectBox'
 import ShiftsSelectBox from './ShiftsSelectBox'
 import SingleTimesheet from './SingleTimesheet'
@@ -22,7 +23,9 @@ class Timesheet extends Component {
       scheduleForm: false,
       customizedShiftError: '',
       weeklyDates: [],
-      specificDate: ''
+      specificDate: '',
+      editShiftModal: false,
+      editableTimeheet: ''
     }
   }
 
@@ -84,6 +87,38 @@ class Timesheet extends Component {
       scheduleForm: true,
       weeklyDates
     })
+  }
+
+  showEditShiftModal = (timesheetId, shiftId) => {
+    const { timesheet: { timesheets }, dispatch } = this.props
+    const { schedule } = find(propEq('id', timesheetId))(timesheets)
+    const selectedShift = find(propEq('id', shiftId))(schedule)
+    
+    const formValues = {}
+    if(!isNil(selectedShift)){
+      formValues.id = selectedShift.id
+      formValues.day = moment(selectedShift.date).format('dddd')
+      formValues.shift = selectedShift.shift
+      formValues.startTime = head(split('-', selectedShift.time))
+      formValues.endTime = last(split('-', selectedShift.time))
+      dispatch(initialize('timesheet', formValues))
+    }
+    this.setState({
+      editShiftModal: true,
+      selectedShift: isNil(selectedShift) ? '' : formValues.shift,
+      editableTimeheet: timesheetId
+    })
+  }
+
+  updateTimesheetShift = () => {
+    const { formValues, dispatch } = this.props
+    const { editableTimeheet } = this.state
+    dispatch(changeTimesheetShift(omit(['day'], formValues), editableTimeheet))
+    this.setState({ editShiftModal: false })
+  }
+
+  hideEditShiftModal = () => {
+    this.setState({ editShiftModal: false })
   }
 
   addStartTime = (time, timeString) => {
@@ -159,15 +194,38 @@ class Timesheet extends Component {
     return nth(subtract(id, 1), weeklyDates)
   }
 
-  getTimesheetShiftByDay = (timesheetId, dayId) => {
-    const { timesheet: { timesheets } } = this.props
-    const selectedTimesheet = find(propEq('id', timesheetId))(timesheets)
-    const { schedule } = selectedTimesheet
-    return find(propEq('id', dayId))(schedule)
-  } 
+  getShiftByDay = (date, schedule) => {
+    return head(filter(day => moment(day.date).format(dateFormat) === date, schedule))
+  }
+
+  getTimesheetShiftByDay = (timesheet, day) => {
+    const { schedule, startingDay } = timesheet
+    const { id } = day
+    const date = moment(startingDay).add(parseInt(id) - 1, 'days').format(dateFormat)
+    const shift = {}
+    shift.date = date
+    const shiftDetails = this.getShiftByDay(date, schedule)
+    if(isNil(shiftDetails)){
+      shift.id = ''
+      shift.time = '00:00 AA - 00:00 AA'
+      shift.name = '-'
+      shift.status = false
+    }else{
+      shift.id = prop('id', shiftDetails)
+      shift.time = prop('time', shiftDetails)
+      shift.name = prop('shift', shiftDetails)
+      shift.status = prop('status', shiftDetails)
+    }
+    return shift
+  }
+  
+  changeShiftAvailability = (status, shift, timesheet) => {
+    const { dispatch } = this.props
+    dispatch(changeShiftStatus(shift, status, timesheet))
+  }
 
   render() {
-    const { visible, selectedDay, selectedShift, scheduleForm, customizedShiftError, weeklyDates, specificDate } = this.state
+    const { visible, selectedDay, selectedShift, scheduleForm, customizedShiftError, weeklyDates, specificDate, editShiftModal } = this.state
     const { timesheet: { timesheets } } = this.props
     return (
       <div>
@@ -220,12 +278,14 @@ class Timesheet extends Component {
                 {
                   map(timesheet => {
                     return(
-                      <Col span={12}>
+                      <Col span={12} key={timesheet.id} >
                         <SingleTimesheet
                           days={days}
                           timesheet={timesheet}
                           getTimesheetShiftByDay={this.getTimesheetShiftByDay}
                           deleteTimesheet={this.deleteTimesheet}
+                          changeShiftAvailability={this.changeShiftAvailability}
+                          showEditShiftModal={this.showEditShiftModal}
                         />
                       </Col>
                     )
@@ -249,16 +309,10 @@ class Timesheet extends Component {
                   shifts={shifts}
                   selectedShift={selectedShift}
                   selectShift={this.selectShift}
+                  addStartTime={this.addStartTime}
+                  addEndTime={this.addEndTime}
+                  customizedShiftError={customizedShiftError}
                 />
-                {
-                  selectedShift === 'Customized Shift' ?
-                  <span>
-                    <TimePicker use12Hours format={timeFormat} onChange={this.addStartTime} placeholder="Start Time" />
-                    <TimePicker use12Hours format={timeFormat} onChange={this.addEndTime} placeholder="End Time" />
-                    <p className="error-message">{customizedShiftError}</p>
-                  </span> :
-                  ''
-                }
                 <Button
                   block
                   className="success-btn select-button"
@@ -269,6 +323,28 @@ class Timesheet extends Component {
                   Save
                 </Button>
               </Drawer>
+              <ModalBox
+                title={`Edit Timesheet`}
+                visible={editShiftModal}
+                size={500}
+                content={
+                  <span className="edit-shift">
+                    <ShiftsSelectBox
+                      shifts={shifts}
+                      selectedShift={selectedShift}
+                      selectShift={this.selectShift}
+                    />
+                  </span>
+                }
+                submitText={
+                  <span>
+                    <Icon type="save" /> Update
+                  </span>
+                }
+                cancelText={'Cancel'}
+                submitHandler={this.updateTimesheetShift}
+                cancelHandler={this.hideEditShiftModal}
+              />
             </div>
           </div>
         </div>
