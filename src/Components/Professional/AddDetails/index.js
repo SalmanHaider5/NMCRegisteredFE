@@ -20,21 +20,28 @@ const AddDetails = ({
   current,
   next,
   prev,
-  saveDetails
+  saveDetails,
+  formValues,
+  fileChangeHandler,
+  getFormName
 }) => {
   const { phone } = professional
   const isPhoneAdded = !isEmptyOrNull(phone) || phoneVerified ? true : false
   
   const components = [
-    <PersonalDetailsForm />,
+    <PersonalDetailsForm
+      formValues={formValues}
+      fileChangeHandler={fileChangeHandler}
+    />,
     <AddressForm
       findAddresses={findAddresses}
       addressSelectHandler={addressSelectHandler}
       addresses={addresses}
     />,
-    <ProfessionalDetailsForm />
+    <ProfessionalDetailsForm
+      formValues={formValues}
+    />
   ]
-
   return (
     <div className="addform-container">
       <Row gutter={16} className="addform-panel">
@@ -50,7 +57,7 @@ const AddDetails = ({
             title={
               isPhoneAdded ?
               <span>
-                {getFormIcon(current)} Personal Details
+                {getFormIcon(current)} {getFormName(current)}
               </span> :
               <span>
                 <Icon type="solution" /> Mobile Verification

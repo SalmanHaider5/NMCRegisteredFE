@@ -84,13 +84,14 @@ class Professional extends Component {
   }
 
   saveDetails = () => {
-    const { dispatch, match: { params: { userId } }, formValues } = this.props
+    const { dispatch, match: { params: { userId } }, formValues, history } = this.props
     const { status, qualification } = formValues
     const values = omit(['status', 'phone', 'postalCode', 'changePassword', 'addressId'], formValues)
     values.status = prop('name', find(propEq('id', status))(genders))
     values.qualification = prop('name', find(propEq('id', qualification))(qualifications))
     dispatch(createDetails(userId, values))
     dispatch(reset('professional'))
+    history.push(`/professional/${userId}/timesheet`)
   }
 
   logout = () => {
@@ -146,9 +147,25 @@ class Professional extends Component {
     }
   }
 
+  getFormName = current => {
+    switch(current){
+      case 0:
+        return `Personal Details`
+      case 1:
+        return `Address Details`
+      default:
+        return `Work Experience`
+    }
+  }
+
   onCollapse = () => {
     const { collapsed } = this.state
     this.setState({ collapsed: !collapsed })
+  }
+
+  fileChangeHandler = file => {
+    const { dispatch } = this.props
+    dispatch(change('professional', 'profilePicture', ''))
   }
 
   render() {
@@ -189,6 +206,9 @@ class Professional extends Component {
             prev={this.prev}
             getFormIcon={this.getFormIcon}
             saveDetails={this.saveDetails}
+            formValues={formValues}
+            fileChangeHandler={this.fileChangeHandler}
+            getFormName={this.getFormName}
           /> :
           <ViewDetails
             userId={userId}

@@ -1,9 +1,12 @@
 import React from 'react'
 import { List, Tag, Icon, Avatar } from 'antd'
 import moment from 'moment'
+import { isEmptyOrNull } from '../../../../../utils/helpers'
+import { SERVER_URL as url } from '../../../../../constants'
 
 const PersonalDetails = ({ professional, getProfileStatus }) => {
   const {
+    profilePicture,
     fullName,
     email,
     isVerified,
@@ -17,7 +20,11 @@ const PersonalDetails = ({ professional, getProfileStatus }) => {
   return (
     <List className="profile-list">
       <List.Item>
-      <Avatar size={160} icon="user" />
+        {
+          isEmptyOrNull(profilePicture) ? 
+          <Avatar size={160} icon="user" /> :
+          <Avatar size={160} src={`${url}${profilePicture}`} />
+        }
       </List.Item>
       <List.Item>
         <label>

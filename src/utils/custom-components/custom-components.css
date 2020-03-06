@@ -53,3 +53,41 @@ span.ant-time-picker{
 div.text-area div.ant-form-item-label{
     text-align: left;
 }
+.image-input div.ant-upload-select-picture-card{
+    border: none;
+    border-radius: 50%;
+    background-color: #bebaba;
+}
+.image-input div.ant-upload-list-item-list-type-picture-card{
+    padding: 0;
+    border: none;
+    width: 140px;
+    height: 140px;
+}
+.image-input div.ant-upload-list-item-list-type-picture-card .ant-upload-list-item-info{
+    border-radius: 50%;
+    width: 140px;
+    height: 140px;
+}
+.image-input .ant-form-item-label{
+    min-height: 100px;
+}
+.image-input label{
+    top: 50px;
+}
+.image-input .ant-upload.ant-upload-select-picture-card{
+    width: 140px;
+    height: 140px;
+}
+.image-input .ant-upload-list-picture-card-container{
+    width: 140px;
+    height: 140px;
+}
+.image-input i{
+    font-size: 38px;
+    color: #fff;
+}
+.image-input .ant-upload-select-picture-card:hover{
+    background-color: #000;
+    opacity: 0.7;
+}

@@ -1,9 +1,10 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { TextField, SelectField, MultilineTextField } from '../../../utils/custom-components'
+import { TextField, SelectField, MultilineTextField, FileInput } from '../../../utils/custom-components'
 import { isRequired, QUALIFICATION_OPTIONS as qualifications, max35Hours } from '../../../constants'
 
-const ProfessionalDetailsForm = () => {
+const ProfessionalDetailsForm = ({ formValues }) => {
+  const { document } = formValues
   return (
     <div>
       <Field
@@ -33,6 +34,14 @@ const ProfessionalDetailsForm = () => {
         specialText={'Max 35 Hours'}
         validate={[max35Hours]}
         tooltipPlacement={'topRight'}
+      />
+      <Field
+        name="document"
+        component={FileInput}
+        label="Resume/CV"
+        type={'card'}
+        fileAdded={document}
+        removeIcon={true}
       />
       <Field
         name="experience"

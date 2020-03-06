@@ -77,7 +77,8 @@ class Timesheet extends Component {
         dow: 1
       }
     })
-    const weekStart = moment().startOf('week');
+    const weekStart = moment().startOf('week').format('LL');
+    console.log(weekStart)
     const days = init(range(0, 8))
     
     const weeklyDates = map(day => {

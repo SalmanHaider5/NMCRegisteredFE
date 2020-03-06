@@ -24,6 +24,7 @@ export const SelectField = ({
         labelCol={isNil(label) ? undefined : { span: 5, offset: 3 } }
         wrapperCol={isNil(label) ? undefined :{ span: 12, offset: 1 }}
         labelAlign='left'
+        colon={false}
       >
         <Select
           placeholder={hintText}

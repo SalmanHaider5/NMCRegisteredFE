@@ -2,20 +2,25 @@ import { defaultTo, isNil } from 'ramda'
 import Cookies from 'js-cookie'
 import { SERVER_URL as url } from '../constants'
 import * as types from './'
-import { showToast } from '../utils/helpers'
+import { showToast, getFormData } from '../utils/helpers'
 
 export const createDetails = (userId, formValues) => dispatch => {
+    if(isNil(Cookies.getJSON('authToken'))) return undefined
+    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
     dispatch({ type: types.ADD_PROFESSIONAL_DETAILS_REQUEST })
+    
     const endpoint = `${url}${userId}/professional`
     fetch(endpoint, {
         method: 'POST',
-        body: JSON.stringify(formValues),
+        body: getFormData(formValues),
         headers: {
-            'Content-Type':'application/json'
+            authorization: token
         }
     })
     .then(res => res.json())
     .then(response => {
+        const { code, response: { title, message } } = response
+        showToast(title, message, code)
         response.professional = formValues
         dispatch({
             type: types.ADD_PROFESSIONAL_DETAILS_SUCCESS,

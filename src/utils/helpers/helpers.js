@@ -26,3 +26,15 @@ export const showToast = (title, message, type)  => {
 
 export const mapIndexed = addIndex(map)
 export const isEmptyOrNull = value => isEmpty(value) || isNil(value) ? true : false
+
+export const getFormData = formValues => {
+    const formData = new FormData()
+    for(const key in formValues){
+        if(key === 'file'){
+            formData.append(key, formValues[key][0])
+        }else{
+            formData.append(key, formValues[key])
+        }
+    }
+    return formData
+}

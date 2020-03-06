@@ -1,11 +1,20 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { MultilineTextField } from '../../../utils/custom-components'
+import { MultilineTextField, FileInput } from '../../../utils/custom-components'
 import { isRequired, QUALIFICATION_OPTIONS as qualifications } from '../../../constants'
 
 const WorkExperienceForm = () => {
   return (
     <div>
+      <Field
+        name="document"
+        component={FileInput}
+        label="Resume/CV"
+        type={'picture-card'}
+        // fileAdded={profilePicture}
+        // onRemove={fileChangeHandler}
+        removeIcon={true}
+      />
       <Field
         name="experience"
         component={MultilineTextField}

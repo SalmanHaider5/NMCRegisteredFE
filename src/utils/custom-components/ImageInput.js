@@ -1,10 +1,11 @@
 import React from 'react'
 import { isNil } from 'ramda'
-import { Upload, Icon, Form, Button } from 'antd'
+import { Upload, Icon, Form } from 'antd'
+import { isEmptyOrNull } from '../helpers'
 
 const FormItem = Form.Item
 
-export const FileInput = ({
+export const ImageInput = ({
   input: { name, value, onChange, onBlur },
   meta: { touched, error, warning },
   label,
@@ -19,7 +20,7 @@ export const FileInput = ({
 }) => {
   
   return (
-    <div className="file-input">
+    <div className="image-input">
       <FormItem
         validateStatus={touched && error ? 'error' : ''}
         label={label}
@@ -34,7 +35,7 @@ export const FileInput = ({
           name="file"
           action={'https://www.mocky.io/v2/5cc8019d300000980a055e76'}
           listType={type}
-          accept=".doc,.docx,.pdf"
+          accept=".jpg,.jpeg,.png"
           data={file => onChange(file)}
           onRemove={onRemove}
           showUploadList={
@@ -45,9 +46,11 @@ export const FileInput = ({
             }
           }
         >
-          <Button>
-            <Icon type="upload" /> Upload Document
-          </Button>
+          {
+            isEmptyOrNull(fileAdded) ?
+              <Icon type="camera" />
+            : ''
+          }
         </Upload>
       </FormItem>
     </div>

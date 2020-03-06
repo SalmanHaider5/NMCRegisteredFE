@@ -2,13 +2,22 @@ import React from 'react'
 import { Field } from 'redux-form'
 import moment from 'moment'
 import { isNil } from 'ramda'
-import { TextField, SelectField, DatePickerField } from '../../../utils/custom-components'
+import { TextField, SelectField, DatePickerField, ImageInput } from '../../../utils/custom-components'
 import { isRequired, GENDER_OPTIONS as genders, DATE_FORMAT as format } from '../../../constants'
 
-const PersonalDetailsForm = ({ dateOfBirth }) => {
-  console.log('DOB', dateOfBirth)
+const PersonalDetailsForm = ({ dateOfBirth, formValues, fileChangeHandler }) => {
+  const { profilePicture } = formValues
   return (
     <div>
+      <Field
+        name="profilePicture"
+        component={ImageInput}
+        label="Profile Picture"
+        type={'picture-card'}
+        fileAdded={profilePicture}
+        onRemove={fileChangeHandler}
+        removeIcon={true}
+      />
       <Field
         name="status"
         component={SelectField}

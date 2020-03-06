@@ -7,8 +7,7 @@ const initState = {
     phoneVerified: false,
     professionalDetails: {
         professional: {
-            phone: {},
-            picture: {}
+            phone: {}
         }
     }
 }
@@ -24,6 +23,8 @@ const professional = (state=initState, action) => {
                 isLoading: true
             }
         case actions.ADD_PROFESSIONAL_DETAILS_SUCCESS:
+            payload.professional.phone = state.professionalDetails.professional.phone
+            payload.professional.email = state.professionalDetails.professional.email
             return{
                 ...state,
                 isLoading: false,
