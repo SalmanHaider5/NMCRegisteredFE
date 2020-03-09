@@ -2,7 +2,7 @@ import React from 'react'
 import { map, isNil } from 'ramda'
 import { Col, Card, Button, Icon } from 'antd'
 
-const WeekdaySelectBox = ({ days, showDrawer, getScheduleByDay, addTimesheet }) => {
+const WeekdaySelectBox = ({ days, showDrawer, getScheduleByDay, addTimesheet, getDayStatus }) => {
   return(
     <>
       {
@@ -12,10 +12,16 @@ const WeekdaySelectBox = ({ days, showDrawer, getScheduleByDay, addTimesheet }) 
           return(
             <Col span={3} key={day.id} className="add-timesheet-box">
               <Card title={name}>
-                <Button className={isNil(daySchedule) ? 'add-schedule-button' : 'add-schedule-button shift-add-button'} onClick={() => showDrawer(day)}>
+                <Button
+                  className={isNil(daySchedule) ? 'add-schedule-button' : 'add-schedule-button shift-add-button'}
+                  onClick={() => showDrawer(day)}
+                  disabled={getDayStatus(day)}
+                >
                   {
                     isNil(daySchedule) ?
-                    <Icon type="plus-circle" /> :
+                    <Icon
+                      type={getDayStatus(day) ? "eye-invisible" : "upload"}
+                    /> :
                     <span className="selected-time">
                       <h5>{daySchedule.startTime}</h5>
                       <h5>to</h5>

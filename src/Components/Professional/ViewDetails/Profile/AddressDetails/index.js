@@ -18,7 +18,7 @@ const AddressDetails = ({ professional }) => {
           <Icon type="tag" />
           Postal Code
         </label>
-        <span className="label-value">{toUpper(postCode)}</span>
+        <span className="label-value">{postCode && toUpper(postCode)}</span>
       </List.Item>
       <List.Item>
         <label>
@@ -53,7 +53,7 @@ const AddressDetails = ({ professional }) => {
           <Icon type="dashboard" />
           Distance (can travel)
         </label>
-        <span className="label-value">{distance ? distance : 0} m/s</span>
+        <span className="label-value">{distance ? distance : 0} miles</span>
       </List.Item>
     </List>
   )

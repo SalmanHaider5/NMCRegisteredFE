@@ -5,7 +5,6 @@ import { SwitchField } from '../../../../utils/custom-components'
 
 const TwoFactorAuthentication = ({ formValues }) => {
   const twoFactorAuthentication = prop('twoFactorAuthentication', prop('changePassword', formValues))
-  console.log(formValues)
   return (
     <div>
       <Field

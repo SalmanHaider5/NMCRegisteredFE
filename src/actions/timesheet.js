@@ -25,14 +25,32 @@ export const addTimesheet = (userId, data) => dispatch => {
     })
     .then(res => res.json())
     .then(response => {
-        const { code, response: { title, message } } = response
+        const { code, response: { title, message }, timesheetId } = response
         showToast(title, message, code)
+        if(code === 'success'){
+            const { timesheet: { startingDay, endingDay }, singleTimesheet } = data
+            dispatch({
+                type: types.ADD_TIMESHEET_SUCCESS,
+                payload: {
+                    id: timesheetId,
+                    startingDay,
+                    endingDay,
+                    schedule: singleTimesheet
+                }
+            })
+        }else{
+            dispatch({
+                type: types.ADD_TIMESHEET_FAILURE,
+                error: response.error
+            })
+        }   
     })
-    // dispatch({
-    //     type: types.ADD_TIMESHEET_SUCCESS,
-    //     payload: data
-    // })
-    showToast('Timesheet Added', 'Timesheet successfully added', 'success')
+    .catch(err => {
+        dispatch({
+            type: types.ADD_TIMESHEET_FAILURE,
+            error: err
+        })
+    })
 }
 
 export const resetScheduleForm = () => dispatch => {

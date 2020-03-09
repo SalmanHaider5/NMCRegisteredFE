@@ -1,7 +1,7 @@
 import React from 'react'
 import { Field } from 'redux-form'
 import { TextField, SelectField, MultilineTextField, FileInput } from '../../../utils/custom-components'
-import { isRequired, QUALIFICATION_OPTIONS as qualifications, max35Hours } from '../../../constants'
+import { isRequired, QUALIFICATION_OPTIONS as qualifications, max35Hours, max200Words } from '../../../constants'
 
 const ProfessionalDetailsForm = ({ formValues }) => {
   const { document } = formValues
@@ -50,8 +50,8 @@ const ProfessionalDetailsForm = ({ formValues }) => {
         type="text"
         options={qualifications}
         rows={5}
+        validate={[max200Words]}
         specialText={'Max 200 words'}
-        validate={[isRequired]}
         tooltipPlacement={'topRight'}
       />
     </div>

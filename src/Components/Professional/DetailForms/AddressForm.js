@@ -34,7 +34,6 @@ const AddressForm = ({
         options={addresses}
         hintText={'Address'}
         onBlur={addressSelectHandler}
-        validate={[isRequired]}
       />
       <Field
         name="address"

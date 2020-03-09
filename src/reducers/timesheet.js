@@ -18,6 +18,7 @@ const timesheet = (state=initState, action) => {
         case actions.UPDATE_SHIFT_REQUEST:
         case actions.SHIFT_STATUS_UPDATE_REQUEST:
         case actions.FETCH_TIMESHEETS_REQUEST:
+        case actions.ADD_TIMESHEET_REQUEST:
             return{
                 ...state,
                 isLoading: true
@@ -55,6 +56,7 @@ const timesheet = (state=initState, action) => {
                 isLoading: false,
                 timesheet: newTimesheet
             }
+        case actions.ADD_TIMESHEET_FAILURE:
         case actions.REMOVE_TIMESHEET_FAILURE:
         case actions.UPDATE_SHIFT_FAILURE:
         case actions.SHIFT_STATUS_UPDATE_FAILURE:
@@ -75,6 +77,7 @@ const timesheet = (state=initState, action) => {
         case actions.ADD_TIMESHEET_SUCCESS:
             return{
                 ...state,
+                isLoading: false,
                 timesheets: append(payload, timesheets)
             }
         case actions.RESET_SCHEDULE_FORM:

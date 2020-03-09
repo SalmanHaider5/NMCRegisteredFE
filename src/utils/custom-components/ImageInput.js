@@ -1,7 +1,8 @@
 import React from 'react'
-import { isNil } from 'ramda'
-import { Upload, Icon, Form } from 'antd'
+import { isNil, equals, type } from 'ramda'
+import { Upload, Icon, Form, Avatar } from 'antd'
 import { isEmptyOrNull } from '../helpers'
+import { SERVER_URL as url } from '../../constants'
 
 const FormItem = Form.Item
 
@@ -12,13 +13,12 @@ export const ImageInput = ({
   isRequired,
   fileAdded,
   specialText,
-  type,
+  previewType,
   onRemove,
   downloadIcon = false,
   previewIcon = false,
   removeIcon = false
 }) => {
-  
   return (
     <div className="image-input">
       <FormItem
@@ -34,7 +34,7 @@ export const ImageInput = ({
         <Upload
           name="file"
           action={'https://www.mocky.io/v2/5cc8019d300000980a055e76'}
-          listType={type}
+          listType={previewType}
           accept=".jpg,.jpeg,.png"
           data={file => onChange(file)}
           onRemove={onRemove}
@@ -48,8 +48,12 @@ export const ImageInput = ({
         >
           {
             isEmptyOrNull(fileAdded) ?
-              <Icon type="camera" />
-            : ''
+              <Icon type="camera" /> :
+            equals(type(fileAdded), 'String') ?
+            <Avatar size={140} icon="camera" src={`${url}${fileAdded}`}>
+              <Icon type="user" />
+            </Avatar> :
+            ''
           }
         </Upload>
       </FormItem>

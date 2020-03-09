@@ -1,5 +1,5 @@
 import * as actions from '../actions'
-import { equals } from 'ramda'
+import { equals, pathOr, type as dataType, defaultTo } from 'ramda'
 
 const initState = {
     isLoading: false,
@@ -23,8 +23,10 @@ const professional = (state=initState, action) => {
                 isLoading: true
             }
         case actions.ADD_PROFESSIONAL_DETAILS_SUCCESS:
+            const picture = pathOr('', ['payload', 'professional', 'profilePicture', 'name'], payload)
             payload.professional.phone = state.professionalDetails.professional.phone
             payload.professional.email = state.professionalDetails.professional.email
+            payload.professional.profilePicture = picture
             return{
                 ...state,
                 isLoading: false,
@@ -60,6 +62,12 @@ const professional = (state=initState, action) => {
                 isLoading: true
             }
         case actions.PROFESSIONAL_PROFILE_UPDATE_SUCCESS:
+            const profilePicture = defaultTo('', payload.professional.profilePicture)
+            console.log('Picture', profilePicture.name,  dataType(profilePicture), equals(dataType(profilePicture), 'File'))
+            const updatedPicture = equals(dataType(profilePicture), 'File') ? profilePicture.name : state.professionalDetails.professional.profilePicture
+            payload.professional.profilePicture = updatedPicture
+            
+            console.log(payload)
             return{
                 ...state,
                 isLoading: false,

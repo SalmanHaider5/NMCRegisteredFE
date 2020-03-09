@@ -13,7 +13,7 @@ export const ButtonTextField = ({
   hintText,
   type,
   size,
-  readOnly,
+  readOnly=false,
   tooltipPlacement = "top",
   disabled,
   specialText,
@@ -21,7 +21,6 @@ export const ButtonTextField = ({
   isRequired,
   enterButton,
   onSearch,
-  fieldData,
   id
 }) => {
   return (
@@ -51,8 +50,8 @@ export const ButtonTextField = ({
             onSearch={onSearch}
             disabled={disabled}
             type={type}
+            value={value}
             readOnly={readOnly}
-            value={readOnly ? fieldData : value}
             addonAfter={addonAfterText}
           />
         </Tooltip>

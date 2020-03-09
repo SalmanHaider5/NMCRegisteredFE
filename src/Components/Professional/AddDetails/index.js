@@ -23,7 +23,8 @@ const AddDetails = ({
   saveDetails,
   formValues,
   fileChangeHandler,
-  getFormName
+  getFormName,
+  invalid
 }) => {
   const { phone } = professional
   const isPhoneAdded = !isEmptyOrNull(phone) || phoneVerified ? true : false
@@ -80,10 +81,10 @@ const AddDetails = ({
                 {
                   isPhoneAdded ?
                     current === 2 ?
-                    <Button className="next-btn success-btn" onClick={saveDetails}>
+                    <Button className="next-btn success-btn" disabled={invalid} onClick={saveDetails}>
                       <Icon type="check" /> Save
                     </Button> :
-                    <Button className="next-btn" type="primary" onClick={next}>
+                    <Button className="next-btn" type="primary" disabled={invalid} onClick={next}>
                       Next <Icon type="right" />
                     </Button> :
                   <Button className="success-btn next-btn" onClick={verifyProfessionalPhone}>

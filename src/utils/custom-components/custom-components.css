@@ -91,3 +91,6 @@ div.text-area div.ant-form-item-label{
     background-color: #000;
     opacity: 0.7;
 }
+.image-input .ant-upload.ant-upload-select-picture-card .ant-upload{
+    padding: 0;
+}

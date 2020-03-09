@@ -50,3 +50,9 @@
     padding-right: 0;
     
 }
+.document-viewer .pdf-canvas canvas{
+    width: 100%;
+}
+.document-viewer .pg-viewer-wrapper{
+    overflow-y: hidden;
+}

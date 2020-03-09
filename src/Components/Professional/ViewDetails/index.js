@@ -68,6 +68,7 @@ const ViewDetails = ({
             <Route path="/professional/:userId/timesheet" component={Timesheet} />
             <Route path="/professional/:userId/profile">
               <Profile
+                userId={userId}
                 professional={professional}
                 isLoading={isLoading}
                 formModal={formModal}
@@ -80,6 +81,7 @@ const ViewDetails = ({
                 updateProfessionalDetails={updateProfessionalDetails}
                 getProfileStatus={getProfileStatus}
                 invalid={invalid}
+                formValues={formValues}
               />
             </Route>
             <Route path="/professional/:userId/security">

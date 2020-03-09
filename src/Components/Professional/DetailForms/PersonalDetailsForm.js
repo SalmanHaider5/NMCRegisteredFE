@@ -13,7 +13,7 @@ const PersonalDetailsForm = ({ dateOfBirth, formValues, fileChangeHandler }) => 
         name="profilePicture"
         component={ImageInput}
         label="Profile Picture"
-        type={'picture-card'}
+        previewType={'picture-card'}
         fileAdded={profilePicture}
         onRemove={fileChangeHandler}
         removeIcon={true}

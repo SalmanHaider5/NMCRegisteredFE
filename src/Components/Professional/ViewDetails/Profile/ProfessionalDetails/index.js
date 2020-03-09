@@ -2,7 +2,7 @@ import React from 'react'
 import { List, Icon, Divider } from 'antd'
 import WorkExperience from '../WorkExperience'
 
-const ProfessionalDetails = ({ professional }) => {
+const ProfessionalDetails = ({ professional, formValues, userId }) => {
   const {
     nmcPin,
     cpdHours,

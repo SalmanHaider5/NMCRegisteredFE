@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import { reduxForm, getFormValues, change, reset, initialize } from 'redux-form'
-import { isEmpty, length, add, find, propEq, map, range, init, head, last, nth, prop, subtract, omit, filter, isNil, split } from 'ramda'
-import { Row, Col, Button, Result, Icon, Divider, Drawer } from 'antd'
+import { isEmpty, length, add, find, propEq, map, range, head, last, nth, prop, subtract, omit, filter, isNil, split, equals } from 'ramda'
+import { Row, Col, Button, Result, Icon, Divider, Drawer, Spin } from 'antd'
 import { getTimesheetValues } from '../../../../utils/helpers'
 import { ModalBox } from '../../../../utils/custom-components'
 import { addDailySchedule, addTimesheet, resetScheduleForm, removeTimesheet, fetchTimesheets, changeShiftStatus, changeTimesheetShift } from '../../../../actions'
@@ -69,25 +69,30 @@ class Timesheet extends Component {
     const { dispatch } = this.props
     dispatch(removeTimesheet(id))
   }
-  showScheduleForm = () => {
-    const { dispatch } = this.props
+
+  showScheduleForm = (count=0) => {
+    const { dispatch, timesheet: { timesheets } } = this.props
     dispatch(resetScheduleForm())
     moment.updateLocale('en', {
       week: {
         dow: 1
       }
     })
-    const weekStart = moment().startOf('week').format('LL');
-    console.log(weekStart)
-    const days = init(range(0, 8))
     
-    const weeklyDates = map(day => {
-      return moment(weekStart).add(day, 'days').format('LL')
-    }, days)
-    this.setState({
-      scheduleForm: true,
-      weeklyDates
-    })
+    const weekStart = moment().add(count, 'days').startOf('week').format('L');
+    const weekFound = !isEmpty(filter(timesheet => equals(moment(timesheet.startingDay).local().format('LL'), weekStart), timesheets))
+    if(weekFound){
+      this.showScheduleForm(7)
+    }else{
+      const days = range(0, 7) 
+      const weeklyDates = map(day => {
+        return moment(weekStart).add(day, 'days').format('LL')
+      }, days)
+      this.setState({
+        scheduleForm: true,
+        weeklyDates
+      })
+    }
   }
 
   showEditShiftModal = (timesheetId, shiftId) => {
@@ -167,18 +172,17 @@ class Timesheet extends Component {
     const { timesheet: { timesheet: { schedule } }, dispatch, match: { params: { userId } } } = this.props
     const { weeklyDates } = this.state
     let timesheetValues = {}
-    timesheetValues.startingDay = moment(head(weeklyDates)).format('L')
-    timesheetValues.endingDay = moment(last(weeklyDates)).format('L')
-    let scheduleValues = map(singleDay => {
-      const { day, shift, startTime, endTime } = singleDay
-      const specificDay = find(propEq('name', day))(days)
+    timesheetValues.startingDay = moment(head(weeklyDates)).local().format('L')
+    timesheetValues.endingDay = moment(last(weeklyDates)).local().format('L')
+    let scheduleValues = map(day => {
+      const dayFound = find(propEq('day', day.name))(schedule)
       let singleTimesheet = {}
-      singleTimesheet.date = moment(this.getSpecificDate(specificDay)).format('L')
-      singleTimesheet.shift = shift
-      singleTimesheet.time = `${startTime}-${endTime}`
-      singleTimesheet.status = true
+      singleTimesheet.date = moment(weeklyDates[parseInt(day.id)-1]).format('L')
+      singleTimesheet.shift = isNil(dayFound) ? '' : dayFound.shift
+      singleTimesheet.time = isNil(dayFound) ? `00:00 AA - 00:00 AA` : `${dayFound.startTime}-${dayFound.endTime}`
+      singleTimesheet.status = isNil(dayFound) ? false : true
       return singleTimesheet
-    }, schedule)
+    }, days)
     let values = {}
     values.timesheet = timesheetValues
     values.singleTimesheet = scheduleValues
@@ -195,6 +199,12 @@ class Timesheet extends Component {
     return nth(subtract(id, 1), weeklyDates)
   }
 
+  getDayStatus = (day) => {
+    const { weeklyDates } = this.state
+    const isExpired = moment(weeklyDates[parseInt(day.id)-1]).isSameOrBefore(moment())
+    return isExpired
+  }
+
   getShiftByDay = (date, schedule) => {
     return head(filter(day => moment(day.date).format(dateFormat) === date, schedule))
   }
@@ -202,7 +212,7 @@ class Timesheet extends Component {
   getTimesheetShiftByDay = (timesheet, day) => {
     const { schedule, startingDay } = timesheet
     const { id } = day
-    const date = moment(startingDay).add(parseInt(id) - 1, 'days').format(dateFormat)
+    const date = moment(startingDay).local().add(parseInt(id) - 1, 'days').format(dateFormat)
     const shift = {}
     shift.date = date
     const shiftDetails = this.getShiftByDay(date, schedule)
@@ -217,6 +227,7 @@ class Timesheet extends Component {
       shift.name = prop('shift', shiftDetails)
       shift.status = prop('status', shiftDetails)
     }
+    
     return shift
   }
   
@@ -227,9 +238,9 @@ class Timesheet extends Component {
 
   render() {
     const { visible, selectedDay, selectedShift, scheduleForm, customizedShiftError, weeklyDates, specificDate, editShiftModal } = this.state
-    const { timesheet: { timesheets } } = this.props
+    const { timesheet: { timesheets, isLoading } } = this.props
     return (
-      <div>
+      <Spin spinning={isLoading} tip="Loading...">
         <div className="inner-wrapper">
           <div className="steps-content">
             <div className="steps-header">
@@ -251,6 +262,7 @@ class Timesheet extends Component {
                       getSpecificDate={this.getSpecificDate}
                       getScheduleByDay={this.getScheduleByDay}
                       addTimesheet={this.addTimesheet}
+                      getDayStatus={this.getDayStatus}
                     />
                   </Row>
                 </>:
@@ -349,7 +361,7 @@ class Timesheet extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </Spin>
     )
   }
 }

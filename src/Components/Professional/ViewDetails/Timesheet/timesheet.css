@@ -129,3 +129,6 @@ p.error-message{
     margin-top: 10px;
     padding: 5px;
 }
+button.ant-btn.add-schedule-button[disabled]{
+    background-color: #e5d9d9;
+}

@@ -11,6 +11,7 @@ import WorkExperienceForm from '../../DetailForms/WorkExperienceForm'
 import './profile.css'
 
 const Profile = ({
+  userId,
   isLoading,
   professional,
   formModal,
@@ -22,7 +23,8 @@ const Profile = ({
   addresses,
   updateProfessionalDetails,
   getProfileStatus,
-  invalid
+  invalid,
+  formValues
 }) => {
   const { dateOfBirth } = professional
   return (
@@ -55,6 +57,7 @@ const Profile = ({
                 >
                   {
                     <PersonalDetails
+                      formValues={formValues}
                       professional={professional}
                       getProfileStatus={getProfileStatus}
                     />
@@ -99,6 +102,8 @@ const Profile = ({
                       {
                         <ProfessionalDetails
                           professional={professional}
+                          formValues={formValues}
+                          userId={userId}
                         />
                       }
                     </Card>
@@ -114,6 +119,7 @@ const Profile = ({
                 formName === 'Personal' ?
                 <PersonalDetailsForm
                   dateOfBirth={dateOfBirth}
+                  formValues={formValues}
                 /> :
                 formName === 'Address' ?
                 <AddressForm
@@ -122,7 +128,9 @@ const Profile = ({
                   addresses={addresses}
                 /> :
                 formName === 'Professional' ?
-                <ProfessionalDetailsForm /> :
+                <ProfessionalDetailsForm
+                  formValues={formValues}
+                /> :
                 formName === 'Experience' ?
                 <WorkExperienceForm /> :
                 ''

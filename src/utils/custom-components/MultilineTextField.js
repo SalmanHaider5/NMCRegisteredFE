@@ -15,7 +15,7 @@ export const MultilineTextField = ({
   readOnly,
   rows,
   rowsMax,
-  classes,
+  specialText,
   fieldData,
   id
 }) => {
@@ -27,6 +27,7 @@ export const MultilineTextField = ({
         labelCol={isNil(label) ? undefined : { span: 5, offset: 3 } }
         wrapperCol={isNil(label) ? undefined :{ span: 12, offset: 1 }}
         colon={false}
+        extra={specialText}
       >
         <TextArea
           rows={4}

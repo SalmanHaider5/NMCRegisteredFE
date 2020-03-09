@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { reduxForm, getFormValues, reset, change, initialize } from 'redux-form'
+import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import { Icon } from 'antd'
-import { trim, split, prop, propEq, concat, find, has, omit, dissoc } from 'ramda'
-import moment from 'moment'
+import { trim, split, prop, propEq, concat, find, has, omit, dissoc, type } from 'ramda'
 import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfile, updateSecurityDetails } from '../../actions'
 import { GENDER_OPTIONS as genders, QUALIFICATION_OPTIONS as qualifications } from '../../constants'
 import { getProfessionalFormValues, isEmptyOrNull } from '../../utils/helpers'
@@ -32,8 +31,17 @@ class Professional extends Component {
   
   updateProfessionalDetails = () => {
     const { match: { params: { userId } }, dispatch, formValues } = this.props
-    const { status } = formValues
-    formValues.status = prop('name', find(propEq('id', status))(genders))
+    const { status, profilePicture, document } = formValues
+    let values = formValues
+    console.log('Type', type(profilePicture))
+    if(type(profilePicture) !== 'File')
+      values = dissoc('profilePicture', values)
+    if(type(document) !== 'File')
+      values = dissoc('document', values)
+    if(type(status) === 'String')
+      values.status = status
+    else
+      values.status = prop('name', find(propEq('id', status))(genders))
     dispatch(updateProfile(userId, formValues))
     this.hideEditFormModal()
   }
@@ -66,10 +74,6 @@ class Professional extends Component {
   }
 
   showEditFormModal = (name) => {
-    const { dispatch, professional: { professionalDetails: { professional } } } = this.props
-    const { dateOfBirth } = professional
-    professional.dateOfBirth = moment(dateOfBirth).format('L')
-    dispatch(initialize('professional', professional))
     this.setState({
       formModal: true,
       formName: name
@@ -209,6 +213,7 @@ class Professional extends Component {
             formValues={formValues}
             fileChangeHandler={this.fileChangeHandler}
             getFormName={this.getFormName}
+            invalid={invalid}
           /> :
           <ViewDetails
             userId={userId}

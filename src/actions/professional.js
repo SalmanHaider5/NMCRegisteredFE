@@ -1,8 +1,10 @@
 import { defaultTo, isNil } from 'ramda'
 import Cookies from 'js-cookie'
+import moment from 'moment'
+import { initialize } from 'redux-form'
 import { SERVER_URL as url } from '../constants'
 import * as types from './'
-import { showToast, getFormData } from '../utils/helpers'
+import { showToast, getFormData, isEmptyOrNull } from '../utils/helpers'
 
 export const createDetails = (userId, formValues) => dispatch => {
     if(isNil(Cookies.getJSON('authToken'))) return undefined
@@ -22,6 +24,15 @@ export const createDetails = (userId, formValues) => dispatch => {
         const { code, response: { title, message } } = response
         showToast(title, message, code)
         response.professional = formValues
+        const { dateOfBirth } = formValues
+        response.professional.changePassword = {
+            twoFactorAuthentication: response.professional.twoFactorAuthentication,
+            currentPassword: '',
+            newPassword: '',
+            confirmPassword: ''
+        }
+        response.professional.dateOfBirth = isEmptyOrNull(dateOfBirth) ? '' : moment(dateOfBirth).format('L')
+        dispatch(initialize('professional', response.professional))
         dispatch({
             type: types.ADD_PROFESSIONAL_DETAILS_SUCCESS,
             payload: response
@@ -49,10 +60,12 @@ export const addPhone = (userId, values) => dispatch => {
     .then(response => {
         const { code, response: { title, message } } = response
         showToast(title, message, code)
-        dispatch({
-            type: types.ADD_PROFESSIONAL_PHONE_SUCCESS,
-            payload: code
-        })
+        if(code === 'success'){
+            dispatch({
+                type: types.ADD_PROFESSIONAL_PHONE_SUCCESS,
+                payload: code
+            })
+        }
     })
     .catch(error => {
         dispatch({
@@ -101,7 +114,16 @@ export const getProfessionalDetails = userId => dispatch => {
     })
     .then(res => res.json())
     .then(data => {
-        const { code, response: { title, message } } = data
+        const { code, response: { title, message }, professional } = data
+        const { dateOfBirth } = professional
+        professional.changePassword = {
+            twoFactorAuthentication: professional.twoFactorAuthentication,
+            currentPassword: '',
+            newPassword: '',
+            confirmPassword: ''
+        }
+        professional.dateOfBirth = isEmptyOrNull(dateOfBirth) ? '' : moment(dateOfBirth).format('L')
+        dispatch(initialize('professional', professional))
         showToast(title, message, code)
         if(code === 'success' || code === 'info'){
             dispatch({
@@ -128,10 +150,9 @@ export const updateProfile = (userId, values) => dispatch => {
     const endpoint = `${url}${userId}/professional`
     fetch(endpoint, {
         method: 'PUT',
-        body: JSON.stringify(values),
+        body: getFormData(values),
         headers: {
-            authorization: token,
-            'Content-Type':'application/json'
+            authorization: token
         }
     })
     .then(res => res.json())
