@@ -1,6 +1,8 @@
 import React from 'react'
-import { isNil, prop, equals } from 'ramda'
+import moment from 'moment'
+import { isNil, prop, isEmpty } from 'ramda'
 import { Card, List, Switch, Icon, Popconfirm } from 'antd'
+import { DATE_FORMAT as dateFormat } from '../../../../constants'
 
 const SingleTimesheet = ({
   days,
@@ -10,10 +12,11 @@ const SingleTimesheet = ({
   changeShiftAvailability,
   showEditShiftModal
 }) => {
+  const { startingDay, endingDay } = timesheet
   return (
     <Card
       className="timesheet-card"
-      title={`Week ${timesheet.id}`}
+      title={`${moment(startingDay).format(dateFormat)} - ${moment(endingDay).format(dateFormat)}`}
       extra={
         <>
           <Popconfirm
@@ -35,6 +38,7 @@ const SingleTimesheet = ({
         dataSource={days}
         renderItem={day => {
           const schedule = getTimesheetShiftByDay(timesheet, day)
+          
           return (
             <List.Item>
               <List.Item.Meta
@@ -47,7 +51,7 @@ const SingleTimesheet = ({
                   <Switch
                     id={{ id: schedule.id, timesheet: timesheet.id}}
                     defaultChecked={schedule.status ? true : false}
-                    disabled={equals(prop('name', schedule), '-')  ? true : false}
+                    disabled={isEmpty(schedule.name)  ? true : false}
                     onChange={(checked) => changeShiftAvailability(checked, schedule.id, timesheet.id)}
                   />
                 </h4>

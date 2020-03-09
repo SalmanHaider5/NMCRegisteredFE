@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import { reduxForm, getFormValues, change, reset, initialize } from 'redux-form'
 import { isEmpty, length, add, find, propEq, map, range, head, last, nth, prop, subtract, omit, filter, isNil, split, equals } from 'ramda'
-import { Row, Col, Button, Result, Icon, Divider, Drawer, Spin } from 'antd'
+import { Row, Col, Button, Result, Icon, Divider, Drawer, Spin, Affix } from 'antd'
 import { getTimesheetValues } from '../../../../utils/helpers'
 import { ModalBox } from '../../../../utils/custom-components'
 import { addDailySchedule, addTimesheet, resetScheduleForm, removeTimesheet, fetchTimesheets, changeShiftStatus, changeTimesheetShift } from '../../../../actions'
@@ -79,14 +79,14 @@ class Timesheet extends Component {
       }
     })
     
-    const weekStart = moment().add(count, 'days').startOf('week').format('L');
-    const weekFound = !isEmpty(filter(timesheet => equals(moment(timesheet.startingDay).local().format('LL'), weekStart), timesheets))
+    const weekStart = moment.utc().add(count, 'days').startOf('week').format('L');
+    const weekFound = isEmpty(filter(timesheet => equals(moment.utc(timesheet.startingDay).format('LL'), weekStart), timesheets))
     if(weekFound){
       this.showScheduleForm(7)
     }else{
       const days = range(0, 7) 
       const weeklyDates = map(day => {
-        return moment(weekStart).add(day, 'days').format('LL')
+        return moment.utc(weekStart).add(day, 'days').format('LL')
       }, days)
       this.setState({
         scheduleForm: true,
@@ -103,7 +103,7 @@ class Timesheet extends Component {
     const formValues = {}
     if(!isNil(selectedShift)){
       formValues.id = selectedShift.id
-      formValues.day = moment(selectedShift.date).format('dddd')
+      formValues.day = moment.utc(selectedShift.date).format('dddd')
       formValues.shift = selectedShift.shift
       formValues.startTime = head(split('-', selectedShift.time))
       formValues.endTime = last(split('-', selectedShift.time))
@@ -119,7 +119,9 @@ class Timesheet extends Component {
   updateTimesheetShift = () => {
     const { formValues, dispatch } = this.props
     const { editableTimeheet } = this.state
-    dispatch(changeTimesheetShift(omit(['day'], formValues), editableTimeheet))
+    const { startTime, endTime } = formValues
+    formValues.time = `${startTime} - ${endTime}`
+    dispatch(changeTimesheetShift(omit(['day', 'startTime', 'endTime'], formValues), editableTimeheet))
     this.setState({ editShiftModal: false })
   }
 
@@ -141,8 +143,8 @@ class Timesheet extends Component {
     const { formValues, dispatch } = this.props
     const { shift, startTime, endTime } = formValues
     if(shift === "Customized Shift"){
-      const start = new moment(startTime)
-      const end = new moment(endTime)
+      const start = new moment.utc(startTime)
+      const end = new moment.utc(endTime)
       const difference = end.diff(start, 'hours')
       if(difference < 0){
         this.setState({
@@ -153,8 +155,8 @@ class Timesheet extends Component {
           customizedShiftError: 'At least 4 hours required'
         })
       }else{
-        formValues.startTime = moment(formValues.startTime).format('LT')
-        formValues.endTime = moment(formValues.endTime).format('LT')
+        formValues.startTime = moment.utc(formValues.startTime).format('LT')
+        formValues.endTime = moment.utc(formValues.endTime).format('LT')
         dispatch(addDailySchedule(formValues))
         this.hideDrawer()
       }
@@ -172,12 +174,12 @@ class Timesheet extends Component {
     const { timesheet: { timesheet: { schedule } }, dispatch, match: { params: { userId } } } = this.props
     const { weeklyDates } = this.state
     let timesheetValues = {}
-    timesheetValues.startingDay = moment(head(weeklyDates)).local().format('L')
-    timesheetValues.endingDay = moment(last(weeklyDates)).local().format('L')
+    timesheetValues.startingDay = moment.utc(head(weeklyDates)).toISOString()
+    timesheetValues.endingDay = moment.utc(last(weeklyDates)).toISOString()
     let scheduleValues = map(day => {
       const dayFound = find(propEq('day', day.name))(schedule)
       let singleTimesheet = {}
-      singleTimesheet.date = moment(weeklyDates[parseInt(day.id)-1]).format('L')
+      singleTimesheet.date = moment.utc(weeklyDates[parseInt(day.id) - 1]).toISOString()
       singleTimesheet.shift = isNil(dayFound) ? '' : dayFound.shift
       singleTimesheet.time = isNil(dayFound) ? `00:00 AA - 00:00 AA` : `${dayFound.startTime}-${dayFound.endTime}`
       singleTimesheet.status = isNil(dayFound) ? false : true
@@ -201,18 +203,18 @@ class Timesheet extends Component {
 
   getDayStatus = (day) => {
     const { weeklyDates } = this.state
-    const isExpired = moment(weeklyDates[parseInt(day.id)-1]).isSameOrBefore(moment())
+    const isExpired = moment.utc(weeklyDates[parseInt(day.id)-1]).isSameOrBefore(moment.utc())
     return isExpired
   }
 
   getShiftByDay = (date, schedule) => {
-    return head(filter(day => moment(day.date).format(dateFormat) === date, schedule))
+    return head(filter(day => moment.utc(day.date).format(dateFormat) === date, schedule))
   }
 
   getTimesheetShiftByDay = (timesheet, day) => {
     const { schedule, startingDay } = timesheet
     const { id } = day
-    const date = moment(startingDay).local().add(parseInt(id) - 1, 'days').format(dateFormat)
+    const date = moment.utc(startingDay).add(parseInt(id) - 1, 'days').format(dateFormat)
     const shift = {}
     shift.date = date
     const shiftDetails = this.getShiftByDay(date, schedule)
@@ -278,16 +280,7 @@ class Timesheet extends Component {
                 extra={<Button type="primary" onClick={this.showScheduleForm}><Icon type="plus" />Add new Timesheet</Button>}
               /> :
               <Row gutter={16} className="timesheets-row">
-                <Col span={24}>
-                  <Button
-                    type="primary"
-                    disabled={ length(timesheets) > 4 ? true : false }
-                    onClick={this.showScheduleForm}
-                  >
-                    <Icon type="plus" />
-                    Add new Timesheet
-                  </Button>
-                </Col>
+               
                 {
                   map(timesheet => {
                     return(
@@ -304,6 +297,18 @@ class Timesheet extends Component {
                     )
                   }, timesheets)
                 }
+                 <Col span={24}>
+                 <Affix offsetBottom={120}>
+                  <Button className='timesheetbtn'
+                    type="primary"
+                    shape="circle"
+                    disabled={ length(timesheets) > 4 ? true : false }
+                    onClick={this.showScheduleForm}
+                  >
+                    <Icon type="plus" />
+                  </Button>
+                  </Affix>
+                </Col>
               </Row>
             }
             <div className="drawer">

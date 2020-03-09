@@ -1,4 +1,4 @@
-import { append, length, add, findIndex, propEq, remove, find, update, isNil, join } from 'ramda'
+import { append, length, add, findIndex, propEq, remove, find, update, isNil } from 'ramda'
 import * as actions from '../actions'
 
 const initState = {
@@ -49,7 +49,7 @@ const timesheet = (state=initState, action) => {
             const currentShiftIndex = findIndex(propEq('id', payload.shift.id))(currentTimesheet.schedule)
             const updatedShift = currentShift
             updatedShift.shift = payload.shift.shift
-            updatedShift.time = join('-', payload.shift.startTime, payload.shift.endTime)
+            updatedShift.time = payload.shift.time
             const newTimesheet = update(currentTimesheetIndex, update(currentShiftIndex, currentShift, currentTimesheet.schedule), state.timesheet)
             return{
                 ...state,

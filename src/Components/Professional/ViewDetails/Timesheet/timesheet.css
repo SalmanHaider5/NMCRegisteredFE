@@ -132,3 +132,10 @@ p.error-message{
 button.ant-btn.add-schedule-button[disabled]{
     background-color: #e5d9d9;
 }
+button.timesheetbtn{
+    float: right;
+    width: 60px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.5);
+    height: 60px;
+    font-size: 37px;
+}
