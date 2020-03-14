@@ -24,7 +24,8 @@ const Profile = ({
   updateProfessionalDetails,
   getProfileStatus,
   invalid,
-  formValues
+  formValues,
+  phoneVerified
 }) => {
   const { dateOfBirth } = professional
   return (
@@ -60,6 +61,7 @@ const Profile = ({
                       formValues={formValues}
                       professional={professional}
                       getProfileStatus={getProfileStatus}
+                      phoneVerified={phoneVerified}
                     />
                   }
                 </Card>

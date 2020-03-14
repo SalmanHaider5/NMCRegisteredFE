@@ -4,7 +4,7 @@ import moment from 'moment'
 import { isEmptyOrNull } from '../../../../../utils/helpers'
 import { SERVER_URL as url } from '../../../../../constants'
 
-const PersonalDetails = ({ professional }) => {
+const PersonalDetails = ({ professional, phoneVerified }) => {
   const {
     profilePicture,
     fullName,
@@ -12,10 +12,7 @@ const PersonalDetails = ({ professional }) => {
     isVerified,
     dateOfBirth,
     createdAt,
-    phone: {
-      phone,
-      status = 1
-    }
+    phone
   } = professional
   return (
     <List className="profile-list">
@@ -52,8 +49,8 @@ const PersonalDetails = ({ professional }) => {
       <List.Item>
         <label>
           <Icon type="phone" />
-          Phone <Tag color={status ? `green` : `red`}>
-            {status ? `Verified` : `Not Verified`}
+          Phone <Tag color={phoneVerified ? `green` : `red`}>
+            {phoneVerified ? `Verified` : `Not Verified`}
           </Tag>
         </label>
         <span className="label-value">{phone}</span>

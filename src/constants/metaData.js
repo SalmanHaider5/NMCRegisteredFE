@@ -32,5 +32,6 @@ export const QUALIFICATION_OPTIONS = [
     { id: 5, name: 'Advanced Nursing Practitioner' },
     { id: 6, name: 'Emergency Nursing Practitioner' },
     { id: 7, name: 'Operating Department Practitioner' },
-    { id: 8, name: 'ICU/HDU Nurse' }
+    { id: 8, name: 'ICU/HDU Nurse' },
+    { id: 9, name: 'Nursing Associate' }
 ]

@@ -1,10 +1,13 @@
 import React from 'react'
 import { Field } from 'redux-form'
+import { Button } from 'antd'
 import { ButtonTextField, TextField } from '../../../utils/custom-components'
 import { isRequired, isNumber } from '../../../constants'
 
 const AddPhoneForm = ({
-  sendVerificationCode
+  sendVerificationCode,
+  codeSent,
+  editPhoneNumber
 }) => {
   return (
     <div>
@@ -16,9 +19,17 @@ const AddPhoneForm = ({
         label={'Phone'}
         size={'large'}
         type="text"
-        validate={[isRequired, isNumber]}
+        validate={[isNumber]}
+        readOnly={codeSent}
         tooltipPlacement={'topRight'}
-        specialText={'If not received click again on Send Code'}
+        specialText={
+          <Button
+            type="link"
+            onClick={editPhoneNumber}
+          >
+            Wrong number/Code expired?
+          </Button>
+        }
       />
       <Field
         name="phoneCode"
@@ -27,6 +38,7 @@ const AddPhoneForm = ({
         size={'large'}
         type="text"
         validate={[isRequired]}
+        specialText={codeSent ? 'If code not received please click again on Send Code.' : ''}
         tooltipPlacement={'topRight'}
       />
     </div>

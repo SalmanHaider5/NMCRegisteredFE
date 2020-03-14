@@ -23,7 +23,8 @@ const ViewDetails = ({
   getProfileStatus,
   invalid,
   updateSecurityandLoginDetails,
-  formValues
+  formValues,
+  phoneVerified
 }) => {
   const { Sider, Footer, Content } = Layout
   return (
@@ -82,6 +83,7 @@ const ViewDetails = ({
                 getProfileStatus={getProfileStatus}
                 invalid={invalid}
                 formValues={formValues}
+                phoneVerified={phoneVerified}
               />
             </Route>
             <Route path="/professional/:userId/security">

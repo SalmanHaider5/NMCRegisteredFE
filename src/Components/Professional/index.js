@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import { Icon } from 'antd'
 import { trim, split, prop, propEq, concat, find, has, omit, dissoc, type } from 'ramda'
-import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfile, updateSecurityDetails } from '../../actions'
+import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfile, updateSecurityDetails, changePhoneRequest } from '../../actions'
 import { GENDER_OPTIONS as genders, QUALIFICATION_OPTIONS as qualifications } from '../../constants'
 import { getProfessionalFormValues, isEmptyOrNull } from '../../utils/helpers'
 import Header from '../Header'
@@ -151,6 +151,12 @@ class Professional extends Component {
     }
   }
 
+  editPhoneNumber = () => {
+    const { dispatch } = this.props
+    dispatch(change('professional', 'phone', ''))
+    dispatch(changePhoneRequest())
+  }
+
   getFormName = current => {
     switch(current){
       case 0:
@@ -181,7 +187,8 @@ class Professional extends Component {
       professional: {
         isLoading,
         professionalDetails,
-        phoneVerified
+        phoneVerified,
+        codeSent
       },
       match: {
         params: {
@@ -214,6 +221,8 @@ class Professional extends Component {
             fileChangeHandler={this.fileChangeHandler}
             getFormName={this.getFormName}
             invalid={invalid}
+            codeSent={codeSent}
+            editPhoneNumber={this.editPhoneNumber}
           /> :
           <ViewDetails
             userId={userId}
@@ -234,6 +243,7 @@ class Professional extends Component {
             updateSecurityandLoginDetails={this.updateSecurityandLoginDetails}
             formValues={formValues}
             addTimesheet={this.addTimesheet}
+            phoneVerified={phoneVerified}
           />
         }
           

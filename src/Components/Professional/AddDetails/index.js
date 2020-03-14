@@ -24,10 +24,12 @@ const AddDetails = ({
   formValues,
   fileChangeHandler,
   getFormName,
-  invalid
+  invalid,
+  codeSent,
+  editPhoneNumber
 }) => {
   const { phone } = professional
-  const isPhoneAdded = !isEmptyOrNull(phone) || phoneVerified ? true : false
+  const isPhoneAdded = !isEmptyOrNull(phone) && phoneVerified ? true : false
   
   const components = [
     <PersonalDetailsForm
@@ -66,7 +68,12 @@ const AddDetails = ({
             }
             bordered={false}
           >
-            { isPhoneAdded ? components[current] :  <AddPhoneForm sendVerificationCode={sendVerificationCode} /> }
+            { isPhoneAdded ? components[current] :
+              <AddPhoneForm
+                sendVerificationCode={sendVerificationCode}
+                codeSent={codeSent}
+                editPhoneNumber={editPhoneNumber}
+              /> }
             <Row>
               <Col span={5} offset={3}>
                 {

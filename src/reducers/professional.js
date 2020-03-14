@@ -1,13 +1,14 @@
 import * as actions from '../actions'
-import { equals, pathOr, type as dataType, defaultTo } from 'ramda'
+import { equals, type as dataType, defaultTo } from 'ramda'
+import { isEmptyOrNull } from '../utils/helpers'
 
 const initState = {
     isLoading: false,
-    code: '',
     phoneVerified: false,
+    codeSent: false,
     professionalDetails: {
         professional: {
-            phone: {}
+            phone: ''
         }
     }
 }
@@ -23,27 +24,28 @@ const professional = (state=initState, action) => {
                 isLoading: true
             }
         case actions.ADD_PROFESSIONAL_DETAILS_SUCCESS:
-            const picture = pathOr('', ['payload', 'professional', 'profilePicture', 'name'], payload)
             payload.professional.phone = state.professionalDetails.professional.phone
             payload.professional.email = state.professionalDetails.professional.email
-            payload.professional.profilePicture = picture
+            payload.professional.profilePicture = isEmptyOrNull(payload.professional.profilePicture) ? '' : payload.professional.profilePicture.name
             return{
                 ...state,
                 isLoading: false,
                 professionalDetails: payload
             }
         case actions.ADD_PROFESSIONAL_PHONE_SUCCESS:
+            const professionalDetails = state.professionalDetails
+            professionalDetails.professional.phone = payload.phone
             return{
                 ...state,
                 isLoading: false,
-                code: payload
+                codeSent: true,
+                professionalDetails
             }
         case actions.VERIFY_PROFESSIONAL_PHONE_SUCCESS:
             return{
                 ...state,
                 isLoading: false,
-                code: payload,
-                phoneVerified: equals(payload, 'success') ? true : false
+                phoneVerified: payload
             }
         case actions.FETCH_PROFESSIONAL_DETAILS_REQUEST:
             return{
@@ -54,7 +56,17 @@ const professional = (state=initState, action) => {
             return{
                 ...state,
                 professionalDetails: payload,
+                codeSent: isEmptyOrNull(payload.professional.phone) || payload.professional.phoneStatus ? false : true,
+                phoneVerified: payload.professional.phoneStatus,
                 isLoading: false
+            }
+        case actions.PHONE_NUMBER_CHANGE_REQUEST:
+            const details = state.professionalDetails
+            details.professional.phone = ''
+            return{
+                ...state,
+                codeSent: false,
+                professionalDetails: details
             }
         case actions.PROFESSIONAL_PROFILE_UPDATE_REQUEST:
             return{

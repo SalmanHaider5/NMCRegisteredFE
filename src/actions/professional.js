@@ -63,7 +63,7 @@ export const addPhone = (userId, values) => dispatch => {
         if(code === 'success'){
             dispatch({
                 type: types.ADD_PROFESSIONAL_PHONE_SUCCESS,
-                payload: code
+                payload: values
             })
         }
     })
@@ -89,10 +89,12 @@ export const verifyPhone = (userId, values) => dispatch => {
     .then(response => {
         const { code, response: { title, message } } = response
         showToast(title, message, code)
-        dispatch({
-            type: types.VERIFY_PROFESSIONAL_PHONE_SUCCESS,
-            payload: code
-        })
+        if(code === 'success'){
+            dispatch({
+                type: types.VERIFY_PROFESSIONAL_PHONE_SUCCESS,
+                payload: true
+            })
+        }
     })
     .catch(error => {
         dispatch({
@@ -290,4 +292,8 @@ export const changeTimesheetShift = (values, timesheetId) => dispatch => {
             error: err
         })
     })
+}
+
+export const changePhoneRequest = () => dispatch => {
+    dispatch({ type: types.PHONE_NUMBER_CHANGE_REQUEST })
 }
