@@ -94,10 +94,11 @@ class Professional extends Component {
 
   saveDetails = () => {
     const { dispatch, match: { params: { userId } }, formValues, history } = this.props
-    const { status, qualification } = formValues
+    const { status, qualification, dateOfBirth } = formValues
     const values = omit(['status', 'phone', 'postalCode', 'changePassword', 'addressId'], formValues)
     values.status = prop('name', find(propEq('id', status))(genders))
     values.qualification = prop('name', find(propEq('id', qualification))(qualifications))
+    values.dateOfBirth = moment(dateOfBirth).format(dateFormat)
     dispatch(createDetails(userId, values))
     dispatch(reset('professional'))
     history.push(`/professional/${userId}/timesheet`)

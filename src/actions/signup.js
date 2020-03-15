@@ -37,14 +37,14 @@ export const verifyAccount = formValues => dispatch => {
     .then(res => res.json())
     .then(data => {
         const { code, response: { title, message } } = data
-        if(code !== 'success'){
-            showToast(title, message, code)  
+        showToast(title, message, code)
+        if(code === 'success'){
+            data.userId = userId
+            dispatch({
+                type: types.VERIFY_ACCOUNT_SUCCESS,
+                payload: data
+            })     
         }
-        data.userId = userId
-        dispatch({
-            type: types.VERIFY_ACCOUNT_SUCCESS,
-            payload: data
-        })
     })
     .catch(error => {
         dispatch({

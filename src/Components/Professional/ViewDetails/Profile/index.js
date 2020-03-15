@@ -91,8 +91,8 @@ const Profile = ({
                     <Card
                       title={
                         <span>
-                          <Icon type="book" />
-                          Work Experience
+                          <Icon type="pencil" />
+                          Professional Details
                         </span>
                       }
                       extra={

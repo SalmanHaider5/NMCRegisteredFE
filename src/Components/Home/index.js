@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, FormSection } from 'redux-form'
-import { isNil, prop } from 'ramda'
+import { isNil, prop, equals } from 'ramda'
 import { Row, Col, Button, Input, Divider, Spin, Icon } from 'antd'
 import { register, verifyAccount, userLogin, generatePasswordResetLink, verifyLogin } from '../../actions'
 import { TITLE } from '../../constants'
 import { ModalBox } from '../../utils/custom-components'
-import { getUsersFormValues } from '../../utils/helpers'
+import { getUsersFormValues, isEmptyOrNull } from '../../utils/helpers'
 import SignupForm from './SignupForm'
 import LoginForm from './LoginForm'
 import ForgetPasswordForm from './ForgetPasswordForm'
@@ -130,8 +130,8 @@ class Home extends Component {
 
     const modalType = twoFactorAuth ? 'Mobile Verification' : forgetPassword ? 'Forget Password' : 'Login'
     
-    if(auth){
-      return <Redirect to={role === 'professional' ? `/professional/${userId}` : `/company/${userId}` } />
+    if(auth && !isEmptyOrNull(role)){
+      return <Redirect to={ equals(role, 'professional') ? `/${role}/${userId}/timesheet` : `/${role}/${userId}` } />
     }
     return (
       <Spin spinning={isLoading} tip="Loading...">
