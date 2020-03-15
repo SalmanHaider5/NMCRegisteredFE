@@ -111,7 +111,7 @@ class Home extends Component {
     if(type === 'Forget Password'){
       return(
         <span>
-          <Icon type="link" /> Send Password Resend Link
+          <Icon type="link" /> Send Password Reset Link
         </span>
       )
     }

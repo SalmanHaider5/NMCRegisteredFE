@@ -1,23 +1,19 @@
 import React from 'react'
 import { Typography, Empty } from 'antd'
+import { isEmptyOrNull } from '../../../../../utils/helpers'
 
 const WorkExperience = ({ professional }) => {
   const { experience } = professional
   const { Paragraph } = Typography
   return (
     <span>
-        {
-            experience ?
-            <Paragraph
-                ellipsis={{
-                    rows: 4,
-                    expandable: true
-                }}
-            >
-                {experience}
-            </Paragraph> :
-            <Empty />
-        }
+      {
+        isEmptyOrNull(experience) ?
+          <Empty /> :
+          <Paragraph ellipsis={{ rows: 4, expandable: true }} >
+            {experience}
+          </Paragraph>
+      }
     </span>
   )
 }

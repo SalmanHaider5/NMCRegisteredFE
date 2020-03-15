@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import { reduxForm, getFormValues, change, reset, initialize } from 'redux-form'
-import { isEmpty, length, add, find, propEq, map, range, head, last, nth, prop, subtract, omit, filter, isNil, split, equals } from 'ramda'
+import { isEmpty, length, find, propEq, map, range, head, last, nth, prop, subtract, omit, filter, isNil, split, equals } from 'ramda'
 import { Row, Col, Button, Result, Icon, Divider, Drawer, Spin } from 'antd'
 import { getTimesheetValues, isEmptyOrNull } from '../../../../utils/helpers'
 import { ModalBox } from '../../../../utils/custom-components'
@@ -91,7 +91,8 @@ class Timesheet extends Component {
     })
     const weekStart = moment.utc().add((parseInt(week) - 1) * 7, 'days').startOf('week').format('L').toString()
     const weekFound = !isEmpty(filter(timesheet => equals(moment.utc(timesheet.startingDay).format('L').toString(), weekStart), timesheets))
-    if(weekFound){
+    const isLastDay = moment.utc(weekStart).add(6, 'days').isSameOrBefore(moment.utc())
+    if(weekFound || isLastDay){
       this.setState({
         week: week+1
       }, () => {
@@ -271,8 +272,6 @@ class Timesheet extends Component {
                 <>
                   <Row gutter={16} className="weekly-row">
                     <Divider>
-                      Week {add(length(timesheets), 1)}
-                      <br/>
                       {`${head(weeklyDates)}-${last(weeklyDates)}`}
                     </Divider>
                     <WeekdaySelectBox

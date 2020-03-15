@@ -2,7 +2,7 @@ import React from 'react'
 import { List, Tag, Icon, Avatar } from 'antd'
 import moment from 'moment'
 import { isEmptyOrNull } from '../../../../../utils/helpers'
-import { SERVER_URL as url } from '../../../../../constants'
+import { SERVER_URL as url, DATE_FORMAT as dateFormat } from '../../../../../constants'
 
 const PersonalDetails = ({ professional, phoneVerified }) => {
   const {
@@ -14,6 +14,7 @@ const PersonalDetails = ({ professional, phoneVerified }) => {
     createdAt,
     phone
   } = professional
+  
   return (
     <List className="profile-list">
       <List.Item>
@@ -61,7 +62,7 @@ const PersonalDetails = ({ professional, phoneVerified }) => {
           Date of Birth
         </label>
         <span className="label-value">
-          {dateOfBirth ? moment(dateOfBirth).format('LL') : ''}
+          {dateOfBirth ? moment(dateOfBirth).format(dateFormat) : ''}
         </span>
       </List.Item>
       <List.Item>
@@ -69,7 +70,7 @@ const PersonalDetails = ({ professional, phoneVerified }) => {
           <Icon type="calendar" />
           Joined At
         </label>
-        <span className="label-value">{moment(createdAt).format('LL')}</span>
+        <span className="label-value">{moment(createdAt).format(dateFormat)}</span>
       </List.Item>
     </List>
   )

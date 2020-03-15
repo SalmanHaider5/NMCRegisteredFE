@@ -1,7 +1,7 @@
 export const TITLE = "Nightingale"
 export const DATE_FORMAT = "DD/MM/YYYY"
 export const TIME_FORMAT = "hh:mm A"
-export const GET_ADDRESS_API_KEY = "nzkwqm7NA0uJp4OXIdhDVA24201"
+export const GET_ADDRESS_API_KEY = "LS1K-LnwFkmm2gsIJO-Byw24694"
 export const TIMESHEET_DAYS = [
     {id: 1, name: 'Monday'},
     {id: 2, name: 'Tuesday'},

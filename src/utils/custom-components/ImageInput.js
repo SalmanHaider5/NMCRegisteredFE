@@ -49,10 +49,10 @@ export const ImageInput = ({
           {
             isEmptyOrNull(fileAdded) ?
               <Icon type="camera" /> :
-            equals(type(fileAdded), 'String') ?
-            <Avatar size={140} icon="camera" src={`${url}${fileAdded}`}>
-              <Icon type="user" />
-            </Avatar> :
+              equals(type(fileAdded), 'String') ?
+              <Avatar size={140} icon="camera" src={`${url}${fileAdded}`}>
+                <Icon type="user" />
+              </Avatar> :
             ''
           }
         </Upload>

@@ -10,10 +10,11 @@ import ResetPasswordForm from './ResetPasswordForm'
 class ResetPassword extends Component {
 
   resetPassword = () => {
-    const { formValues, match: { params: { userId, token } }, dispatch } = this.props
+    const { formValues, match: { params: { userId, token } }, dispatch, history } = this.props
     formValues.token = token
     dispatch(resetUserPassword(userId, formValues))
     dispatch(reset('resetPassword'))
+    history.push('/')
   }
   render() {
     const { invalid } = this.props

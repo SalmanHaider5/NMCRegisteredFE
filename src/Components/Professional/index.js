@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import { Icon } from 'antd'
+import moment from 'moment'
 import { trim, split, prop, propEq, concat, find, has, omit, dissoc, type } from 'ramda'
 import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfile, updateSecurityDetails, changePhoneRequest } from '../../actions'
-import { GENDER_OPTIONS as genders, QUALIFICATION_OPTIONS as qualifications } from '../../constants'
+import { GENDER_OPTIONS as genders, QUALIFICATION_OPTIONS as qualifications, DATE_FORMAT as dateFormat } from '../../constants'
 import { getProfessionalFormValues, isEmptyOrNull } from '../../utils/helpers'
 import Header from '../Header'
 import AddDetails from './AddDetails'
@@ -31,9 +32,8 @@ class Professional extends Component {
   
   updateProfessionalDetails = () => {
     const { match: { params: { userId } }, dispatch, formValues } = this.props
-    const { status, profilePicture, document } = formValues
+    const { status, profilePicture, document, dateOfBirth, qualification } = formValues
     let values = formValues
-    console.log('Type', type(profilePicture))
     if(type(profilePicture) !== 'File')
       values = dissoc('profilePicture', values)
     if(type(document) !== 'File')
@@ -42,7 +42,12 @@ class Professional extends Component {
       values.status = status
     else
       values.status = prop('name', find(propEq('id', status))(genders))
-    dispatch(updateProfile(userId, formValues))
+    if(type(qualification) === 'String')
+      values.qualification = qualification
+    else
+      values.qualification = prop('name', find(propEq('id', qualification))(qualifications))
+    values.dateOfBirth = moment(dateOfBirth).format(dateFormat)
+    dispatch(updateProfile(userId, values))
     this.hideEditFormModal()
   }
 

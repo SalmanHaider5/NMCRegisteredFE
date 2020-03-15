@@ -19,16 +19,18 @@ const AddPhoneForm = ({
         label={'Phone'}
         size={'large'}
         type="text"
-        validate={[isNumber]}
+        validate={[isRequired, isNumber]}
         readOnly={codeSent}
         tooltipPlacement={'topRight'}
         specialText={
+          codeSent ?
           <Button
             type="link"
             onClick={editPhoneNumber}
           >
             Wrong number/Code expired?
-          </Button>
+          </Button> :
+          ''
         }
       />
       <Field

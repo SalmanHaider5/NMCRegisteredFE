@@ -2,7 +2,7 @@ import { defaultTo, isNil } from 'ramda'
 import Cookies from 'js-cookie'
 import moment from 'moment'
 import { initialize } from 'redux-form'
-import { SERVER_URL as url } from '../constants'
+import { SERVER_URL as url, DATE_FORMAT as dateFormat } from '../constants'
 import * as types from './'
 import { showToast, getFormData, isEmptyOrNull } from '../utils/helpers'
 
@@ -31,7 +31,7 @@ export const createDetails = (userId, formValues) => dispatch => {
             newPassword: '',
             confirmPassword: ''
         }
-        response.professional.dateOfBirth = isEmptyOrNull(dateOfBirth) ? '' : moment(dateOfBirth).format('L')
+        response.professional.dateOfBirth = isEmptyOrNull(dateOfBirth) ? '' : moment(dateOfBirth).format(dateFormat)
         dispatch(initialize('professional', response.professional))
         dispatch({
             type: types.ADD_PROFESSIONAL_DETAILS_SUCCESS,

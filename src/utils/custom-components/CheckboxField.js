@@ -13,28 +13,32 @@ export const CheckboxField = ({
   disabled,
   specialText,
   isRequired,
+  defaultValue,
+  checked,
   text
 }) => {
   return (
     <div className="checkbox-container">
-        <FormItem
-            validateStatus={touched && error ? 'error' : ''}
-            label={label}
-            labelCol={isNil(label) ? undefined : { span: 5, offset: 3 } }
-            wrapperCol={isNil(label) ? undefined :{ span: 12, offset: 1 }}
-            labelAlign='left'
-            colon={false}
-            required={isRequired}
-            extra={specialText}
+      <FormItem
+        validateStatus={touched && error ? 'error' : ''}
+        label={label}
+        labelCol={isNil(label) ? undefined : { span: 5, offset: 3 } }
+        wrapperCol={isNil(label) ? undefined :{ span: 12, offset: 1 }}
+        labelAlign='left'
+        colon={false}
+        required={isRequired}
+        extra={specialText}
+      >
+        <Checkbox
+          onChange={onChange}
+          readOnly={readOnly}
+          disabled={disabled}
+          defaultChecked={defaultValue}
+          checked={value}
         >
-            <Checkbox
-                onChange={onChange}
-                readOnly={readOnly}
-                disabled={disabled}
-            >
-                {text}
-            </Checkbox>
-        </FormItem>
-    </div>
+          {text}
+        </Checkbox>
+      </FormItem>
+  </div>
   )
 }
