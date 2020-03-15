@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie'
 import { defaultTo, forEach, length } from 'ramda'
+import moment from 'moment'
 import { SERVER_URL as url } from '../constants'
 import * as types from './'
 import { showToast } from '../utils/helpers'
@@ -74,6 +75,11 @@ export const fetchTimesheets = userId => dispatch => {
         forEach(timesheet => {
             dispatch({ type: types.FETCH_TIMESHEETS_REQUEST })
             const { id, startingDay, endingDay } = timesheet
+            if(moment(endingDay).add(1, 'days').isBefore(moment().local())){
+                console.log(endingDay, 'Test')
+            }else{
+                console.log('Ignore')
+            }
             const endpoint = `${url}timesheet/${id}`
             fetch(endpoint, {
                 headers: {
@@ -97,7 +103,6 @@ export const fetchTimesheets = userId => dispatch => {
                 }
             })
         }, timesheets)
-        // forEach(timesheet => fetchSingletimesheet(timesheet.id), timesheets)
     })
 }
 
