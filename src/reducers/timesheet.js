@@ -1,4 +1,5 @@
-import { append, length, add, findIndex, propEq, remove, find, update, isNil } from 'ramda'
+import { append, length, add, findIndex, propEq, remove, find, update, isNil, sort } from 'ramda'
+import moment from 'moment'
 import * as actions from '../actions'
 
 const initState = {
@@ -27,7 +28,7 @@ const timesheet = (state=initState, action) => {
             return{
                 ...state,
                 isLoading: false,
-                timesheets: append(payload, timesheets)
+                timesheets: timesheets.length < payload.length ? append(payload.timesheet, timesheets) : timesheets
             }
         case actions.SHIFT_STATUS_UPDATE_SUCCESS:
             const { timesheetId, id } = payload
@@ -75,10 +76,12 @@ const timesheet = (state=initState, action) => {
                 timesheet
             }
         case actions.ADD_TIMESHEET_SUCCESS:
+            const allTimesheets = append(payload, timesheets)
+            const sortByDate = (a, b) => { return moment(a.startingDay) - moment(b.startingDay) }
             return{
                 ...state,
                 isLoading: false,
-                timesheets: append(payload, timesheets)
+                timesheets: sort(sortByDate, allTimesheets)
             }
         case actions.RESET_SCHEDULE_FORM:
             return{

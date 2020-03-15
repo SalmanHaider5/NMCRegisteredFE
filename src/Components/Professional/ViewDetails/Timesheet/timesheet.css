@@ -88,10 +88,13 @@ button.save-schedule-button{
 }
 .timesheet-card{
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    position: relative;
+    top: 18px;
 }
 .ant-card-bordered{
     margin: 20px;
 }
+
 .timesheet-card .ant-card-head{
     padding: 0;
     background-color: #1e1c5d;
@@ -112,8 +115,10 @@ button.save-schedule-button{
 }
 .timesheets-row{
     padding: 0 50px 50px 50px;
-
     text-align: left;
+}
+.timesheets-row .timesheet{
+    padding: 20px;
 }
 .weekly-row .ant-col{
     padding-bottom: 50px;
@@ -138,4 +143,37 @@ button.timesheetbtn{
     box-shadow: 0 0 8px rgba(0,0,0,0.5);
     height: 60px;
     font-size: 37px;
+}
+.timesheet-panel div.ant-collapse-header{
+    padding: 0;
+    height: 50px;
+    background-color: #1e1c5d;
+    color: #fff !important;
+    font-size: 14px;
+    font-weight: 500;
+}
+.timesheet-panel div.ant-collapse-content-box{
+    padding: 0;
+}
+.timesheet-indicator{
+    font-weight: 500;
+    font-size: 14px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.5);
+}
+.timesheet-indicator .title{
+    background-color: #1e1c5d;
+    height: 100%;
+    padding: 18px;
+    color: #fff;
+}
+.timesheet-indicator .navigator{
+    background-color: #fff;
+    height: 100%;
+    padding: 10px;
+    height: inherit;
+    float: right;
+    text-align: center;
+}
+.timesheet-indicator .navigator button{
+    font-size: 25px;
 }

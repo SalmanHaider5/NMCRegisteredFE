@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import { defaultTo, forEach } from 'ramda'
+import { defaultTo, forEach, length } from 'ramda'
 import { SERVER_URL as url } from '../constants'
 import * as types from './'
 import { showToast } from '../utils/helpers'
@@ -86,7 +86,7 @@ export const fetchTimesheets = userId => dispatch => {
                 if(code === 'success'){
                     dispatch({
                         type: types.FETCH_TIMESHEETS_SUCCESS,
-                        payload: { id, startingDay, endingDay, schedule: timesheet }
+                        payload: { length: length(timesheets), timesheet: { id, startingDay, endingDay, schedule: timesheet } }
                     })
                 }
                 else{

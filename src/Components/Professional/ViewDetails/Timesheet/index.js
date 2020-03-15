@@ -3,14 +3,15 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import { reduxForm, getFormValues, change, reset, initialize } from 'redux-form'
 import { isEmpty, length, add, find, propEq, map, range, head, last, nth, prop, subtract, omit, filter, isNil, split, equals } from 'ramda'
-import { Row, Col, Button, Result, Icon, Divider, Drawer, Spin, Affix } from 'antd'
-import { getTimesheetValues } from '../../../../utils/helpers'
+import { Row, Col, Button, Result, Icon, Divider, Drawer, Spin } from 'antd'
+import { getTimesheetValues, isEmptyOrNull } from '../../../../utils/helpers'
 import { ModalBox } from '../../../../utils/custom-components'
 import { addDailySchedule, addTimesheet, resetScheduleForm, removeTimesheet, fetchTimesheets, changeShiftStatus, changeTimesheetShift } from '../../../../actions'
 import { TIMESHEET_DAYS as days, TIMESHEET_SHIFTS as shifts, DATE_FORMAT as dateFormat } from '../../../../constants'
 import WeekdaySelectBox from './WeekdaySelectBox'
 import ShiftsSelectBox from './ShiftsSelectBox'
 import SingleTimesheet from './SingleTimesheet'
+import Timesheets from './Timesheets'
 import './timesheet.css'
 
 class Timesheet extends Component {
@@ -25,7 +26,9 @@ class Timesheet extends Component {
       weeklyDates: [],
       specificDate: '',
       editShiftModal: false,
-      editableTimeheet: ''
+      editableTimeheet: '',
+      week: 1,
+      timesheet: {}
     }
   }
 
@@ -45,6 +48,10 @@ class Timesheet extends Component {
     })
     dispatch(change('timesheet', 'id', id))
     dispatch(change('timesheet', 'day', name))
+  }
+
+  showTimesheet = (timesheet) => {
+    this.setState({ timesheet })
   }
 
   selectShift = (shift) => {
@@ -68,21 +75,29 @@ class Timesheet extends Component {
   deleteTimesheet = id => {
     const { dispatch } = this.props
     dispatch(removeTimesheet(id))
+    this.setState({
+      timesheet: {}
+    })
   }
 
-  showScheduleForm = (count=0) => {
+  showScheduleForm = () => {
     const { dispatch, timesheet: { timesheets } } = this.props
+    let { week } = this.state
     dispatch(resetScheduleForm())
     moment.updateLocale('en', {
       week: {
         dow: 1
       }
     })
-    
-    const weekStart = moment.utc().add(count, 'days').startOf('week').format('L');
-    const weekFound = isEmpty(filter(timesheet => equals(moment.utc(timesheet.startingDay).format('LL'), weekStart), timesheets))
+    const weekStart = moment.utc().add((parseInt(week) - 1) * 7, 'days').startOf('week').format('L').toString()
+    const weekFound = !isEmpty(filter(timesheet => equals(moment.utc(timesheet.startingDay).format('L').toString(), weekStart), timesheets))
     if(weekFound){
-      this.showScheduleForm(7)
+      this.setState({
+        week: week+1
+      }, () => {
+        this.showScheduleForm()
+      })
+      
     }else{
       const days = range(0, 7) 
       const weeklyDates = map(day => {
@@ -90,7 +105,8 @@ class Timesheet extends Component {
       }, days)
       this.setState({
         scheduleForm: true,
-        weeklyDates
+        weeklyDates,
+        week: 1
       })
     }
   }
@@ -217,6 +233,7 @@ class Timesheet extends Component {
     const date = moment.utc(startingDay).add(parseInt(id) - 1, 'days').format(dateFormat)
     const shift = {}
     shift.date = date
+    shift.expiryStatus = moment.utc(startingDay).add(parseInt(id) - 1, 'days').isSameOrBefore(moment())
     const shiftDetails = this.getShiftByDay(date, schedule)
     if(isNil(shiftDetails)){
       shift.id = ''
@@ -239,7 +256,7 @@ class Timesheet extends Component {
   }
 
   render() {
-    const { visible, selectedDay, selectedShift, scheduleForm, customizedShiftError, weeklyDates, specificDate, editShiftModal } = this.state
+    const { visible, selectedDay, selectedShift, scheduleForm, customizedShiftError, weeklyDates, specificDate, editShiftModal, timesheet } = this.state
     const { timesheet: { timesheets, isLoading } } = this.props
     return (
       <Spin spinning={isLoading} tip="Loading...">
@@ -277,37 +294,63 @@ class Timesheet extends Component {
               <Result
                 title="No Timesheets Added"
                 subTitle="You have not added any timesheet yet"
-                extra={<Button type="primary" onClick={this.showScheduleForm}><Icon type="plus" />Add new Timesheet</Button>}
-              /> :
-              <Row gutter={16} className="timesheets-row">
-               
-                {
-                  map(timesheet => {
-                    return(
-                      <Col span={12} key={timesheet.id} >
-                        <SingleTimesheet
-                          days={days}
-                          timesheet={timesheet}
-                          getTimesheetShiftByDay={this.getTimesheetShiftByDay}
-                          deleteTimesheet={this.deleteTimesheet}
-                          changeShiftAvailability={this.changeShiftAvailability}
-                          showEditShiftModal={this.showEditShiftModal}
-                        />
-                      </Col>
-                    )
-                  }, timesheets)
-                }
-                 <Col span={24}>
-                 <Affix offsetBottom={120}>
-                  <Button className='timesheetbtn'
+                extra={
+                  <Button
                     type="primary"
-                    shape="circle"
-                    disabled={ length(timesheets) > 4 ? true : false }
                     onClick={this.showScheduleForm}
                   >
-                    <Icon type="plus" />
-                  </Button>
-                  </Affix>
+                    <Icon type="plus" /> Add new Timesheet
+                  </Button>}
+              /> :
+              <Row gutter={16} className="timesheets-row">
+                <Col span={10}>
+                  <Row>
+                    <Col span={24} className="timesheet">
+                      <div className="timesheet-indicator">
+                        <Row>
+                          <Col span={20} className="title">
+                            <Icon type="calendar" /> Add new Timesheet
+                          </Col>
+                          <Col span={4} className="navigator">
+                            <Button
+                              type="link"
+                              onClick={this.showScheduleForm}
+                              disabled={length(timesheets) > 4}
+                            >
+                              <Icon type="plus-circle" />
+                            </Button>
+                          </Col>
+                        </Row>
+                      </div>
+                    </Col>
+                    {
+                    map(timesheet => {
+                      return(
+                        <Col span={24} key={timesheet.id} className="timesheet">
+                          <Timesheets
+                            timesheet={timesheet}
+                            showTimesheet={this.showTimesheet}
+                          />
+                        </Col>
+                      )
+                    }, timesheets)
+                  }
+                  </Row>
+                </Col>
+                <Col span={14}>
+                  {
+                    isEmptyOrNull(timesheet) ?
+                    '' :
+                    <SingleTimesheet
+                      days={days}
+                      timesheet={timesheet}
+                      getTimesheetShiftByDay={this.getTimesheetShiftByDay}
+                      deleteTimesheet={this.deleteTimesheet}
+                      changeShiftAvailability={this.changeShiftAvailability}
+                      showEditShiftModal={this.showEditShiftModal}
+                      getDayStatus={this.getDayStatus}
+                    />
+                  }
                 </Col>
               </Row>
             }

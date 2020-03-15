@@ -1,7 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 import { isNil, prop, isEmpty } from 'ramda'
-import { Card, List, Switch, Icon, Popconfirm } from 'antd'
+import { Card, List, Switch, Icon, Popconfirm, Button } from 'antd'
 import { DATE_FORMAT as dateFormat } from '../../../../constants'
 
 const SingleTimesheet = ({
@@ -16,9 +16,13 @@ const SingleTimesheet = ({
   return (
     <Card
       className="timesheet-card"
-      title={`${moment(startingDay).format(dateFormat)} - ${moment(endingDay).format(dateFormat)}`}
+      title={
+        <span>
+          <Icon type="appstore" /> {moment(startingDay).format(dateFormat)} - {moment(endingDay).format(dateFormat)}
+        </span>
+      }
       extra={
-        <>
+        <span>
           <Popconfirm
             title="Are you sure to delete this timesheet?"
             onConfirm={() => deleteTimesheet(timesheet.id)}
@@ -30,7 +34,7 @@ const SingleTimesheet = ({
               theme="filled"
             />
           </Popconfirm>
-        </>
+        </span>
       }
     >
       <List
@@ -38,7 +42,7 @@ const SingleTimesheet = ({
         dataSource={days}
         renderItem={day => {
           const schedule = getTimesheetShiftByDay(timesheet, day)
-          
+          console.log(schedule.status)
           return (
             <List.Item>
               <List.Item.Meta
@@ -50,7 +54,8 @@ const SingleTimesheet = ({
                 <h4 >
                   <Switch
                     id={{ id: schedule.id, timesheet: timesheet.id}}
-                    defaultChecked={schedule.status ? true : false}
+                    defaultChecked={false}
+                    checked={schedule.status ? true : false}
                     disabled={isEmpty(schedule.name)  ? true : false}
                     onChange={(checked) => changeShiftAvailability(checked, schedule.id, timesheet.id)}
                   />
@@ -67,7 +72,9 @@ const SingleTimesheet = ({
                   { isNil(schedule) ? '00:00 AA - 00:00 AA' : `${prop('time', schedule)}` }
                 </span>
               </div>
-              <Icon type="edit" style={{ fontSize: '26px' }} onClick={() => showEditShiftModal(timesheet.id, schedule.id)} />
+              <Button type="link" disabled={prop('expiryStatus', schedule)} onClick={() => showEditShiftModal(timesheet.id, schedule.id)}>
+                <Icon type="edit" style={{ fontSize: '26px' }} />
+              </Button>
             </List.Item>
           )
         }}
