@@ -25,17 +25,17 @@ export const addTimesheet = (userId, data) => dispatch => {
     })
     .then(res => res.json())
     .then(response => {
-        const { code, response: { title, message }, timesheetId } = response
+        const { code, response: { title, message }, timesheetId, schedule } = response
         showToast(title, message, code)
         if(code === 'success'){
-            const { timesheet: { startingDay, endingDay }, singleTimesheet } = data
+            const { timesheet: { startingDay, endingDay } } = data
             dispatch({
                 type: types.ADD_TIMESHEET_SUCCESS,
                 payload: {
                     id: timesheetId,
                     startingDay,
                     endingDay,
-                    schedule: singleTimesheet
+                    schedule
                 }
             })
         }else{

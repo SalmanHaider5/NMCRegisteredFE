@@ -1,6 +1,8 @@
 import React from 'react'
 import { isNil } from 'ramda'
 import { Upload, Icon, Form, Button } from 'antd'
+import { SERVER_URL as url } from '../../constants'
+import { isEmptyOrNull } from '../helpers'
 
 const FormItem = Form.Item
 
@@ -17,7 +19,12 @@ export const FileInput = ({
   previewIcon = false,
   removeIcon = false
 }) => {
-  
+  const defaultFileList = [{
+    uid: '1',
+    name: fileAdded,
+    status: 'done',
+    url: `${url}${fileAdded}`
+  }]
   return (
     <div className="file-input">
       <FormItem
@@ -36,6 +43,7 @@ export const FileInput = ({
           listType={type}
           accept=".doc,.docx,.pdf"
           data={file => onChange(file)}
+          defaultFileList={isEmptyOrNull(fileAdded) ? [] : defaultFileList}
           onRemove={onRemove}
           showUploadList={
             {
@@ -45,9 +53,12 @@ export const FileInput = ({
             }
           }
         >
-          <Button>
-            <Icon type="upload" /> Upload Document
-          </Button>
+          {
+            !isEmptyOrNull(fileAdded) ? '' :
+            <Button>
+              <Icon type="upload" /> Upload Document
+            </Button>
+          }
         </Upload>
       </FormItem>
     </div>

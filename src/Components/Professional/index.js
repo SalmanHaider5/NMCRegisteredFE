@@ -18,7 +18,10 @@ class Professional extends Component {
       collapsed: false,
       formModal: false,
       formName: '',
-      current: 0
+      current: 0,
+      imageModal: false,
+      documentFile: '',
+      imageFile: ''
     };
   }
 
@@ -32,12 +35,8 @@ class Professional extends Component {
   
   updateProfessionalDetails = () => {
     const { match: { params: { userId } }, dispatch, formValues } = this.props
-    const { status, profilePicture, document, dateOfBirth, qualification } = formValues
+    const { status, dateOfBirth, qualification } = formValues
     let values = formValues
-    if(type(profilePicture) !== 'File')
-      values = dissoc('profilePicture', values)
-    if(type(document) !== 'File')
-      values = dissoc('document', values)
     if(type(status) === 'String')
       values.status = status
     else
@@ -48,6 +47,10 @@ class Professional extends Component {
       values.qualification = prop('name', find(propEq('id', qualification))(qualifications))
     values.dateOfBirth = moment(dateOfBirth).format(dateFormat)
     dispatch(updateProfile(userId, values))
+    this.setState({
+      imageFile: '',
+      documentFile: ''
+    })
     this.hideEditFormModal()
   }
 
@@ -55,6 +58,13 @@ class Professional extends Component {
     const { formValues: { changePassword }, dispatch, match: { params: { userId } } } = this.props
     const values = dissoc('confirmPassword', changePassword)
     dispatch(updateSecurityDetails(userId, values))
+  }
+
+  showImageModal = () => {
+    this.setState({ imageModal: true })
+  }
+  hideImageModal = () => {
+    this.setState({ imageModal: false })
   }
 
   sendVerificationCode = () => {
@@ -86,10 +96,24 @@ class Professional extends Component {
   }
 
   hideEditFormModal = () => {
+    const { documentFile, imageFile } = this.state
+    const { dispatch, professional: { professionalDetails: { professional } } } = this.props
+    const { document, profilePicture } = professional
     this.setState({
       formModal: false,
       formName: ''
     })
+
+    if(!isEmptyOrNull(documentFile)){
+      dispatch(change('professional', 'document', documentFile))
+    }else{
+      dispatch(change('professional', 'document', document))
+    }
+    if(!isEmptyOrNull(imageFile)){
+      dispatch(change('professional', 'profilePicture', imageFile))
+    }else{
+      dispatch(change('professional', 'profilePicture', profilePicture))
+    }
   }
 
   saveDetails = () => {
@@ -179,13 +203,20 @@ class Professional extends Component {
     this.setState({ collapsed: !collapsed })
   }
 
-  fileChangeHandler = file => {
-    const { dispatch } = this.props
+  fileRemoveHandler = () => {
+    const { dispatch, formValues: { document } } = this.props
+    this.setState({ documentFile: document })
+    dispatch(change('professional', 'document', ''))
+  }
+
+  imageRemoveHandler = file => {
+    const { dispatch, formValues: { profilePicture } } = this.props
+    this.setState({ imageFile: profilePicture })
     dispatch(change('professional', 'profilePicture', ''))
   }
 
   render() {
-    const { collapsed, formModal, formName, current } = this.state
+    const { collapsed, formModal, formName, current, imageModal } = this.state
     const {
       addresses,
       invalid,
@@ -250,6 +281,11 @@ class Professional extends Component {
             formValues={formValues}
             addTimesheet={this.addTimesheet}
             phoneVerified={phoneVerified}
+            imageModal={imageModal}
+            showImageModal={this.showImageModal}
+            hideImageModal={this.hideImageModal}
+            fileRemoveHandler={this.fileRemoveHandler}
+            imageRemoveHandler={this.imageRemoveHandler}
           />
         }
           

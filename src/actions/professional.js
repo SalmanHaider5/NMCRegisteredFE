@@ -1,7 +1,7 @@
-import { defaultTo, isNil } from 'ramda'
+import { defaultTo, isNil, type } from 'ramda'
 import Cookies from 'js-cookie'
 import moment from 'moment'
-import { initialize, reset } from 'redux-form'
+import { initialize, change } from 'redux-form'
 import { SERVER_URL as url, DATE_FORMAT as dateFormat } from '../constants'
 import * as types from './'
 import { showToast, getFormData, isEmptyOrNull } from '../utils/helpers'
@@ -161,8 +161,12 @@ export const updateProfile = (userId, values) => dispatch => {
     .then(response => {
         const { code, response: { title, message }, error = '' } = response
         showToast(title, message, code)
-        if(code === 'success'){
+        if(code === 'success' && !isEmptyOrNull(response)){
             response.professional = values
+            const profilePicture = type(values.profilePicture) === 'File' ? values.profilePicture.name : values.profilePicture
+            const document = type(values.document) === 'File' ? values.document.name : values.document
+            dispatch(change('professional', 'profilePicture', profilePicture))
+            dispatch(change('professional', 'document', document))
             dispatch({
                 type: types.PROFESSIONAL_PROFILE_UPDATE_SUCCESS,
                 payload: response
@@ -186,6 +190,7 @@ export const updateSecurityDetails = (userId, values) => dispatch => {
     dispatch({ type: types.PROFESSIONAL_SECURITY_UPDATE_REQUEST })
     const token = defaultTo('', Cookies.getJSON('authToken').authToken)
     const changePassword = {
+        twoFactorAuthentication: values.twoFactorAuthentication,
         currentPassword: '',
         newPassword: '',
         confirmPassword: ''
@@ -205,7 +210,8 @@ export const updateSecurityDetails = (userId, values) => dispatch => {
         showToast(title, message, code)
         if(code === 'success'){
             response.professional = values
-            dispatch(reset('professional', 'changePassword', changePassword))
+            console.log(response)
+            dispatch(change('professional', 'changePassword', changePassword))
             dispatch({
                 type: types.PROFESSIONAL_SECURITY_UPDATE_SUCCESS,
                 payload: response

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Field } from 'redux-form'
 import { TextField, SelectField, MultilineTextField, FileInput } from '../../../utils/custom-components'
-import { isRequired, QUALIFICATION_OPTIONS as qualifications, max35Hours, max200Words } from '../../../constants'
+import { isRequired, QUALIFICATION_OPTIONS as qualifications, max35Hours, max200Words, isValidNMC } from '../../../constants'
 
-const ProfessionalDetailsForm = ({ formValues }) => {
+const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues }) => {
   const { document } = formValues
   return (
     <div>
@@ -13,7 +13,7 @@ const ProfessionalDetailsForm = ({ formValues }) => {
         label={'NMC Pin'}
         size={'large'}
         type="text"
-        validate={[isRequired]}
+        validate={[isRequired, isValidNMC]}
         tooltipPlacement={'topRight'}
       />
       <Field
@@ -41,6 +41,7 @@ const ProfessionalDetailsForm = ({ formValues }) => {
         label="Resume/CV"
         type={'card'}
         fileAdded={document}
+        onRemove={fileRemoveHandler}
         removeIcon={true}
       />
       <Field

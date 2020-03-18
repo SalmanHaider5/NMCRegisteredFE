@@ -19,6 +19,12 @@ export const ImageInput = ({
   previewIcon = false,
   removeIcon = false
 }) => {
+  const defaultFileList = [{
+    uid: '1',
+    name: fileAdded,
+    status: 'done',
+    url: `${url}${fileAdded}`
+  }]
   return (
     <div className="image-input">
       <FormItem
@@ -37,6 +43,7 @@ export const ImageInput = ({
           listType={previewType}
           accept=".jpg,.jpeg,.png"
           data={file => onChange(file)}
+          defaultFileList={isEmptyOrNull(fileAdded) ? [] : defaultFileList}
           onRemove={onRemove}
           showUploadList={
             {
@@ -47,13 +54,15 @@ export const ImageInput = ({
           }
         >
           {
-            isEmptyOrNull(fileAdded) ?
-              <Icon type="camera" /> :
-              equals(type(fileAdded), 'String') ?
-              <Avatar size={140} icon="camera" src={`${url}${fileAdded}`}>
-                <Icon type="user" />
-              </Avatar> :
-            ''
+            // isEmptyOrNull(fileAdded) ?
+            //   <Icon type="camera" /> :
+            //   equals(type(fileAdded), 'String') ?
+            //   <Avatar size={140} icon="camera" src={`${url}${fileAdded}`}>
+            //     <Icon type="user" />
+            //   </Avatar> :
+            // ''
+            !isEmptyOrNull(fileAdded) ? '' :
+            <Icon type="camera" />
           }
         </Upload>
       </FormItem>

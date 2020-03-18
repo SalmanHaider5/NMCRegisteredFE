@@ -4,6 +4,7 @@ import { Layout, Menu, Icon } from 'antd'
 import Timesheet from './Timesheet'
 import Profile from './Profile'
 import SecurityAndLogin from './Security'
+import ResumeViewer from './ResumeViewer'
 
 
 const ViewDetails = ({
@@ -24,7 +25,12 @@ const ViewDetails = ({
   invalid,
   updateSecurityandLoginDetails,
   formValues,
-  phoneVerified
+  phoneVerified,
+  imageModal,
+  showImageModal,
+  hideImageModal,
+  fileRemoveHandler,
+  imageRemoveHandler
 }) => {
   const { Sider, Footer, Content } = Layout
   return (
@@ -84,11 +90,21 @@ const ViewDetails = ({
                 invalid={invalid}
                 formValues={formValues}
                 phoneVerified={phoneVerified}
+                showImageModal={showImageModal}
+                hideImageModal={hideImageModal}
+                imageModal={imageModal}
+                fileRemoveHandler={fileRemoveHandler}
+                imageRemoveHandler={imageRemoveHandler}
               />
             </Route>
             <Route path="/professional/:userId/security">
               <SecurityAndLogin
                 updateSecurityandLoginDetails={updateSecurityandLoginDetails}
+                formValues={formValues}
+              />
+            </Route>
+            <Route path="/professional/:userId/resume">
+              <ResumeViewer
                 formValues={formValues}
               />
             </Route>

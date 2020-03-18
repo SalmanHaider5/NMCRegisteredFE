@@ -42,7 +42,6 @@ const SingleTimesheet = ({
         dataSource={days}
         renderItem={day => {
           const schedule = getTimesheetShiftByDay(timesheet, day)
-          console.log(schedule.status)
           return (
             <List.Item>
               <List.Item.Meta

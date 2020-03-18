@@ -1,10 +1,10 @@
 import React from 'react'
-import { List, Tag, Icon, Avatar } from 'antd'
+import { List, Tag, Icon, Avatar, Modal } from 'antd'
 import moment from 'moment'
 import { isEmptyOrNull } from '../../../../../utils/helpers'
 import { SERVER_URL as url, DATE_FORMAT as dateFormat } from '../../../../../constants'
 
-const PersonalDetails = ({ professional, phoneVerified }) => {
+const PersonalDetails = ({ professional, phoneVerified, imageModal, showImageModal, hideImageModal }) => {
   const {
     profilePicture,
     fullName,
@@ -21,9 +21,21 @@ const PersonalDetails = ({ professional, phoneVerified }) => {
         {
           isEmptyOrNull(profilePicture) ? 
           <Avatar size={160} icon="user" /> :
-          <Avatar size={160} src={`${url}${profilePicture}`} />
+          <Avatar className="image-avatar" size={160} src={`${url}${profilePicture}`} onClick={showImageModal} />
         }
       </List.Item>
+      <Modal
+        visible={imageModal}
+        onCancel={hideImageModal}
+        footer={null}
+        bodyStyle={{
+          padding: 0
+        }}
+      >
+        <div className="modal-image">
+          <img alt={fullName} src={`${url}${profilePicture}`} style={{ width: '100%'}} />
+        </div>
+      </Modal>
       <List.Item>
         <label>
           <Icon type="user" />
@@ -34,7 +46,7 @@ const PersonalDetails = ({ professional, phoneVerified }) => {
       <List.Item>
         <label>
           <Icon type="api" />
-          Status
+          Gender
         </label>
         <span className="label-value">{professional.status}</span>
       </List.Item>

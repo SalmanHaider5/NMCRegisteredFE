@@ -7,7 +7,6 @@ import ProfessionalDetails from './ProfessionalDetails/'
 import PersonalDetailsForm from '../../DetailForms/PersonalDetailsForm'
 import AddressForm from '../../DetailForms/AddressForm'
 import ProfessionalDetailsForm from '../../DetailForms/ProfessionalDetailsForm'
-import WorkExperienceForm from '../../DetailForms/WorkExperienceForm'
 import './profile.css'
 
 const Profile = ({
@@ -25,7 +24,12 @@ const Profile = ({
   getProfileStatus,
   invalid,
   formValues,
-  phoneVerified
+  phoneVerified,
+  showImageModal,
+  hideImageModal,
+  imageModal,
+  fileRemoveHandler,
+  imageRemoveHandler
 }) => {
   const { dateOfBirth } = professional
   return (
@@ -62,6 +66,9 @@ const Profile = ({
                       professional={professional}
                       getProfileStatus={getProfileStatus}
                       phoneVerified={phoneVerified}
+                      imageModal={imageModal}
+                      showImageModal={showImageModal}
+                      hideImageModal={hideImageModal}
                     />
                   }
                 </Card>
@@ -122,6 +129,7 @@ const Profile = ({
                 <PersonalDetailsForm
                   dateOfBirth={dateOfBirth}
                   formValues={formValues}
+                  imageRemoveHandler={imageRemoveHandler}
                 /> :
                 formName === 'Address' ?
                 <AddressForm
@@ -132,9 +140,8 @@ const Profile = ({
                 formName === 'Professional' ?
                 <ProfessionalDetailsForm
                   formValues={formValues}
+                  fileRemoveHandler={fileRemoveHandler}
                 /> :
-                formName === 'Experience' ?
-                <WorkExperienceForm /> :
                 ''
               }
               submitText={

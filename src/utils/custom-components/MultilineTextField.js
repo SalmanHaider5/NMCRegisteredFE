@@ -33,7 +33,6 @@ export const MultilineTextField = ({
           rows={4}
           id={id}
           {...input}
-          autoSize={{ minRows: rows, maxRows: rowsMax }}
           value={readOnly ? fieldData : value}
           placeholder={placeholder}
         />

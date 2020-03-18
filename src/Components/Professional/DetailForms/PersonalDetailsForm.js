@@ -5,23 +5,23 @@ import { TextField, SelectField, DatePickerField, ImageInput } from '../../../ut
 import { isRequired, GENDER_OPTIONS as genders } from '../../../constants'
 import { isEmptyOrNull } from '../../../utils/helpers'
 
-const PersonalDetailsForm = ({ formValues, fileChangeHandler }) => {
+const PersonalDetailsForm = ({ formValues, imageRemoveHandler }) => {
   const { profilePicture, dateOfBirth } = formValues
   return (
     <div>
       <Field
         name="profilePicture"
         component={ImageInput}
-        label="Profile Picture"
+        label="ID Picture"
         previewType={'picture-card'}
         fileAdded={profilePicture}
-        onRemove={fileChangeHandler}
+        onRemove={imageRemoveHandler}
         removeIcon={true}
       />
       <Field
         name="status"
         component={SelectField}
-        label={'Status'}
+        label={'Gender'}
         size={'large'}
         options={genders}
         hintText={'Gender'}
