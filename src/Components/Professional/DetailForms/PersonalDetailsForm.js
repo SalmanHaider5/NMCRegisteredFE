@@ -2,22 +2,26 @@ import React from 'react'
 import { Field } from 'redux-form'
 import moment from 'moment'
 import { TextField, SelectField, DatePickerField, ImageInput } from '../../../utils/custom-components'
-import { isRequired, GENDER_OPTIONS as genders } from '../../../constants'
+import { isRequired, GENDER_OPTIONS as genders, DATE_FORMAT as format } from '../../../constants'
 import { isEmptyOrNull } from '../../../utils/helpers'
 
-const PersonalDetailsForm = ({ formValues, imageRemoveHandler }) => {
+const PersonalDetailsForm = ({ formValues, imageRemoveHandler, addForm = false }) => {
   const { profilePicture, dateOfBirth } = formValues
   return (
     <div>
-      <Field
-        name="profilePicture"
-        component={ImageInput}
-        label="ID Picture"
-        previewType={'picture-card'}
-        fileAdded={profilePicture}
-        onRemove={imageRemoveHandler}
-        removeIcon={true}
-      />
+      {
+        addForm ?
+        '' :
+        <Field
+          name="profilePicture"
+          component={ImageInput}
+          label="ID Picture"
+          previewType={'picture-card'}
+          fileAdded={profilePicture}
+          onRemove={imageRemoveHandler}
+          removeIcon={true}
+        />
+      }
       <Field
         name="status"
         component={SelectField}
@@ -39,7 +43,7 @@ const PersonalDetailsForm = ({ formValues, imageRemoveHandler }) => {
       <Field
         name="dateOfBirth"
         component={DatePickerField}
-        defaultValue={isEmptyOrNull(dateOfBirth) ? null : moment(dateOfBirth)}
+        defaultValue={isEmptyOrNull(dateOfBirth) ? null : moment(dateOfBirth, format)}
         label={'Date of Birth'}
         size={'large'}
         type="text"

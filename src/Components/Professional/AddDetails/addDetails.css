@@ -5,12 +5,12 @@
 }
 div.addform-container div.ant-row.addform-panel{
     background-color: #1e1c5d;
-    min-height: 81vh;
+    min-height: 83vh;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 .addform-container .form-panel{
     background-color: white;
-    height: 81vh;
+    height: 83vh;
     
 }
 .addform-container .ant-steps .ant-steps-item .ant-steps-item-content .ant-steps-item-title{

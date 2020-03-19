@@ -4,7 +4,6 @@ import { Layout, Menu, Icon } from 'antd'
 import Timesheet from './Timesheet'
 import Profile from './Profile'
 import SecurityAndLogin from './Security'
-import ResumeViewer from './ResumeViewer'
 
 
 const ViewDetails = ({
@@ -112,11 +111,6 @@ const ViewDetails = ({
             <Route path="/professional/:userId/security">
               <SecurityAndLogin
                 updateSecurityandLoginDetails={updateSecurityandLoginDetails}
-                formValues={formValues}
-              />
-            </Route>
-            <Route path="/professional/:userId/resume">
-              <ResumeViewer
                 formValues={formValues}
               />
             </Route>

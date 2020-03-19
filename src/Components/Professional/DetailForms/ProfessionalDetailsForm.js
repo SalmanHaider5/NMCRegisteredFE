@@ -33,7 +33,6 @@ const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues, crbRemoveHandl
         type={'card'}
         fileAdded={crbDocument}
         onRemove={crbRemoveHandler}
-        specialText={".doc,.docx,.pdf,.jpg,.jpeg,.png allowed"}
         removeIcon={true}
       />
       <Field

@@ -74,7 +74,7 @@ const PersonalDetails = ({ professional, phoneVerified, imageModal, showImageMod
           Date of Birth
         </label>
         <span className="label-value">
-          {dateOfBirth ? moment(dateOfBirth).format(dateFormat) : ''}
+          {moment(dateOfBirth).format(dateFormat)}
         </span>
       </List.Item>
       <List.Item>

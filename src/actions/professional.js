@@ -1,9 +1,9 @@
 import { defaultTo, isNil, type } from 'ramda'
 import Cookies from 'js-cookie'
-import moment from 'moment'
 import { initialize, change } from 'redux-form'
-import { SERVER_URL as url, DATE_FORMAT as dateFormat } from '../constants'
+import { SERVER_URL as url } from '../constants'
 import * as types from './'
+import { getProfessionalData } from '../utils/parsers'
 import { showToast, getFormData, isEmptyOrNull } from '../utils/helpers'
 
 export const createDetails = (userId, formValues) => dispatch => {
@@ -23,19 +23,13 @@ export const createDetails = (userId, formValues) => dispatch => {
     .then(response => {
         const { code, response: { title, message } } = response
         showToast(title, message, code)
-        response.professional = formValues
-        const { dateOfBirth } = formValues
-        response.professional.changePassword = {
-            twoFactorAuthentication: response.professional.twoFactorAuthentication,
-            currentPassword: '',
-            newPassword: '',
-            confirmPassword: ''
-        }
-        response.professional.dateOfBirth = isEmptyOrNull(dateOfBirth) ? '' : moment(dateOfBirth).format(dateFormat)
-        dispatch(initialize('professional', response.professional))
+        formValues.document = type(formValues.document) === 'File' ? formValues.document.name : formValues.document
+        formValues.crbDocument = type(formValues.crbDocument) === 'File' ? formValues.crbDocument.name : formValues.crbDocument
+        const professional = getProfessionalData(formValues)
+        dispatch(initialize('professional', professional))
         dispatch({
             type: types.ADD_PROFESSIONAL_DETAILS_SUCCESS,
-            payload: response
+            payload: professional
         })
     })
     .catch(error => {
@@ -116,21 +110,14 @@ export const getProfessionalDetails = userId => dispatch => {
     })
     .then(res => res.json())
     .then(data => {
-        const { code, response: { title, message }, professional } = data
-        const { dateOfBirth } = professional
-        professional.changePassword = {
-            twoFactorAuthentication: professional.twoFactorAuthentication,
-            currentPassword: '',
-            newPassword: '',
-            confirmPassword: ''
-        }
-        professional.dateOfBirth = isEmptyOrNull(dateOfBirth) ? '' : moment(dateOfBirth).format('L')
+        const { code, response: { title, message } } = data
+        const professional = getProfessionalData(data.professional)
         dispatch(initialize('professional', professional))
         showToast(title, message, code)
         if(code === 'success' || code === 'info'){
             dispatch({
                 type: types.FETCH_PROFESSIONAL_DETAILS_SUCCESS,
-                payload: data
+                payload: professional
             })
         }else{
             dispatch({
@@ -162,7 +149,6 @@ export const updateProfile = (userId, values) => dispatch => {
         const { code, response: { title, message }, error = '' } = response
         showToast(title, message, code)
         if(code === 'success' && !isEmptyOrNull(response)){
-            response.professional = values
             const profilePicture = type(values.profilePicture) === 'File' ? values.profilePicture.name : values.profilePicture
             const document = type(values.document) === 'File' ? values.document.name : values.document
             const crbDocument = type(values.crbDocument) === 'File' ? values.crbDocument.name : values.crbDocument
@@ -171,7 +157,7 @@ export const updateProfile = (userId, values) => dispatch => {
             dispatch(change('professional', 'crbDocument', crbDocument))
             dispatch({
                 type: types.PROFESSIONAL_PROFILE_UPDATE_SUCCESS,
-                payload: response
+                payload: values
             })
         }else{
             dispatch({

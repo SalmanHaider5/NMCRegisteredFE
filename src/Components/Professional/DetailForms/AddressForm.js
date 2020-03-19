@@ -64,7 +64,6 @@ const AddressForm = ({
         name="hasTransport"
         component={CheckboxField}
         defaultValue={false}
-        // checked={}
         label={'Has own Transport'}
         text={'Yes'}
         size={'large'}

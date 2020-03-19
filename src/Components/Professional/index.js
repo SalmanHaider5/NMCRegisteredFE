@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import { Icon } from 'antd'
 import moment from 'moment'
-import { trim, split, prop, propEq, concat, find, has, omit, dissoc, type, last, equals } from 'ramda'
+import { trim, split, prop, propEq, concat, find, omit, dissoc, type, last, equals } from 'ramda'
 import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfile, updateSecurityDetails, changePhoneRequest } from '../../actions'
 import { GENDER_OPTIONS as genders, QUALIFICATION_OPTIONS as qualifications, DATE_FORMAT as dateFormat } from '../../constants'
 import { getProfessionalFormValues, isEmptyOrNull } from '../../utils/helpers'
@@ -114,8 +114,8 @@ class Professional extends Component {
 
   hideEditFormModal = () => {
     const { documentFile, imageFile, crbFile } = this.state
-    const { dispatch, professional: { professionalDetails: { professional } } } = this.props
-    const { document, profilePicture, crbDocument } = professional
+    const { dispatch, professional: { professionalDetails } } = this.props
+    const { document, profilePicture, crbDocument } = professionalDetails
     this.setState({
       formModal: false,
       formName: ''
@@ -276,12 +276,12 @@ class Professional extends Component {
           logout={this.logout}
         />
         {
-          !has('fullName', professionalDetails.professional) ?
+          isEmptyOrNull(prop('fullName', professionalDetails)) ?
           <AddDetails
             findAddresses={this.findAddresses}
             addressSelectHandler={this.addressSelectHandler}
             addresses={addresses}
-            professional={professionalDetails.professional}
+            professional={professionalDetails}
             sendVerificationCode={this.sendVerificationCode}
             verifyProfessionalPhone={this.verifyProfessionalPhone}
             phoneVerified={phoneVerified}
@@ -296,14 +296,16 @@ class Professional extends Component {
             invalid={invalid}
             codeSent={codeSent}
             editPhoneNumber={this.editPhoneNumber}
+            fileRemoveHandler={this.fileRemoveHandler}
             imageRemoveHandler={this.imageRemoveHandler}
+            crbRemoveHandler={this.crbRemoveHandler}
           /> :
           <ViewDetails
             userId={userId}
             isLoading={isLoading}
             collapsed={collapsed}
             onCollapse={this.onCollapse}
-            professional={professionalDetails.professional}
+            professional={professionalDetails}
             formModal={formModal}
             formName={formName}
             showEditFormModal={this.showEditFormModal}

@@ -24,9 +24,9 @@ const professional = (state=initState, action) => {
                 isLoading: true
             }
         case actions.ADD_PROFESSIONAL_DETAILS_SUCCESS:
-            payload.professional.phone = state.professionalDetails.professional.phone
-            payload.professional.email = state.professionalDetails.professional.email
-            payload.professional.profilePicture = isEmptyOrNull(payload.professional.profilePicture) ? '' : payload.professional.profilePicture.name
+            payload.phone = state.professionalDetails.phone
+            payload.email = state.professionalDetails.email
+            payload.profilePicture = isEmptyOrNull(payload.profilePicture) ? '' : payload.profilePicture.name
             return{
                 ...state,
                 isLoading: false,
@@ -34,7 +34,7 @@ const professional = (state=initState, action) => {
             }
         case actions.ADD_PROFESSIONAL_PHONE_SUCCESS:
             const professionalDetails = state.professionalDetails
-            professionalDetails.professional.phone = payload.phone
+            professionalDetails.phone = payload.phone
             return{
                 ...state,
                 isLoading: false,
@@ -56,13 +56,13 @@ const professional = (state=initState, action) => {
             return{
                 ...state,
                 professionalDetails: payload,
-                codeSent: isEmptyOrNull(payload.professional.phone) || payload.professional.phoneStatus ? false : true,
-                phoneVerified: payload.professional.phoneStatus,
+                codeSent: isEmptyOrNull(payload.phone) || payload.phoneStatus ? false : true,
+                phoneVerified: payload.phoneStatus,
                 isLoading: false
             }
         case actions.PHONE_NUMBER_CHANGE_REQUEST:
             const details = state.professionalDetails
-            details.professional.phone = ''
+            details.phone = ''
             return{
                 ...state,
                 codeSent: false,
@@ -74,20 +74,21 @@ const professional = (state=initState, action) => {
                 isLoading: true
             }
         case actions.PROFESSIONAL_PROFILE_UPDATE_SUCCESS:
-            const profilePicture = defaultTo('', payload.professional.profilePicture)
-            const document = defaultTo('', payload.professional.document)
-            const crbDocument = defaultTo('', payload.professional.crbDocument)
+            const profilePicture = defaultTo('', payload.profilePicture)
+            const document = defaultTo('', payload.document)
+            const crbDocument = defaultTo('', payload.crbDocument)
             const updatedPicture = equals(dataType(profilePicture), 'File')  ? profilePicture.name : profilePicture
             const updatedDocument = equals(dataType(document), 'File') ? document.name : document
             const updatedCRBDocument = equals(dataType(crbDocument), 'File') ? crbDocument.name : crbDocument
-            payload.professional.profilePicture = updatedPicture
-            payload.professional.document = updatedDocument
-            payload.professional.crbDocument = updatedCRBDocument
+            payload.profilePicture = updatedPicture
+            payload.document = updatedDocument
+            payload.crbDocument = updatedCRBDocument
             return{
                 ...state,
                 isLoading: false,
                 professionalDetails: payload
             }
+
         case actions.PROFESSIONAL_PROFILE_UPDATE_FAILURE:
         case actions.ADD_PROFESSIONAL_PHONE_FAILURE:
         case actions.ADD_PROFESSIONAL_DETAILS_FAILURE:

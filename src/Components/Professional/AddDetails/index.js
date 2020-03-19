@@ -22,18 +22,20 @@ const AddDetails = ({
   prev,
   saveDetails,
   formValues,
-  fileChangeHandler,
   getFormName,
   invalid,
   codeSent,
   editPhoneNumber,
-  imageRemoveHandler
+  imageRemoveHandler,
+  fileRemoveHandler,
+  crbRemoveHandler
 }) => {
   const { phone } = professional
   const isPhoneAdded = !isEmptyOrNull(phone) && phoneVerified ? true : false
   
   const components = [
     <PersonalDetailsForm
+      addForm={true}
       formValues={formValues}
       imageRemoveHandler={imageRemoveHandler}
     />,
@@ -44,6 +46,8 @@ const AddDetails = ({
     />,
     <ProfessionalDetailsForm
       formValues={formValues}
+      fileRemoveHandler={fileRemoveHandler}
+      crbRemoveHandler={crbRemoveHandler}
     />
   ]
   return (

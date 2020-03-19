@@ -3,7 +3,7 @@ import { List, Icon, Divider, Tooltip, Modal, Tag } from 'antd'
 import { split, last } from 'ramda'
 import WorkExperience from '../WorkExperience'
 import { isEmptyOrNull } from '../../../../../utils/helpers'
-import { ModalBox, DocumentViewer } from '../../../../../utils/custom-components'
+import { DocumentViewer } from '../../../../../utils/custom-components'
 
 const ProfessionalDetails = ({
   professional,
@@ -41,7 +41,7 @@ const ProfessionalDetails = ({
         <List.Item>
           <label>
             <Icon type="audit" />
-            CRB <Tag color="cyan">{crbDocument}</Tag>
+            CRB { isEmptyOrNull(crbDocument) ? '' : <Tag color="cyan">{crbDocument}</Tag> }
           </label>
           <span className="label-value">
             {
@@ -63,7 +63,7 @@ const ProfessionalDetails = ({
         <List.Item>
           <label>
             <Icon type={fileType === 'pdf' ? `file-pdf` : `file-word` } />
-            CV/Resume <Tag color="cyan">{document}</Tag>
+            CV/Resume { isEmptyOrNull(document) ? '' :  <Tag color="cyan">{document}</Tag> }
           </label>
           <span className="label-value">
             {

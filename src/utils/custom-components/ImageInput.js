@@ -1,6 +1,6 @@
 import React from 'react'
 import { isNil, equals, type } from 'ramda'
-import { Upload, Icon, Form, Avatar } from 'antd'
+import { Upload, Icon, Form } from 'antd'
 import { isEmptyOrNull } from '../helpers'
 import { SERVER_URL as url } from '../../constants'
 
