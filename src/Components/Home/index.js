@@ -189,7 +189,7 @@ class Home extends Component {
                       <div className='us-content'>
                       <Divider className='sec-con-divider' type="vertical" /><h2>ABOUT US:</h2>
                         <div className='about-us-content'>
-                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                          <p>Lorem ipsum dolor sit ame, consectetur adipiscing elit. 
                             large sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                             Ut enim ad minim veniamsed do eiusmod tempor
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p><p>
