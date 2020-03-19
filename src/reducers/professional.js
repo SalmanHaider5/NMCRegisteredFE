@@ -74,13 +74,15 @@ const professional = (state=initState, action) => {
                 isLoading: true
             }
         case actions.PROFESSIONAL_PROFILE_UPDATE_SUCCESS:
-            console.log('Picture', payload)
             const profilePicture = defaultTo('', payload.professional.profilePicture)
             const document = defaultTo('', payload.professional.document)
+            const crbDocument = defaultTo('', payload.professional.crbDocument)
             const updatedPicture = equals(dataType(profilePicture), 'File')  ? profilePicture.name : profilePicture
             const updatedDocument = equals(dataType(document), 'File') ? document.name : document
+            const updatedCRBDocument = equals(dataType(crbDocument), 'File') ? crbDocument.name : crbDocument
             payload.professional.profilePicture = updatedPicture
             payload.professional.document = updatedDocument
+            payload.professional.crbDocument = updatedCRBDocument
             return{
                 ...state,
                 isLoading: false,

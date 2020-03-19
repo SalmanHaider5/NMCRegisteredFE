@@ -26,7 +26,8 @@ const AddDetails = ({
   getFormName,
   invalid,
   codeSent,
-  editPhoneNumber
+  editPhoneNumber,
+  imageRemoveHandler
 }) => {
   const { phone } = professional
   const isPhoneAdded = !isEmptyOrNull(phone) && phoneVerified ? true : false
@@ -34,7 +35,7 @@ const AddDetails = ({
   const components = [
     <PersonalDetailsForm
       formValues={formValues}
-      fileChangeHandler={fileChangeHandler}
+      imageRemoveHandler={imageRemoveHandler}
     />,
     <AddressForm
       findAddresses={findAddresses}

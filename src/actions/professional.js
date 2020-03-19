@@ -165,8 +165,10 @@ export const updateProfile = (userId, values) => dispatch => {
             response.professional = values
             const profilePicture = type(values.profilePicture) === 'File' ? values.profilePicture.name : values.profilePicture
             const document = type(values.document) === 'File' ? values.document.name : values.document
+            const crbDocument = type(values.crbDocument) === 'File' ? values.crbDocument.name : values.crbDocument
             dispatch(change('professional', 'profilePicture', profilePicture))
             dispatch(change('professional', 'document', document))
+            dispatch(change('professional', 'crbDocument', crbDocument))
             dispatch({
                 type: types.PROFESSIONAL_PROFILE_UPDATE_SUCCESS,
                 payload: response

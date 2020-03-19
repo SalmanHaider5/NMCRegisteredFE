@@ -15,6 +15,7 @@ export const FileInput = ({
   specialText,
   type,
   onRemove,
+  acceptedFileTypes,
   downloadIcon = false,
   previewIcon = false,
   removeIcon = false
@@ -41,7 +42,7 @@ export const FileInput = ({
           name="file"
           action={'https://www.mocky.io/v2/5cc8019d300000980a055e76'}
           listType={type}
-          accept=".doc,.docx,.pdf"
+          accept={acceptedFileTypes}
           data={file => onChange(file)}
           defaultFileList={isEmptyOrNull(fileAdded) ? [] : defaultFileList}
           onRemove={onRemove}

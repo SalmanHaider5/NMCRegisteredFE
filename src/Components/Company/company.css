@@ -33,7 +33,16 @@ div.steps-header{
 div.steps-header h3{
     color: #fff;
     font-weight: bold;
-}  
+    display: inline-block;
+}
+div.steps-header button{
+    float: right;
+    color: #fff;
+    font-weight: 500;
+}
+div.steps-header button:hover, div.steps-header button:active, div.steps-header button:focus{
+    color: #fff;
+}
 div.ant-form-item-label label{
     font-weight: bold;
     color: rgba(5, 1, 27, 0.82);

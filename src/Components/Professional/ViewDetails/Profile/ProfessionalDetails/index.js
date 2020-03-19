@@ -1,16 +1,26 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { List, Icon, Divider } from 'antd'
+import { List, Icon, Divider, Tooltip, Modal, Tag } from 'antd'
+import { split, last } from 'ramda'
 import WorkExperience from '../WorkExperience'
 import { isEmptyOrNull } from '../../../../../utils/helpers'
+import { ModalBox, DocumentViewer } from '../../../../../utils/custom-components'
 
-const ProfessionalDetails = ({ professional, formValues, userId }) => {
+const ProfessionalDetails = ({
+  professional,
+  getDocumentType,
+  documentModal,
+  documentModalType,
+  showDocumentModal,
+  hideDocumentModal
+}) => {
   const {
     nmcPin,
     cpdHours,
     qualification,
-    document
+    document,
+    crbDocument
   } = professional
+  const fileType = last(split('.', document))
   return (
     <span>
       <List className="profile-list">
@@ -30,24 +40,38 @@ const ProfessionalDetails = ({ professional, formValues, userId }) => {
         </List.Item>
         <List.Item>
           <label>
-            <Icon type="hourglass" />
-            CPD Hours
+            <Icon type="audit" />
+            CRB <Tag color="cyan">{crbDocument}</Tag>
           </label>
-          <span className="label-value">{cpdHours}</span>
+          <span className="label-value">
+            {
+              isEmptyOrNull(crbDocument) ?
+              `Not added yet` :
+              <Tooltip title="Veiew Certificate">
+                <Icon type="eye" onClick={() => showDocumentModal('CRB')} />
+              </Tooltip>
+            }
+          </span>
         </List.Item>
         <List.Item>
           <label>
             <Icon type="hourglass" />
-            CV/Resume
+            CPD
+          </label>
+          <span className="label-value">{cpdHours} Hours</span>
+        </List.Item>
+        <List.Item>
+          <label>
+            <Icon type={fileType === 'pdf' ? `file-pdf` : `file-word` } />
+            CV/Resume <Tag color="cyan">{document}</Tag>
           </label>
           <span className="label-value">
             {
               isEmptyOrNull(document) ?
               `Not added yet`:
-              <Link to={`/professional/${userId}/resume`}>
-                <Icon type="profile" />
-                <span>{document}</span>
-              </Link>
+                <Tooltip title="View Resume/CV">
+                  <Icon type="eye" onClick={() => showDocumentModal('CV/Resume')} />
+                </Tooltip>
             }
           </span>
         </List.Item>
@@ -56,6 +80,26 @@ const ProfessionalDetails = ({ professional, formValues, userId }) => {
       <WorkExperience
         professional={professional}
       />
+      <Modal
+        visible={documentModal}
+        footer={null}
+        style={{
+          top: 20
+        }}
+        className="document-modal"
+        bodyStyle={{
+          padding: 0,
+          overflow: 'hidden',
+          backgroundColor: 'transparent'
+        }}
+        maskStyle={{
+          color: '#000'
+        }}
+        width={getDocumentType(documentModalType === 'CRB' ? crbDocument : document) === 'document' ? 750 : 'fit-content'}
+        onCancel={hideDocumentModal}
+      >
+        <DocumentViewer document={documentModalType === 'CRB' ? crbDocument : documentModalType === 'CV/Resume' ? document : ''} />
+      </Modal>
     </span>
   )
 }

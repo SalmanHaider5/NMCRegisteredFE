@@ -30,7 +30,13 @@ const ViewDetails = ({
   showImageModal,
   hideImageModal,
   fileRemoveHandler,
-  imageRemoveHandler
+  imageRemoveHandler,
+  crbRemoveHandler,
+  showDocumentModal,
+  hideDocumentModal,
+  documentModal,
+  documentModalType,
+  getDocumentType
 }) => {
   const { Sider, Footer, Content } = Layout
   return (
@@ -95,6 +101,12 @@ const ViewDetails = ({
                 imageModal={imageModal}
                 fileRemoveHandler={fileRemoveHandler}
                 imageRemoveHandler={imageRemoveHandler}
+                crbRemoveHandler={crbRemoveHandler}
+                showDocumentModal={showDocumentModal}
+                hideDocumentModal={hideDocumentModal}
+                documentModal={documentModal}
+                documentModalType={documentModalType}
+                getDocumentType={getDocumentType}
               />
             </Route>
             <Route path="/professional/:userId/security">

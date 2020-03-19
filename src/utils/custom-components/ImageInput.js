@@ -21,10 +21,11 @@ export const ImageInput = ({
 }) => {
   const defaultFileList = [{
     uid: '1',
-    name: fileAdded,
+    name: equals(type(fileAdded), 'File') ? fileAdded.name : fileAdded,
     status: 'done',
     url: `${url}${fileAdded}`
   }]
+  console.log('File', fileAdded)
   return (
     <div className="image-input">
       <FormItem
@@ -54,13 +55,6 @@ export const ImageInput = ({
           }
         >
           {
-            // isEmptyOrNull(fileAdded) ?
-            //   <Icon type="camera" /> :
-            //   equals(type(fileAdded), 'String') ?
-            //   <Avatar size={140} icon="camera" src={`${url}${fileAdded}`}>
-            //     <Icon type="user" />
-            //   </Avatar> :
-            // ''
             !isEmptyOrNull(fileAdded) ? '' :
             <Icon type="camera" />
           }

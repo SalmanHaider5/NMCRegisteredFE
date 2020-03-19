@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import { Icon } from 'antd'
 import moment from 'moment'
-import { trim, split, prop, propEq, concat, find, has, omit, dissoc, type } from 'ramda'
+import { trim, split, prop, propEq, concat, find, has, omit, dissoc, type, last, equals } from 'ramda'
 import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfile, updateSecurityDetails, changePhoneRequest } from '../../actions'
 import { GENDER_OPTIONS as genders, QUALIFICATION_OPTIONS as qualifications, DATE_FORMAT as dateFormat } from '../../constants'
 import { getProfessionalFormValues, isEmptyOrNull } from '../../utils/helpers'
@@ -21,7 +21,10 @@ class Professional extends Component {
       current: 0,
       imageModal: false,
       documentFile: '',
-      imageFile: ''
+      imageFile: '',
+      crbFile: '',
+      documentModalType: '',
+      documentModal: false
     };
   }
 
@@ -81,6 +84,20 @@ class Professional extends Component {
     })
   }
 
+  showDocumentModal = type => {
+    this.setState({
+      documentModal: true,
+      documentModalType: type
+    })
+  }
+
+  hideDocumentModal = () => {
+    this.setState({
+      documentModal: false,
+      documentModalType: ''
+    })
+  }
+
   prev = () => {
     const { current } = this.state
     this.setState({
@@ -96,9 +113,9 @@ class Professional extends Component {
   }
 
   hideEditFormModal = () => {
-    const { documentFile, imageFile } = this.state
+    const { documentFile, imageFile, crbFile } = this.state
     const { dispatch, professional: { professionalDetails: { professional } } } = this.props
-    const { document, profilePicture } = professional
+    const { document, profilePicture, crbDocument } = professional
     this.setState({
       formModal: false,
       formName: ''
@@ -113,6 +130,11 @@ class Professional extends Component {
       dispatch(change('professional', 'profilePicture', imageFile))
     }else{
       dispatch(change('professional', 'profilePicture', profilePicture))
+    }
+    if(!isEmptyOrNull(crbFile)){
+      dispatch(change('professional', 'crbDocument', crbFile))
+    }else{
+      dispatch(change('professional', 'crbDocument', crbDocument))
     }
   }
 
@@ -209,14 +231,28 @@ class Professional extends Component {
     dispatch(change('professional', 'document', ''))
   }
 
-  imageRemoveHandler = file => {
+  imageRemoveHandler = () => {
     const { dispatch, formValues: { profilePicture } } = this.props
     this.setState({ imageFile: profilePicture })
     dispatch(change('professional', 'profilePicture', ''))
   }
 
+  crbRemoveHandler = () => {
+    const { dispatch, formValues: { crbDocument } } = this.props
+    this.setState({ crbFile: crbDocument })
+    dispatch(change('professional', 'crbDocument', ''))
+  }
+
+  getDocumentType = document => {
+    const extension = last(split('.', document))
+    if(equals(extension, 'pdf') || equals(extension, 'doc') || equals(extension, 'docs'))
+      return 'document'
+    else if(equals(extension, 'jpg') || equals(extension, 'jpeg') || equals(extension, 'png'))
+      return 'image'
+  }
+
   render() {
-    const { collapsed, formModal, formName, current, imageModal } = this.state
+    const { collapsed, formModal, formName, current, imageModal, documentModalType, documentModal } = this.state
     const {
       addresses,
       invalid,
@@ -260,6 +296,7 @@ class Professional extends Component {
             invalid={invalid}
             codeSent={codeSent}
             editPhoneNumber={this.editPhoneNumber}
+            imageRemoveHandler={this.imageRemoveHandler}
           /> :
           <ViewDetails
             userId={userId}
@@ -286,6 +323,12 @@ class Professional extends Component {
             hideImageModal={this.hideImageModal}
             fileRemoveHandler={this.fileRemoveHandler}
             imageRemoveHandler={this.imageRemoveHandler}
+            crbRemoveHandler={this.crbRemoveHandler}
+            documentModal={documentModal}
+            documentModalType={documentModalType}
+            showDocumentModal={this.showDocumentModal}
+            hideDocumentModal={this.hideDocumentModal}
+            getDocumentType={this.getDocumentType}
           />
         }
           

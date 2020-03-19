@@ -64,3 +64,19 @@ div.modal-image{
 .image-avatar{
     cursor: pointer;
 }
+div.pg-viewer-wrapper{
+    overflow-y: hidden;
+}
+.document-modal .ant-modal-close-icon{
+    color: #000;
+}
+div.photo-viewer-container{
+    width: fit-content !important;
+    height: 80vh !important;
+    overflow: hidden;
+}
+.photo-viewer-container img{
+    /* position: absolute !important; */
+    width: auto !important;
+    height: 100% !important;
+}

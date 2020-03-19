@@ -29,7 +29,13 @@ const Profile = ({
   hideImageModal,
   imageModal,
   fileRemoveHandler,
-  imageRemoveHandler
+  imageRemoveHandler,
+  crbRemoveHandler,
+  showDocumentModal,
+  hideDocumentModal,
+  documentModal,
+  documentModalType,
+  getDocumentType
 }) => {
   const { dateOfBirth } = professional
   return (
@@ -113,6 +119,11 @@ const Profile = ({
                           professional={professional}
                           formValues={formValues}
                           userId={userId}
+                          showDocumentModal={showDocumentModal}
+                          hideDocumentModal={hideDocumentModal}
+                          documentModal={documentModal}
+                          documentModalType={documentModalType}
+                          getDocumentType={getDocumentType}
                         />
                       }
                     </Card>
@@ -141,6 +152,7 @@ const Profile = ({
                 <ProfessionalDetailsForm
                   formValues={formValues}
                   fileRemoveHandler={fileRemoveHandler}
+                  crbRemoveHandler={crbRemoveHandler}
                 /> :
                 ''
               }

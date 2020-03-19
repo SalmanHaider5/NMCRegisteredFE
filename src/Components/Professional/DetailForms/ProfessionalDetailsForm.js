@@ -3,8 +3,8 @@ import { Field } from 'redux-form'
 import { TextField, SelectField, MultilineTextField, FileInput } from '../../../utils/custom-components'
 import { isRequired, QUALIFICATION_OPTIONS as qualifications, max35Hours, max200Words, isValidNMC } from '../../../constants'
 
-const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues }) => {
-  const { document } = formValues
+const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues, crbRemoveHandler }) => {
+  const { document, crbDocument } = formValues
   return (
     <div>
       <Field
@@ -26,6 +26,17 @@ const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues }) => {
         validate={[isRequired]}
       />
       <Field
+        name="crbDocument"
+        component={FileInput}
+        label="CRB"
+        acceptedFileTypes=".doc,.docx,.pdf,.jpg,.jpeg,.png"
+        type={'card'}
+        fileAdded={crbDocument}
+        onRemove={crbRemoveHandler}
+        specialText={".doc,.docx,.pdf,.jpg,.jpeg,.png allowed"}
+        removeIcon={true}
+      />
+      <Field
         name="cpdHours"
         component={TextField}
         label={'CPD Hours'}
@@ -39,6 +50,7 @@ const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues }) => {
         name="document"
         component={FileInput}
         label="Resume/CV"
+        acceptedFileTypes=".doc,.docx,.pdf"
         type={'card'}
         fileAdded={document}
         onRemove={fileRemoveHandler}
