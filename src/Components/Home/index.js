@@ -231,7 +231,7 @@ class Home extends Component {
                                 <Button className='register-btn contact-btn' size='large'>Send Message</Button>
                               </div>
                               <div className='contact-span'>
-                                <span className='form-span'>this is new text</span>
+                                {/* <span className='form-span'>this is new text</span> */}
                               </div>
                             </form>
                           </div>
