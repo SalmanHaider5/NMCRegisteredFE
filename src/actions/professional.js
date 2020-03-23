@@ -119,9 +119,9 @@ export const getProfessionalDetails = userId => dispatch => {
                 type: types.FETCH_PROFESSIONAL_DETAILS_SUCCESS,
                 payload: professional
             })
-        }else{
+        }else if(code === 'error'){
             dispatch({
-                type: types.FETCH_PROFESSIONAL_DETAILS_FAILURE
+                type: types.ACCOUNT_LOGOUT_REQUEST
             })
         }
     })

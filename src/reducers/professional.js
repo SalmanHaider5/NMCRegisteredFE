@@ -89,11 +89,11 @@ const professional = (state=initState, action) => {
                 professionalDetails: payload
             }
 
+        case actions.FETCH_PROFESSIONAL_DETAILS_FAILURE:
         case actions.PROFESSIONAL_PROFILE_UPDATE_FAILURE:
         case actions.ADD_PROFESSIONAL_PHONE_FAILURE:
         case actions.ADD_PROFESSIONAL_DETAILS_FAILURE:
         case actions.VERIFY_PROFESSIONAL_PHONE_FAILURE:
-        case actions.FETCH_PROFESSIONAL_DETAILS_FAILURE:
             return{
                 ...state,
                 isLoading: false

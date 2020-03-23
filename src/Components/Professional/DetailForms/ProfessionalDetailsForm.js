@@ -28,7 +28,8 @@ const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues, crbRemoveHandl
       <Field
         name="crbDocument"
         component={FileInput}
-        label="CRB"
+        label="DBS"
+        hintText={'Upload DBS Document'}
         acceptedFileTypes=".doc,.docx,.pdf,.jpg,.jpeg,.png"
         type={'card'}
         fileAdded={crbDocument}
@@ -49,10 +50,22 @@ const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues, crbRemoveHandl
         name="document"
         component={FileInput}
         label="Resume/CV"
+        hintText={'Upload Document'}
         acceptedFileTypes=".doc,.docx,.pdf"
         type={'card'}
         fileAdded={document}
         onRemove={fileRemoveHandler}
+        removeIcon={true}
+      />
+      <Field
+        name="profilePicture"
+        component={FileInput}
+        label="Profile ID"
+        hintText={'Upload Image'}
+        acceptedFileTypes=".jpg,.jpeg,.png"
+        type={'picture'}
+        fileAdded={crbDocument}
+        onRemove={crbRemoveHandler}
         removeIcon={true}
       />
       <Field

@@ -4,12 +4,13 @@ import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import { Icon } from 'antd'
 import moment from 'moment'
 import { trim, split, prop, propEq, concat, find, omit, dissoc, type, last, equals } from 'ramda'
-import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfile, updateSecurityDetails, changePhoneRequest } from '../../actions'
+import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfile, updateSecurityDetails, changePhoneRequest, clearAddresses } from '../../actions'
 import { GENDER_OPTIONS as genders, QUALIFICATION_OPTIONS as qualifications, DATE_FORMAT as dateFormat } from '../../constants'
 import { getProfessionalFormValues, isEmptyOrNull } from '../../utils/helpers'
 import Header from '../Header'
 import AddDetails from './AddDetails'
 import ViewDetails from './ViewDetails'
+import { Redirect } from 'react-router-dom'
 
 class Professional extends Component {
   constructor(props) {
@@ -158,6 +159,12 @@ class Professional extends Component {
     }
   }
 
+  changePostalCode = () => {
+    const { dispatch } = this.props
+    dispatch(change('professional', 'postCode', ''))
+    dispatch(clearAddresses())
+  }
+
   getProfileStatus = id => {
     return prop('name', find(propEq('id', id))(genders))
   }
@@ -267,8 +274,17 @@ class Professional extends Component {
         params: {
           userId
         }
+      },
+      application: {
+        authentication: {
+          auth
+        }
       }
     } = this.props
+
+    if(!auth){
+      return <Redirect to="/" />
+    }
   
     return (
       <div>
@@ -299,6 +315,7 @@ class Professional extends Component {
             fileRemoveHandler={this.fileRemoveHandler}
             imageRemoveHandler={this.imageRemoveHandler}
             crbRemoveHandler={this.crbRemoveHandler}
+            changePostalCode={this.changePostalCode}
           /> :
           <ViewDetails
             userId={userId}

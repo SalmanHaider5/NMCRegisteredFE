@@ -40,7 +40,7 @@ const ViewDetails = ({
   const { Sider, Footer, Content } = Layout
   return (
     <Layout style={{ minHeight: '90vh' }}>
-      <Sider
+      <Sider style={{ marginTop: '-4px' }}
         collapsible
         collapsed={collapsed}
         onCollapse={onCollapse}
@@ -74,7 +74,7 @@ const ViewDetails = ({
           </Menu.Item>
         </Menu>
       </Sider>
-      <Layout>
+      <Layout className='inner-body-wrapper'>
         <Content>
           <Switch>
             <Route path="/professional/:userId/timesheet" component={Timesheet} />

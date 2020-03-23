@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import { reduxForm, getFormValues, change, reset, initialize } from 'redux-form'
 import { isEmpty, length, find, propEq, map, range, head, last, nth, prop, subtract, omit, filter, isNil, split, equals } from 'ramda'
-import { Row, Col, Button, Result, Icon, Divider, Drawer, Spin } from 'antd'
+import { Row, Col, Button, Result, Icon, Divider, Drawer, Spin, Tooltip } from 'antd'
 import { getTimesheetValues, isEmptyOrNull } from '../../../../utils/helpers'
 import { ModalBox } from '../../../../utils/custom-components'
 import { addDailySchedule, addTimesheet, resetScheduleForm, removeTimesheet, fetchTimesheets, changeShiftStatus, changeTimesheetShift } from '../../../../actions'
@@ -80,9 +80,23 @@ class Timesheet extends Component {
     })
   }
 
+  skipCurrentWeek = () => {
+    const { week } = this.state
+    this.setState({ week: week + 1 }, () => {
+      this.showScheduleForm()
+    })
+  }
+
+  resetWeek = () => {
+    this.setState({ week: 1 }, () => {
+      this.showScheduleForm()
+    })
+  }
+
   showScheduleForm = () => {
     const { dispatch, timesheet: { timesheets } } = this.props
     let { week } = this.state
+    console.log(week, 'Week')
     dispatch(resetScheduleForm())
     moment.updateLocale('en', {
       week: {
@@ -94,7 +108,7 @@ class Timesheet extends Component {
     const isLastDay = moment.utc(weekStart).add(6, 'days').isSameOrBefore(moment.utc())
     if(weekFound || isLastDay){
       this.setState({
-        week: week+1
+        week: week + 1
       }, () => {
         this.showScheduleForm()
       })
@@ -106,8 +120,7 @@ class Timesheet extends Component {
       }, days)
       this.setState({
         scheduleForm: true,
-        weeklyDates,
-        week: 1
+        weeklyDates
       })
     }
   }
@@ -207,7 +220,10 @@ class Timesheet extends Component {
     values.timesheet = timesheetValues
     values.singleTimesheet = scheduleValues
     dispatch(addTimesheet(userId, values))
-    this.setState({ scheduleForm: false })
+    this.setState({
+      scheduleForm: false,
+      week: 1
+    })
   }
 
   getSpecificDate = day => {
@@ -258,7 +274,7 @@ class Timesheet extends Component {
   }
 
   render() {
-    const { visible, selectedDay, selectedShift, scheduleForm, customizedShiftError, weeklyDates, specificDate, editShiftModal, timesheet } = this.state
+    const { visible, selectedDay, selectedShift, scheduleForm, customizedShiftError, weeklyDates, specificDate, editShiftModal, timesheet, week } = this.state
     const { timesheet: { timesheets, isLoading } } = this.props
     return (
       <Spin spinning={isLoading} tip="Loading...">
@@ -273,8 +289,20 @@ class Timesheet extends Component {
                 <>
                   <Row gutter={16} className="weekly-row">
                     <Divider>
-                      {`${head(weeklyDates)}-${last(weeklyDates)}`}
+                      {`${head(weeklyDates)}-${last(weeklyDates)}`} 
                     </Divider>
+                    <Col span={24}>
+                      <Tooltip title="Skip this week">
+                        <Button type="primary" className="skip-button" disabled={week > 4} onClick={this.skipCurrentWeek}>
+                          Skip <Icon type="right" />
+                        </Button>
+                      </Tooltip>
+                      <Tooltip title="Reset Week">
+                        <Button type="primary" shape="circle" className="prev-button" onClick={this.resetWeek}>
+                        <Icon type="undo" />
+                        </Button>
+                      </Tooltip>
+                    </Col>
                     <WeekdaySelectBox
                       days={days}
                       showDrawer={this.showDrawer}

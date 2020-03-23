@@ -60,5 +60,6 @@ export const UPDATE_SHIFT_REQUEST                 = 'UPDATE_SHIFT_REQUEST'
 export const UPDATE_SHIFT_SUCCESS                 = 'UPDATE_SHIFT_SUCSESS'
 export const UPDATE_SHIFT_FAILURE                 = 'UPDATE_SHIFT_FAILURE'
 export const PHONE_NUMBER_CHANGE_REQUEST          = 'PHONE_NUMBER_CHANGE_REQUEST'
+export const POST_CODE_CHANGE_REQUEST             = 'POST_CODE_CHANGE_REQUEST'
 
 

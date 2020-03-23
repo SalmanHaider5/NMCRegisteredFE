@@ -28,7 +28,8 @@ const AddDetails = ({
   editPhoneNumber,
   imageRemoveHandler,
   fileRemoveHandler,
-  crbRemoveHandler
+  crbRemoveHandler,
+  changePostalCode
 }) => {
   const { phone } = professional
   const isPhoneAdded = !isEmptyOrNull(phone) && phoneVerified ? true : false
@@ -43,6 +44,8 @@ const AddDetails = ({
       findAddresses={findAddresses}
       addressSelectHandler={addressSelectHandler}
       addresses={addresses}
+      changePostalCode={changePostalCode}
+      addForm={true}
     />,
     <ProfessionalDetailsForm
       formValues={formValues}

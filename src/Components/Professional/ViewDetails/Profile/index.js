@@ -47,7 +47,7 @@ const Profile = ({
           </div>
           <div className="profile-view">
             <Row>
-              <Col span={10} offset={1}>
+              <Col span={10}>
                 <Card
                   title={
                     <span>
@@ -72,14 +72,11 @@ const Profile = ({
                       professional={professional}
                       getProfileStatus={getProfileStatus}
                       phoneVerified={phoneVerified}
-                      imageModal={imageModal}
-                      showImageModal={showImageModal}
-                      hideImageModal={hideImageModal}
                     />
                   }
                 </Card>
               </Col>
-              <Col span={14} offset={1}>
+              <Col span={14}>
                 <Card
                   title={
                     <span>
@@ -99,36 +96,39 @@ const Profile = ({
                     />
                   }
                 </Card>
-                <Row>
-                  <Col span={24}>
-                    <Card
-                      title={
-                        <span>
-                          <Icon type="pencil" />
-                          Professional Details
-                        </span>
-                      }
-                      extra={
-                        <Button type="link" onClick={() => showEditFormModal("Professional")}>
-                          <Icon type="edit" />
-                        </Button>
-                      }
-                    >
-                      {
-                        <ProfessionalDetails
-                          professional={professional}
-                          formValues={formValues}
-                          userId={userId}
-                          showDocumentModal={showDocumentModal}
-                          hideDocumentModal={hideDocumentModal}
-                          documentModal={documentModal}
-                          documentModalType={documentModalType}
-                          getDocumentType={getDocumentType}
-                        />
-                      }
-                    </Card>
-                  </Col>
-                </Row>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24} className='pro-card'>
+                <Card
+                  title={
+                    <span>
+                      <Icon type="pencil" />
+                      Professional Details
+                    </span>
+                  }
+                  extra={
+                    <Button type="link" onClick={() => showEditFormModal("Professional")}>
+                      <Icon type="edit" />
+                    </Button>
+                  }
+                >
+                  {
+                    <ProfessionalDetails
+                      professional={professional}
+                      formValues={formValues}
+                      userId={userId}
+                      showDocumentModal={showDocumentModal}
+                      hideDocumentModal={hideDocumentModal}
+                      documentModal={documentModal}
+                      documentModalType={documentModalType}
+                      getDocumentType={getDocumentType}
+                      imageModal={imageModal}
+                      showImageModal={showImageModal}
+                      hideImageModal={hideImageModal}
+                    />
+                  }
+                </Card>
               </Col>
             </Row>
             <ModalBox

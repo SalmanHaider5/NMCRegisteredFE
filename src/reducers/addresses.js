@@ -15,6 +15,11 @@ const addresses = (state=initState, action) => {
                 ...state,
                 isLoading: true
             }
+        case actions.POST_CODE_CHANGE_REQUEST:
+            return{
+                ...state,
+                addresses: []
+            }
         case actions.FETCH_POST_CODES_ADDRESSES_SUCCESS:
             const addresses = pathOr([], ['addresses'], payload)
             if(isEmpty(addresses))

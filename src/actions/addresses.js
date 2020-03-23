@@ -20,3 +20,8 @@ export const getAdresses = postCode => dispatch => {
         })
     })
 }
+
+
+export const clearAddresses = () => dispatch => {
+    dispatch({ type: types.POST_CODE_CHANGE_REQUEST })
+}

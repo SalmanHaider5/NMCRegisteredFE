@@ -40,7 +40,7 @@
     position: absolute;
     right: 0;
     font-weight: 500;
-    opacity: 0.5;
+    opacity: 0.8;
 }
 .profile-view .ant-avatar{
     margin: 0 auto;
@@ -63,6 +63,9 @@ div.modal-image{
 }
 .image-avatar{
     cursor: pointer;
+}
+.pro-card .ant-card{
+    width: 97%;
 }
 div.pg-viewer-wrapper{
     overflow-y: hidden;

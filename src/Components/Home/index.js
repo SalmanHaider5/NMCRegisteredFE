@@ -47,13 +47,14 @@ class Home extends Component {
   }
 
   hideLoginModal = () => {
+    const { dispatch } = this.props
+    dispatch(reset('users'))
     this.setState({ loginModal: false })
   }
 
   login = () => {
     const { formValues: { login }, dispatch } = this.props
     dispatch(userLogin(login))
-    dispatch(reset('users'))
   }
 
   showForgetPasswordForm = () => {

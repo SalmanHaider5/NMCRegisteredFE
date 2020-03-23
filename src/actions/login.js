@@ -1,3 +1,4 @@
+import { reset, change } from 'redux-form'
 import { SERVER_URL as url } from '../constants'
 import { showToast } from '../utils/helpers'
 import * as types from './'
@@ -14,10 +15,11 @@ export const userLogin = formValues => dispatch => {
     })
     .then(res => res.json())
     .then(response => {
-        console.log(response)
         const { code, response: { title, message }, role } = response
         showToast(title, message, code)
+        dispatch(change('users', 'login.password', ''))
         if(code === 'success'){
+            dispatch(reset('users'))
             dispatch({
                 type: types.LOGIN_SUCCESS,
                 payload: response

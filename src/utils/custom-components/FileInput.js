@@ -13,6 +13,7 @@ export const FileInput = ({
   isRequired,
   fileAdded,
   specialText,
+  hintText,
   type,
   onRemove,
   acceptedFileTypes,
@@ -57,7 +58,7 @@ export const FileInput = ({
           {
             !isEmptyOrNull(fileAdded) ? '' :
             <Button>
-              <Icon type="upload" /> Upload Document
+              <Icon type="upload" /> {hintText}
             </Button>
           }
         </Upload>

@@ -10,7 +10,7 @@ const WorkExperience = ({ professional }) => {
       {
         isEmptyOrNull(experience) ?
           <Empty /> :
-          <Paragraph ellipsis={{ rows: 4, expandable: true }} >
+          <Paragraph ellipsis={{ rows: 4, expandable: true }} strong={true} >
             {experience}
           </Paragraph>
       }
