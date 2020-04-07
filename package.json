@@ -1,5 +1,6 @@
 {
   "name": "nightingale",
+  "homepage": "https://nmcregistered.org.uk/",
   "version": "0.1.0",
   "private": true,
   "engines": {
@@ -25,7 +26,7 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "set PORT=8080 && react-scripts start",
+    "start": "set PORT=3005 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

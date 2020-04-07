@@ -1,0 +1,85 @@
+.profile-view{
+    text-align: left;
+}
+.profile-view .ant-card{
+    width: 95%;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    margin-bottom: 30px;
+}
+.profile-view .profile-details .text-label{
+    padding-left: 0px;
+    padding-top: 10px;
+}
+.profile-view .profile-details .ant-col h1{
+    font-size: 22px;
+    margin-bottom: 0px;
+}
+.profile-view .profile-details .ant-col h1 span.ant-tag{
+    background-color: #449d44;
+    border-color: #b7eb8f;
+    color: #fff;
+}
+.profile-view .profile-details .text-label span{
+    font-weight: 500;
+    font-size: 14px;
+    color: #806b6b;
+}
+
+.profile-view i.anticon{
+    padding-right: 5px;
+    font-size: 20px;
+}
+.profile-view .profile-list .ant-list-item label{
+    font-weight: 500;
+    font-size: 14px;
+    color: #000;
+}
+
+.profile-view .profile-list .ant-list-item span.label-value{
+    position: absolute;
+    right: 0;
+    font-weight: 500;
+    opacity: 0.8;
+}
+.profile-view .ant-avatar{
+    margin: 0 auto;
+}
+.profile-view .ant-avatar i.anticon{
+    font-size: 80px;
+    padding-right: 0;
+    
+}
+.document-viewer .pdf-canvas canvas{
+    width: 100%;
+}
+.document-viewer .pg-viewer-wrapper{
+    overflow-y: hidden;
+}
+div.modal-image{
+    width: 100%;
+    height: 80vh;
+    overflow: hidden;
+}
+.image-avatar{
+    cursor: pointer;
+}
+.pro-card .ant-card{
+    width: 97%;
+}
+div.pg-viewer-wrapper{
+    overflow-y: hidden;
+}
+.document-modal .ant-modal-close-icon{
+    color: #000;
+}
+div.photo-viewer-container{
+    width: fit-content !important;
+    height: 80vh !important;
+    overflow: hidden;
+}
+.photo-viewer-container img{
+    /* position: absolute !important; */
+    width: auto !important;
+    height: 100% !important;
+}

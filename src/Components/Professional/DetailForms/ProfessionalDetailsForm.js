@@ -3,8 +3,8 @@ import { Field } from 'redux-form'
 import { TextField, SelectField, MultilineTextField, FileInput } from '../../../utils/custom-components'
 import { isRequired, QUALIFICATION_OPTIONS as qualifications, max35Hours, max200Words, isValidNMC } from '../../../constants'
 
-const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues, crbRemoveHandler }) => {
-  const { document, crbDocument } = formValues
+const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues, crbRemoveHandler, imageRemoveHandler }) => {
+  const { document, crbDocument, profilePicture } = formValues
   return (
     <div>
       <Field
@@ -60,12 +60,12 @@ const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues, crbRemoveHandl
       <Field
         name="profilePicture"
         component={FileInput}
-        label="Profile ID"
+        label="Photo ID"
         hintText={'Upload Image'}
         acceptedFileTypes=".jpg,.jpeg,.png"
         type={'picture'}
-        fileAdded={crbDocument}
-        onRemove={crbRemoveHandler}
+        fileAdded={profilePicture}
+        onRemove={imageRemoveHandler}
         removeIcon={true}
       />
       <Field

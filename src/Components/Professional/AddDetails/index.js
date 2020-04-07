@@ -38,7 +38,6 @@ const AddDetails = ({
     <PersonalDetailsForm
       addForm={true}
       formValues={formValues}
-      imageRemoveHandler={imageRemoveHandler}
     />,
     <AddressForm
       findAddresses={findAddresses}
@@ -51,6 +50,7 @@ const AddDetails = ({
       formValues={formValues}
       fileRemoveHandler={fileRemoveHandler}
       crbRemoveHandler={crbRemoveHandler}
+      imageRemoveHandler={imageRemoveHandler}
     />
   ]
   return (
