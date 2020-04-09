@@ -29,7 +29,7 @@ const ProfessionalDetails = ({
   const fileType = last(split('.', document))
   return (
     <>
-      <Col span={11}>
+      <Col xs={24} sm={24} md={24} lg={{ span: 11, offset: 0 }} xl={{ span: 11, offset: 0 }}>
         <List className="profile-list">
           <List.Item>
             <label>
@@ -54,7 +54,7 @@ const ProfessionalDetails = ({
           </List.Item>
         </List>
       </Col>
-      <Col span={11} offset={2}>
+      <Col xs={24} sm={24} md={24} lg={{ span: 11, offset: 0 }} xl={{ span: 11, offset: 2 }}>
         <List className="profile-list">
           <List.Item>
             <label>

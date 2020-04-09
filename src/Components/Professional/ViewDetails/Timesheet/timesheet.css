@@ -1,6 +1,20 @@
 body{
     /* overflow: hidden; */
 }
+
+.ant-layout-sider {
+    position: absolute;
+    z-index: +1;
+    height: 92vh;}
+  
+
+.ant-layout-sider-zero-width-trigger {
+    position: absolute;
+    top: -50px !important;
+    left: 0; }
+
+
+
 .weekly-row{
     padding-left: 20px;
     padding-right: 20px;
@@ -111,6 +125,15 @@ button.save-schedule-button {
     border-radius: 0;
     font-size: 18px;
 }
+button.save-schedule-button-mob {
+    width: 100%;
+    margin-top: 6px;
+    height: 54px;
+    border: 0;
+    border-radius: 0;
+    box-shadow: 0 0 8px rgba(0,0,0,0.5);
+    font-size: 18px;
+}
 button.skip-button,span.skip-button{
     float: left;
     left: 10px;
@@ -118,6 +141,48 @@ button.skip-button,span.skip-button{
 button.prev-button,span.prev-button{
     float: right;
     right: 15px;
+    margin-left: 2px;
+}
+.timesheet-list-add{
+    display: flex;
+    color: #fff;
+    box-shadow: 0 0 8px rgba(0,0,0,0.5);
+    background-color: #1890ff;
+    margin: 7px;
+}
+button.timesheet-btn{
+    padding: 0px;
+    border-radius: 0;
+    color: #0000007a;
+    font-size: 30px;
+    height: 54px;
+    border: 0px solid transparent;
+}
+button.shift-add-buttonlist{
+    color: #0000007a;
+    background-color: #74a274fc;
+    border-radius: 0;
+    height: 54px;
+}
+p.timesheet-list-add-p{
+    padding-top: 9px;
+    padding-left: 10px;
+    font-size: 18px;
+    display: flex;
+}
+.ant-layout-sider {
+    position: absolute ;
+    z-index: +1;
+    height: 92vh;}
+  
+
+.ant-layout-sider-zero-width-trigger {
+    position: absolute;
+    top: -50px !important;
+    left: 0; }
+
+button.shift-add-buttonlist .selected-time{
+    display: block;
 }
 button.skip-button i {
     font-weight: 500;

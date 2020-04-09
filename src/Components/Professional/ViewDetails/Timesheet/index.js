@@ -9,6 +9,7 @@ import { ModalBox } from '../../../../utils/custom-components'
 import { addDailySchedule, addTimesheet, resetScheduleForm, removeTimesheet, fetchTimesheets, changeShiftStatus, changeTimesheetShift } from '../../../../actions'
 import { TIMESHEET_DAYS as days, TIMESHEET_SHIFTS as shifts, DATE_FORMAT as dateFormat } from '../../../../constants'
 import WeekdaySelectBox from './WeekdaySelectBox'
+import WeekdaySelectBoxMobile from './WeekdaySelectBoxMobile'
 import ShiftsSelectBox from './ShiftsSelectBox'
 import SingleTimesheet from './SingleTimesheet'
 import Timesheets from './Timesheets'
@@ -123,6 +124,14 @@ class Timesheet extends Component {
         weeklyDates
       })
     }
+  }
+
+  hideScheduleForm = () => {
+    this.setState({
+      scheduleForm: false,
+      weeklyDates: []
+    })
+
   }
 
   showEditShiftModal = (timesheetId, shiftId) => {
@@ -298,11 +307,17 @@ class Timesheet extends Component {
                         </Button>
                       </Tooltip>
                       <Tooltip title="Reset Week">
+                        <Button type="primary" shape="circle" className="prev-button" onClick={this.hideScheduleForm}>
+                        <Icon type="close" />
+                        </Button>
+                      </Tooltip>
+                      <Tooltip title="Reset Week">
                         <Button type="primary" shape="circle" className="prev-button" onClick={this.resetWeek}>
                         <Icon type="undo" />
                         </Button>
                       </Tooltip>
                     </Col>
+                    <Col  xs={0} sm={0} md={0} lg={24}>
                     <WeekdaySelectBox
                       days={days}
                       showDrawer={this.showDrawer}
@@ -311,6 +326,17 @@ class Timesheet extends Component {
                       addTimesheet={this.addTimesheet}
                       getDayStatus={this.getDayStatus}
                     />
+                    </Col>
+                    <Col  xs={24} sm={24} md={24} lg={0}>
+                    <WeekdaySelectBoxMobile
+                      days={days}
+                      showDrawer={this.showDrawer}
+                      getSpecificDate={this.getSpecificDate}
+                      getScheduleByDay={this.getScheduleByDay}
+                      addTimesheet={this.addTimesheet}
+                      getDayStatus={this.getDayStatus}
+                    />
+                    </Col>
                   </Row>
                 </>:
                 ''
@@ -331,15 +357,15 @@ class Timesheet extends Component {
                   </Button>}
               /> :
               <Row gutter={16} className="timesheets-row">
-                <Col span={10}>
+                <Col xs={24} sm={24} md={24} lg={12} xl={11}>
                   <Row>
                     <Col span={24} className="timesheet">
                       <div className="timesheet-indicator">
                         <Row>
-                          <Col span={20} className="title">
+                          <Col xs={18} sm={20} md={19} span={21} className="title">
                             <Icon type="calendar" /> Add new Timesheet
                           </Col>
-                          <Col span={4} className="navigator">
+                          <Col xs={6} sm={4} md={5} span={3} className="navigator">
                             <Button
                               type="link"
                               onClick={this.showScheduleForm}
@@ -352,20 +378,34 @@ class Timesheet extends Component {
                       </div>
                     </Col>
                     {
-                    map(timesheet => {
+                    map(ts => {
                       return(
-                        <Col span={24} key={timesheet.id} className="timesheet">
+                        <Col span={24} key={ts.id} className="timesheet">
                           <Timesheets
-                            timesheet={timesheet}
+                            timesheet={ts}
                             showTimesheet={this.showTimesheet}
                           />
+                          {
+                            !isEmptyOrNull(timesheet) && equals(ts, timesheet) ?
+                            <Col xs={24} sm={24} md={24} lg={0} ><SingleTimesheet
+                              days={days}
+                              timesheet={timesheet}
+                              getTimesheetShiftByDay={this.getTimesheetShiftByDay}
+                              deleteTimesheet={this.deleteTimesheet}
+                              changeShiftAvailability={this.changeShiftAvailability}
+                              showEditShiftModal={this.showEditShiftModal}
+                              getDayStatus={this.getDayStatus}
+                            />
+                            </Col>:
+                            ''
+                          }
                         </Col>
                       )
                     }, timesheets)
                   }
                   </Row>
                 </Col>
-                <Col span={14}>
+                <Col xs={0} sm={0} md={0} lg={12} xl={{ span: 12, offset: 1 }}>
                   {
                     isEmptyOrNull(timesheet) ?
                     '' :
