@@ -2,6 +2,7 @@ import React from 'react'
 import { Row, Col, Card, Icon, Button } from 'antd'
 import PersonalDetailsForm from '../Forms/PersonalDetailsForm'
 import ProfessionalDetailsForm from '../Forms/ProfessionalDetailsForm'
+// import PaymentForm from '../Forms/PaymentForm'
 
 import './addDetails.css'
 
