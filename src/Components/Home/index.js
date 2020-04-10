@@ -140,10 +140,10 @@ class Home extends Component {
           <header className='header'>
               <div className='header-inner'>
                   <Row>
-                    <Col xs={4} sm={4} md={4} lg={4} xl={4}>
+                    <Col xs={8} sm={4} md={4} lg={4} xl={4}>
                       <p className='logo'>LOGO</p>
                     </Col>
-                    <Col xs={16} sm={16} md={16} lg={16} xl={16}></Col>
+                    <Col xs={12} sm={16} md={16} lg={16} xl={16}></Col>
                     <Col xs={4} sm={4} md={4} lg={4} xl={4}>
                       <Button ghost onClick={this.showLoginModal}>
                         <Icon type="login" /> Login

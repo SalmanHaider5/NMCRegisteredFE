@@ -49,8 +49,8 @@ const SingleTimesheet = ({
                 description={<span>{prop('date', schedule)}</span>}
                 
               />
-              <div style={{width: '185px'}}>
-                <h4 >
+              <div className='single-timesheet-switch'>
+                <h4 className='timesheet-card-h4' >
                   <Switch
                     id={{ id: schedule.id, timesheet: timesheet.id}}
                     defaultChecked={false}
@@ -59,11 +59,11 @@ const SingleTimesheet = ({
                     onChange={(checked) => changeShiftAvailability(checked, schedule.id, timesheet.id)}
                   />
                 </h4>
-                <span style={{fontSize: '14px', color: 'rgba(0, 0, 0, 0.65)'}}>
+                <span className='timesheet-available'>
                   {schedule.status ? 'Available' : 'Not Available'}
                 </span>
               </div>
-              <div style={{textAlign: 'center', paddingRight: '50px'}}>
+              <div className='single-timesheet-card-shift'>
                 <h4 style={{fontSize: '14px', color: 'rgba(0, 0, 0, 0.65)'}}>
                   { isNil(schedule) ? '-' : prop('name', schedule) }
                 </h4>

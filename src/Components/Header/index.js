@@ -6,10 +6,10 @@ const Header = ({ logout, loggedIn = true }) => {
     <div className='headers'>
       <div className='header-body'>
           <Row>
-            <Col xs={4} sm={4} md={4} lg={4} xl={4}>
+            <Col xs={8} sm={4} md={4} lg={4} xl={4}>
               <p className='logo'>LOGO</p>
             </Col>
-            <Col xs={15} sm={16} md={16} lg={16} xl={16}>
+            <Col xs={11} sm={16} md={16} lg={16} xl={16}>
             </Col>
             <Col xs={5} sm={4} md={4} lg={4} xl={4}>
               <Button

@@ -357,7 +357,7 @@ class Timesheet extends Component {
                   </Button>}
               /> :
               <Row gutter={16} className="timesheets-row">
-                <Col xs={24} sm={24} md={24} lg={12} xl={11}>
+                <Col xs={24} sm={24} md={24} lg={10} xl={11}>
                   <Row>
                     <Col span={24} className="timesheet">
                       <div className="timesheet-indicator">
@@ -405,7 +405,7 @@ class Timesheet extends Component {
                   }
                   </Row>
                 </Col>
-                <Col xs={0} sm={0} md={0} lg={12} xl={{ span: 12, offset: 1 }}>
+                <Col xs={0} sm={0} md={0} lg={14} xl={{ span: 12, offset: 1 }}>
                   {
                     isEmptyOrNull(timesheet) ?
                     '' :

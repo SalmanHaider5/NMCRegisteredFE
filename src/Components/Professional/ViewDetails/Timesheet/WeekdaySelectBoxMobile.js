@@ -1,6 +1,6 @@
 import React from 'react'
 import { map, isNil } from 'ramda'
-import { Row, Col, Card, Button, Icon } from 'antd'
+import { Row, Col, Button, Icon } from 'antd'
 
 const WeekdaySelectBoxMobile = ({ days, showDrawer, getScheduleByDay, addTimesheet, getDayStatus }) => {
   return(
@@ -25,7 +25,7 @@ const WeekdaySelectBoxMobile = ({ days, showDrawer, getScheduleByDay, addTimeshe
                       type={getDayStatus(day) ? "eye-invisible" : "upload"}
                     /> :
                     <span className="selected-time">
-                      <h5>{daySchedule.startTime} to {daySchedule.endTime}</h5>
+                      <h5 style={{fontSize: '10px'}}>{daySchedule.startTime} </h5><h5>-</h5><h5>{daySchedule.endTime}</h5>
                     </span>
                   }
                 </Button>

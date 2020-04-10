@@ -41,7 +41,7 @@ const ViewDetails = ({
   return (
     <Layout style={{ minHeight: '90vh' }}>
       <Sider style={{ marginTop: '-4px' }}
-        breakpoint="lg"
+        breakpoint="xl"
         collapsedWidth="0"
         onBreakpoint={broken => {
           console.log(broken);

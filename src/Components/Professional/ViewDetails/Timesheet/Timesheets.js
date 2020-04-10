@@ -8,10 +8,10 @@ const Timesheets = ({ timesheet, showTimesheet }) => {
   return (
     <div className="timesheet-indicator">
       <Row>
-        <Col xs={18} sm={20} md={19} span={21} span={20} className="title">
+        <Col xs={18} sm={20} md={19} span={21} className="title">
           <Icon type="calendar" /> {`${moment(startingDay).format(dateFormat)} - ${moment(endingDay).format(dateFormat)}`}
         </Col>
-        <Col xs={6} sm={4} md={5} span={3} span={4} className="navigator">
+        <Col xs={6} sm={4} md={5} span={3} className="navigator">
           <Button type="link" onClick={() => showTimesheet(timesheet)}>
             <Icon type="eye" />
           </Button>
