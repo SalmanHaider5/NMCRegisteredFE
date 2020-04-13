@@ -46,7 +46,7 @@ const AddressForm = ({
             size="large"
             options={addresses}
             hintText={'Address'}
-            onBlur={addressSelectHandler}
+            onChange={addressSelectHandler}
           />
           <Field
             name="address"

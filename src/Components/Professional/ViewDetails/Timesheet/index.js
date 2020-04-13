@@ -318,24 +318,24 @@ class Timesheet extends Component {
                       </Tooltip>
                     </Col>
                     <Col  xs={0} sm={0} md={0} lg={24}>
-                    <WeekdaySelectBox
-                      days={days}
-                      showDrawer={this.showDrawer}
-                      getSpecificDate={this.getSpecificDate}
-                      getScheduleByDay={this.getScheduleByDay}
-                      addTimesheet={this.addTimesheet}
-                      getDayStatus={this.getDayStatus}
-                    />
+                      <WeekdaySelectBox
+                        days={days}
+                        showDrawer={this.showDrawer}
+                        getSpecificDate={this.getSpecificDate}
+                        getScheduleByDay={this.getScheduleByDay}
+                        addTimesheet={this.addTimesheet}
+                        getDayStatus={this.getDayStatus}
+                      />
                     </Col>
                     <Col  xs={24} sm={24} md={24} lg={0}>
-                    <WeekdaySelectBoxMobile
-                      days={days}
-                      showDrawer={this.showDrawer}
-                      getSpecificDate={this.getSpecificDate}
-                      getScheduleByDay={this.getScheduleByDay}
-                      addTimesheet={this.addTimesheet}
-                      getDayStatus={this.getDayStatus}
-                    />
+                      <WeekdaySelectBoxMobile
+                        days={days}
+                        showDrawer={this.showDrawer}
+                        getSpecificDate={this.getSpecificDate}
+                        getScheduleByDay={this.getScheduleByDay}
+                        addTimesheet={this.addTimesheet}
+                        getDayStatus={this.getDayStatus}
+                      />
                     </Col>
                   </Row>
                 </>:

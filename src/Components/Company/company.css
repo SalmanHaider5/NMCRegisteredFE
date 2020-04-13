@@ -105,8 +105,32 @@ div.braintree-form__hosted-field{
     border-radius: 5px;
     background: #fff;
 }
-div.payment-container div.ant-radio-group{
+div.payment-container {
+    min-height: 200px;
+}
+.form-actions span button.skip-btn{
+    float: right;
+    right: 20px;
+}
+.error-alert{
+    width: 95%;
+    margin: 0 auto;
     position: relative;
-    left: 20px;
-    bottom: 20px;
+    top: 15px;
+}
+.professionals-list{
+    width: 90%;
+    margin: 0 auto;
+}
+.unpaid-container{
+    opacity: 0.3;
+}
+div.professionals-list div.ant-table div.ant-table-body{
+    margin: 0;
+}
+div.professionals-list table tbody{
+    background-color: #fff;
+}
+div.professionals-list .ant-table-title{
+    background-color: #b2aeae;
 }

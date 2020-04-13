@@ -198,7 +198,6 @@ export const updateSecurityDetails = (userId, values) => dispatch => {
         showToast(title, message, code)
         if(code === 'success'){
             response.professional = values
-            console.log(response)
             dispatch(change('professional', 'changePassword', changePassword))
             dispatch({
                 type: types.PROFESSIONAL_SECURITY_UPDATE_SUCCESS,

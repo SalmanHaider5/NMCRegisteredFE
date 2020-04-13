@@ -8,7 +8,10 @@ export const isPasswordMatched = (value, form) => {
   if(has('signup', form)){
     password = path(['signup', 'password'], form)
   }else{
-    password = prop('password', form)
+    if(has('password', form.changePassword))
+      password = prop('password', form.changePassword)
+    else
+      password = prop('newPassword', form.changePassword)
   }
   return equals(value, password) ? undefined : `Password didn't match`
 }

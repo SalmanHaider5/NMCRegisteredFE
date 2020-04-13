@@ -4,7 +4,7 @@ import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import { Icon } from 'antd'
 import moment from 'moment'
 import { trim, split, prop, propEq, concat, find, omit, dissoc, type, last, equals } from 'ramda'
-import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfile, updateSecurityDetails, changePhoneRequest, clearAddresses } from '../../actions'
+import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfile, updateSecurityDetails, changePhoneRequest, clearAddresses, contactUs } from '../../actions'
 import { GENDER_OPTIONS as genders, QUALIFICATION_OPTIONS as qualifications, DATE_FORMAT as dateFormat } from '../../constants'
 import { getProfessionalFormValues, isEmptyOrNull } from '../../utils/helpers'
 import Header from '../Header'
@@ -174,9 +174,9 @@ class Professional extends Component {
     dispatch(getAdresses(trim(postCode)))
   }
 
-  addressSelectHandler = () => {
-    const { dispatch, formValues: { addressId }, addresses: { addresses } } = this.props
-    if(!isEmptyOrNull(addresses) && !isEmptyOrNull(addressId)){
+  addressSelectHandler = addressId => {
+    const { dispatch, addresses: { addresses } } = this.props
+    if(!isEmptyOrNull(addressId)){
       const address = split(',', prop('name', find(propEq('id', addressId))(addresses)))
       dispatch(change('professional', 'address', concat(address[0], address[1])))
       dispatch(change('professional', 'city', address[5]))
@@ -258,6 +258,13 @@ class Professional extends Component {
       return 'image'
   }
 
+  sendMessage = () => {
+    const { dispatch, formValues: { contactForm } } = this.props
+    const { subject } = contactForm
+    contactForm.subject = `${subject} [Contact Form | Professional]`
+    dispatch(contactUs(contactForm))
+  }
+
   render() {
     const { collapsed, formModal, formName, current, imageModal, documentModalType, documentModal } = this.state
     const {
@@ -335,19 +342,20 @@ class Professional extends Component {
             invalid={invalid}
             updateSecurityandLoginDetails={this.updateSecurityandLoginDetails}
             formValues={formValues}
-            addTimesheet={this.addTimesheet}
             phoneVerified={phoneVerified}
             imageModal={imageModal}
+            documentModal={documentModal}
+            documentModalType={documentModalType}
+            addTimesheet={this.addTimesheet}
             showImageModal={this.showImageModal}
             hideImageModal={this.hideImageModal}
             fileRemoveHandler={this.fileRemoveHandler}
             imageRemoveHandler={this.imageRemoveHandler}
             crbRemoveHandler={this.crbRemoveHandler}
-            documentModal={documentModal}
-            documentModalType={documentModalType}
             showDocumentModal={this.showDocumentModal}
             hideDocumentModal={this.hideDocumentModal}
             getDocumentType={this.getDocumentType}
+            sendMessage={this.sendMessage}
           />
         }
           

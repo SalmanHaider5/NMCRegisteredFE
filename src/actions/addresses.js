@@ -4,7 +4,7 @@ import * as types from './'
 
 export const getAdresses = postCode => dispatch => {
     dispatch({ type: types.FETCH_POST_CODES_ADDRESSES_REQUEST })
-    const endpoint = `${url}/${postCode}?api-key=${key}`
+    const endpoint = `${url}find/${postCode}?api-key=${key}`
     fetch(endpoint)
     .then(res => res.json())
     .then(data => {

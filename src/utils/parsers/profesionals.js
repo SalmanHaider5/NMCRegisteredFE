@@ -15,6 +15,16 @@ const getChangePasswordFormValues = twoFactorAuthentication => {
   }
 }
 
+const getContactFormValues = response => {
+  return {
+    name: response.fullName,
+    email: response.email,
+    phone: response.phone,
+    subject: '',
+    message: ''
+  }
+}
+
 export const getProfessionalData = response => {
   return {
     profilePicture: pathOr('', ['profilePicture'], response),
@@ -35,6 +45,7 @@ export const getProfessionalData = response => {
     distance: pathOr(0, ['distance'], response),
     qualification: pathOr('', ['qualification'], response),
     changePassword: getChangePasswordFormValues(prop('twoFactorAuthentication', response)),
+    contactForm: getContactFormValues(response),
     crbDocument: pathOr('', ['crbDocument'], response),
     cpdHours: pathOr('', ['cpdHours'], response),
     experience: pathOr('', ['experience'], response),

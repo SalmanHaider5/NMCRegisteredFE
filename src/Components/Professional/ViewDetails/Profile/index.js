@@ -134,7 +134,7 @@ const Profile = ({
             <ModalBox
               title={`Edit ${formName} Details`}
               visible={formModal}
-              size={formName === 'Experience' ? 500 : 800}
+              size={formName === 'Experience' ? 500 : 850}
               content={
                 formName === 'Personal' ?
                 <PersonalDetailsForm

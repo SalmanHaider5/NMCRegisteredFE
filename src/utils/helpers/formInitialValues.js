@@ -21,6 +21,24 @@ export const getResetPasswordFormValues = () => {
         confirmPassword: ''
     }
 }
+const changeCompanyPassword = {
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+}
+
+const contactForm = {
+    name: '',
+    email: '',
+    phone: '',
+    subject: '',
+    message: ''
+}
+const searchForm = {
+    skill: '',
+    searchDate: '',
+    shift: ''
+} 
 
 export const getCompanyFormValues = () => {
     return {
@@ -39,7 +57,10 @@ export const getCompanyFormValues = () => {
         charity: '',
         subsidiary: false,
         subsidiaryName: '',
-        subsidiaryAddress: ''
+        subsidiaryAddress: '',
+        changePassword: changeCompanyPassword,
+        contactForm,
+        searchForm
     }
 }
 
@@ -63,7 +84,8 @@ export const getProfessionalFormValues = () => {
         nmcPin: '',
         hasTransport: false,
         experience: '',
-        changePassword
+        changePassword,
+        contactForm
     }
 }
 

@@ -3,57 +3,79 @@ import { List, Tag, Icon } from 'antd'
 import moment from 'moment'
 import { DATE_FORMAT as dateFormat } from '../../../../../constants'
 
-const PersonalDetails = ({ professional, phoneVerified }) => {
+const PersonalDetails = ({ company }) => {
   const {
-    fullName,
+    firstName,
+    lastName,
     email,
     isVerified,
-    dateOfBirth,
-    createdAt,
-    phone
-  } = professional
+    organization,
+    tradingName,
+    phone,
+    registration,
+    website,
+    createdAt
+  } = company
   
   return (
     <List className="profile-list">
       <List.Item>
         <label>
           <Icon type="user" />
-          Full Name
+          Name
         </label>
-        <span className="label-value">{fullName}</span>
-      </List.Item>
-      <List.Item>
-        <label>
-          <Icon type="api" />
-          Gender
-        </label>
-        <span className="label-value">{professional.status}</span>
+        <span className="label-value">{firstName} {lastName}</span>
       </List.Item>
       <List.Item>
         <label>
           <Icon type="mail" />
             Email <Tag color={isVerified ? `green` : `red`}>
-            {isVerified ? `Verified` : `Not Verified`}
-          </Tag>
+              {isVerified ? `Verified` : `Not Verified`}
+            </Tag>
         </label>
         <span className="label-value">{email}</span>
       </List.Item>
       <List.Item>
         <label>
           <Icon type="phone" />
-          Phone <Tag color={phoneVerified ? `green` : `red`}>
-            {phoneVerified ? `Verified` : `Not Verified`}
-          </Tag>
+          Phone
         </label>
         <span className="label-value">{phone}</span>
       </List.Item>
       <List.Item>
         <label>
           <Icon type="shop" />
-          Date of Birth
+          Organization
         </label>
         <span className="label-value">
-          {moment(dateOfBirth).format(dateFormat)}
+          {organization}
+        </span>
+      </List.Item>
+      <List.Item>
+        <label>
+          <Icon type="trademark" />
+          Trading Name
+        </label>
+        <span className="label-value">
+          {tradingName}
+        </span>
+      </List.Item>
+      <List.Item>
+        <label>
+          <Icon type="barcode" />
+          Resgistration No.
+        </label>
+        <span className="label-value">
+          {registration}
+        </span>
+      </List.Item>
+      <List.Item>
+        <label>
+          <Icon type="link" />
+          Website
+        </label>
+        <span className="label-value">
+          {website}
         </span>
       </List.Item>
       <List.Item>

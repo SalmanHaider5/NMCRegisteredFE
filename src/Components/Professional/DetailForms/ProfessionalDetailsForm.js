@@ -13,6 +13,7 @@ const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues, crbRemoveHandl
         label={'NMC Pin'}
         size={'large'}
         type="text"
+        specialText={`NMC Pin is required to verify professional's profile by companies`}
         validate={[isRequired, isValidNMC]}
         tooltipPlacement={'topRight'}
       />

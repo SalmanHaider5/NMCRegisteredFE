@@ -16,7 +16,7 @@ const ProfessionalDetailsForm = ({
   return (
     <Spin spinning={isLoading} tip="Loading...">
       <Field
-				name="postCode"
+				name="postalCode"
 				component={ButtonTextField}
 				enterButton={'Find Address'}
 				onSearch={findAddresses}
@@ -33,20 +33,13 @@ const ProfessionalDetailsForm = ({
         options={addresses}
         size={`large`}
         hintText={'Address'}
-        onBlur={addressSelectHandler}
+        onChange={addressSelectHandler}
         validate={[isRequired]}
       />
       <Field
-        name="businessAdressLineOne"
+        name="address"
         component={TextField}
-        label={'Adress Line 1'}
-        size={'large'}
-        type="text"
-      />
-      <Field
-        name="businessAdressLineTwo"
-        component={TextField}
-        label={'Address Line 2'}
+        label={'Adress'}
         size={'large'}
         type="text"
       />

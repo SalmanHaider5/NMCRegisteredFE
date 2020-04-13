@@ -2,42 +2,29 @@ import React from 'react'
 import { Card, Icon, Button, Row, Col, Spin } from 'antd'
 import { ModalBox } from '../../../../utils/custom-components'
 import PersonalDetails from './PersonalDetails/'
-import AddressDetails from './AddressDetails/'
-import ProfessionalDetails from './ProfessionalDetails/'
-import PersonalDetailsForm from '../../DetailForms/PersonalDetailsForm'
-import AddressForm from '../../DetailForms/AddressForm'
-import ProfessionalDetailsForm from '../../DetailForms/ProfessionalDetailsForm'
+import ProfessionalDetails from './ProfessionalDetails'
+import PersonalDetailsForm from '../../Forms/PersonalDetailsForm'
+import ProfessionalDetailsForm from '../../Forms/ProfessionalDetailsForm'
 import './profile.css'
 
 const Profile = ({
-  userId,
   isLoading,
-  professional,
-  formModal,
+  company,
+  editFormModal,
   formName,
   showEditFormModal,
   hideEditFormModal,
   findAddresses,
   addressSelectHandler,
   addresses,
-  updateProfessionalDetails,
-  getProfileStatus,
+  charity,
+  subsidiary,
+  charityStatusChange,
+  subsidiaryStatusChange,
   invalid,
   formValues,
-  phoneVerified,
-  showImageModal,
-  hideImageModal,
-  imageModal,
-  fileRemoveHandler,
-  imageRemoveHandler,
-  crbRemoveHandler,
-  showDocumentModal,
-  hideDocumentModal,
-  documentModal,
-  documentModalType,
-  getDocumentType
+  updateCompany
 }) => {
-  const { dateOfBirth } = professional
   return (
     <Spin spinning={isLoading} tip="Loading...">
       <div className="inner-wrapper">
@@ -47,7 +34,7 @@ const Profile = ({
           </div>
           <div className="profile-view">
             <Row>
-              <Col span={10}>
+              <Col span={12}>
                 <Card
                   title={
                     <span>
@@ -68,42 +55,16 @@ const Profile = ({
                 >
                   {
                     <PersonalDetails
-                      formValues={formValues}
-                      professional={professional}
-                      getProfileStatus={getProfileStatus}
-                      phoneVerified={phoneVerified}
+                      company={company}
                     />
                   }
                 </Card>
               </Col>
-              <Col span={14}>
+              <Col span={12}>
                 <Card
                   title={
                     <span>
-                      <Icon type="environment" />
-                      Address Details
-                    </span>
-                  }
-                  extra={
-                    <Button type="link" onClick={() => showEditFormModal("Address")}>
-                      <Icon type="edit" />
-                    </Button>
-                  }
-                >
-                  {
-                    <AddressDetails
-                      professional={professional}
-                    />
-                  }
-                </Card>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24} className='pro-card'>
-                <Card
-                  title={
-                    <span>
-                      <Icon type="pencil" />
+                      <Icon type="highlight" />
                       Professional Details
                     </span>
                   }
@@ -115,17 +76,7 @@ const Profile = ({
                 >
                   {
                     <ProfessionalDetails
-                      professional={professional}
-                      formValues={formValues}
-                      userId={userId}
-                      showDocumentModal={showDocumentModal}
-                      hideDocumentModal={hideDocumentModal}
-                      documentModal={documentModal}
-                      documentModalType={documentModalType}
-                      getDocumentType={getDocumentType}
-                      imageModal={imageModal}
-                      showImageModal={showImageModal}
-                      hideImageModal={hideImageModal}
+                      company={company}
                     />
                   }
                 </Card>
@@ -133,26 +84,23 @@ const Profile = ({
             </Row>
             <ModalBox
               title={`Edit ${formName} Details`}
-              visible={formModal}
-              size={formName === 'Experience' ? 500 : 800}
+              visible={editFormModal}
+              size={800}
               content={
                 formName === 'Personal' ?
                 <PersonalDetailsForm
-                  dateOfBirth={dateOfBirth}
                   formValues={formValues}
-                /> :
-                formName === 'Address' ?
-                <AddressForm
-                  findAddresses={findAddresses}
-                  addressSelectHandler={addressSelectHandler}
-                  addresses={addresses}
                 /> :
                 formName === 'Professional' ?
                 <ProfessionalDetailsForm
                   formValues={formValues}
-                  fileRemoveHandler={fileRemoveHandler}
-                  crbRemoveHandler={crbRemoveHandler}
-                  imageRemoveHandler={imageRemoveHandler}
+                  addresses={addresses}
+                  findAddresses={findAddresses}
+                  addressSelectHandler={addressSelectHandler}
+                  charity={charity}
+                  subsidiary={subsidiary}
+                  charityStatusChange={charityStatusChange}
+                  subsidiaryStatusChange={subsidiaryStatusChange}
                 /> :
                 ''
               }
@@ -164,7 +112,7 @@ const Profile = ({
               }
               cancelText={'Cancel'}
               submitDisabled={invalid}
-              submitHandler={updateProfessionalDetails}
+              submitHandler={updateCompany}
               cancelHandler={hideEditFormModal}
             />
           </div>  

@@ -141,15 +141,11 @@ const ProfessionalDetails = ({
           <DocumentViewer document={documentModalType === 'CRB' ? crbDocument : documentModalType === 'CV/Resume' ? document : ''} />
         </Modal>
       </Col>
-        <Col span={24}>
-          <Divider orientation="left">Work Experience</Divider>
-          <WorkExperience professional={professional}/>
-        </Col>
-      </>
-      // <Row>
-        
-      // </Row>
-    // </Row>
+      <Col span={24}>
+        <Divider orientation="left">Work Experience</Divider>
+        <WorkExperience professional={professional}/>
+      </Col>
+    </>
   )
 }
 export default ProfessionalDetails

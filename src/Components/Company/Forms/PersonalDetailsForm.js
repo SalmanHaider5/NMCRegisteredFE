@@ -53,10 +53,9 @@ const PersonalDetailsForm = () => {
       <Field
         name="registration"
         component={TextField}
-        label={'Registration Number'}
+        label={'Company Reg. No.'}
         size={'large'}
         type="text"
-        validate={[isRequired]}
         tooltipPlacement={'topRight'}
       />
       <Field

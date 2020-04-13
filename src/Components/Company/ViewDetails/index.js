@@ -1,9 +1,10 @@
 import React from 'react'
 import { Switch, Route, Link } from 'react-router-dom'
-import { Layout, Menu, Icon } from 'antd'
-import Timesheet from './Timesheet'
+import { Layout, Menu, Icon, Alert } from 'antd'
+import FindProfessionals from './FindProfessionals'
+import ChangePassword from './Security'
 import Profile from './Profile'
-import SecurityAndLogin from './Security'
+import Contact from './Contact'
 
 
 const ViewDetails = ({
@@ -11,31 +12,25 @@ const ViewDetails = ({
   isLoading,
   collapsed,
   onCollapse,
-  professional,
-  formModal,
+  formValues,
+  isPaid,
+  company,
+  changePassword,
+  sendMessage,
   formName,
+  editFormModal,
   showEditFormModal,
   hideEditFormModal,
+  charity,
+  subsidiary,
+  addresses,
   findAddresses,
   addressSelectHandler,
-  addresses,
-  updateProfessionalDetails,
-  getProfileStatus,
-  invalid,
-  updateSecurityandLoginDetails,
-  formValues,
-  phoneVerified,
-  imageModal,
-  showImageModal,
-  hideImageModal,
-  fileRemoveHandler,
-  imageRemoveHandler,
-  crbRemoveHandler,
-  showDocumentModal,
-  hideDocumentModal,
-  documentModal,
-  documentModalType,
-  getDocumentType
+  charityStatusChange,
+  subsidiaryStatusChange,
+  updateCompany,
+  searchProfessionalsBySkills,
+  professionals
 }) => {
   const { Sider, Footer, Content } = Layout
   return (
@@ -51,67 +46,79 @@ const ViewDetails = ({
           theme="dark"
         >
           <Menu.Item key="1">
-            <Link to={`/professional/${userId}/timesheet`}>
-              <Icon type="snippets" />
-              <span>Timesheets</span>
+            <Link to={`/company/${userId}/professionals`}>
+              <Icon type="user" />
+              <span>Find professionals</span>
             </Link>
           </Menu.Item>
           <Menu.Item>
-            <Link to={`/professional/${userId}/profile`}>
+            <Link to={`/company/${userId}/profile`}>
               <Icon type="profile" />
               <span>View Profile</span>
             </Link>
           </Menu.Item>
           <Menu.Item>
-            <Link to={`/professional/${userId}/security`}>
+            <Link to={`/company/${userId}/changePassword`}>
               <Icon type="lock" />
-              <span>Security & Login</span>
+              <span>Change Password</span>
             </Link>
           </Menu.Item>
           <Menu.Item>
-            <Icon type="mail" />
-            <span>Contact Us</span>
+            <Link to={`/company/${userId}/contact`}>
+              <Icon type="mail" />
+              <span>Contact Us</span>
+            </Link>
           </Menu.Item>
         </Menu>
       </Sider>
       <Layout className='inner-body-wrapper'>
         <Content>
+          {
+            isPaid ? '' :
+            <div className="error-alert">
+              <Alert
+                message={<><strong>Payment Pending: </strong> You have not paid yet, please make your payment to use all features of this application. </>}
+                type="error"
+                showIcon
+              />
+            </div>
+          }
           <Switch>
-            <Route path="/professional/:userId/timesheet" component={Timesheet} />
-            <Route path="/professional/:userId/profile">
-              <Profile
-                userId={userId}
-                professional={professional}
+            <Route path="/company/:userId/professionals">
+              <FindProfessionals
+                isPaid={isPaid}
+                professionals={professionals}
                 isLoading={isLoading}
-                formModal={formModal}
-                formName={formName}
-                showEditFormModal={showEditFormModal}
-                hideEditFormModal={hideEditFormModal}
-                findAddresses={findAddresses}
-                addressSelectHandler={addressSelectHandler}
-                addresses={addresses}
-                updateProfessionalDetails={updateProfessionalDetails}
-                getProfileStatus={getProfileStatus}
-                invalid={invalid}
-                formValues={formValues}
-                phoneVerified={phoneVerified}
-                showImageModal={showImageModal}
-                hideImageModal={hideImageModal}
-                imageModal={imageModal}
-                fileRemoveHandler={fileRemoveHandler}
-                imageRemoveHandler={imageRemoveHandler}
-                crbRemoveHandler={crbRemoveHandler}
-                showDocumentModal={showDocumentModal}
-                hideDocumentModal={hideDocumentModal}
-                documentModal={documentModal}
-                documentModalType={documentModalType}
-                getDocumentType={getDocumentType}
+                searchProfessionalsBySkills={searchProfessionalsBySkills}
               />
             </Route>
-            <Route path="/professional/:userId/security">
-              <SecurityAndLogin
-                updateSecurityandLoginDetails={updateSecurityandLoginDetails}
+            <Route path="/company/:userId/changePassword">
+              <ChangePassword
                 formValues={formValues}
+                changePassword={changePassword}
+              />
+            </Route>
+            <Route path="/company/:userId/profile">
+              <Profile
+                isLoading={isLoading}
+                company={company}
+                formName={formName}
+                editFormModal={editFormModal}
+                showEditFormModal={showEditFormModal}
+                hideEditFormModal={hideEditFormModal}
+                charity={charity}
+                subsidiary={subsidiary}
+                subsidiaryStatusChange={subsidiaryStatusChange}
+                charityStatusChange={charityStatusChange}
+                addresses={addresses}
+                findAddresses={findAddresses}
+                addressSelectHandler={addressSelectHandler}
+                updateCompany={updateCompany}
+              />
+            </Route>
+            <Route path="/company/:userId/contact">
+              <Contact
+                sendMessage={sendMessage}
               />
             </Route>
           </Switch>

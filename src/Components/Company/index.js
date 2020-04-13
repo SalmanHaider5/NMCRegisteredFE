@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import { Icon } from 'antd'
-import { concat, omit, trim, find, propEq, split, prop } from 'ramda'
-import { addDetails, logoutUser, getCompanyDetails, getAdresses } from '../../actions'
-import { getCompanyFormValues, showToast, isEmptyOrNull } from '../../utils/helpers'
+import { concat, omit, trim, find, propEq, split, prop, defaultTo } from 'ramda'
+import { addDetails, logoutUser, getCompanyDetails, getAdresses, updatePassword, contactUs, updateProfile, searchProfessionals } from '../../actions'
+import { QUALIFICATION_OPTIONS as skills } from '../../constants'
+import { getCompanyFormValues, isEmptyOrNull } from '../../utils/helpers'
 import AddDetails from './AddDetails'
+import ViewDetails from './ViewDetails'
 import Header from '../Header'
 
 import './company.css'
@@ -17,7 +19,11 @@ class Company extends Component {
       current: 0,
       charity: false,
       subsidiary: false,
-      paymentMethod: ''
+      paymentSkipped: false,
+      paymentMethod: '',
+      collapsed: false,
+      formName: '',
+      editFormModal: false
     };
   }
 
@@ -26,17 +32,6 @@ class Company extends Component {
     dispatch(getCompanyDetails(userId))
     if(!auth && role !== 'company'){
       history.push('/')
-    }
-  }
-
-  componentDidUpdate(prevProps){
-    if(prevProps.company.companyDetails !== this.props.company.companyDetails){
-      const { company: { companyDetails: { code, response: { title, message } } } } = this.props
-      if(code === 'success'){
-        this.setState({ current: 2 })
-      }else{
-        showToast(title, message, code)
-      }
     }
   }
   
@@ -50,16 +45,37 @@ class Company extends Component {
     this.setState({ current: current - 1 })
   }
 
+  onCollapse = () => {
+    const { collapsed } = this.state
+    this.setState({ collapsed: !collapsed })
+  }
+
+  changePassword = () => {
+    const { dispatch, formValues, match: { params: { userId } } } = this.props
+    const { changePassword } = formValues
+    const values = omit(['confirmPassword'], changePassword)
+    dispatch(updatePassword(userId, values))
+  }
+
+  sendMessage = () => {
+    const { dispatch, formValues: { contactForm } } = this.props
+    const { subject } = contactForm
+    contactForm.subject = `${subject} [Contact Form | Company]`
+    dispatch(contactUs(contactForm))
+  }
+  updateCompany = () => {
+    const { formValues, dispatch, match: { params: { userId } } } = this.props
+    const values = omit(['contactForm', 'searchForm', 'changePassword', 'email', 'isVerified'], formValues)
+    dispatch(updateProfile(userId, values))
+    this.hideEditFormModal()
+  }
+
   saveDetails = () => {
     const { dispatch, formValues, match: { params: { userId } } } = this.props
-    const { businessAdressLineOne, businessAdressLineTwo } = formValues
-    const address = concat(businessAdressLineOne, businessAdressLineTwo)
-    const values = omit(['businessAdressLineOne', 'businessAdressLineTwo'], formValues)
-    values.address = address
+    const values = omit(['changePassword', 'contactForm', 'searchForm'], formValues)
     dispatch(addDetails(userId, values))
     dispatch(reset('company'))
-    const { current } = this.state
-    this.setState({ current: current + 1 })
+    this.setState({ current: 0 })
   }
 
   logout = () => {
@@ -70,9 +86,29 @@ class Company extends Component {
     }
   }
 
+  searchProfessionalsBySkills = skillId => {
+    const { match: { params: { userId } }, dispatch, company: { companyDetails: { postalCode } } } = this.props
+    const skill = prop('name', find(propEq('id', skillId))(skills))
+    dispatch(searchProfessionals(userId, postalCode, skill))
+  } 
+
   charityStatusChange = () => {
     const { charity } = this.state
     this.setState({ charity: !charity })
+  }
+
+  showEditFormModal = (name) => {
+    this.setState({
+      editFormModal: true,
+      formName: name
+    })
+  }
+
+  hideEditFormModal = () => {
+    this.setState({
+      editFormModal: false,
+      formName: ''
+    })
   }
 
   logout = () => {
@@ -91,16 +127,19 @@ class Company extends Component {
     dispatch(getAdresses(trim(postCode)))
   }
 
+  skipPaymentOption = () => {
+    this.setState({ paymentSkipped: true })
+  }
+
   changePaymentMethod = e => {
     this.setState({ paymentMethod: e.target.value })
   }
 
-  addressSelectHandler = () => {
-    const { dispatch, formValues: { addressId }, addresses: { addresses } } = this.props
-    if(!isEmptyOrNull(addresses) && !isEmptyOrNull(addressId)){
+  addressSelectHandler = addressId => {
+    const { dispatch, addresses: { addresses } } = this.props
+    if(!isEmptyOrNull(addressId)){
       const address = split(',', prop('name', find(propEq('id', addressId))(addresses)))
-      dispatch(change('company', 'businessAdressLineOne', address[0]))
-      dispatch(change('company', 'businessAdressLineTwo', address[1]))
+      dispatch(change('company', 'address', concat(address[0], address[1])))
       dispatch(change('company', 'city', address[5]))
       dispatch(change('company', 'county', address[6]))
     }
@@ -127,25 +166,51 @@ class Company extends Component {
   }
   
   render() {
-    const { current, charity, subsidiary } = this.state
-    const { invalid, addresses } = this.props
+    const { current, charity, subsidiary, paymentSkipped, collapsed, formName, editFormModal } = this.state
+    const { invalid, addresses, company: { companyDetails, isLoading, professionals }, application: { authentication: { userId } }, formValues } = this.props
+    const isPaid = defaultTo(false, prop('isPaid', companyDetails))
     return(
       <div>
         <Header
           logout={this.logout}
         />
         {
-          current === 2 ?
-          <div>
-            <h3>Company Record is already added!</h3>
-          </div> :
+          !isEmptyOrNull(companyDetails) && (isPaid || paymentSkipped) ?
+          <ViewDetails
+            collapsed={collapsed}
+            userId={userId}
+            formValues={formValues}
+            isPaid={isPaid}
+            isLoading={isLoading}
+            company={companyDetails}
+            formName={formName}
+            editFormModal={editFormModal}
+            addresses={addresses}
+            charity={charity}
+            subsidiary={subsidiary}
+            professionals={professionals}
+            findAddresses={this.findAddresses}
+            addressSelectHandler={this.addressSelectHandler}
+            showEditFormModal={this.showEditFormModal}
+            hideEditFormModal={this.hideEditFormModal}
+            charityStatusChange={this.charityStatusChange}
+            subsidiaryStatusChange={this.subsidiaryStatusChange}
+            onCollapse={this.onCollapse}
+            changePassword={this.changePassword}
+            sendMessage={this.sendMessage}
+            updateCompany={this.updateCompany}
+            searchProfessionalsBySkills={this.searchProfessionalsBySkills}
+          /> 
+          :
           <AddDetails
             current={current}
             charity={charity}
             subsidiary={subsidiary}
             invalid={invalid}
             addresses={addresses}
-            next={this.next}
+            paymentSkipped={paymentSkipped}
+            companyDetails={companyDetails}
+            next={this.next}  
             prev={this.prev}
             getFormIcon={this.getFormIcon}
             getFormName={this.getFormName}
@@ -154,6 +219,7 @@ class Company extends Component {
             charityStatusChange={this.charityStatusChange}
             subsidiaryStatusChange={this.subsidiaryStatusChange}
             saveDetails={this.saveDetails}
+            skipPaymentOption={this.skipPaymentOption}
           />
         }
       </div>

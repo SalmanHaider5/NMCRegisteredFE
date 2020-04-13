@@ -4,7 +4,7 @@ import { Layout, Menu, Icon } from 'antd'
 import Timesheet from './Timesheet'
 import Profile from './Profile'
 import SecurityAndLogin from './Security'
-
+import Contact from './Contact'
 
 const ViewDetails = ({
   userId,
@@ -35,7 +35,8 @@ const ViewDetails = ({
   hideDocumentModal,
   documentModal,
   documentModalType,
-  getDocumentType
+  getDocumentType,
+  sendMessage
 }) => {
   const { Sider, Footer, Content } = Layout
   return (
@@ -74,8 +75,10 @@ const ViewDetails = ({
             </Link>
           </Menu.Item>
           <Menu.Item>
-            <Icon type="mail" />
-            <span>Contact Us</span>
+            <Link to={`/professional/${userId}/contact`}>
+              <Icon type="mail" />
+              <span>Contact Us</span>
+            </Link>
           </Menu.Item>
         </Menu>
       </Sider>
@@ -117,6 +120,11 @@ const ViewDetails = ({
               <SecurityAndLogin
                 updateSecurityandLoginDetails={updateSecurityandLoginDetails}
                 formValues={formValues}
+              />
+            </Route>
+            <Route path="/professional/:userId/contact">
+              <Contact
+                sendMessage={sendMessage}
               />
             </Route>
           </Switch>

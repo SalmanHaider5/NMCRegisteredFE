@@ -8,7 +8,7 @@
     "node": "10.15.3"
   },
   "dependencies": {
-    "antd": "^3.26.13",
+    "antd": "^3.26.15",
     "braintree-web": "^3.59.0",
     "braintree-web-drop-in": "^1.22.1",
     "js-cookie": "^2.2.1",

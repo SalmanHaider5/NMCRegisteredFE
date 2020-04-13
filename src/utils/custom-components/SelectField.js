@@ -12,6 +12,7 @@ export const SelectField = ({
   label,
   size,
   input: { value, onChange, onBlur },
+  disabled,
   options = []
 }) => {
   const fieldOptions = map(option => {
@@ -31,9 +32,10 @@ export const SelectField = ({
           style={{ width: '100%' }}
           optionFilterProp="children"
           value={value ? value : undefined}
-          onChange={onChange}
+          onChange={value => onChange(value)}
           onBlur={onBlur}
           size={size}
+          disabled={disabled}
           onSearch={onSearch}
         >
           {fieldOptions}
