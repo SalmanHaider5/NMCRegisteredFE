@@ -27,11 +27,15 @@
 }
 .header{
     background-image: url(https://www.amitahealth.org/assets/images/medgroup/pediatric_medicine_p1b.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
 }
 .header-inner{
     background-color:rgba(5, 1, 27, 0.82);
     padding-top: 15px;
     padding-bottom: 40px;
+    height: 100vh;
 }
 .logo{
     color: #fff;
