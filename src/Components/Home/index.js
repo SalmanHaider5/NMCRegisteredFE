@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, FormSection } from 'redux-form'
 import { isNil, prop, equals } from 'ramda'
 import { Row, Col, Button, Spin, Icon } from 'antd'
-import { register, verifyAccount, userLogin, generatePasswordResetLink, verifyLogin } from '../../actions'
+import { register, verifyAccount, userLogin, generatePasswordResetLink, verifyLogin, reachUs } from '../../actions'
 import { TITLE } from '../../constants'
 import { ModalBox } from '../../utils/custom-components'
 import { getUsersFormValues, isEmptyOrNull } from '../../utils/helpers'
@@ -12,6 +12,7 @@ import SignupForm from './SignupForm'
 import LoginForm from './LoginForm'
 import ForgetPasswordForm from './ForgetPasswordForm'
 import TwoFactorAuthForm from './TwoFactorAuthForm'
+import ContactForm from './ContactForm'
 import './home.css'
 
 class Home extends Component {
@@ -20,7 +21,8 @@ class Home extends Component {
     this.state = {
       selected: '',
       loginModal: false,
-      forgetPassword: false
+      forgetPassword: false,
+      contactFormModal: false
     }
   }
 
@@ -44,6 +46,18 @@ class Home extends Component {
 
   showLoginModal = () => {
     this.setState({ loginModal: true })
+  }
+
+  showContactFormModal = () => {
+    this.setState({
+      loginModal: false,
+      forgetPassword: false,
+      contactFormModal: true
+    })
+  }
+
+  hideContactFormModal = () => {
+    this.setState({ contactFormModal: false })
   }
 
   hideLoginModal = () => {
@@ -94,6 +108,13 @@ class Home extends Component {
         </FormSection>
       )
     }
+    if(type === 'Contact Us'){
+      return(
+        <FormSection name="contactForm">
+          <ContactForm />
+        </FormSection>
+      )
+    }
     return(
       <FormSection name="login">
         <LoginForm showForgetPasswordForm={this.showForgetPasswordForm}/>
@@ -116,6 +137,13 @@ class Home extends Component {
         </span>
       )
     }
+    if(type === 'Contact Us'){
+      return(
+        <span>
+          <Icon type="mail" /> Reach Us
+        </span>
+      )
+    }
     return(
       <span>
         <Icon type="login" /> Login
@@ -123,13 +151,20 @@ class Home extends Component {
     )
   }
 
+  sendMessage = () => {
+    const { dispatch, formValues: { contactForm } } = this.props
+    const { subject } =  contactForm
+    contactForm.subject = `${subject} [Contact Form | Guest User]`
+    dispatch(reachUs(contactForm))
+    this.setState({ contactFormModal: false })
+  }
+
   render() {
 
-    const { selected, loginModal, forgetPassword } = this.state
+    const { selected, loginModal, forgetPassword, contactFormModal } = this.state
     const { valid, formValues= {}, application: { isLoading, twoFactorAuth, authentication: { auth, role, userId } } } = this.props
-    // const { TextArea } = Input
 
-    const modalType = twoFactorAuth ? 'Mobile Verification' : forgetPassword ? 'Forget Password' : 'Login'
+    const modalType = twoFactorAuth ? 'Mobile Verification' : forgetPassword ? 'Forget Password' : contactFormModal ? 'Contact Us' :  'Login'
     
     if(auth && !isEmptyOrNull(role)){
       return <Redirect to={ equals(role, 'professional') ? `/${role}/${userId}/timesheet` : `/${role}/${userId}` } />
@@ -162,10 +197,8 @@ class Home extends Component {
                       <div className='intro-header'>
                         <div className='spacer'></div>
                         <div className='spacer'></div>
-                          <h1 className='header-h1'>Welcome to {TITLE}</h1>
-                          <h2 className='header-h2'>We have one goal to achieve:</h2>
-                        
-
+                        <h1 className='header-h1'>Welcome to {TITLE}</h1>
+                        {/* <h2 className='header-h2'>We have one goal to achieve:</h2> */}
                         <div className='header-text-div'>
                           <p className="header-text">To provide a simplistic solution for Care
                           Homes and Professionals to link together.</p>
@@ -177,8 +210,8 @@ class Home extends Component {
                           </p>
                           
                         </div>
-                        <Button className='home-contact-btn phone-button' onClick={this.showLoginModal}>
-                        <Icon type="user" /> Contact Us
+                        <Button className='home-contact-btn phone-button' onClick={this.showContactFormModal}>
+                        <Icon type="mail" /> Contact Us
                         </Button> 
                         <Button className='home-header-down-btn phone-button' onClick={this.showLoginModal}>
                         <Icon type="login" /> Login
@@ -208,15 +241,16 @@ class Home extends Component {
         <ModalBox
           title={modalType}
           size={600}
-          visible={loginModal}
+          visible={loginModal || contactFormModal}
           content={this.getLogimModalContent(modalType)}
           submitText={this.getModalSubmitText(modalType)}
-          cancelText={'Cancel'}
+          cancelText={<> <Icon type="close" /> Cancel </>}
           submitHandler={
             twoFactorAuth ? this.verifyTwoFactorAuthentication :
-            forgetPassword ? this.sendPasswordResetLink : this.login
+            forgetPassword ? this.sendPasswordResetLink:
+            contactFormModal? this.sendMessage : this.login
           }
-          cancelHandler={this.hideLoginModal}
+          cancelHandler={contactFormModal ? this.hideContactFormModal : this.hideLoginModal}
         />
       </Spin>
     )

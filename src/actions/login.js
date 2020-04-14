@@ -70,3 +70,23 @@ export const verifyLogin = values => dispatch => {
         })
     })
 }
+
+export const reachUs = values => dispatch => {
+    const endpoint = `${url}guest/sendMessage`
+    fetch(endpoint, {
+        method: 'POST',
+        body: JSON.stringify(values)
+    })
+    .then(res=> res.json())
+    .then(response => {
+        console.log(response)
+        const { code, response: { title, message } } = response
+        values.name = ''
+        values.phone = ''
+        values.email = ''
+        values.message = ''
+        values.subject = ''
+        dispatch(change('users', 'contactForm', values))
+        showToast(title, message, code)
+    })
+}

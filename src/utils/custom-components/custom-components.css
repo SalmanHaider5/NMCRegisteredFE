@@ -94,3 +94,31 @@ div.text-area div.ant-form-item-label{
 .image-input .ant-upload.ant-upload-select-picture-card .ant-upload{
     padding: 0;
 }
+
+/** Modal Box **/
+div.ant-modal-content, div.ant-modal-header{
+    border-radius: 0px;
+}
+div.ant-modal-header{
+    padding: 10px;
+    background-color: #1e1c5d !important;
+}
+div.ant-modal-title{
+    font-size: 14px !important;
+    font-weight: 700;
+}
+button span.ant-modal-close-x{
+    height: 42px;
+    line-height: 40px;
+}
+div.ant-modal-content div.ant-modal-footer{
+    padding: 10px 16px;
+    background-color: #d8d8e19e;
+}
+div.ant-modal-footer button{
+    border-radius: 0;
+    height: 26px;
+}
+div.ant-modal-content div.ant-modal-body{
+    background-color: #fff;
+}

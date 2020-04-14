@@ -16,7 +16,9 @@ const SignupForm = ({
   return (
     <div>
       <div className='form-wrapper'>
-        <div><h2>Register as:</h2></div>
+        <div>
+          <Divider>Register</Divider>
+        </div>
           <div>
           <form>
             <div>
@@ -48,7 +50,7 @@ const SignupForm = ({
                 </Col>
                 </Row>
             </div>
-            <Divider>Register</Divider>
+            {/* <Divider>Register</Divider> */}
             <div className='register-field'>
               <Field
                 name="email"
