@@ -1,32 +1,4 @@
 
-
-@media screen and (min-width: 769px) {
-    .spacer{
-        height: 70px;
-    }
-}
-@media screen and (min-width: 770px) and (max-width: 1024px) {
-    .form-wrapper{
-        margin-top: 100px;
-    }
-
-}
-@media screen and (max-width: 768px) {
-    .spacer{
-        visibility: hidden;
-    }
-    .header-inner{
-        text-align: center;
-    }
-    .header-divider{
-        visibility: hidden;
-    }
-    .header-text{
-        visibility: hidden;
-    }
-}
-
-
 .intro-header{
     margin: 30px auto;
     color: #ffffff;
@@ -46,9 +18,10 @@
 }
 .logo{
     float: left;
-    width: 234px;
-    height: 77px;
+    width: 200px;
+    height: 65px;
     background-image: url(https://intelligent-innovation.herokuapp.com/assets/logo.png);
+    background-size: 200px auto;
 }
 .header-h1{
    
@@ -71,13 +44,16 @@ div.header-divider{
 }
 .header-text-div{
     position: relative;
-    width: 90%;
 }
 .header-text{
     float: left;
 }
 .header-text-lower{
     float: left;
+}
+.signup-wrapper{
+    margin: 0 auto;
+    width: 96px;
 }
 .form-wrapper{
     background-color: #ffffffbd;
@@ -192,20 +168,86 @@ button.ant-btn.link-button.ant-btn-link{
 .home-header-btn{
     float: right;
     margin-left: 10px;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     background: #808080cc !important;
 }
+.home-header-down-btn{
+    visibility: hidden;
+}
 button.home-contact-btn{
-    margin-right: 10px;
+    /* margin-right: 10px; */
     margin-bottom: 20px;
     width: 150px;
     margin-top:20px;
     color: #fff;
-    background: #808080cc !important;;
+    background: #808080cc !important;
 }
 button.home-contact-btn span{
     color: #fff;
 }
 .logo-image{
     float: left;
+}
+
+
+@media screen and (min-width: 969px) {
+    .spacer{
+        height: 70px;
+    }
+}
+@media screen and (min-width: 770px) and (max-width: 1024px) {
+    .form-wrapper{
+        margin-top: 100px;
+    }
+    .button.home-contact-btn {
+        margin: 20px 4px;
+        width: 115px;}
+
+}
+@media screen and (max-width: 991px) {
+    .spacer{
+        visibility: hidden;
+    }
+    .header-inner{
+        text-align: center;
+        padding-top: 40px;
+    }
+    .header-divider{
+        visibility: hidden;
+    }
+    .header-text{
+    }
+    .logo{
+    margin: 0 auto;
+    height: 50px;
+    float: initial;
+    width: 149px;
+    background-image: url(https://intelligent-innovation.herokuapp.com/assets/logo.png);
+    background-size: 150px auto !important;
+    }
+    .home-header-down-btn{
+    margin-bottom: 20px;
+    width: 150px;
+    margin-top:20px;
+    color: #fff;
+    background: #808080cc !important;
+    visibility:visible !important;
+    }
+    .home-header-btn{
+        position: absolute !important;
+        visibility: hidden;}
+    .phone-button{
+        margin: 20px 5px;
+        width: 120px !important;
+        color: #fff;
+        background: #808080cc !important;
+    }
+    button.phone-button i{
+        color: #fff;
+    }
+    button.phone-button span{
+        color: #fff;
+    }
+
 }

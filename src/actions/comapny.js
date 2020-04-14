@@ -1,8 +1,8 @@
 import { change, initialize } from 'redux-form'
 import Cookies from 'js-cookie'
 import { pathOr, join, defaultTo, forEach } from 'ramda'
-import { SERVER_URL as url, GET_ADDRESS_URL as apiUrl, GET_ADDRESS_API_KEY as apiKey } from '../constants'
-import { showToast, isEmptyOrNull } from '../utils/helpers'
+import { SERVER_URL as url/*, GET_ADDRESS_URL as apiUrl, GET_ADDRESS_API_KEY as apiKey */} from '../constants'
+import { showToast } from '../utils/helpers'
 import { getAdresses } from './addresses'
 import * as types from './'
 

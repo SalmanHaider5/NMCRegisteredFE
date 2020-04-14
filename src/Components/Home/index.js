@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, FormSection } from 'redux-form'
 import { isNil, prop, equals } from 'ramda'
-import { Row, Col, Button, Input, Divider, Spin, Icon } from 'antd'
+import { Row, Col, Button, Spin, Icon } from 'antd'
 import { register, verifyAccount, userLogin, generatePasswordResetLink, verifyLogin } from '../../actions'
 import { TITLE } from '../../constants'
 import { ModalBox } from '../../utils/custom-components'
@@ -127,7 +127,7 @@ class Home extends Component {
 
     const { selected, loginModal, forgetPassword } = this.state
     const { valid, formValues= {}, application: { isLoading, twoFactorAuth, authentication: { auth, role, userId } } } = this.props
-    const { TextArea } = Input
+    // const { TextArea } = Input
 
     const modalType = twoFactorAuth ? 'Mobile Verification' : forgetPassword ? 'Forget Password' : 'Login'
     
@@ -140,10 +140,10 @@ class Home extends Component {
           <header className='header'>
               <div className='header-inner'>
                   <Row>
-                    <Col xs={8} sm={4} md={4} lg={2} xl={3}>
+                    <Col xs={2} sm={2} md={3} lg={2} xl={3}>
                       
                     </Col>
-                    <Col xs={12} sm={16} md={16} lg={18} xl={17}>
+                    <Col xs={20} sm={20} md={18} lg={18} xl={18}>
                     <div className='logo'></div>
                       <div>
                     <Button className='home-header-btn' ghost onClick={this.showLoginModal}>
@@ -151,14 +151,14 @@ class Home extends Component {
                     </Button>  
                     </div>                    
                     </Col>
-                    <Col xs={4} sm={4} md={4} lg={2} xl={4}>
+                    <Col xs={2} sm={2} md={3} lg={2} xl={3}>
                       
                     </Col>
                   </Row>
 
                   <Row justify="space-between" >
                     <Col xs={2} sm={2} md={2} lg={2} xl={3}> </Col>
-                    <Col xs={22} sm={22} md={22} lg={9} xl={9}>
+                    <Col xs={20} sm={20} md={20} lg={9} xl={9}>
                       <div className='intro-header'>
                         <div className='spacer'></div>
                         <div className='spacer'></div>
@@ -177,25 +177,30 @@ class Home extends Component {
                           </p>
                           
                         </div>
-                        <Button className='home-contact-btn' onClick={this.showLoginModal}>
+                        <Button className='home-contact-btn phone-button' onClick={this.showLoginModal}>
                         <Icon type="user" /> Contact Us
                         </Button> 
+                        <Button className='home-header-down-btn phone-button' onClick={this.showLoginModal}>
+                        <Icon type="login" /> Login
+                        </Button>  
                       </div>
                     </Col>
                     <Col xs={2} sm={2} md={2} lg={1} xl={2}> </Col>
-                    <Col xs={20} sm={20} md={20} lg={10} xl={6}>
+                    <Col xs={24} sm={24} md={24} lg={10} xl={7}>
                     <div className='spacer'></div>
-                      <FormSection name="signup">
-                        <SignupForm
-                          selected={selected}
-                          selectUser={this.selectUser}
-                          valid={valid}
-                          formValues={formValues}
-                          registerUser={this.registerUser}
-                        />
-                      </FormSection>
+                      <div className='signup-wrapper'>
+                        <FormSection name="signup">
+                          <SignupForm
+                            selected={selected}
+                            selectUser={this.selectUser}
+                            valid={valid}
+                            formValues={formValues}
+                            registerUser={this.registerUser}
+                          />
+                        </FormSection>
+                      </div>
                     </Col>
-                    <Col xs={2} sm={1} md={2} lg={2} xl={4}> </Col>
+                    <Col xs={2} sm={1} md={2} lg={2} xl={3}> </Col>
                   </Row> 
               </div>
           </header>
