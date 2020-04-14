@@ -1,7 +1,7 @@
 import React from 'react'
 import { Icon } from 'antd'
 
-export const TITLE = "Nightingale"
+export const TITLE = "NMC Registered"
 export const DATE_FORMAT = "DD/MM/YYYY"
 export const TIME_FORMAT = "hh:mm A"
 export const GET_ADDRESS_API_KEY = "FZzv8K70rUupMksa7Zy8fA25121"

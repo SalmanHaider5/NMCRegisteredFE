@@ -21,7 +21,7 @@ const SignupForm = ({
           <form>
             <div>
               <Row className='form-radio-btn'>
-                <Col span={11}>
+                <Col xs={24} sm={11} md={11} lg={11} xl={11}>
                   <Button
                     onClick={() => selectUser('company')}
                     className='h-radio-btn1'
@@ -33,8 +33,8 @@ const SignupForm = ({
                       Company
                   </Button>
                 </Col>
-                <Col span={2}></Col>
-                <Col span={11}>
+                <Col  xs={0} sm={2} md={2} lg={2} xl={2}></Col>
+                <Col  xs={24} sm={11} md={11} lg={11} xl={11}>
                   <Button
                     onClick={() => selectUser('professional')}
                     className='h-radio-btn2'

@@ -140,31 +140,51 @@ class Home extends Component {
           <header className='header'>
               <div className='header-inner'>
                   <Row>
-                    <Col xs={8} sm={4} md={4} lg={4} xl={4}>
-                      <p className='logo'>LOGO</p>
+                    <Col xs={8} sm={4} md={4} lg={2} xl={3}>
+                      
                     </Col>
-                    <Col xs={12} sm={16} md={16} lg={16} xl={16}></Col>
-                    <Col xs={4} sm={4} md={4} lg={4} xl={4}>
-                      <Button ghost onClick={this.showLoginModal}>
+                    <Col xs={12} sm={16} md={16} lg={18} xl={17}>
+                    <div className='logo'></div>
+                      <div>
+                    <Button className='home-header-btn' ghost onClick={this.showLoginModal}>
                         <Icon type="login" /> Login
-                      </Button>
+                    </Button>  
+                    </div>                    
+                    </Col>
+                    <Col xs={4} sm={4} md={4} lg={2} xl={4}>
+                      
                     </Col>
                   </Row>
 
-                  <Row>
-                    <Col xs={2} sm={1} md={2} lg={2} xl={3}> </Col>
-                    <Col xs={22} sm={9} md={10} lg={10} xl={9}>
+                  <Row justify="space-between" >
+                    <Col xs={2} sm={2} md={2} lg={2} xl={3}> </Col>
+                    <Col xs={22} sm={22} md={22} lg={9} xl={9}>
                       <div className='intro-header'>
                         <div className='spacer'></div>
+                        <div className='spacer'></div>
                           <h1 className='header-h1'>Welcome to {TITLE}</h1>
-                        <Divider className='header-divider' />
-                        <div>
-                          <p className="header-text">Lorem ipsum Dummy text, Lorem ipsum dolor</p>
+                          <h2 className='header-h2'>We have one goal to achieve:</h2>
+                        
+
+                        <div className='header-text-div'>
+                          <p className="header-text">To provide a simplistic solution for Care
+                          Homes and Professionals to link together.</p>
+                          <p className="header-text-lower">Our seamless system allows simple and
+                            straightforward connection between
+                            Professionals and Care Homes without any
+                            agency fees or percentages of earnings per
+                            shift.
+                          </p>
+                          
                         </div>
+                        <Button className='home-contact-btn' onClick={this.showLoginModal}>
+                        <Icon type="user" /> Contact Us
+                        </Button> 
                       </div>
                     </Col>
-                    <Col xs={2} sm={0} md={0} lg={2} xl={2}> </Col>
-                    <Col xs={20} sm={13} md={10} lg={8} xl={6}>
+                    <Col xs={2} sm={2} md={2} lg={1} xl={2}> </Col>
+                    <Col xs={20} sm={20} md={20} lg={10} xl={6}>
+                    <div className='spacer'></div>
                       <FormSection name="signup">
                         <SignupForm
                           selected={selected}
