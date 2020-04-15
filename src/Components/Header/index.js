@@ -6,10 +6,8 @@ const Header = ({ logout, loggedIn = true }) => {
     <div className='headers'>
       <div className='header-body'>
           <Row>
-            <Col xs={8} sm={4} md={4} lg={4} xl={4}>
-              <p className='logo'>LOGO</p>
-            </Col>
-            <Col xs={11} sm={16} md={16} lg={16} xl={16}>
+            <Col xs={19} sm={20} md={20} lg={20} xl={20}>
+            <div style={{marginLeft: '9%'}} className='logo'></div>
             </Col>
             <Col xs={5} sm={4} md={4} lg={4} xl={4}>
               <Button

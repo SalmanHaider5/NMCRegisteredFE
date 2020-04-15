@@ -1,6 +1,6 @@
 .addform-container{
     min-height: 91vh;
-    padding: 30px 200px 0 200px;
+    padding: 30px 20px 0 20px !important;
     background-color: #dbdced;
 }
 div.addform-container div.ant-row.addform-panel{
@@ -12,6 +12,10 @@ div.addform-container div.ant-row.addform-panel{
     background-color: white;
     height: 83vh;
     
+}
+div.ant-row.addform-panel{
+    width: 88%;
+    margin: 0 auto;
 }
 .addform-container .ant-steps .ant-steps-item .ant-steps-item-content .ant-steps-item-title{
     color: #fff;
@@ -39,6 +43,9 @@ div.addform-container div.ant-row.addform-panel{
     float: right; 
     /* text-align: right; */
 }
+.addform-panel{
+    margin: 0 auto;
+}
 .form-panel{
     overflow-y: scroll;
 }
@@ -64,4 +71,9 @@ div.addform-container div.ant-row.addform-panel{
 					   color-stop(0.44, rgb(122,153,217)),
 					   color-stop(0.72, rgb(73,125,189)),
 					   color-stop(0.86, rgb(28,58,148)));
+}
+@media screen and (max-width: 451px) {
+    div.ant-row.addform-panel{
+        width: 95%;
+    }
 }
