@@ -36,9 +36,14 @@ const ViewDetails = ({
   return (
     <Layout style={{ minHeight: '90vh' }}>
       <Sider style={{ marginTop: '-4px' }}
-        collapsible
-        collapsed={collapsed}
-        onCollapse={onCollapse}
+        breakpoint="xl"
+        collapsedWidth="0"
+        onBreakpoint={broken => {
+          console.log(broken);
+        }}
+        onCollapse={(collapsed, type) => {
+          console.log(collapsed, type);
+        }}
       >
         <Menu
           defaultSelectedKeys={['1']}

@@ -55,15 +55,15 @@ const AddDetails = ({
   ]
   return (
     <div className="addform-container">
-      <Row gutter={16} className="addform-panel">
-        <Col span={5} offset={1} className="progress-panel">
+      <Row className="addform-panel">
+        <Col xs={0} sm={0} md={0} lg={7} xl={5} offset={1} className="progress-panel">
           <div className="progress-tail">
             {
               isPhoneAdded ? getFormIcon(current, 'form-icon') :  <Icon type="solution" className="form-icon" />
             }
           </div>
         </Col>
-        <Col span={19} className="form-panel">
+        <Col xs={24} sm={24} md={24} lg={17} xl={19} className="form-panel">
           <Card
             title={
               isPhoneAdded ?
