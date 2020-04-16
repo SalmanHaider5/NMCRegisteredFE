@@ -5,6 +5,7 @@ import { SERVER_URL as url/*, GET_ADDRESS_URL as apiUrl, GET_ADDRESS_API_KEY as 
 import { showToast } from '../utils/helpers'
 import { getAdresses } from './addresses'
 import * as types from './'
+import { getCompanyData } from '../utils/parsers'
 
 export const getClientPaymentToken = userId => dispatch => {
     dispatch({type: types.CLIENT_TOKEN_REQUEST})
@@ -42,10 +43,11 @@ export const addDetails = (userId, formValues) => dispatch => {
     .then(response => {
         const { code, response: { title, message } } = response
         showToast(title, message, code)
-        response.company = formValues
+        const company = getCompanyData(formValues)
+        dispatch(initialize('company', company))
         dispatch({
             type: types.ADD_COMPANY_DETAILS_SUCCESS,
-            payload: response
+            payload: company
         })
     })
     .catch(error => {
@@ -86,6 +88,8 @@ export const getCompanyDetails = userId => dispatch => {
             company.contactForm = contact
             company.changePassword = changePassword
             dispatch(initialize('company', company))
+        }
+        if(data.code !== 'error'){
             dispatch({
                 type: types.FETCH_COMPANY_DETAILS_SUCCESS,
                 payload: data

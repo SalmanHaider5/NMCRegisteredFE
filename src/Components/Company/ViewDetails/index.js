@@ -105,6 +105,7 @@ const ViewDetails = ({
             </Route>
             <Route path="/company/:userId/profile">
               <Profile
+                formValues={formValues}
                 isLoading={isLoading}
                 company={company}
                 formName={formName}

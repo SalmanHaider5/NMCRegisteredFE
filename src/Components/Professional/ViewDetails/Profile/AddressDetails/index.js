@@ -23,7 +23,7 @@ const AddressDetails = ({ professional }) => {
       <List.Item>
         <label>
           <Icon type="environment" />
-          Addres
+          Address
         </label>
         <span className="label-value">{address}</span>
       </List.Item>

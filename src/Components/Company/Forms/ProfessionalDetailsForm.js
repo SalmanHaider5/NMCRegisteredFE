@@ -3,6 +3,7 @@ import { Field } from 'redux-form'
 import { Checkbox, Form, Spin } from 'antd'
 import { TextField, ButtonTextField, SelectField } from '../../../utils/custom-components'
 import { isRequired } from '../../../constants'
+// import { isEmptyOrNull } from '../../../utils/helpers'
 
 const ProfessionalDetailsForm = ({
   charity,
@@ -72,7 +73,7 @@ const ProfessionalDetailsForm = ({
         <Field
           name="charity"
           component={TextField}
-          label={'Charity Registration No.'}
+          label={'Charity Reg. No.'}
           size={'large'}
           type="text"
           tooltipPlacement={'topRight'}

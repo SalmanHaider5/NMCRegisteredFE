@@ -41,6 +41,8 @@ const company = (state=initState, action) => {
                 isLoading: true
             }
         case actions.ADD_COMPANY_DETAILS_SUCCESS:
+            payload.email = state.companyDetails.email
+            payload.isVerified = state.companyDetails.isVerified
             return{
                 ...state,
                 isLoading: false,

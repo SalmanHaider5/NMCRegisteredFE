@@ -160,7 +160,7 @@ class Timesheet extends Component {
     const { editableTimeheet } = this.state
     const { startTime, endTime } = formValues
     formValues.time = `${startTime} - ${endTime}`
-    console.log(formValues)
+    formValues.status = true
     dispatch(changeTimesheetShift(omit(['day', 'startTime', 'endTime'], formValues), editableTimeheet))
     this.setState({ editShiftModal: false })
   }

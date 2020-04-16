@@ -123,8 +123,8 @@ class Company extends Component {
   }
 
   findAddresses = () => {
-    const { dispatch, formValues: { postCode } } = this.props
-    dispatch(getAdresses(trim(postCode)))
+    const { dispatch, formValues: { postalCode } } = this.props
+    dispatch(getAdresses(trim(postalCode)))
   }
 
   skipPaymentOption = () => {
@@ -169,13 +169,14 @@ class Company extends Component {
     const { current, charity, subsidiary, paymentSkipped, collapsed, formName, editFormModal } = this.state
     const { invalid, addresses, company: { companyDetails, isLoading, professionals }, application: { authentication: { userId } }, formValues } = this.props
     const isPaid = defaultTo(false, prop('isPaid', companyDetails))
+    
     return(
       <div>
         <Header
           logout={this.logout}
         />
         {
-          !isEmptyOrNull(companyDetails) && (isPaid || paymentSkipped) ?
+          !isEmptyOrNull(prop('firstName', companyDetails)) && (isPaid || paymentSkipped) ?
           <ViewDetails
             collapsed={collapsed}
             userId={userId}

@@ -51,6 +51,7 @@ const timesheet = (state=initState, action) => {
             const updatedShift = currentShift
             updatedShift.shift = payload.shift.shift
             updatedShift.time = payload.shift.time
+            updatedShift.status = payload.shift.status
             const newTimesheet = update(currentTimesheetIndex, update(currentShiftIndex, currentShift, currentTimesheet.schedule), state.timesheet)
             return{
                 ...state,

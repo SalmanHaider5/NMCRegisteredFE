@@ -4,7 +4,7 @@ import { Icon } from 'antd'
 export const TITLE = "NMC Registered"
 export const DATE_FORMAT = "DD/MM/YYYY"
 export const TIME_FORMAT = "hh:mm A"
-export const GET_ADDRESS_API_KEY = "FZzv8K70rUupMksa7Zy8fA25121"
+export const GET_ADDRESS_API_KEY = "dVsQRsLdEkasx1cfi4PGMg25238"
 export const TIMESHEET_DAYS = [
     {id: 1, name: 'Monday'},
     {id: 2, name: 'Tuesday'},

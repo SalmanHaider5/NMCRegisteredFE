@@ -1,4 +1,5 @@
 import React from 'react'
+import { prop } from 'ramda'
 import { Row, Col, Card, Icon, Button } from 'antd'
 import PersonalDetailsForm from '../Forms/PersonalDetailsForm'
 import ProfessionalDetailsForm from '../Forms/ProfessionalDetailsForm'
@@ -57,7 +58,7 @@ const AddDetails = ({
             title={
               <span>
                 {
-                  isEmptyOrNull(companyDetails) ?
+                  isEmptyOrNull(prop('firstName', companyDetails)) ?
                   <span>
                     {getFormIcon(current)} {getFormName(current)}
                   </span>:
@@ -69,7 +70,7 @@ const AddDetails = ({
             }
             bordered={false}
           >
-            { isEmptyOrNull(companyDetails) ?
+            { isEmptyOrNull(prop('firstName', companyDetails)) ?
               components[current] :
               last(components)
             }
@@ -89,7 +90,7 @@ const AddDetails = ({
                   <Button className="next-btn success-btn" disabled={invalid} onClick={saveDetails}>
                     <Icon type="check" /> Save
                   </Button> :
-                  isEmptyOrNull(companyDetails) ?
+                  isEmptyOrNull(prop('firstName', companyDetails)) ?
                   <Button className="next-btn" type="primary" disabled={invalid} onClick={next}>
                     Next <Icon type="right" />
                   </Button> :
