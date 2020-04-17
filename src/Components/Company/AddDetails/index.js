@@ -44,7 +44,7 @@ const AddDetails = ({
   return (
     <div className="addform-container">
       <Row className="addform-panel">
-        <Col xs={0} sm={0} md={0} lg={7} xl={5} offset={1} className="progress-panel">
+        <Col xs={0} sm={0} md={0} lg={7} xl={5} className="progress-panel">
           <div className="progress-tail">
             {
               isEmptyOrNull(companyDetails) ?
@@ -75,7 +75,7 @@ const AddDetails = ({
               last(components)
             }
             <Row>
-              <Col span={5} offset={3}>
+              <Col xs={5} sm={5} md={5} lg={5} xl={5}>
               {
                 current === 1 ?
                   <Button type="primary" onClick={prev}>
@@ -84,7 +84,7 @@ const AddDetails = ({
                 ''
               }
               </Col>
-              <Col span={12} offset={1} className="form-actions">
+              <Col xs={19} sm={19} md={19} lg={19} xl={19} className="form-actions">
                 {
                   current === 1 ?
                   <Button className="next-btn success-btn" disabled={invalid} onClick={saveDetails}>
@@ -94,6 +94,7 @@ const AddDetails = ({
                   <Button className="next-btn" type="primary" disabled={invalid} onClick={next}>
                     Next <Icon type="right" />
                   </Button> :
+                  <div>
                   <span>
                     <Button className="next-btn" type="primary" disabled={true} onClick={next}>
                       Next <Icon type="right" />
@@ -102,6 +103,7 @@ const AddDetails = ({
                       Skip <Icon type="right-square" />
                     </Button>
                   </span>
+                  </div>
                 }
               </Col>
             </Row>

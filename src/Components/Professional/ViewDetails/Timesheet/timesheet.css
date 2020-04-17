@@ -2,14 +2,14 @@
 
 body{
     overflow: hidden;
+    background:#f0f2f5;
 }
-
-.ant-layout-sider {
-    /* position: absolute; */
-    z-index: +1;
-    height: 92vh;}
-  
-
+.ant-layout-sider-zero-width-trigger.ant-layout-sider-zero-width-trigger{
+    background: none;
+}
+.ant-layout-sider-zero-width-trigger:hover {
+    background: #192c3e00;
+}
 .ant-layout-sider-zero-width-trigger {
     position: absolute;
     top: -54px !important;
@@ -177,12 +177,12 @@ p.timesheet-list-add-p{
 .ant-layout-sider {
     /* position: absolute ; */
     z-index: +1;
-    height: 92vh;}
+    height: 97vh;}
   
 
 .ant-layout-sider-zero-width-trigger {
     position: absolute;
-    top: -54px !important;
+    top: -43px !important;
     font-size: 27px !important;
     left: 0; }
 
@@ -263,7 +263,7 @@ button.timesheetbtn{
     font-weight: 500;
 }
 .single-timesheet-switch{
-    width: 180px;
+    width: 120px;
     margin-left: 20px;
 }
 .timesheet-available{
@@ -304,7 +304,7 @@ button.timesheetbtn{
         position: absolute !important;}
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
     
     .timesheets-row .timesheet {
         padding: 7px;
@@ -341,13 +341,16 @@ button.timesheetbtn{
     .timesheet-available{
         display: none;
     }
-    .selected-time{
+    button.shift-add-buttonlist .selected-time {
         width: 50px;
         align-content: center;
         margin: 0px auto;
+        display: inherit;
     }
     .selected-time h5{
         line-height: 1;
+        margin: 2px;
+        padding: 0;
         width: 50px;
         font-size: 11px;
     }

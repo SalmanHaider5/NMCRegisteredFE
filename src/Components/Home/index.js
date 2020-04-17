@@ -178,15 +178,15 @@ class Home extends Component {
                     <Col xs={2} sm={2} md={3} lg={2} xl={3}>
                       
                     </Col>
-                    <Col xs={20} sm={20} md={18} lg={18} xl={18}>
-                    <div className='logo'></div>
+                    <Col xs={20} sm={20} md={19} lg={20} xl={18}>
+                    <div className='logo home-logo'></div>
                       <div>
                     <Button className='home-header-btn' ghost onClick={this.showLoginModal}>
                         <Icon type="login" /> Login
                     </Button>  
                     </div>                    
                     </Col>
-                    <Col xs={2} sm={2} md={3} lg={2} xl={3}>
+                    <Col xs={2} sm={2} md={2} lg={2} xl={3}>
                       
                     </Col>
                   </Row>
@@ -200,7 +200,7 @@ class Home extends Component {
                         <h1 className='header-h1'>Welcome to {TITLE}</h1>
                         {/* <h2 className='header-h2'>We have one goal to achieve:</h2> */}
                         <div className='header-text-div'>
-                          <p className="header-text">To provide a simplistic solution for Care
+                          <p className="header-text">We provide a simplistic solution for Care
                           Homes and Professionals to link together.</p>
                           <p className="header-text-lower">Our seamless system allows simple and
                             straightforward connection between
@@ -233,7 +233,7 @@ class Home extends Component {
                         </FormSection>
                       </div>
                     </Col>
-                    <Col xs={2} sm={1} md={2} lg={2} xl={3}> </Col>
+                    <Col xs={0} sm={0} md={2} lg={2} xl={3}> </Col>
                   </Row> 
               </div>
           </header>

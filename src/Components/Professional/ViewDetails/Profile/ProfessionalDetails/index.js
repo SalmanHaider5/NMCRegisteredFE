@@ -54,7 +54,7 @@ const ProfessionalDetails = ({
           </List.Item>
         </List>
       </Col>
-      <Col xs={24} sm={24} md={24} lg={{ span: 11, offset: 0 }} xl={{ span: 11, offset: 2 }}>
+      <Col xs={24} sm={24} md={24} lg={{ span: 11, offset: 2 }} xl={{ span: 11, offset: 2 }}>
         <List className="profile-list">
           <List.Item>
             <label>

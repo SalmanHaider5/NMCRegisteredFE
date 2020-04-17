@@ -1,10 +1,4 @@
-.signup-wrapper{
-    margin: 30px auto 0;
-    padding-bottom: 20px;
-    background-color: #f5f5f5;
-    width: 90%;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-}
+
 .inner-wrapper{
     padding-top: 0px;
     width: 95%;
@@ -63,7 +57,7 @@ div.ant-form-item-label label{
 }
 .header-body{
     background-color:rgba(5, 1, 27, 0.82);
-    padding-top: 15px;}
+    padding-top: 10px;}
 .headers{
   background-image: url(https://ezmediart.com/static12/preview200/stock-video-abstract-animated-blue-hexagons-background-loop-182832.jpg);
 }

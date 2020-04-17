@@ -25,7 +25,7 @@ const WeekdaySelectBoxMobile = ({ days, showDrawer, getScheduleByDay, addTimeshe
                       type={getDayStatus(day) ? "eye-invisible" : "upload"}
                     /> :
                     <span className="selected-time">
-                      <h5 style={{fontSize: '10px'}}>{daySchedule.startTime} </h5><h5>-</h5><h5>{daySchedule.endTime}</h5>
+                      <h5>{daySchedule.startTime}</h5> <h5>-</h5> <h5>{daySchedule.endTime}</h5>
                     </span>
                   }
                 </Button>

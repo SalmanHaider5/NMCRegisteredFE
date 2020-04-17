@@ -34,7 +34,7 @@ const Profile = ({
           </div>
           <div className="profile-view">
             <Row>
-              <Col span={12}>
+              <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                 <Card
                   title={
                     <span>
@@ -60,7 +60,7 @@ const Profile = ({
                   }
                 </Card>
               </Col>
-              <Col span={12}>
+              <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                 <Card
                   title={
                     <span>

@@ -27,7 +27,7 @@ const SecurityAndLogin = ({
                 />
               </div>
               <Divider>Change Password</Divider>
-              <div>
+              <div className='change-password-div'>
                 <ChangePasswordForm />
               </div>
             </FormSection>
