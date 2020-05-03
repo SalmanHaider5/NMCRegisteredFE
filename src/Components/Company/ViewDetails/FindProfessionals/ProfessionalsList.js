@@ -1,16 +1,42 @@
 import React from 'react'
-import { Table } from 'antd'
-import { PROFESSIONAL_COLUMNS as columns } from '../../../../constants'
+import { map } from 'ramda'
+import { Row, Col } from 'antd'
+import ProfessionalCard from './ProfessionalCard'
 
-const ProfessionalsList = ({ professionals }) => {
+const ProfessionalsList = ({
+  professionals,
+  documentModal,
+  documentModalType,
+  showDocumentModal,
+  hideDocumentModal,
+  getDocumentType,
+  imageModal,
+  showImageModal,
+  hideImageModal
+}) => {
   return (
-    <Table
-      bordered
-      columns={columns}
-      dataSource={professionals}
-      size="small"
-      title={() => <b>Professionals List</b>}
-    />
+    <Row gutter={16} className="professionals-list">
+      {
+        map(professional => {
+          const { id } = professional
+          return(
+            <Col span={8} key={id} >
+              <ProfessionalCard
+                professional={professional}
+                documentModal={documentModal}
+                documentModalType={documentModalType}
+                showDocumentModal={showDocumentModal}
+                hideDocumentModal={hideDocumentModal}
+                getDocumentType={getDocumentType}
+                imageModal={imageModal}
+                showImageModal={showImageModal}
+                hideImageModal={hideImageModal}
+              />
+            </Col>
+          )
+        }, professionals)
+      }
+    </Row>
   )
 }
 export default ProfessionalsList

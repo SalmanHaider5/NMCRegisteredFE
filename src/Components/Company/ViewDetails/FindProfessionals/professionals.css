@@ -1,0 +1,32 @@
+.professionals-list .ant-card{
+  width: 95%;
+  margin: 0 auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.professionals-list .ant-card .ant-card-head,
+.professionals-list .ant-card .ant-card-extra{
+  background-color: #001529;
+  color: #fff;
+}
+
+.professionals-list .ant-card .ant-list-item label {
+  font-weight: 500;
+  font-size: 14px;
+  color: #000;
+}
+.professionals-list .ant-card .ant-list-item label i{
+  padding-right: 5px;
+}
+
+.professionals-list .ant-card .ant-list-item span {
+  position: absolute;
+  right: 0;
+  font-weight: 500;
+  opacity: 0.8;
+}
+.professionals-list .ant-card .ant-card-actions i{
+  font-size: 22px;
+}

@@ -21,7 +21,7 @@ const ViewDetails = ({
   editFormModal,
   showEditFormModal,
   hideEditFormModal,
-  charity,
+  charityStatus,
   subsidiary,
   addresses,
   findAddresses,
@@ -30,7 +30,15 @@ const ViewDetails = ({
   subsidiaryStatusChange,
   updateCompany,
   searchProfessionalsBySkills,
-  professionals
+  professionals,
+  documentModal,
+  documentModalType,
+  showDocumentModal,
+  hideDocumentModal,
+  getDocumentType,
+  imageModal,
+  showImageModal,
+  hideImageModal
 }) => {
   const { Sider, Footer, Content } = Layout
   return (
@@ -91,9 +99,19 @@ const ViewDetails = ({
           <Switch>
             <Route path="/company/:userId/professionals">
               <FindProfessionals
+                userId={userId}
                 isPaid={isPaid}
+                formValues={formValues}
                 professionals={professionals}
                 isLoading={isLoading}
+                documentModal={documentModal}
+                documentModalType={documentModalType}
+                showDocumentModal={showDocumentModal}
+                hideDocumentModal={hideDocumentModal}
+                getDocumentType={getDocumentType}
+                imageModal={imageModal}
+                showImageModal={showImageModal}
+                hideImageModal={hideImageModal}
                 searchProfessionalsBySkills={searchProfessionalsBySkills}
               />
             </Route>
@@ -112,7 +130,7 @@ const ViewDetails = ({
                 editFormModal={editFormModal}
                 showEditFormModal={showEditFormModal}
                 hideEditFormModal={hideEditFormModal}
-                charity={charity}
+                charityStatus={charityStatus}
                 subsidiary={subsidiary}
                 subsidiaryStatusChange={subsidiaryStatusChange}
                 charityStatusChange={charityStatusChange}

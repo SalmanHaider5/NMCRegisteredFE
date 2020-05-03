@@ -17,7 +17,7 @@ const Profile = ({
   findAddresses,
   addressSelectHandler,
   addresses,
-  charity,
+  charityStatus,
   subsidiary,
   charityStatusChange,
   subsidiaryStatusChange,
@@ -39,7 +39,7 @@ const Profile = ({
                   title={
                     <span>
                       <Icon type="user" />
-                      Personal Details
+                        Personal Details
                     </span>
                   }
                   extra={
@@ -97,7 +97,7 @@ const Profile = ({
                   addresses={addresses}
                   findAddresses={findAddresses}
                   addressSelectHandler={addressSelectHandler}
-                  charity={charity}
+                  charityStatus={charityStatus}
                   subsidiary={subsidiary}
                   charityStatusChange={charityStatusChange}
                   subsidiaryStatusChange={subsidiaryStatusChange}

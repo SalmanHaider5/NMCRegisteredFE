@@ -133,7 +133,7 @@ export const getProfessionalDetails = userId => dispatch => {
     })
 }
 
-export const updateProfile = (userId, values) => dispatch => {
+export const updateProfessionalProfile = (userId, values) => dispatch => {
     dispatch({ type: types.PROFESSIONAL_PROFILE_UPDATE_REQUEST })
     const token = defaultTo('', Cookies.getJSON('authToken').authToken)
     const endpoint = `${url}${userId}/professional`

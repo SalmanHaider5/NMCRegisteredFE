@@ -3,16 +3,17 @@ import { Field } from 'redux-form'
 import { Checkbox, Form, Spin } from 'antd'
 import { TextField, ButtonTextField, SelectField } from '../../../utils/custom-components'
 import { isRequired } from '../../../constants'
-// import { isEmptyOrNull } from '../../../utils/helpers'
+import { isEmptyOrNull } from '../../../utils/helpers'
 
 const ProfessionalDetailsForm = ({
-  charity,
+  charityStatus,
   subsidiary,
   charityStatusChange,
   subsidiaryStatusChange,
   addresses: { isLoading, addresses },
   findAddresses,
-  addressSelectHandler
+  addressSelectHandler,
+  formValues: { charity }
 }) => {
   return (
     <Spin spinning={isLoading} tip="Loading...">
@@ -66,10 +67,10 @@ const ProfessionalDetailsForm = ({
         colon={false}
         className='form-checkbox'
       >
-        <Checkbox onChange={charityStatusChange} />
+        <Checkbox checked={!isEmptyOrNull(charity) || charityStatus} onChange={charityStatusChange} />
       </Form.Item>
       {
-        charity ?
+        charityStatus ?
         <Field
           name="charity"
           component={TextField}

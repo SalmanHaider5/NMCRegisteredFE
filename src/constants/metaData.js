@@ -1,6 +1,3 @@
-import React from 'react'
-import { Icon } from 'antd'
-
 export const TITLE = "NMC Registered"
 export const DATE_FORMAT = "DD/MM/YYYY"
 export const TIME_FORMAT = "hh:mm A"
@@ -37,14 +34,6 @@ export const QUALIFICATION_OPTIONS = [
     { id: 7, name: 'Operating Department Practitioner' },
     { id: 8, name: 'ICU/HDU Nurse' },
     { id: 9, name: 'Nursing Associate' }
-]
-
-export const PROFESSIONAL_COLUMNS = [
-    { title: 'Name', dataIndex: 'fullName' },
-    { title: 'Gender', dataIndex: 'status' },
-    { title: 'NMC Pin', dataIndex: 'nmcPin' },
-    { title: 'CPD Hours', dataIndex: 'cpdHours' },
-    { title: 'View Profile', dataIndex: '', key: 'x', render: () => <Icon type="eye" /> }
 ]
 
 export const data = [
