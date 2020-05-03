@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, change } from 'redux-form'
+import moment from 'moment'
 import { Icon } from 'antd'
-import { concat, omit, trim, find, propEq, split, prop, defaultTo } from 'ramda'
-import { addDetails, logoutUser, getCompanyDetails, getAdresses, updatePassword, contactUs, updateProfile, searchProfessionals } from '../../actions'
-import { QUALIFICATION_OPTIONS as skills } from '../../constants'
+import { concat, omit, trim, find, propEq, split, prop, defaultTo, last, equals } from 'ramda'
+import { addDetails, logoutUser, getCompanyDetails, getAdresses, updatePassword, contactUs, makePayment, updateProfile, searchProfessionals, getClientPaymentToken } from '../../actions'
+import { QUALIFICATION_OPTIONS as skills, TIMESHEET_SHIFTS as shifts } from '../../constants'
 import { getCompanyFormValues, isEmptyOrNull } from '../../utils/helpers'
 import AddDetails from './AddDetails'
 import ViewDetails from './ViewDetails'
@@ -17,21 +18,26 @@ class Company extends Component {
     super(props);
     this.state = {
       current: 0,
-      charity: false,
+      charityStatus: false,
       subsidiary: false,
       paymentSkipped: false,
       paymentMethod: '',
       collapsed: false,
       formName: '',
-      editFormModal: false
+      editFormModal: false,
+      documentModal: false,
+      documentModalType: '',
+      imageModal: false
     };
   }
 
   componentDidMount(){
-    const { match: { params: { userId } }, dispatch, application: { authentication: { auth, role } }, history } = this.props
+    const { match: { params: { userId } }, dispatch, company: { companyDetails: { isPaid = false } }, application: { authentication: { auth, role } }, history } = this.props
     dispatch(getCompanyDetails(userId))
     if(!auth && role !== 'company'){
       history.push('/')
+    }else if(!isPaid){
+      dispatch(getClientPaymentToken())
     }
   }
   
@@ -57,6 +63,11 @@ class Company extends Component {
     dispatch(updatePassword(userId, values))
   }
 
+  makePaymentRequest = (response) => {
+    const { dispatch, match: { params: { userId } } } = this.props
+    dispatch(makePayment(userId, response))
+  }
+
   sendMessage = () => {
     const { dispatch, formValues: { contactForm } } = this.props
     const { subject } = contactForm
@@ -68,6 +79,14 @@ class Company extends Component {
     const values = omit(['contactForm', 'searchForm', 'changePassword', 'email', 'isVerified'], formValues)
     dispatch(updateProfile(userId, values))
     this.hideEditFormModal()
+  }
+
+  showImageModal = () => {
+    this.setState({ imageModal: true })
+  }
+
+  hideImageModal = () => {
+    this.setState({ imageModal: false })
   }
 
   saveDetails = () => {
@@ -86,21 +105,40 @@ class Company extends Component {
     }
   }
 
-  searchProfessionalsBySkills = skillId => {
-    const { match: { params: { userId } }, dispatch, company: { companyDetails: { postalCode } } } = this.props
-    const skill = prop('name', find(propEq('id', skillId))(skills))
-    dispatch(searchProfessionals(userId, postalCode, skill))
+  searchProfessionalsBySkills = shift => {
+    const { match: { params: { userId } }, dispatch, company: { companyDetails }, formValues } = this.props
+    const { searchForm: { skill, searchDate } } = formValues
+    const values = {}
+    values.skill = prop('name', find(propEq('id', skill))(skills))
+    values.shift = prop('name', find(propEq('id', shift))(shifts))
+    values.postalCode = prop('postalCode', companyDetails)
+    values.date = moment(moment.utc(searchDate).toISOString()).format('YYYY-DD-MM').toString()
+    dispatch(searchProfessionals(userId, values))
   } 
 
   charityStatusChange = () => {
-    const { charity } = this.state
-    this.setState({ charity: !charity })
+    const { charityStatus } = this.state
+    this.setState({ charityStatus: !charityStatus })
   }
 
   showEditFormModal = (name) => {
     this.setState({
       editFormModal: true,
       formName: name
+    })
+  }
+
+  showDocumentModal = type => {
+    this.setState({
+      documentModal: true,
+      documentModalType: type
+    })
+  }
+
+  hideDocumentModal = () => {
+    this.setState({
+      documentModal: false,
+      documentModalType: ''
     })
   }
 
@@ -125,6 +163,14 @@ class Company extends Component {
   findAddresses = () => {
     const { dispatch, formValues: { postalCode } } = this.props
     dispatch(getAdresses(trim(postalCode)))
+  }
+
+  getDocumentType = document => {
+    const extension = last(split('.', document))
+    if(equals(extension, 'pdf') || equals(extension, 'doc') || equals(extension, 'docs'))
+      return 'document'
+    else if(equals(extension, 'jpg') || equals(extension, 'jpeg') || equals(extension, 'png'))
+      return 'image'
   }
 
   skipPaymentOption = () => {
@@ -166,8 +212,8 @@ class Company extends Component {
   }
   
   render() {
-    const { current, charity, subsidiary, paymentSkipped, collapsed, formName, editFormModal } = this.state
-    const { invalid, addresses, company: { companyDetails, isLoading, professionals }, application: { authentication: { userId } }, formValues } = this.props
+    const { current, charityStatus, subsidiary, paymentSkipped, collapsed, formName, editFormModal, documentModal, documentModalType, imageModal } = this.state
+    const { invalid, addresses, company: { companyDetails, isLoading, professionals, secret }, application: { authentication: { userId } }, formValues } = this.props
     const isPaid = defaultTo(false, prop('isPaid', companyDetails))
     
     return(
@@ -187,10 +233,18 @@ class Company extends Component {
             formName={formName}
             editFormModal={editFormModal}
             addresses={addresses}
-            charity={charity}
+            charityStatus={charityStatus}
             subsidiary={subsidiary}
             professionals={professionals}
+            documentModal={documentModal}
+            documentModalType={documentModalType}
+            imageModal={imageModal}
+            showImageModal={this.showImageModal}
+            hideImageModal={this.hideImageModal}
+            showDocumentModal={this.showDocumentModal}
+            hideDocumentModal={this.hideDocumentModal}
             findAddresses={this.findAddresses}
+            getDocumentType={this.getDocumentType}
             addressSelectHandler={this.addressSelectHandler}
             showEditFormModal={this.showEditFormModal}
             hideEditFormModal={this.hideEditFormModal}
@@ -205,12 +259,16 @@ class Company extends Component {
           :
           <AddDetails
             current={current}
-            charity={charity}
+            charityStatus={charityStatus}
             subsidiary={subsidiary}
             invalid={invalid}
+            isLoading={isLoading}
             addresses={addresses}
             paymentSkipped={paymentSkipped}
             companyDetails={companyDetails}
+            formValues={formValues}
+            secret={secret}
+            makePaymentRequest={this.makePaymentRequest}
             next={this.next}  
             prev={this.prev}
             getFormIcon={this.getFormIcon}

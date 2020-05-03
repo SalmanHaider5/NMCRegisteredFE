@@ -3,7 +3,7 @@ import { pathOr, append } from 'ramda'
 
 const initState = {
     isLoading: false,
-    clientToken: '',
+    secret: '',
     companyDetails: {},
     professionals: []
 }
@@ -24,11 +24,10 @@ const company = (state=initState, action) => {
                 professionals: []
             }
         case actions.CLIENT_TOKEN_SUCCESS:
-            const { token } = payload
             return{
                 ...state,
                 isLoading: false,
-                clientToken: token
+                secret: payload
             }
         case actions.CLINET_TOKEN_FAILURE:
             return{
@@ -70,11 +69,29 @@ const company = (state=initState, action) => {
                 ...state,
                 isLoading: true
             }
+        case actions.MAKE_PAYMENT_REQUEST:
+            return{
+                ...state,
+                isLoading: true
+            }
+        case actions.MAKE_PAYMENT_SUCCESS:
+            const companyDetails = state.companyDetails
+            companyDetails.isPaid = true
+            return{
+                ...state,
+                isLoading: false,
+                companyDetails
+            }
+        case actions.MAKE_PAYMENT_FAILURE:
+            return{
+                ...state,
+                isLoading: false
+            }
         case actions.ENLIST_PROFESSIONAL:
             payload.key = payload.id
             return {
                 ...state,
-                isLoading: true,
+                isLoading: false,
                 professionals: append(payload, state.professionals)
             }
         case actions.FETCH_COMPANY_DETAILS_SUCCESS:

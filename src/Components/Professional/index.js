@@ -4,7 +4,7 @@ import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import { Icon } from 'antd'
 import moment from 'moment'
 import { trim, split, prop, propEq, concat, find, omit, dissoc, type, last, equals } from 'ramda'
-import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfile, updateSecurityDetails, changePhoneRequest, clearAddresses, contactUs } from '../../actions'
+import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfessionalProfile, updateSecurityDetails, changePhoneRequest, clearAddresses, contactUs } from '../../actions'
 import { GENDER_OPTIONS as genders, QUALIFICATION_OPTIONS as qualifications, DATE_FORMAT as dateFormat } from '../../constants'
 import { getProfessionalFormValues, isEmptyOrNull } from '../../utils/helpers'
 import Header from '../Header'
@@ -50,7 +50,7 @@ class Professional extends Component {
     else
       values.qualification = prop('name', find(propEq('id', qualification))(qualifications))
     values.dateOfBirth = moment(dateOfBirth).format(dateFormat)
-    dispatch(updateProfile(userId, values))
+    dispatch(updateProfessionalProfile(userId, values))
     this.setState({
       imageFile: '',
       documentFile: ''

@@ -219,7 +219,7 @@ class Timesheet extends Component {
     let scheduleValues = map(day => {
       const dayFound = find(propEq('day', day.name))(schedule)
       let singleTimesheet = {}
-      singleTimesheet.date = moment.utc(weeklyDates[parseInt(day.id) - 1]).toISOString()
+      singleTimesheet.date = moment(moment.utc(weeklyDates[parseInt(day.id) - 1]).toISOString()).format('YYYY-MM-DD')
       singleTimesheet.shift = isNil(dayFound) ? '' : dayFound.shift
       singleTimesheet.time = isNil(dayFound) ? `00:00 AA - 00:00 AA` : `${dayFound.startTime}-${dayFound.endTime}`
       singleTimesheet.status = isNil(dayFound) ? false : true

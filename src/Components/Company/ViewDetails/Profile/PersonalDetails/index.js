@@ -1,10 +1,10 @@
 import React from 'react'
 import { List, Tag, Icon } from 'antd'
 import moment from 'moment'
-import { DATE_FORMAT as dateFormat } from '../../../../../constants'
 
 const PersonalDetails = ({ company }) => {
   const {
+    isPaid,
     firstName,
     lastName,
     email,
@@ -80,10 +80,19 @@ const PersonalDetails = ({ company }) => {
       </List.Item>
       <List.Item>
         <label>
+          <Icon type="pound" />
+          License Purchased
+        </label>
+        <span className="label-value">
+          {isPaid ? '' : 'Not Purchased'}
+        </span>
+      </List.Item>
+      <List.Item>
+        <label>
           <Icon type="calendar" />
           Joined At
         </label>
-        <span className="label-value">{moment(createdAt).format(dateFormat)}</span>
+        <span className="label-value">{moment(createdAt).format('LL')}</span>
       </List.Item>
     </List>
   )
