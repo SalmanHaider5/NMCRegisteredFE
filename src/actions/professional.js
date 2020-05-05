@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 import { initialize, change } from 'redux-form'
 import { SERVER_URL as url } from '../constants'
 import * as types from './'
+import { getAdresses } from './addresses'
 import { getProfessionalData } from '../utils/parsers'
 import { showToast, getFormData, isEmptyOrNull } from '../utils/helpers'
 
@@ -110,11 +111,14 @@ export const getProfessionalDetails = userId => dispatch => {
     })
     .then(res => res.json())
     .then(data => {
+        console.log('Data', data)
         const { code, response: { title, message } } = data
-        const professional = getProfessionalData(data.professional)
-        dispatch(initialize('professional', professional))
         showToast(title, message, code)
         if(code === 'success' || code === 'info'){
+            const professional = getProfessionalData(data.professional)
+            const { postCode } = professional
+            dispatch(getAdresses(postCode))
+            dispatch(initialize('professional', professional))
             dispatch({
                 type: types.FETCH_PROFESSIONAL_DETAILS_SUCCESS,
                 payload: professional

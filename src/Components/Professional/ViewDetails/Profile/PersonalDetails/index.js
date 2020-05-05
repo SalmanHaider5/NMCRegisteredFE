@@ -1,7 +1,6 @@
 import React from 'react'
 import { List, Tag, Icon } from 'antd'
 import moment from 'moment'
-import { DATE_FORMAT as dateFormat } from '../../../../../constants'
 
 const PersonalDetails = ({ professional, phoneVerified }) => {
   const {
@@ -53,7 +52,7 @@ const PersonalDetails = ({ professional, phoneVerified }) => {
           Date of Birth
         </label>
         <span className="label-value">
-          {moment(dateOfBirth).format(dateFormat)}
+          {moment(dateOfBirth).format('ll')}
         </span>
       </List.Item>
       <List.Item>
@@ -61,7 +60,7 @@ const PersonalDetails = ({ professional, phoneVerified }) => {
           <Icon type="calendar" />
           Joined At
         </label>
-        <span className="label-value">{moment(createdAt).format(dateFormat)}</span>
+        <span className="label-value">{moment(createdAt).format('ll')}</span>
       </List.Item>
     </List>
   )

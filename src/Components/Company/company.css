@@ -159,3 +159,9 @@ div.StripeElement input:focus,
 .StripeElement.PaymentRequestButton {
   height: 40px;
 }
+button.payment-button{
+    padding: 0 5px 0 5px;
+    margin: 0;
+    position: absolute;
+    bottom: 2px;
+}

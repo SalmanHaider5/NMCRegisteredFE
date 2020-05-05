@@ -50,7 +50,6 @@ const SignupForm = ({
                 </Col>
                 </Row>
             </div>
-            {/* <Divider>Register</Divider> */}
             <div className='register-field'>
               <Field
                 name="email"
@@ -93,9 +92,6 @@ const SignupForm = ({
               >
                 <Icon type="user-add" /> Register
               </Button>
-            {/* <div>
-              <span className='form-span'>this is new text</span>
-            </div> */}
           </form>
         </div>
       </div>

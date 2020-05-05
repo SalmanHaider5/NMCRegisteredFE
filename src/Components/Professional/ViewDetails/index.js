@@ -17,6 +17,7 @@ const ViewDetails = ({
   showEditFormModal,
   hideEditFormModal,
   findAddresses,
+  dateHandler,
   addressSelectHandler,
   addresses,
   updateProfessionalDetails,
@@ -36,7 +37,10 @@ const ViewDetails = ({
   documentModal,
   documentModalType,
   getDocumentType,
-  sendMessage
+  sendMessage,
+  pageKey,
+  switchPage,
+  changePostalCode
 }) => {
   const { Sider, Footer, Content } = Layout
   return (
@@ -44,15 +48,10 @@ const ViewDetails = ({
       <Sider style={{ marginTop: '-4px' }}
         breakpoint="xl"
         collapsedWidth="0"
-        onBreakpoint={broken => {
-          console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
-        }}
       >
         <Menu
-          defaultSelectedKeys={['1']}
+          onClick={switchPage}
+          defaultSelectedKeys={[pageKey]}
           mode="inline"
           theme="dark"
         >
@@ -62,19 +61,19 @@ const ViewDetails = ({
               <span>Timesheets</span>
             </Link>
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item key="2">
             <Link to={`/professional/${userId}/profile`}>
               <Icon type="profile" />
               <span>View Profile</span>
             </Link>
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item key="3">
             <Link to={`/professional/${userId}/security`}>
               <Icon type="lock" />
               <span>Security & Login</span>
             </Link>
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item key="4">
             <Link to={`/professional/${userId}/contact`}>
               <Icon type="mail" />
               <span>Contact Us</span>
@@ -101,6 +100,7 @@ const ViewDetails = ({
                 updateProfessionalDetails={updateProfessionalDetails}
                 getProfileStatus={getProfileStatus}
                 invalid={invalid}
+                dateHandler={dateHandler}
                 formValues={formValues}
                 phoneVerified={phoneVerified}
                 showImageModal={showImageModal}
@@ -114,6 +114,7 @@ const ViewDetails = ({
                 documentModal={documentModal}
                 documentModalType={documentModalType}
                 getDocumentType={getDocumentType}
+                changePostalCode={changePostalCode}
               />
             </Route>
             <Route path="/professional/:userId/security">

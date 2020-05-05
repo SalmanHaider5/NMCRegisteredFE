@@ -2,7 +2,7 @@ import { change, initialize } from 'redux-form'
 import Cookies from 'js-cookie'
 import { pathOr, join, defaultTo, forEach } from 'ramda'
 import moment from 'moment'
-import { SERVER_URL as url, DATE_FORMAT } from '../constants'
+import { SERVER_URL as url } from '../constants'
 import { showToast, isEmptyOrNull } from '../utils/helpers'
 import { getAdresses } from './addresses'
 import * as types from './'
@@ -75,11 +75,10 @@ export const getCompanyDetails = userId => dispatch => {
     })
     .then(res => res.json())
     .then(data => {
-        console.log('Company', data)
         if(data.code === 'success'){
             const { company } = data
             const { firstName, lastName, email, phone, postalCode } = company
-            // dispatch(getAdresses(postalCode))
+            dispatch(getAdresses(postalCode))
             const contact = {
                 name: join(' ', [firstName, lastName]),
                 email,
@@ -327,7 +326,7 @@ export const makePayment = (userId, response) => dispatch => {
                 const token = pathOr('', ['authToken'], Cookies.getJSON('authToken'))
                 const values = {}
                 values.balance = amount
-                values.payDate = moment().format(DATE_FORMAT).toString()
+                values.payDate = moment().format('YYYY-MM-DD')
                 values.status = true
                 fetch(endpoint, {
                     method: 'POST',
@@ -342,7 +341,8 @@ export const makePayment = (userId, response) => dispatch => {
                     const { code } = response
                     if(code === 'success'){
                         dispatch({
-                            type: types.MAKE_PAYMENT_SUCCESS
+                            type: types.MAKE_PAYMENT_SUCCESS,
+                            payload: values
                         })
                     }
                 })

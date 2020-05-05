@@ -6,6 +6,12 @@ const changePassword = {
   confirmPassword: ''
 }
 
+const searchForm = {
+  skill: '',
+  serchDate: '',
+  shift: ''
+}
+
 const getContactFormData = response => {
   return {
     name: join(' ', [pathOr('', ['firstName'], response), pathOr('', ['lastName'], response)]),
@@ -32,11 +38,13 @@ export const getCompanyData = (response) => {
     phone: pathOr('', ['phone'], response),
     registration: pathOr('', ['registration'], response),
     isPaid: pathOr(false, ['isPaid'], response),
-    charity: pathOr('', ['charity'], response),
+    charity: pathOr(false, ['charity'], response),
+    charityReg: pathOr('', ['charityReg'], response),
     subsidiary: pathOr(false, ['subsidiary'], response),
     subsidiaryName: pathOr('', ['subsidiaryName'], response),
     subsidiaryAddress: pathOr('', ['subsidiaryAddress'], response),
     changePassword,
+    searchForm,
     contactForm: getContactFormData(response)
   }
 }

@@ -58,7 +58,7 @@
 }
 div.modal-image{
     width: 100%;
-    height: 80vh;
+    height: auto;
     overflow: hidden;
 }
 .image-avatar{

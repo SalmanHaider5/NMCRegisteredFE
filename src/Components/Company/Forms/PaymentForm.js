@@ -5,7 +5,7 @@ import { Elements } from '@stripe/react-stripe-js'
 import StripeCardPayment from './StripeCardPayment'
 import { TextField } from '../../../utils/custom-components'
 
-const PaymentForm = ({ formValues, secret, makePaymentRequest }) => {
+const PaymentForm = ({ formValues, secret, makePaymentRequest, skipPaymentOption }) => {
   const { firstName, lastName, postalCode, balance } = formValues
   const stripePromise = loadStripe("pk_test_cmqEvoYCsQr8Ur3q2AoEY5V800VuRo430P")
   return (
@@ -35,13 +35,14 @@ const PaymentForm = ({ formValues, secret, makePaymentRequest }) => {
         name="balance"
         component={TextField}
         label={'Licensing Fee (GBP)'}
-        fieldData={balance}
+        fieldData={`£ ${balance}`}
         readOnly={true}
       />
       <Elements stripe={stripePromise}>
         <StripeCardPayment
           secret={secret}
           formValues={formValues}
+          skipPaymentOption={skipPaymentOption}
           makePaymentRequest={makePaymentRequest}
         />
       </Elements>

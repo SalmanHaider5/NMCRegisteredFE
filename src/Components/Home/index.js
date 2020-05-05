@@ -167,7 +167,7 @@ class Home extends Component {
     const modalType = twoFactorAuth ? 'Mobile Verification' : forgetPassword ? 'Forget Password' : contactFormModal ? 'Contact Us' :  'Login'
     
     if(auth && !isEmptyOrNull(role)){
-      return <Redirect to={ equals(role, 'professional') ? `/${role}/${userId}/timesheet` : `/${role}/${userId}` } />
+      return <Redirect to={ equals(role, 'professional') ? `/${role}/${userId}/timesheet` : `/${role}/${userId}/professionals` } />
     }
     return (
       <Spin spinning={isLoading} tip="Loading...">
@@ -200,7 +200,7 @@ class Home extends Component {
                         <h1 className='header-h1'>Welcome to {TITLE}</h1>
                         {/* <h2 className='header-h2'>We have one goal to achieve:</h2> */}
                         <div className='header-text-div'>
-                          <p className="header-text">We provide a simplistic solution for Care
+                          <p className="header-text">Delivering a simplistic solution for Care
                           Homes and Professionals to link together.</p>
                           <p className="header-text-lower">Our seamless system allows simple and
                             straightforward connection between

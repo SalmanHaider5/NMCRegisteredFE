@@ -231,7 +231,11 @@ button.skip-button i {
     padding: 20px;
 }
 .weekly-row .ant-col{
-    padding-bottom: 50px;
+    padding-bottom: 10px;
+}
+.weekly-row .ant-col .ant-btn-group{
+    float: right;
+    right: 10px;
 }
 button.ant-btn-primary h4, button.ant-btn-primary h5{
     color: #fff;

@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie'
 import { defaultTo, forEach, length } from 'ramda'
+import moment from 'moment'
 import { SERVER_URL as url } from '../constants'
 import * as types from './'
 import { showToast } from '../utils/helpers'
@@ -75,27 +76,33 @@ export const fetchTimesheets = userId => dispatch => {
             dispatch({ type: types.FETCH_TIMESHEETS_REQUEST })
             const { id, startingDay, endingDay } = timesheet
             const endpoint = `${url}timesheet/${id}`
-            fetch(endpoint, {
-                headers: {
-                    authorization: token
-                }
-            })
-            .then(res => res.json())
-            .then(response => {
-                const { code, timesheet } = response
-                if(code === 'success'){
-                    dispatch({
-                        type: types.FETCH_TIMESHEETS_SUCCESS,
-                        payload: { length: length(timesheets), timesheet: { id, startingDay, endingDay, schedule: timesheet } }
-                    })
-                }
-                else{
-                    dispatch({
-                        type: types.FETCH_TIMESHEETS_FAILURE,
-                        error: response.error
-                    })
-                }
-            })
+            if(moment(endingDay).isBefore(moment())){
+                const { id } = timesheet
+                dispatch(removeTimesheet(id))
+            }else{
+                const { id } = timesheet
+                fetch(endpoint, {
+                    headers: {
+                        authorization: token
+                    }
+                })
+                .then(res => res.json())
+                .then(response => {
+                    const { code, timesheet } = response
+                    if(code === 'success'){
+                        dispatch({
+                            type: types.FETCH_TIMESHEETS_SUCCESS,
+                            payload: { length: length(timesheets), timesheet: { id, startingDay, endingDay, schedule: timesheet } }
+                        })
+                    }
+                    else{
+                        dispatch({
+                            type: types.FETCH_TIMESHEETS_FAILURE,
+                            error: response.error
+                        })
+                    }
+                })
+            }
         }, timesheets)
     })
 }

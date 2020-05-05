@@ -1,4 +1,5 @@
 import React from 'react'
+import { length } from 'ramda'
 import { Row, Col, Card, Icon, Button } from 'antd'
 import { isEmptyOrNull } from '../../../utils/helpers'
 import AddPhoneForm from '../DetailForms/AddPhoneForm'
@@ -25,6 +26,7 @@ const AddDetails = ({
   getFormName,
   invalid,
   codeSent,
+  dateHandler,
   editPhoneNumber,
   imageRemoveHandler,
   fileRemoveHandler,
@@ -37,6 +39,7 @@ const AddDetails = ({
   const components = [
     <PersonalDetailsForm
       addForm={true}
+      dateHandler={dateHandler}
       formValues={formValues}
     />,
     <AddressForm
@@ -99,7 +102,7 @@ const AddDetails = ({
                     <Button className="next-btn success-btn" disabled={invalid} onClick={saveDetails}>
                       <Icon type="check" /> Save
                     </Button> :
-                    <Button className="next-btn" type="primary" disabled={invalid} onClick={next}>
+                    <Button className="next-btn" type="primary" disabled={current === 1 ? (invalid || length(addresses.addresses) === 0) : invalid} onClick={next}>
                       Next <Icon type="right" />
                     </Button> :
                   <Button className="success-btn next-btn" onClick={verifyProfessionalPhone}>

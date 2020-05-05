@@ -37,14 +37,17 @@ const AddDetails = ({
     <ProfessionalDetailsForm
       addresses={addresses}
       findAddresses={findAddresses}
+      formValues={formValues}
       addressSelectHandler={addressSelectHandler}
       charityStatusChange={charityStatusChange}
       subsidiaryStatusChange={subsidiaryStatusChange}
       subsidiary={subsidiary}
+      changePostalCode={changePostalCode}
       charity={charity}
     />,
     <PaymentForm
       makePaymentRequest={makePaymentRequest}
+      skipPaymentOption={skipPaymentOption}
       formValues={formValues}
       secret={secret}
     />
@@ -103,14 +106,7 @@ const AddDetails = ({
                     <Button className="next-btn" type="primary" disabled={invalid} onClick={next}>
                       Next <Icon type="right" />
                     </Button> :
-                    <span>
-                      <Button className="next-btn" type="primary" disabled={true} onClick={next}>
-                        Next <Icon type="right" />
-                      </Button>
-                      <Button className="skip-btn" type="danger" onClick={skipPaymentOption}>
-                        Skip <Icon type="right-square" />
-                      </Button>
-                    </span>
+                    ''
                   }
                 </Col>
               </Row>

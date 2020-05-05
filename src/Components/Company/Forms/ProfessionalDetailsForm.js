@@ -1,20 +1,20 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { Checkbox, Form, Spin } from 'antd'
+import { defaultTo, length } from 'ramda'
+import { Checkbox, Form, Spin, Button } from 'antd'
 import { TextField, ButtonTextField, SelectField } from '../../../utils/custom-components'
 import { isRequired } from '../../../constants'
-import { isEmptyOrNull } from '../../../utils/helpers'
 
 const ProfessionalDetailsForm = ({
-  charityStatus,
-  subsidiary,
   charityStatusChange,
   subsidiaryStatusChange,
   addresses: { isLoading, addresses },
   findAddresses,
   addressSelectHandler,
-  formValues: { charity }
+  formValues,
+  changePostalCode
 }) => {
+  const { charity, subsidiary } = defaultTo({}, formValues)
   return (
     <Spin spinning={isLoading} tip="Loading...">
       <Field
@@ -23,7 +23,15 @@ const ProfessionalDetailsForm = ({
 				enterButton={'Find Address'}
 				onSearch={findAddresses}
 				label={'Postal Code'}
-				size={'large'}
+        size={'large'}
+        readOnly={length(addresses) > 0}
+        specialText={
+          length(addresses) > 0 ?
+          <Button type="link" onClick={changePostalCode}>
+            Change Post Code?
+          </Button>:
+          'Enter post code to find your home address'
+        }
 				type="text"
 				validate={[isRequired]}
 				tooltipPlacement={'topRight'}
@@ -67,12 +75,12 @@ const ProfessionalDetailsForm = ({
         colon={false}
         className='form-checkbox'
       >
-        <Checkbox checked={!isEmptyOrNull(charity) || charityStatus} onChange={charityStatusChange} />
+        <Checkbox defaultChecked={charity} onChange={charityStatusChange} />
       </Form.Item>
       {
-        charityStatus ?
+        charity ?
         <Field
-          name="charity"
+          name="charityReg"
           component={TextField}
           label={'Charity Reg. No.'}
           size={'large'}
@@ -90,7 +98,7 @@ const ProfessionalDetailsForm = ({
         colon={false}
         className='form-checkbox'
       >
-        <Checkbox onChange={subsidiaryStatusChange} />
+        <Checkbox checked={subsidiary} onChange={subsidiaryStatusChange} />
       </Form.Item>
       {
         subsidiary ?

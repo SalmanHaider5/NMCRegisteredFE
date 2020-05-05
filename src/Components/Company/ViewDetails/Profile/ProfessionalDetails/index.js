@@ -10,6 +10,7 @@ const ProfessionalDetails = ({ company }) => {
     city,
     county,
     charity,
+    charityReg,
     subsidiaryName,
     subsidiaryAddress
   } = company
@@ -48,7 +49,7 @@ const ProfessionalDetails = ({ company }) => {
           <Icon type="car" />
           Charity Registration No.
         </label>
-        <span className="label-value">{ isEmptyOrNull(charity) ? `N/A` : charity }</span>
+        <span className="label-value">{ charity ? charityReg : `N/A`  }</span>
       </List.Item>
       <List.Item>
         <label>

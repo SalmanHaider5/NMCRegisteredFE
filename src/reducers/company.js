@@ -42,6 +42,7 @@ const company = (state=initState, action) => {
         case actions.ADD_COMPANY_DETAILS_SUCCESS:
             payload.email = state.companyDetails.email
             payload.isVerified = state.companyDetails.isVerified
+            payload.balance = state.companyDetails.balance
             return{
                 ...state,
                 isLoading: false,
@@ -76,7 +77,8 @@ const company = (state=initState, action) => {
             }
         case actions.MAKE_PAYMENT_SUCCESS:
             const companyDetails = state.companyDetails
-            companyDetails.isPaid = true
+            companyDetails.isPaid = payload.status
+            companyDetails.payDate = payload.payDate
             return{
                 ...state,
                 isLoading: false,

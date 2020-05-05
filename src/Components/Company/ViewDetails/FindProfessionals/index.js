@@ -19,8 +19,11 @@ const FindProfessionas = ({
   imageModal,
   showImageModal,
   hideImageModal,
+  showMessage,
+  searchDateError,
   searchProfessionalsBySkills
 }) => {
+  
   return (
     <Spin spinning={isLoading} tip="Loading...">
       <div className="inner-wrapper">
@@ -34,6 +37,8 @@ const FindProfessionas = ({
                   <SearchForm
                     isPaid={isPaid}
                     formValues={formValues}
+                    showMessage={showMessage}
+                    searchDateError={searchDateError}
                     searchProfessionalsBySkills={searchProfessionalsBySkills}
                   />
                 </FormSection>
@@ -47,6 +52,7 @@ const FindProfessionas = ({
                   showDocumentModal={showDocumentModal}
                   hideDocumentModal={hideDocumentModal}
                   imageModal={imageModal}
+                  formValues={formValues}
                   showImageModal={showImageModal}
                   hideImageModal={hideImageModal}
                 />

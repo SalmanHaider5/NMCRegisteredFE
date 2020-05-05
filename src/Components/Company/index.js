@@ -2,24 +2,25 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import moment from 'moment'
-import { Icon } from 'antd'
+import { Icon, message } from 'antd'
 import { concat, omit, trim, find, propEq, split, prop, defaultTo, last, equals } from 'ramda'
-import { addDetails, logoutUser, getCompanyDetails, getAdresses, updatePassword, contactUs, makePayment, updateProfile, searchProfessionals, getClientPaymentToken } from '../../actions'
+import { addDetails, logoutUser, getCompanyDetails, clearAddresses, getAdresses, updatePassword, contactUs, makePayment, updateProfile, searchProfessionals, getClientPaymentToken } from '../../actions'
 import { QUALIFICATION_OPTIONS as skills, TIMESHEET_SHIFTS as shifts } from '../../constants'
 import { getCompanyFormValues, isEmptyOrNull } from '../../utils/helpers'
 import AddDetails from './AddDetails'
 import ViewDetails from './ViewDetails'
 import Header from '../Header'
-
+import 'moment/locale/en-gb'
 import './company.css'
+
+moment.locale('en-gb')
 
 class Company extends Component {
   constructor(props) {
     super(props);
     this.state = {
       current: 0,
-      charityStatus: false,
-      subsidiary: false,
+      pageKey: '1',
       paymentSkipped: false,
       paymentMethod: '',
       collapsed: false,
@@ -27,13 +28,26 @@ class Company extends Component {
       editFormModal: false,
       documentModal: false,
       documentModalType: '',
-      imageModal: false
+      imageModal: false,
+      searchDateError: ''
     };
   }
 
   componentDidMount(){
-    const { match: { params: { userId } }, dispatch, company: { companyDetails: { isPaid = false } }, application: { authentication: { auth, role } }, history } = this.props
+    const { match: { params: { userId } }, dispatch, company: { companyDetails: { isPaid = false } }, application: { authentication: { auth, role } }, history, location: { pathname } } = this.props
     dispatch(getCompanyDetails(userId))
+    if(last(split('/', pathname)) === 'professionals'){
+      this.setState({ pageKey: '1' })
+    }
+    if(last(split('/', pathname)) === 'profile'){
+      this.setState({ pageKey: '2' })
+    }
+    if(last(split('/', pathname)) === 'changePassword'){
+      this.setState({ pageKey: '3' })
+    }
+    if(last(split('/', pathname)) === 'contact'){
+      this.setState({ pageKey: '4' })
+    }
     if(!auth && role !== 'company'){
       history.push('/')
     }else if(!isPaid){
@@ -74,9 +88,30 @@ class Company extends Component {
     contactForm.subject = `${subject} [Contact Form | Company]`
     dispatch(contactUs(contactForm))
   }
+
+  switchPage = key => {
+    this.setState({ pageKey: key })
+  }
+
+  changePostalCode = () => {
+    const { dispatch } = this.props
+    dispatch(change('company', 'postalCode', ''))
+    dispatch(clearAddresses())
+  }
+
   updateCompany = () => {
     const { formValues, dispatch, match: { params: { userId } } } = this.props
     const values = omit(['contactForm', 'searchForm', 'changePassword', 'email', 'isVerified'], formValues)
+    if(!values.subsidiary){
+      values.subsidiaryName = ''
+      values.subsidiaryAddress = ''
+      dispatch(change('company', 'subsidiaryName', ''))
+      dispatch(change('company', 'subsidiaryAddress', ''))
+    }
+    if(!values.charity){
+      values.charityReg = ''
+      dispatch(change('company', 'charityReg', ''))
+    }
     dispatch(updateProfile(userId, values))
     this.hideEditFormModal()
   }
@@ -92,6 +127,16 @@ class Company extends Component {
   saveDetails = () => {
     const { dispatch, formValues, match: { params: { userId } } } = this.props
     const values = omit(['changePassword', 'contactForm', 'searchForm'], formValues)
+    if(!values.subsidiary){
+      values.subsidiaryName = ''
+      values.subsidiaryAddress = ''
+      dispatch(change('company', 'subsidiaryName', ''))
+      dispatch(change('company', 'subsidiaryAddress', ''))
+    }
+    if(!values.charity){
+      values.charityReg = ''
+      dispatch(change('company', 'charityReg', ''))
+    }
     dispatch(addDetails(userId, values))
     dispatch(reset('company'))
     this.setState({ current: 0 })
@@ -108,17 +153,18 @@ class Company extends Component {
   searchProfessionalsBySkills = shift => {
     const { match: { params: { userId } }, dispatch, company: { companyDetails }, formValues } = this.props
     const { searchForm: { skill, searchDate } } = formValues
+    console.log('Date', moment(searchDate).format('YYYY-MM-DD'))
     const values = {}
     values.skill = prop('name', find(propEq('id', skill))(skills))
     values.shift = prop('name', find(propEq('id', shift))(shifts))
     values.postalCode = prop('postalCode', companyDetails)
-    values.date = moment(moment.utc(searchDate).toISOString()).format('YYYY-DD-MM').toString()
+    values.date = moment(searchDate)
     dispatch(searchProfessionals(userId, values))
   } 
 
   charityStatusChange = () => {
-    const { charityStatus } = this.state
-    this.setState({ charityStatus: !charityStatus })
+    const { dispatch, formValues: { charity } } = this.props
+    dispatch(change('company', 'charity', !charity))
   }
 
   showEditFormModal = (name) => {
@@ -156,8 +202,8 @@ class Company extends Component {
   }
 
   subsidiaryStatusChange = () => {
-    const { subsidiary } = this.state
-    this.setState({ subsidiary: !subsidiary })
+    const { dispatch, formValues: { subsidiary } } = this.props
+    dispatch(change('company', 'subsidiary', !subsidiary))
   }
 
   findAddresses = () => {
@@ -177,6 +223,10 @@ class Company extends Component {
     this.setState({ paymentSkipped: true })
   }
 
+  showPaymentForm = () => {
+    this.setState({ paymentSkipped: false })
+  }
+
   changePaymentMethod = e => {
     this.setState({ paymentMethod: e.target.value })
   }
@@ -188,6 +238,34 @@ class Company extends Component {
       dispatch(change('company', 'address', concat(address[0], address[1])))
       dispatch(change('company', 'city', address[5]))
       dispatch(change('company', 'county', address[6]))
+    }
+  }
+
+  showMessage = (type, value) => {
+    const { dispatch, formValues: { searchForm: { searchDate } } } = this.props
+    if(type === 'skill'){
+      const searchForm = {
+        skill: value,
+        searchDate,
+        shift: ''
+      }
+      dispatch(change('company', 'searchForm', searchForm))
+      message.success('Pick a Date')
+    }
+    if(type === 'date'){
+      if(moment(value).isSameOrAfter(moment())){
+        const { formValues: { searchForm: { skill } } } = this.props
+        const searchForm = {
+          skill,
+          searchDate: moment(value).format('YYYY-MM-DD'),
+          shift: ''
+        }
+        dispatch(change('company', 'searchForm', searchForm))
+        message.success('Choose a Shift')
+        this.setState({ searchDateError: '' })
+      }else{
+        this.setState({ searchDateError: '* Previous date cannot be selected' })
+      }
     }
   }
 
@@ -212,10 +290,9 @@ class Company extends Component {
   }
   
   render() {
-    const { current, charityStatus, subsidiary, paymentSkipped, collapsed, formName, editFormModal, documentModal, documentModalType, imageModal } = this.state
+    const { current, paymentSkipped, collapsed, formName, editFormModal, documentModal, searchDateError, pageKey, documentModalType, imageModal } = this.state
     const { invalid, addresses, company: { companyDetails, isLoading, professionals, secret }, application: { authentication: { userId } }, formValues } = this.props
-    const isPaid = defaultTo(false, prop('isPaid', companyDetails))
-    
+    const isPaid = defaultTo(false, prop('isPaid', companyDetails))    
     return(
       <div>
         <Header
@@ -233,12 +310,13 @@ class Company extends Component {
             formName={formName}
             editFormModal={editFormModal}
             addresses={addresses}
-            charityStatus={charityStatus}
-            subsidiary={subsidiary}
             professionals={professionals}
             documentModal={documentModal}
             documentModalType={documentModalType}
             imageModal={imageModal}
+            searchDateError={searchDateError}
+            pageKey={pageKey}
+            changePostalCode={this.changePostalCode}
             showImageModal={this.showImageModal}
             hideImageModal={this.hideImageModal}
             showDocumentModal={this.showDocumentModal}
@@ -250,17 +328,18 @@ class Company extends Component {
             hideEditFormModal={this.hideEditFormModal}
             charityStatusChange={this.charityStatusChange}
             subsidiaryStatusChange={this.subsidiaryStatusChange}
+            showMessage={this.showMessage}
             onCollapse={this.onCollapse}
             changePassword={this.changePassword}
             sendMessage={this.sendMessage}
             updateCompany={this.updateCompany}
+            switchPage={this.switchPage}
+            showPaymentForm={this.showPaymentForm}
             searchProfessionalsBySkills={this.searchProfessionalsBySkills}
           /> 
           :
           <AddDetails
             current={current}
-            charityStatus={charityStatus}
-            subsidiary={subsidiary}
             invalid={invalid}
             isLoading={isLoading}
             addresses={addresses}
@@ -271,6 +350,7 @@ class Company extends Component {
             makePaymentRequest={this.makePaymentRequest}
             next={this.next}  
             prev={this.prev}
+            changePostalCode={this.changePostalCode}
             getFormIcon={this.getFormIcon}
             getFormName={this.getFormName}
             findAddresses={this.findAddresses}

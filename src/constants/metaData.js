@@ -1,6 +1,6 @@
 export const TITLE = "NMC Registered"
 export const DATE_FORMAT = "DD/MM/YYYY"
-export const TIME_FORMAT = "hh:mm A"
+export const TIME_FORMAT = "hh:mm"
 export const GET_ADDRESS_API_KEY = "dVsQRsLdEkasx1cfi4PGMg25238"
 export const TIMESHEET_DAYS = [
     {id: 1, name: 'Monday'},
@@ -12,10 +12,10 @@ export const TIMESHEET_DAYS = [
     {id: 7, name: 'Sunday'}
 ]
 export const TIMESHEET_SHIFTS = [
-    {id: 1, name: 'Early Shift', startTime: '07:00 AM', endTime: '03:00 PM'},
-    {id: 2, name: 'Late Shift', startTime: '02:00 PM', endTime: '10:00 PM'},
-    {id: 3, name: 'Night Shift', startTime: '08:00 PM', endTime: '08:00 AM'},
-    {id: 4, name: 'Early Long Shift', startTime: '07:00 AM', endTime: '08:00 PM'},
+    {id: 1, name: 'Early Shift', startTime: '07:00:00', endTime: '15:00:00'},
+    {id: 2, name: 'Late Shift', startTime: '14:00:00', endTime: '22:00:00'},
+    {id: 3, name: 'Night Shift', startTime: '20:00:00', endTime: '08:00:00'},
+    {id: 4, name: 'Early Long Shift', startTime: '07:00:00', endTime: '20:00:00'},
     {id: 5, name: 'Customized Shift'}
 ]
 

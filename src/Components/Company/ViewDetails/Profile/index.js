@@ -20,6 +20,7 @@ const Profile = ({
   charityStatus,
   subsidiary,
   charityStatusChange,
+  changePostalCode,
   subsidiaryStatusChange,
   invalid,
   formValues,
@@ -97,6 +98,7 @@ const Profile = ({
                   addresses={addresses}
                   findAddresses={findAddresses}
                   addressSelectHandler={addressSelectHandler}
+                  changePostalCode={changePostalCode}
                   charityStatus={charityStatus}
                   subsidiary={subsidiary}
                   charityStatusChange={charityStatusChange}
@@ -104,13 +106,8 @@ const Profile = ({
                 /> :
                 ''
               }
-              submitText={
-                <>
-                  <Icon type="save" />
-                  Update
-                </>
-              }
-              cancelText={'Cancel'}
+              submitText={<><Icon type="save" /> Save</>}
+              cancelText={<><Icon type="close" /> Cancel </>}
               submitDisabled={invalid}
               submitHandler={updateCompany}
               cancelHandler={hideEditFormModal}

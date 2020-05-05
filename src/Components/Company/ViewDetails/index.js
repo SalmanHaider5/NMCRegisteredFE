@@ -1,6 +1,6 @@
 import React from 'react'
 import { Switch, Route, Link } from 'react-router-dom'
-import { Layout, Menu, Icon, Alert } from 'antd'
+import { Layout, Menu, Icon, Alert, Button } from 'antd'
 import FindProfessionals from './FindProfessionals'
 import ChangePassword from './Security'
 import Profile from './Profile'
@@ -37,8 +37,14 @@ const ViewDetails = ({
   hideDocumentModal,
   getDocumentType,
   imageModal,
+  changePostalCode,
   showImageModal,
-  hideImageModal
+  hideImageModal,
+  showMessage,
+  searchDateError,
+  switchPage,
+  pageKey,
+  showPaymentForm
 }) => {
   const { Sider, Footer, Content } = Layout
   return (
@@ -54,9 +60,10 @@ const ViewDetails = ({
         }}
       >
         <Menu
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={[pageKey]}
           mode="inline"
           theme="dark"
+          onClick={switchPage}
         >
           <Menu.Item key="1">
             <Link to={`/company/${userId}/professionals`}>
@@ -64,19 +71,19 @@ const ViewDetails = ({
               <span>Find professionals</span>
             </Link>
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item key="2">
             <Link to={`/company/${userId}/profile`}>
               <Icon type="profile" />
               <span>View Profile</span>
             </Link>
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item key="3">
             <Link to={`/company/${userId}/changePassword`}>
               <Icon type="lock" />
               <span>Change Password</span>
             </Link>
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item key="4">
             <Link to={`/company/${userId}/contact`}>
               <Icon type="mail" />
               <span>Contact Us</span>
@@ -90,7 +97,7 @@ const ViewDetails = ({
             isPaid ? '' :
             <div className="error-alert">
               <Alert
-                message={<><strong>Payment Pending: </strong> You have not paid yet, please make your payment to use all features of this application. </>}
+                message={<><strong>Payment Pending: </strong> You have not paid yet, please make your payment to use all features of this application. To make payment please<Button type="link" className="payment-button" onClick={showPaymentForm}>Click here</Button> </>}
                 type="error"
                 showIcon
               />
@@ -112,6 +119,8 @@ const ViewDetails = ({
                 imageModal={imageModal}
                 showImageModal={showImageModal}
                 hideImageModal={hideImageModal}
+                showMessage={showMessage}
+                searchDateError={searchDateError}
                 searchProfessionalsBySkills={searchProfessionalsBySkills}
               />
             </Route>
@@ -132,6 +141,7 @@ const ViewDetails = ({
                 hideEditFormModal={hideEditFormModal}
                 charityStatus={charityStatus}
                 subsidiary={subsidiary}
+                changePostalCode={changePostalCode}
                 subsidiaryStatusChange={subsidiaryStatusChange}
                 charityStatusChange={charityStatusChange}
                 addresses={addresses}

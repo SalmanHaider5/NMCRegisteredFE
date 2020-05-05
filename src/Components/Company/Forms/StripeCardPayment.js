@@ -1,9 +1,9 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { Form, Button } from 'antd'
+import { Form, Button, Icon, Row, Col } from 'antd'
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js'
 
-const StripeCardPayment = ({ secret, formValues, makePaymentRequest }) => {
+const StripeCardPayment = ({ secret, formValues, makePaymentRequest, skipPaymentOption }) => {
   const { firstName, lastName } = formValues
   const options = {
     hidePostalCode: true,
@@ -28,9 +28,7 @@ const StripeCardPayment = ({ secret, formValues, makePaymentRequest }) => {
         }
       }
     })
-
     makePaymentRequest(response)
-
   }
   return (
     <span>
@@ -46,7 +44,16 @@ const StripeCardPayment = ({ secret, formValues, makePaymentRequest }) => {
           options={options}
         />
       </Form.Item>
-      <Button onClick={makePayment}>Make Payment</Button>
+      <Row>
+        <Col span={10} offset={14}>
+          <Button type="danger" onClick={skipPaymentOption}>
+            Skip <Icon type="right" />
+          </Button>
+          <Button className="success-btn" style={{ marginLeft: '22px' }}  onClick={makePayment}>
+            <Icon type="pound" /> Make Payment
+          </Button>
+        </Col>
+      </Row>
     </span>
   )
 }

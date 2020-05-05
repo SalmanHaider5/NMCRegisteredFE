@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, change } from 'redux-form'
-import { Icon } from 'antd'
 import moment from 'moment'
+import { Icon } from 'antd'
 import { trim, split, prop, propEq, concat, find, omit, dissoc, type, last, equals } from 'ramda'
 import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfessionalProfile, updateSecurityDetails, changePhoneRequest, clearAddresses, contactUs } from '../../actions'
-import { GENDER_OPTIONS as genders, QUALIFICATION_OPTIONS as qualifications, DATE_FORMAT as dateFormat } from '../../constants'
+import { GENDER_OPTIONS as genders, QUALIFICATION_OPTIONS as qualifications } from '../../constants'
 import { getProfessionalFormValues, isEmptyOrNull } from '../../utils/helpers'
 import Header from '../Header'
 import AddDetails from './AddDetails'
 import ViewDetails from './ViewDetails'
-import { Redirect } from 'react-router-dom'
 
 class Professional extends Component {
   constructor(props) {
@@ -25,16 +25,33 @@ class Professional extends Component {
       imageFile: '',
       crbFile: '',
       documentModalType: '',
-      documentModal: false
+      documentModal: false,
+      pageKey: 0
     };
   }
 
   componentDidMount(){
-    const { application: { authentication: { auth, role } }, history, dispatch, match: { params: { userId } } } = this.props
+    const { application: { authentication: { auth, role } }, history, dispatch, match: { params: { userId } }, location: { pathname } } = this.props
     dispatch(getProfessionalDetails(userId))
+    if(last(split('/', pathname)) === 'timesheet'){
+      this.setState({ pageKey: '1' })
+    }
+    if(last(split('/', pathname)) === 'profile'){
+      this.setState({ pageKey: '2' })
+    }
+    if(last(split('/', pathname)) === 'security'){
+      this.setState({ pageKey: '3' })
+    }
+    if(last(split('/', pathname)) === 'contact'){
+      this.setState({ pageKey: '4' })
+    }
     if(!auth && role !== 'professional'){
       history.push('/')
     }
+  }
+
+  switchPage = key => {
+    this.setState({ pageKey: key })
   }
   
   updateProfessionalDetails = () => {
@@ -49,7 +66,8 @@ class Professional extends Component {
       values.qualification = qualification
     else
       values.qualification = prop('name', find(propEq('id', qualification))(qualifications))
-    values.dateOfBirth = moment(dateOfBirth).format(dateFormat)
+    
+    values.dateOfBirth = dateOfBirth
     dispatch(updateProfessionalProfile(userId, values))
     this.setState({
       imageFile: '',
@@ -90,6 +108,12 @@ class Professional extends Component {
       documentModal: true,
       documentModalType: type
     })
+  }
+
+  dateHandler = value => {
+    console.log('Value', 'Working', value)
+    const { dispatch } = this.props
+    dispatch(change('professional', 'dateOfBirth', moment(value).format('YYYY-MM-DD')))
   }
 
   hideDocumentModal = () => {
@@ -145,7 +169,7 @@ class Professional extends Component {
     const values = omit(['status', 'phone', 'postalCode', 'changePassword', 'addressId'], formValues)
     values.status = prop('name', find(propEq('id', status))(genders))
     values.qualification = prop('name', find(propEq('id', qualification))(qualifications))
-    values.dateOfBirth = moment(dateOfBirth).format(dateFormat)
+    values.dateOfBirth = dateOfBirth
     dispatch(createDetails(userId, values))
     dispatch(reset('professional'))
     history.push(`/professional/${userId}/timesheet`)
@@ -266,7 +290,7 @@ class Professional extends Component {
   }
 
   render() {
-    const { collapsed, formModal, formName, current, imageModal, documentModalType, documentModal } = this.state
+    const { collapsed, formModal, formName, current, imageModal, documentModalType, documentModal, pageKey } = this.state
     const {
       addresses,
       invalid,
@@ -318,6 +342,7 @@ class Professional extends Component {
             getFormName={this.getFormName}
             invalid={invalid}
             codeSent={codeSent}
+            dateHandler={this.dateHandler}
             editPhoneNumber={this.editPhoneNumber}
             fileRemoveHandler={this.fileRemoveHandler}
             imageRemoveHandler={this.imageRemoveHandler}
@@ -338,8 +363,11 @@ class Professional extends Component {
             addressSelectHandler={this.addressSelectHandler}
             updateProfessionalDetails={this.updateProfessionalDetails}
             addresses={addresses}
+            dateHandler={this.dateHandler}
             getProfileStatus={this.getProfileStatus}
             invalid={invalid}
+            pageKey={pageKey}
+            switchPage={this.switchPage}
             updateSecurityandLoginDetails={this.updateSecurityandLoginDetails}
             formValues={formValues}
             phoneVerified={phoneVerified}
@@ -356,6 +384,7 @@ class Professional extends Component {
             hideDocumentModal={this.hideDocumentModal}
             getDocumentType={this.getDocumentType}
             sendMessage={this.sendMessage}
+            changePostalCode={this.changePostalCode}
           />
         }
           

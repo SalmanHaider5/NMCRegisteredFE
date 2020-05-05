@@ -14,6 +14,7 @@ const PersonalDetails = ({ company }) => {
     phone,
     registration,
     website,
+    payDate,
     createdAt
   } = company
   
@@ -84,7 +85,7 @@ const PersonalDetails = ({ company }) => {
           License Purchased
         </label>
         <span className="label-value">
-          {isPaid ? '' : 'Not Purchased'}
+          {isPaid ? moment(payDate).format('LL') : 'Not Purchased'}
         </span>
       </List.Item>
       <List.Item>

@@ -30,3 +30,6 @@
 .professionals-list .ant-card .ant-card-actions i{
   font-size: 22px;
 }
+.field-error{
+  color: red;
+}

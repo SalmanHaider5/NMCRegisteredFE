@@ -1,7 +1,8 @@
 import React from 'react'
 import { map } from 'ramda'
-import { Row, Col } from 'antd'
+import { Row, Col, Empty } from 'antd'
 import ProfessionalCard from './ProfessionalCard'
+import { isEmptyOrNull } from '../../../../utils/helpers'
 
 const ProfessionalsList = ({
   professionals,
@@ -12,11 +13,15 @@ const ProfessionalsList = ({
   getDocumentType,
   imageModal,
   showImageModal,
-  hideImageModal
+  hideImageModal,
+  formValues
 }) => {
+  const { searchForm: { shift } } = formValues
   return (
     <Row gutter={16} className="professionals-list">
       {
+        isEmptyOrNull(professionals) && !isEmptyOrNull(shift) ?
+        <Empty description="No professionals available for this shift." /> :
         map(professional => {
           const { id } = professional
           return(

@@ -12,6 +12,7 @@ const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues, crbRemoveHandl
         component={TextField}
         label={'NMC Pin'}
         size={'large'}
+        hintText={'12A1234B'}
         type="text"
         specialText={`NMC Pin is required to verify professional's profile by companies`}
         validate={[isRequired, isValidNMC]}

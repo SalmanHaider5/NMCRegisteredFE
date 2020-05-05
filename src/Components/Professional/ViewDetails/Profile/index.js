@@ -20,6 +20,7 @@ const Profile = ({
   findAddresses,
   addressSelectHandler,
   addresses,
+  dateHandler,
   updateProfessionalDetails,
   getProfileStatus,
   invalid,
@@ -35,7 +36,8 @@ const Profile = ({
   hideDocumentModal,
   documentModal,
   documentModalType,
-  getDocumentType
+  getDocumentType,
+  changePostalCode
 }) => {
   const { dateOfBirth } = professional
   return (
@@ -140,11 +142,13 @@ const Profile = ({
                 <PersonalDetailsForm
                   dateOfBirth={dateOfBirth}
                   formValues={formValues}
+                  dateHandler={dateHandler}
                 /> :
                 formName === 'Address' ?
                 <AddressForm
                   findAddresses={findAddresses}
                   addressSelectHandler={addressSelectHandler}
+                  changePostalCode={changePostalCode}
                   addresses={addresses}
                 /> :
                 formName === 'Professional' ?
@@ -158,11 +162,10 @@ const Profile = ({
               }
               submitText={
                 <>
-                  <Icon type="save" />
-                  Update
+                  <Icon type="save" /> Save
                 </>
               }
-              cancelText={'Cancel'}
+              cancelText={<><Icon type="close" /> Cancel</>}
               submitDisabled={invalid}
               submitHandler={updateProfessionalDetails}
               cancelHandler={hideEditFormModal}
