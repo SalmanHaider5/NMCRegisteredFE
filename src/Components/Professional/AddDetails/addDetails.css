@@ -44,7 +44,7 @@ div.addform-container div.ant-row.addform-panel{
     /* text-align: right; */
 }
 .addform-panel{
-    margin: 0 auto;
+    margin: 0 auto !important;
 }
 .form-panel{
     overflow-y: scroll;

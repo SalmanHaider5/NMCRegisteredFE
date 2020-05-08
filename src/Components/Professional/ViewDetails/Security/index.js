@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormSection } from 'redux-form'
-import { equals } from 'ramda'
+import { equals, defaultTo } from 'ramda'
 import { Divider, Button, Icon, Row, Col } from 'antd'
 import ChangePasswordForm from './ChangePasswordForm'
 import TwoFactorAuthentication from './TwoFactorAuthentication'
@@ -10,7 +10,8 @@ const SecurityAndLogin = ({
   updateSecurityandLoginDetails,
   formValues
 }) => {
-  const { changePassword: { newPassword, confirmPassword } } = formValues
+  const { changePassword = {} } = defaultTo({}, formValues)
+  const { newPassword, confirmPassword } = changePassword
   return (
     <div>
       <div className="inner-wrapper">

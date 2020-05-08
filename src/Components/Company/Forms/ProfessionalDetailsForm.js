@@ -44,14 +44,14 @@ const ProfessionalDetailsForm = ({
         size={`large`}
         hintText={'Address'}
         onChange={addressSelectHandler}
-        validate={[isRequired]}
       />
       <Field
         name="address"
         component={TextField}
-        label={'Adress'}
+        label={'Address'}
         size={'large'}
         type="text"
+        validate={[isRequired]}
       />
       <Field
         name="city"
@@ -66,6 +66,7 @@ const ProfessionalDetailsForm = ({
         label={'County'}
         size={'large'}
         type="text"
+        validate={[isRequired]}
       />
       <Form.Item
         label='Charity'

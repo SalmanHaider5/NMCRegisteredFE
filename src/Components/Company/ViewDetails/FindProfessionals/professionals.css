@@ -33,3 +33,6 @@
 .field-error{
   color: red;
 }
+.search-container .ant-form-item-control-wrapper{
+  text-align: left;
+}

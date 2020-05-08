@@ -202,7 +202,7 @@ button.skip-button i {
     top: 18px;
 }
 .ant-card-bordered{
-    margin: 20px;
+    /* margin: 20px; */
 }
 
 .timesheet-card .ant-card-head{

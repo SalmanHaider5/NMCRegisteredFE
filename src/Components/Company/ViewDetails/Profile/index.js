@@ -66,7 +66,7 @@ const Profile = ({
                   title={
                     <span>
                       <Icon type="highlight" />
-                      Professional Details
+                      Company Details
                     </span>
                   }
                   extra={

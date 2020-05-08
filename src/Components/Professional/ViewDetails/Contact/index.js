@@ -19,14 +19,10 @@ const Contact = ({ sendMessage }) => {
               </FormSection>
             </div>
             <Row>
-              <Col span={5} offset={3}></Col>
+              <Col span={6} offset={2}></Col>
               <Col span={12} offset={1} className="form-align-buttons">
-                <Button
-                  className="success-btn"
-                  onClick={sendMessage}
-                >
-                  <Icon type="check" />
-                  Save
+                <Button className="success-btn" onClick={sendMessage}>
+                  <Icon type="export" /> Send
                 </Button>
               </Col>
             </Row>

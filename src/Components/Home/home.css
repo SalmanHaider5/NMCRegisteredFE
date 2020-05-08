@@ -23,14 +23,16 @@ body{
     width: 200px;
     height: 65px;
     background-image: url(https://intelligent-innovation.herokuapp.com/assets/logo.png);
-    background-size: 200px auto;
+    background-size: 125px auto;
+    background-repeat: no-repeat;
+    width: 100%;
 }
 .profile-logo{
     margin-left: 10%;
 }
 .home-logo{
     float: none;
-    margin: 0 auto !important;
+    /* margin: 0 auto !important; */
 }
 .header-h1{
    

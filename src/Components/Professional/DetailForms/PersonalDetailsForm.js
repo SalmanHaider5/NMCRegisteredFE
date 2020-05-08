@@ -1,13 +1,14 @@
 import React from 'react'
 import { Field } from 'redux-form'
 import moment from 'moment'
+import { defaultTo } from 'ramda'
 import { DatePicker, Form } from 'antd'
 import { TextField, SelectField } from '../../../utils/custom-components'
 import { isRequired, GENDER_OPTIONS as genders, DATE_FORMAT } from '../../../constants'
 import { isEmptyOrNull } from '../../../utils/helpers'
 
 const PersonalDetailsForm = ({ formValues, dateHandler }) => {
-  const { dateOfBirth } = formValues
+  const { dateOfBirth } = defaultTo({}, formValues)
   const FormItem = Form.Item
   return (
     <div>

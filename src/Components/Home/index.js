@@ -179,12 +179,11 @@ class Home extends Component {
                       
                     </Col>
                     <Col xs={20} sm={20} md={19} lg={20} xl={18}>
-                    <div className='logo home-logo'></div>
-                      <div>
-                    <Button className='home-header-btn' ghost onClick={this.showLoginModal}>
-                        <Icon type="login" /> Login
-                    </Button>  
-                    </div>                    
+                      <div className='logo home-logo'>
+                        <Button className='home-header-btn' ghost onClick={this.showLoginModal}>
+                            <Icon type="login" /> Login
+                        </Button>
+                      </div>                   
                     </Col>
                     <Col xs={2} sm={2} md={2} lg={2} xl={3}>
                       

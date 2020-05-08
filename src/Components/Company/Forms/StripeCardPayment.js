@@ -1,10 +1,11 @@
 import React from 'react'
 import { Field } from 'redux-form'
+import { defaultTo } from 'ramda'
 import { Form, Button, Icon, Row, Col } from 'antd'
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js'
 
 const StripeCardPayment = ({ secret, formValues, makePaymentRequest, skipPaymentOption }) => {
-  const { firstName, lastName } = formValues
+  const { firstName, lastName } = defaultTo({}, formValues)
   const options = {
     hidePostalCode: true,
   }
@@ -45,11 +46,11 @@ const StripeCardPayment = ({ secret, formValues, makePaymentRequest, skipPayment
         />
       </Form.Item>
       <Row>
-        <Col span={10} offset={14}>
+        <Col span={12} offset={11}>
           <Button type="danger" onClick={skipPaymentOption}>
             Skip <Icon type="right" />
           </Button>
-          <Button className="success-btn" style={{ marginLeft: '22px' }}  onClick={makePayment}>
+          <Button className="success-btn" style={{ marginLeft: '20px' }}  onClick={makePayment}>
             <Icon type="pound" /> Make Payment
           </Button>
         </Col>

@@ -153,7 +153,6 @@ class Company extends Component {
   searchProfessionalsBySkills = shift => {
     const { match: { params: { userId } }, dispatch, company: { companyDetails }, formValues } = this.props
     const { searchForm: { skill, searchDate } } = formValues
-    console.log('Date', moment(searchDate).format('YYYY-MM-DD'))
     const values = {}
     values.skill = prop('name', find(propEq('id', skill))(skills))
     values.shift = prop('name', find(propEq('id', shift))(shifts))
@@ -283,9 +282,9 @@ class Company extends Component {
   getFormName = current => {
     switch(current){
       case 0:
-        return `Personal Details`
+        return `Basic Details`
       default:
-        return `Professional Details`
+        return `Company Details`
     }
   }
   

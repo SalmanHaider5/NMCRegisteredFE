@@ -117,7 +117,9 @@ export const getProfessionalDetails = userId => dispatch => {
         if(code === 'success' || code === 'info'){
             const professional = getProfessionalData(data.professional)
             const { postCode } = professional
-            dispatch(getAdresses(postCode))
+            if(!isEmptyOrNull(postCode)){
+                dispatch(getAdresses(postCode))
+            }
             dispatch(initialize('professional', professional))
             dispatch({
                 type: types.FETCH_PROFESSIONAL_DETAILS_SUCCESS,

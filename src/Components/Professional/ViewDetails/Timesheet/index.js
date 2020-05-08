@@ -465,7 +465,7 @@ class Timesheet extends Component {
                     <Icon type="save" /> Update
                   </span>
                 }
-                cancelText={'Cancel'}
+                cancelText={<><Icon type="close" /> Close </>}
                 submitHandler={this.updateTimesheetShift}
                 cancelHandler={this.hideEditShiftModal}
               />

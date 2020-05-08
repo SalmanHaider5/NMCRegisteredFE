@@ -25,7 +25,7 @@ const SearchForm = ({ isPaid, searchProfessionalsBySkills, formValues, showMessa
         <FormItem
           label={'Pick a Date'}
           labelCol={{ span: 5, offset: 3 } }
-          wrapperCol={{ span: 6, offset: 1 }}
+          wrapperCol={{ span: 10 }}
           labelAlign='left'
           colon={false}
           extra={<span className="field-error">{searchDateError}</span>}

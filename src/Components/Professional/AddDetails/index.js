@@ -105,7 +105,7 @@ const AddDetails = ({
                     <Button className="next-btn" type="primary" disabled={current === 1 ? (invalid || length(addresses.addresses) === 0) : invalid} onClick={next}>
                       Next <Icon type="right" />
                     </Button> :
-                  <Button className="success-btn next-btn" onClick={verifyProfessionalPhone}>
+                  <Button className="success-btn next-btn" onClick={verifyProfessionalPhone} disabled={!codeSent}>
                     <Icon type="check-circle" /> Verify
                   </Button>  
                 }

@@ -43,6 +43,7 @@ const company = (state=initState, action) => {
             payload.email = state.companyDetails.email
             payload.isVerified = state.companyDetails.isVerified
             payload.balance = state.companyDetails.balance
+            payload.vat = state.companyDetails.vat
             return{
                 ...state,
                 isLoading: false,

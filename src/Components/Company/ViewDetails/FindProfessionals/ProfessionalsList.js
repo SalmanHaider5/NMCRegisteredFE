@@ -1,5 +1,5 @@
 import React from 'react'
-import { map } from 'ramda'
+import { map, pathOr } from 'ramda'
 import { Row, Col, Empty } from 'antd'
 import ProfessionalCard from './ProfessionalCard'
 import { isEmptyOrNull } from '../../../../utils/helpers'
@@ -16,7 +16,7 @@ const ProfessionalsList = ({
   hideImageModal,
   formValues
 }) => {
-  const { searchForm: { shift } } = formValues
+  const shift =  pathOr('', ['searchForm', 'shift'], formValues)
   return (
     <Row gutter={16} className="professionals-list">
       {

@@ -57,7 +57,11 @@ div.ant-form-item-label label{
 }
 .header-body{
     background-color:rgba(5, 1, 27, 0.82);
-    padding-top: 10px;}
+    padding-top: 10px;
+}
+.header-body div.ant-row{
+    top: 10px;
+}
 .headers{
   background-image: url(https://ezmediart.com/static12/preview200/stock-video-abstract-animated-blue-hexagons-background-loop-182832.jpg);
 }
@@ -164,4 +168,54 @@ button.payment-button{
     margin: 0;
     position: absolute;
     bottom: 2px;
+}
+.payment-container .ant-card-body{
+    padding: 0;
+}
+.payment-container .payment-logo-container{
+    padding: 20px;
+}
+.payment-container .payment-logo-container img{
+    width: 100%;
+    height: 100%;
+}
+.payment-container .ant-list-item{
+    padding: 10px 15px 10px 15px;
+}
+.payment-container .ant-list-item label{
+    font-weight: 600;
+}
+.payment-container .ant-list-item span{
+    font-weight: 600;
+    color: #0f00005c;
+}
+.payment-container .ant-card{
+    /* box-shadow: 0 0 10px rgba(0,0,0,0.5); */
+}
+.payment-container .ant-card-head{
+    background-color: #1e1c5d;
+    color: #fff;
+    text-align: center;
+}
+.payment-container .ant-list-item.bill-row{
+    background-color: #b7c4de8c;
+    font-size: larger;
+    font-weight: bolder;
+
+}
+.payment-container .ant-list-item.bill-row label,
+.payment-container .ant-list-item.bill-row span{
+    color: #fff;
+}
+.payment-container .message-container{
+    margin: 0 auto;
+    width: 72%;
+    position: relative;
+    right: 18px;
+    margin-bottom: 25px;
+}
+.payment-container .bottom-messages{
+    position: relative;
+    top: 120px;
+    font-size: 9px;
 }

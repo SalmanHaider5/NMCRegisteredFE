@@ -78,7 +78,9 @@ export const getCompanyDetails = userId => dispatch => {
         if(data.code === 'success'){
             const { company } = data
             const { firstName, lastName, email, phone, postalCode } = company
-            dispatch(getAdresses(postalCode))
+            if(!isEmptyOrNull(postalCode)){
+                dispatch(getAdresses(postalCode))
+            }
             const contact = {
                 name: join(' ', [firstName, lastName]),
                 email,

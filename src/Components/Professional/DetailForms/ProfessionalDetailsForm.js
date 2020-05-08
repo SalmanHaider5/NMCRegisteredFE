@@ -1,10 +1,11 @@
 import React from 'react'
 import { Field } from 'redux-form'
+import { defaultTo } from 'ramda'
 import { TextField, SelectField, MultilineTextField, FileInput } from '../../../utils/custom-components'
 import { isRequired, QUALIFICATION_OPTIONS as qualifications, max35Hours, max200Words, isValidNMC } from '../../../constants'
 
 const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues, crbRemoveHandler, imageRemoveHandler }) => {
-  const { document, crbDocument, profilePicture } = formValues
+  const { document, crbDocument, profilePicture } = defaultTo({}, formValues)
   return (
     <div>
       <Field
