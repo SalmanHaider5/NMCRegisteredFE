@@ -59,17 +59,13 @@ const ProfessionalDetails = ({
           <List.Item>
             <label>
               <Icon type="audit" />
-              DBS { isEmptyOrNull(crbDocument) ? '' : <Tag color="cyan">{crbDocument}</Tag> }
+              DBS Number
             </label>
             <span className="label-value">
               {
                 isEmptyOrNull(crbDocument) ?
                 `Not added yet` :
-                <Tooltip title="View Certificate">
-                  <Button type="link" onClick={() => showDocumentModal('CRB')} >
-                    <Icon type="eye" />
-                  </Button>
-                </Tooltip>
+                crbDocument
               }
             </span>
           </List.Item>

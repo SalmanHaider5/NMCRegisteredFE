@@ -17,6 +17,7 @@ const AddDetails = ({
   addresses,
   getFormIcon,
   current,
+  adBlockerExists,
   next,
   prev,
   charity,
@@ -30,7 +31,10 @@ const AddDetails = ({
   formValues,
   makePaymentRequest,
   secret,
-  isLoading
+  isLoading,
+  paypalToken,
+  paypalPayment,
+  makePaypalPayment
 }) => {
   const components = [
     <PersonalDetailsForm />,
@@ -48,8 +52,12 @@ const AddDetails = ({
     <PaymentForm
       makePaymentRequest={makePaymentRequest}
       skipPaymentOption={skipPaymentOption}
+      adBlockerExists={adBlockerExists}
+      paypalToken={paypalToken}
       formValues={formValues}
       secret={secret}
+      paypalPayment={paypalPayment}
+      makePaypalPayment={makePaypalPayment}
     />
   ]
   return (

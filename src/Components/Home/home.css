@@ -175,6 +175,7 @@ div.ant-modal-footer{
 }
 button.ant-btn.link-button.ant-btn-link{
     padding: 0;
+    height: auto;
 }
 .form-align-buttons{
     text-align: right;
@@ -279,4 +280,16 @@ button.home-contact-btn span{
         color: #fff;
     }
 
+}
+.contact-drawer .ant-drawer-close,
+.terms-drawer .ant-drawer-close{
+    color: #fff;
+}
+.terms-drawer p,
+.terms-drawer ul li,
+.terms-drawer p button{
+    font-size: 12px;
+}
+.terms-drawer h2{
+    text-align: center;
 }

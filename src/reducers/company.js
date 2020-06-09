@@ -1,11 +1,13 @@
 import * as actions from '../actions'
-import { pathOr, append } from 'ramda'
+import { pathOr, append, isNil } from 'ramda'
+import { isEmptyOrNull } from '../utils/helpers'
 
 const initState = {
     isLoading: false,
     secret: '',
     companyDetails: {},
-    professionals: []
+    professionals: [],
+    paypalToken: ''
 }
 
 const company = (state=initState, action) => {
@@ -13,6 +15,7 @@ const company = (state=initState, action) => {
     switch(type){
         case actions.CLIENT_TOKEN_REQUEST:
         case actions.UPDATE_COMPANY_REQUEST:
+        case actions.FETCH_PAYPAL_TOKEN_REQUEST:
             return{
                 ...state,
                 isLoading: true
@@ -28,6 +31,12 @@ const company = (state=initState, action) => {
                 ...state,
                 isLoading: false,
                 secret: payload
+            }
+        case actions.FETCH_PAYPAL_TOKEN_SUCCESS:
+            return{
+                ...state,
+                isLoading: false,
+                paypalToken: payload
             }
         case actions.CLINET_TOKEN_FAILURE:
             return{
@@ -51,7 +60,6 @@ const company = (state=initState, action) => {
             }
         case actions.UPDATE_COMPANY_SUCCESS:
             const updatedDetails = payload
-            console.log('State', state)
             updatedDetails.contactForm = pathOr({}, ['companyDetails', 'contactForm'], state)
             updatedDetails.changePassword = pathOr({}, ['companyDetails', 'changePassword'], state)
             updatedDetails.email = pathOr('', ['companyDetails', 'email'], state)
@@ -91,11 +99,20 @@ const company = (state=initState, action) => {
                 isLoading: false
             }
         case actions.ENLIST_PROFESSIONAL:
-            payload.key = payload.id
+            const professionalsData = state.professionals
+            const specificIndex = isNil(state.professionals[payload.index]) ? [] : state.professionals[payload.index]
+            const updatedIndex = isEmptyOrNull(payload.professional) ? specificIndex : append(payload.professional, specificIndex)
+            professionalsData[payload.index] = updatedIndex
             return {
                 ...state,
+                isLoading: true,
+                professionals: professionalsData
+            }
+        case actions.NO_PROFESSIONALS_FOUND:
+            return{
+                ...state,
                 isLoading: false,
-                professionals: append(payload, state.professionals)
+                professionals: []
             }
         case actions.FETCH_COMPANY_DETAILS_SUCCESS:
             return {
@@ -106,6 +123,7 @@ const company = (state=initState, action) => {
         case actions.FIND_PROFESSIONALS_FAILURE:
         case actions.UPDATE_SHIFT_FAILURE:
         case actions.FETCH_COMPANY_DETAILS_FAILURE:
+        case actions.FETCH_PAYPAL_TOKEN_FAILURE:
             return{
                 ...state,
                 isLoading: false

@@ -1,14 +1,20 @@
+div.steps-content.search-content{
+  background-color: #fff;
+}
+.professionals-list.ant-row{
+  padding: 20px;
+}
 .professionals-list .ant-card{
   width: 95%;
   margin: 0 auto;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  /* box-shadow: 0 0 10px rgba(0,0,0,0.5); */
   margin-bottom: 30px;
   text-align: left;
 }
 
 .professionals-list .ant-card .ant-card-head,
 .professionals-list .ant-card .ant-card-extra{
-  background-color: #001529;
+  background-color: #1890ff;
   color: #fff;
 }
 
@@ -35,4 +41,51 @@
 }
 .search-container .ant-form-item-control-wrapper{
   text-align: left;
+}
+.search-form{
+  margin-bottom: 50px;
+}
+.search-form-container{
+  text-align: left;
+}
+.search-form-container .process-steps{
+  width: 95%;
+  margin: 0 auto;
+  padding-bottom: 20px;
+}
+.search-container .ant-radio-button-wrapper{
+  height: auto;
+  padding: 5px 30px 0px 30px;
+}
+.search-container .ant-radio-button-wrapper-checked span h4,
+.search-container .ant-radio-button-wrapper-checked span h5{
+  color: #fff;
+}
+.search-container .shifts-row .ant-divider-horizontal{
+  margin: 5px 0;
+}
+.search-container .date-header{
+  border: 1px solid #ffffff;
+  background-color: #f1f1f1;
+  width: 95%;
+  margin: 0 auto;
+  padding: 7px;
+  padding-left: 20px;
+}
+.search-container .empty-date-header{
+
+}
+.search-container .date-header .ant-page-header-heading-title,
+.search-container .date-header .ant-page-header-heading-extra{
+  color: #333;
+}
+.search-container .date-header .ant-page-header-heading-sub-title{
+  color: #a1a0a0;
+}
+.search-container .empty-list{
+  padding: 20px;
+}
+.search-container .date-header .ant-page-header-heading-extra{
+  padding-top: 3px;
+  padding-right: 25px;
 }

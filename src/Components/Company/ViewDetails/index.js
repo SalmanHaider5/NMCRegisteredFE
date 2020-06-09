@@ -44,7 +44,9 @@ const ViewDetails = ({
   searchDateError,
   switchPage,
   pageKey,
-  showPaymentForm
+  showPaymentForm,
+  datePickerType,
+  changeDatePickerType
 }) => {
   const { Sider, Footer, Content } = Layout
   return (
@@ -121,6 +123,8 @@ const ViewDetails = ({
                 hideImageModal={hideImageModal}
                 showMessage={showMessage}
                 searchDateError={searchDateError}
+                datePickerType={datePickerType}
+                changeDatePickerType={changeDatePickerType}
                 searchProfessionalsBySkills={searchProfessionalsBySkills}
               />
             </Route>

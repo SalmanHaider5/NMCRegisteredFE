@@ -49,11 +49,6 @@ const ProfessionalCard = ({
           <Button type="link" onClick={() => showDocumentModal('CV/Resume')} disabled={isEmptyOrNull(document)}>
             <Icon type="file-pdf" />
           </Button>
-        </Tooltip>,
-        <Tooltip title="DBS Document">
-          <Button type="link" onClick={() => showDocumentModal('CRB')} disabled={isEmptyOrNull(crbDocument)}>
-            <Icon type="audit" />
-          </Button>
         </Tooltip>
       ]}
     >

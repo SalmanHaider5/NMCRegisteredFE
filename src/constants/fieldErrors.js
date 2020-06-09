@@ -13,7 +13,6 @@ export const isPasswordMatched = (value, form) => {
     else
       password = prop('newPassword', form.changePassword)
   }
-  console.log(equals(value, password))
   return equals(value, password) ? undefined : `Password didn't match`
 }
 export const isMaxLengthValid = value => value.length < 8 ? 'Minimum 8 characters required' : undefined

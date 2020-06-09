@@ -34,7 +34,7 @@ export const CheckboxField = ({
           readOnly={readOnly}
           disabled={disabled}
           defaultChecked={defaultValue}
-          checked={value}
+          checked={value || false}
         >
           {text}
         </Checkbox>

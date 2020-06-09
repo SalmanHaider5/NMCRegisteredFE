@@ -21,13 +21,15 @@ const FindProfessionas = ({
   hideImageModal,
   showMessage,
   searchDateError,
-  searchProfessionalsBySkills
+  searchProfessionalsBySkills,
+  datePickerType,
+  changeDatePickerType
 }) => {
   
   return (
     <Spin spinning={isLoading} tip="Loading...">
       <div className="inner-wrapper">
-        <div className="steps-content">
+        <div className="steps-content search-content">
           <div className="steps-header">
             <h3>Look for Professionals</h3>
           </div>
@@ -39,6 +41,8 @@ const FindProfessionas = ({
                     formValues={formValues}
                     showMessage={showMessage}
                     searchDateError={searchDateError}
+                    datePickerType={datePickerType}
+                    changeDatePickerType={changeDatePickerType}
                     searchProfessionalsBySkills={searchProfessionalsBySkills}
                   />
                 </FormSection>

@@ -9,7 +9,7 @@ const ContactForm = () => {
       <Field
         name="name"
         component={TextField}
-        label={'Name'}
+        hintText={'Name'}
         size={'large'}
         type="text"
         validate={[isRequired]}
@@ -18,7 +18,7 @@ const ContactForm = () => {
       <Field
         name="email"
         component={TextField}
-        label={'Email'}
+        hintText={'Email'}
         size={'large'}
         type="text"
         validate={[isValidEmail]}
@@ -27,7 +27,7 @@ const ContactForm = () => {
       <Field
         name="phone"
         component={TextField}
-        label={'Phone'}
+        hintText={'Phone'}
         size={'large'}
         type="text"
         validate={[isRequired]}
@@ -36,7 +36,7 @@ const ContactForm = () => {
       <Field
         name="subject"
         component={TextField}
-        label={'Subject'}
+        hintText={'Subject'}
         size={'large'}
         type="text"
         validate={[isRequired]}
@@ -45,7 +45,7 @@ const ContactForm = () => {
       <Field
         name="message"
         component={MultilineTextField}
-        label={'Message'}
+        hintText={'Message...'}
         size={'large'}
         type="text"
         tooltipPlacement={'topRight'}

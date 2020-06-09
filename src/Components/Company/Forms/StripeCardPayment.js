@@ -4,7 +4,7 @@ import { defaultTo } from 'ramda'
 import { Form, Button, Icon, Row, Col } from 'antd'
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js'
 
-const StripeCardPayment = ({ secret, formValues, makePaymentRequest, skipPaymentOption }) => {
+const StripeCardPayment = ({ secret, formValues, makePaymentRequest, skipPaymentOption, adBlockerExists }) => {
   const { firstName, lastName } = defaultTo({}, formValues)
   const options = {
     hidePostalCode: true,

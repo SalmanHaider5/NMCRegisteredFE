@@ -99,7 +99,7 @@ const ProfessionalDetailsForm = ({
         colon={false}
         className='form-checkbox'
       >
-        <Checkbox checked={subsidiary} onChange={subsidiaryStatusChange} />
+        <Checkbox defaultChecked={subsidiary} onChange={subsidiaryStatusChange} />
       </Form.Item>
       {
         subsidiary ?

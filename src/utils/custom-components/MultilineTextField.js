@@ -11,9 +11,9 @@ export const MultilineTextField = ({
   meta: { touched, error, visited },
   label,
   fullWidth,
-  placeholder,
   readOnly,
   rows,
+  hintText,
   rowsMax,
   specialText,
   fieldData,
@@ -34,7 +34,7 @@ export const MultilineTextField = ({
           id={id}
           {...input}
           value={readOnly ? fieldData : value}
-          placeholder={placeholder}
+          placeholder={hintText}
         />
       </FormItem>
     </div>

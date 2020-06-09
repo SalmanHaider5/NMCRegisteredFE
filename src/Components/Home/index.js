@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, FormSection } from 'redux-form'
 import { isNil, prop, equals } from 'ramda'
-import { Row, Col, Button, Spin, Icon } from 'antd'
+import { Row, Col, Button, Spin, Icon, Drawer } from 'antd'
 import { register, verifyAccount, userLogin, generatePasswordResetLink, verifyLogin, reachUs } from '../../actions'
 import { TITLE } from '../../constants'
 import { ModalBox } from '../../utils/custom-components'
@@ -21,6 +21,7 @@ class Home extends Component {
     this.state = {
       selected: '',
       loginModal: false,
+      termsDrawer: false, 
       forgetPassword: false,
       contactFormModal: false
     }
@@ -37,6 +38,16 @@ class Home extends Component {
     this.setState({ selected: type })
   }
 
+  showTerms = () => {
+    this.setState({
+      termsDrawer: true,
+      contactFormModal: false
+    })
+  }
+  hideTerms = () => {
+    this.setState({ termsDrawer: false })
+  }
+
   registerUser = () => {
     const { formValues: { signup: { email, password } }, dispatch } = this.props
     const { selected } = this.state
@@ -45,13 +56,12 @@ class Home extends Component {
   }
 
   showLoginModal = () => {
-    this.setState({ loginModal: true })
+    this.setState({ loginModal: true, forgetPassword: false })
   }
 
   showContactFormModal = () => {
     this.setState({
-      loginModal: false,
-      forgetPassword: false,
+      termsDrawer: false,
       contactFormModal: true
     })
   }
@@ -63,7 +73,7 @@ class Home extends Component {
   hideLoginModal = () => {
     const { dispatch } = this.props
     dispatch(reset('users'))
-    this.setState({ loginModal: false })
+    this.setState({ loginModal: false, modalType: '' })
   }
 
   login = () => {
@@ -105,13 +115,6 @@ class Home extends Component {
       return(
         <FormSection name="forgetPassword">
           <ForgetPasswordForm showLoginForm={this.showLoginForm}/>
-        </FormSection>
-      )
-    }
-    if(type === 'Contact Us'){
-      return(
-        <FormSection name="contactForm">
-          <ContactForm />
         </FormSection>
       )
     }
@@ -161,7 +164,7 @@ class Home extends Component {
 
   render() {
 
-    const { selected, loginModal, forgetPassword, contactFormModal } = this.state
+    const { selected, loginModal, forgetPassword, contactFormModal, termsDrawer } = this.state
     const { valid, formValues= {}, application: { isLoading, twoFactorAuth, authentication: { auth, role, userId } } } = this.props
 
     const modalType = twoFactorAuth ? 'Mobile Verification' : forgetPassword ? 'Forget Password' : contactFormModal ? 'Contact Us' :  'Login'
@@ -227,7 +230,11 @@ class Home extends Component {
                             selectUser={this.selectUser}
                             valid={valid}
                             formValues={formValues}
+                            termsDrawer={termsDrawer}
+                            showTerms={this.showTerms}
+                            hideTerms={this.hideTerms}
                             registerUser={this.registerUser}
+                            showContactFormModal={this.showContactFormModal}
                           />
                         </FormSection>
                       </div>
@@ -240,17 +247,32 @@ class Home extends Component {
         <ModalBox
           title={modalType}
           size={600}
-          visible={loginModal || contactFormModal}
+          visible={loginModal}
           content={this.getLogimModalContent(modalType)}
           submitText={this.getModalSubmitText(modalType)}
           cancelText={<> <Icon type="close" /> Cancel </>}
           submitHandler={
             twoFactorAuth ? this.verifyTwoFactorAuthentication :
-            forgetPassword ? this.sendPasswordResetLink:
-            contactFormModal? this.sendMessage : this.login
+            forgetPassword ? this.sendPasswordResetLink : this.login
           }
-          cancelHandler={contactFormModal ? this.hideContactFormModal : this.hideLoginModal}
+          cancelHandler={this.hideLoginModal}
         />
+        <Drawer
+          title={<><Icon type="mail" /> Contact Us </>}
+          placement="left"
+          className="contact-drawer"
+          closable={true}
+          onClose={this.hideContactFormModal}
+          visible={contactFormModal}
+          width={512}
+        >
+          <FormSection name="contactForm">
+            <ContactForm />
+          </FormSection>
+          <Button className="success-btn" onClick={this.sendMessage}>
+            <Icon type="export" /> Send us a Message
+          </Button>
+        </Drawer>
       </Spin>
     )
   }

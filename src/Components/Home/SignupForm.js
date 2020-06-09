@@ -1,17 +1,38 @@
 import React from 'react'
-import { Row, Col, Button, Icon, Divider } from 'antd'
+import { Row, Col, Button, Icon, Divider, Drawer } from 'antd'
 import { Field } from 'redux-form'
-import { TextField } from '../../utils/custom-components'
-import { isRequired, isValidEmail, isPasswordMatched, isNumericCharacterExist, isCapitalCharacterExist, isMaxLengthValid } from '../../constants'
+import { TextField, CheckboxField } from '../../utils/custom-components'
+import { isRequired, isValidEmail, isPasswordMatched, isNumericCharacterExist, isCapitalCharacterExist, isMaxLengthValid, TERMS, PRIVACY_POLICY } from '../../constants'
+import { map } from 'ramda'
+import { isEmptyOrNull } from '../../utils/helpers'
 
-
+const TermsClauses = ({ options }) => {
+  return(
+    <ul>
+      {
+        map(option =>{
+          return(
+            <li key={option.id}>
+              {option.text}
+              {isEmptyOrNull(option.link) ? '' : <a target="_blank" rel="noopener noreferrer" href={option.link}>{option.linkText}</a>}.
+            </li>
+          )
+        }, options)
+      }
+    </ul>
+  )
+}
 
 const SignupForm = ({
   selected,
   selectUser,
   valid,
   registerUser,
-  formValues: { password, confirmPassword }
+  termsDrawer,
+  showTerms,
+  hideTerms,
+  formValues: { password, confirmPassword },
+  showContactFormModal
 }) => {
   return (
     <div>
@@ -83,6 +104,21 @@ const SignupForm = ({
                 tooltipPlacement={'topRight'}
               />
             </div>
+            <div className='register-field'>
+              <Field
+                name="termsChecked"
+                component={CheckboxField}
+                text={
+                  <>
+                    I agree to NMC <Button className="link-button" onClick={showTerms} type="link">Terms of Service & Privacy Policy </Button>
+                  </>
+                }
+                size={'large'}
+                type={'password'}
+                validate={[isRequired]}
+                tooltipPlacement={'topRight'}
+              />
+            </div>
               <Button
                 onClick={registerUser}
                 className='register-btn'
@@ -93,6 +129,46 @@ const SignupForm = ({
                 <Icon type="user-add" /> Register
               </Button>
           </form>
+          <Drawer
+            title={<><Icon type="paper-clip" /> Terms and Privacy</>}
+            placement="right"
+            className="terms-drawer"
+            closable={true}
+            width={680}
+            onClose={hideTerms}
+            visible={termsDrawer}
+          >
+            <span>
+              <h2><u>Licence Agreement Terms</u></h2>
+              {
+                map(term => {
+                  return(
+                    <span key={term.id}>
+                      <h3>{term.title}</h3>
+                      <p>{term.text}</p>
+                      {
+                        isEmptyOrNull(term.options) ? '' : <TermsClauses options={term.options} />
+
+                      }
+                    </span>
+                  )
+                }, TERMS)
+              }
+              <h2><u>Privacy Policy</u></h2>
+              {
+                map(policy => {
+                  return(
+                    <span key={policy.id}>
+                      <h3>{policy.title}</h3>
+                      <p>
+                        {policy.text}{ isEmptyOrNull(policy.buttonText) ? '' : <Button type="link" className="link-button" onClick={showContactFormModal} >{policy.buttonText}</Button> }.
+                      </p>
+                    </span>
+                  )
+                }, PRIVACY_POLICY)
+              }
+            </span>
+          </Drawer>
         </div>
       </div>
     </div>

@@ -216,6 +216,33 @@ button.payment-button{
 }
 .payment-container .bottom-messages{
     position: relative;
-    top: 120px;
+    top: 10px;
     font-size: 9px;
+}
+.net-balance .ant-list-item-meta-title{
+    padding-left: 37px;
+}
+.payment-container .ant-alert.ant-alert-error{
+    margin-bottom: 20px;
+}
+.paypal-container{
+    width: 72%;
+    margin: 0 auto;
+}
+.payment-container .braintree-upper-container:before{
+    background-color: #fff;
+}
+.payment-container .braintree-sheet__content.braintree-sheet__content--button{
+    padding: 0;
+}
+.payment-container .zoid-outlet{
+    width: 330px !important;
+    float: right;
+    right: 15px;
+}
+.paypal-container{
+    right: 10px;
+}
+.paypal-container button{
+    float: right;
 }

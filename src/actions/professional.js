@@ -25,7 +25,6 @@ export const createDetails = (userId, formValues) => dispatch => {
         const { code, response: { title, message } } = response
         showToast(title, message, code)
         formValues.document = type(formValues.document) === 'File' ? formValues.document.name : formValues.document
-        formValues.crbDocument = type(formValues.crbDocument) === 'File' ? formValues.crbDocument.name : formValues.crbDocument
         const professional = getProfessionalData(formValues)
         dispatch(initialize('professional', professional))
         dispatch({
@@ -111,7 +110,6 @@ export const getProfessionalDetails = userId => dispatch => {
     })
     .then(res => res.json())
     .then(data => {
-        console.log('Data', data)
         const { code, response: { title, message } } = data
         showToast(title, message, code)
         if(code === 'success' || code === 'info'){
@@ -157,10 +155,8 @@ export const updateProfessionalProfile = (userId, values) => dispatch => {
         if(code === 'success' && !isEmptyOrNull(response)){
             const profilePicture = type(values.profilePicture) === 'File' ? values.profilePicture.name : values.profilePicture
             const document = type(values.document) === 'File' ? values.document.name : values.document
-            const crbDocument = type(values.crbDocument) === 'File' ? values.crbDocument.name : values.crbDocument
             dispatch(change('professional', 'profilePicture', profilePicture))
             dispatch(change('professional', 'document', document))
-            dispatch(change('professional', 'crbDocument', crbDocument))
             dispatch({
                 type: types.PROFESSIONAL_PROFILE_UPDATE_SUCCESS,
                 payload: values

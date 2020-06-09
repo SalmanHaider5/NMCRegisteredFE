@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import moment from 'moment'
+import { detected } from 'adblockdetect'
 import { Icon, message } from 'antd'
-import { concat, omit, trim, find, propEq, split, prop, defaultTo, last, equals } from 'ramda'
-import { addDetails, logoutUser, getCompanyDetails, clearAddresses, getAdresses, updatePassword, contactUs, makePayment, updateProfile, searchProfessionals, getClientPaymentToken } from '../../actions'
+import { concat, omit, trim, find, propEq, split, prop, defaultTo, last, equals, head, append, length } from 'ramda'
+import { addDetails, logoutUser, getCompanyDetails, clearAddresses, getAdresses, updatePassword, contactUs, makePayment, makePaypalPayment, updateProfile, searchProfessionals, getClientPaymentToken, getClientPaypalToken } from '../../actions'
 import { QUALIFICATION_OPTIONS as skills, TIMESHEET_SHIFTS as shifts } from '../../constants'
 import { getCompanyFormValues, isEmptyOrNull } from '../../utils/helpers'
 import AddDetails from './AddDetails'
@@ -29,13 +30,19 @@ class Company extends Component {
       documentModal: false,
       documentModalType: '',
       imageModal: false,
-      searchDateError: ''
+      searchDateError: '',
+      datePickerType: 'singular',
+      adBlockerExists: false,
+      paypalPayment: false
     };
   }
 
   componentDidMount(){
     const { match: { params: { userId } }, dispatch, company: { companyDetails: { isPaid = false } }, application: { authentication: { auth, role } }, history, location: { pathname } } = this.props
     dispatch(getCompanyDetails(userId))
+    this.setState({
+      adBlockerExists: detected()
+    })
     if(last(split('/', pathname)) === 'professionals'){
       this.setState({ pageKey: '1' })
     }
@@ -52,6 +59,7 @@ class Company extends Component {
       history.push('/')
     }else if(!isPaid){
       dispatch(getClientPaymentToken())
+      dispatch(getClientPaypalToken(userId))
     }
   }
   
@@ -77,9 +85,21 @@ class Company extends Component {
     dispatch(updatePassword(userId, values))
   }
 
+  makePaypalPayment = (response) => {
+    const { dispatch, match: { params: { userId } } } = this.props
+    dispatch(makePaypalPayment(userId, response))
+  }
+
   makePaymentRequest = (response) => {
     const { dispatch, match: { params: { userId } } } = this.props
     dispatch(makePayment(userId, response))
+  }
+
+  changeDatePickerType = () => {
+    const { datePickerType } = this.state
+    this.setState({
+      datePickerType: datePickerType === 'singular' ? 'multiple' : 'singular'
+    })
   }
 
   sendMessage = () => {
@@ -150,14 +170,18 @@ class Company extends Component {
     }
   }
 
-  searchProfessionalsBySkills = shift => {
+  searchProfessionalsBySkills = e => {
     const { match: { params: { userId } }, dispatch, company: { companyDetails }, formValues } = this.props
-    const { searchForm: { skill, searchDate } } = formValues
+    const { searchForm } = formValues
+    const { skill, searchDate } = searchForm
+    const shift = e.target.value
+    searchForm.shift = shift
+    dispatch(change('company', 'searchForm', searchForm))
     const values = {}
     values.skill = prop('name', find(propEq('id', skill))(skills))
     values.shift = prop('name', find(propEq('id', shift))(shifts))
     values.postalCode = prop('postalCode', companyDetails)
-    values.date = moment(searchDate)
+    values.date = searchDate
     dispatch(searchProfessionals(userId, values))
   } 
 
@@ -240,8 +264,18 @@ class Company extends Component {
     }
   }
 
+  extractDates = (startDate, endDate) => {
+    let dates = [];
+    while(!moment(startDate).isAfter(moment(endDate))){
+      dates = append(moment(startDate).format('YYYY-MM-DD'), dates)
+      startDate = startDate.add(1, 'days')
+    }
+    return dates
+  }
+
   showMessage = (type, value) => {
     const { dispatch, formValues: { searchForm: { searchDate } } } = this.props
+    const { datePickerType } = this.state
     if(type === 'skill'){
       const searchForm = {
         skill: value,
@@ -252,18 +286,39 @@ class Company extends Component {
       message.success('Pick a Date')
     }
     if(type === 'date'){
-      if(moment(value).isSameOrAfter(moment())){
-        const { formValues: { searchForm: { skill } } } = this.props
-        const searchForm = {
-          skill,
-          searchDate: moment(value).format('YYYY-MM-DD'),
-          shift: ''
+      if(datePickerType === 'singular'){
+        if(moment(value).isSameOrAfter(moment())){
+          const { formValues: { searchForm: { skill } } } = this.props
+          const searchForm = {
+            skill,
+            searchDate: [moment(value).format('YYYY-MM-DD')],
+            shift: ''
+          }
+          dispatch(change('company', 'searchForm', searchForm))
+          message.success('Choose a Shift')
+          this.setState({ searchDateError: '' })
+        }else{
+          this.setState({ searchDateError: '* Previous date cannot be selected' })
         }
-        dispatch(change('company', 'searchForm', searchForm))
-        message.success('Choose a Shift')
-        this.setState({ searchDateError: '' })
       }else{
-        this.setState({ searchDateError: '* Previous date cannot be selected' })
+        if(moment(head(value)).isSameOrAfter(moment())){
+          const { formValues: { searchForm: { skill } } } = this.props
+          const searchDates = this.extractDates(moment(head(value)), moment(last(value)))
+          if(length(searchDates) > 7){
+            this.setState({ searchDateError: '* You can select upto 7 days' })
+          }else{
+            const searchForm = {
+              skill,
+              searchDate: searchDates,
+              shift: ''
+            }
+            dispatch(change('company', 'searchForm', searchForm))
+            message.success('Choose a Shift')
+            this.setState({ searchDateError: '' })
+          }
+        }else{
+          this.setState({ searchDateError: '* Previous date cannot be selected' })
+        }
       }
     }
   }
@@ -289,9 +344,9 @@ class Company extends Component {
   }
   
   render() {
-    const { current, paymentSkipped, collapsed, formName, editFormModal, documentModal, searchDateError, pageKey, documentModalType, imageModal } = this.state
-    const { invalid, addresses, company: { companyDetails, isLoading, professionals, secret }, application: { authentication: { userId } }, formValues } = this.props
-    const isPaid = defaultTo(false, prop('isPaid', companyDetails))    
+    const { current, paymentSkipped, collapsed, formName, editFormModal, documentModal, searchDateError, pageKey, documentModalType, imageModal, datePickerType, adBlockerExists, paypalPayment } = this.state
+    const { invalid, addresses, company: { companyDetails, isLoading, professionals, secret, paypalToken }, application: { authentication: { userId } }, formValues } = this.props
+    const isPaid = defaultTo(false, prop('isPaid', companyDetails))   
     return(
       <div>
         <Header
@@ -315,6 +370,8 @@ class Company extends Component {
             imageModal={imageModal}
             searchDateError={searchDateError}
             pageKey={pageKey}
+            datePickerType={datePickerType}
+            changeDatePickerType={this.changeDatePickerType}
             changePostalCode={this.changePostalCode}
             showImageModal={this.showImageModal}
             hideImageModal={this.hideImageModal}
@@ -346,6 +403,10 @@ class Company extends Component {
             companyDetails={companyDetails}
             formValues={formValues}
             secret={secret}
+            paypalToken={paypalToken}
+            adBlockerExists={adBlockerExists}
+            paypalPayment={paypalPayment}
+            makePaypalPayment={this.makePaypalPayment}
             makePaymentRequest={this.makePaymentRequest}
             next={this.next}  
             prev={this.prev}

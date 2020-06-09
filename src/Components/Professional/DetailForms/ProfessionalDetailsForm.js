@@ -4,8 +4,8 @@ import { defaultTo } from 'ramda'
 import { TextField, SelectField, MultilineTextField, FileInput } from '../../../utils/custom-components'
 import { isRequired, QUALIFICATION_OPTIONS as qualifications, max35Hours, max200Words, isValidNMC } from '../../../constants'
 
-const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues, crbRemoveHandler, imageRemoveHandler }) => {
-  const { document, crbDocument, profilePicture } = defaultTo({}, formValues)
+const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues, imageRemoveHandler }) => {
+  const { document, profilePicture } = defaultTo({}, formValues)
   return (
     <div>
       <Field
@@ -30,14 +30,10 @@ const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues, crbRemoveHandl
       />
       <Field
         name="crbDocument"
-        component={FileInput}
-        label="DBS"
-        hintText={'Upload DBS Document'}
-        acceptedFileTypes=".doc,.docx,.pdf,.jpg,.jpeg,.png"
-        type={'card'}
-        fileAdded={crbDocument}
-        onRemove={crbRemoveHandler}
-        removeIcon={true}
+        component={TextField}
+        label="DBS Number"
+        type={'text'}
+        size={'large'}
       />
       <Field
         name="cpdHours"
