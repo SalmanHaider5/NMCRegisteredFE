@@ -106,7 +106,7 @@ export const getCompanyDetails = userId => dispatch => {
             const { company } = data
             const { firstName, lastName, email, phone, postalCode } = company
             if(!isEmptyOrNull(postalCode)){
-                // dispatch(getAdresses(postalCode))
+                dispatch(getAdresses(postalCode))
             }
             const contact = {
                 name: join(' ', [firstName, lastName]),

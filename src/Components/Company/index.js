@@ -5,7 +5,7 @@ import moment from 'moment'
 import { detected } from 'adblockdetect'
 import { Icon, message } from 'antd'
 import { concat, omit, trim, find, propEq, split, prop, defaultTo, last, equals, head, append, length } from 'ramda'
-import { addDetails, logoutUser, getCompanyDetails, clearAddresses, getAdresses, updatePassword, contactUs, makePayment, makePaypalPayment, updateProfile, searchProfessionals, getClientPaymentToken, getClientPaypalToken } from '../../actions'
+import { addDetails, logoutUser, getCompanyDetails, clearAddresses, getAdresses, updatePassword, contactUs, makePayment, makePaypalPayment, updateProfile, searchProfessionals, getClientPaymentToken } from '../../actions'
 import { QUALIFICATION_OPTIONS as skills, TIMESHEET_SHIFTS as shifts } from '../../constants'
 import { getCompanyFormValues, isEmptyOrNull } from '../../utils/helpers'
 import AddDetails from './AddDetails'
@@ -59,7 +59,6 @@ class Company extends Component {
       history.push('/')
     }else if(!isPaid){
       dispatch(getClientPaymentToken())
-      dispatch(getClientPaypalToken(userId))
     }
   }
   

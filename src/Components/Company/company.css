@@ -189,9 +189,7 @@ button.payment-button{
     font-weight: 600;
     color: #0f00005c;
 }
-.payment-container .ant-card{
-    /* box-shadow: 0 0 10px rgba(0,0,0,0.5); */
-}
+
 .payment-container .ant-card-head{
     background-color: #1e1c5d;
     color: #fff;
