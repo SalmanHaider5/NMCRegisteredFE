@@ -1,6 +1,5 @@
 import React from 'react'
-import { List, Icon, Divider, Tooltip, Modal, Tag, Avatar, Col, Button } from 'antd'
-import { split, last } from 'ramda'
+import { List, Icon, Divider, Tooltip, Modal, Avatar, Col, Button } from 'antd'
 import { SERVER_URL as url } from '../../../../../constants'
 import { isEmptyOrNull } from '../../../../../utils/helpers'
 import { DocumentViewer } from '../../../../../utils/custom-components'
@@ -26,7 +25,6 @@ const ProfessionalDetails = ({
     crbDocument,
     profilePicture
   } = professional
-  const fileType = last(split('.', document))
   return (
     <>
       <Col xs={24} sm={24} md={24} lg={{ span: 11, offset: 0 }} xl={{ span: 11, offset: 0 }}>
@@ -69,7 +67,7 @@ const ProfessionalDetails = ({
               }
             </span>
           </List.Item>
-          <List.Item>
+          {/* <List.Item>
             <label>
               <Icon type={fileType === 'pdf' ? `file-pdf` : `file-word` } />
               CV/Resume { isEmptyOrNull(document) ? '' :  <Tag color="cyan">{document}</Tag> }
@@ -85,7 +83,7 @@ const ProfessionalDetails = ({
                 </Tooltip>
               }
             </span>
-          </List.Item>
+          </List.Item> */}
           <List.Item>
             <label>
               <Icon type="user" />

@@ -289,11 +289,13 @@ const filterProfessionalsByShift = (professional, timesheet, values) => dispatch
                     }
                 }
             })
+            .then(() => {
+                dispatch({
+                    type: types.FIND_PROFESSIONALS_SUCCESS
+                })
+            })
         }
     }
-    dispatch({
-        type: types.FIND_PROFESSIONALS_SUCCESS
-    })
 }
 
 const filterProfessionalsByTimesheets = (values, professional) => dispatch => {

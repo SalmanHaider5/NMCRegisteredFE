@@ -5,7 +5,7 @@ import { TextField, SelectField, MultilineTextField, FileInput } from '../../../
 import { isRequired, QUALIFICATION_OPTIONS as qualifications, max35Hours, max200Words, isValidNMC } from '../../../constants'
 
 const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues, imageRemoveHandler }) => {
-  const { document, profilePicture } = defaultTo({}, formValues)
+  const { profilePicture } = defaultTo({}, formValues)
   return (
     <div>
       <Field
@@ -45,7 +45,7 @@ const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues, imageRemoveHan
         validate={[max35Hours]}
         tooltipPlacement={'topRight'}
       />
-      <Field
+      {/* <Field
         name="document"
         component={FileInput}
         label="Resume/CV"
@@ -55,7 +55,7 @@ const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues, imageRemoveHan
         fileAdded={document}
         onRemove={fileRemoveHandler}
         removeIcon={true}
-      />
+      /> */}
       <Field
         name="profilePicture"
         component={FileInput}

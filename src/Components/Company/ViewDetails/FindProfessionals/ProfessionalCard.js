@@ -23,8 +23,6 @@ const ProfessionalCard = ({
     crbDocument,
     shift,
     time,
-    email,
-    phone,
     nmcPin
   } = professional
   return (
@@ -44,12 +42,12 @@ const ProfessionalCard = ({
           <Button type="link" onClick={showImageModal} disabled={isEmptyOrNull(profilePicture)}>
             <Icon type="user" />
           </Button>
-        </Tooltip>,
-        <Tooltip title="CV/Resume">
-          <Button type="link" onClick={() => showDocumentModal('CV/Resume')} disabled={isEmptyOrNull(document)}>
-            <Icon type="file-pdf" />
-          </Button>
         </Tooltip>
+        // <Tooltip title="CV/Resume">
+        //   <Button type="link" onClick={() => showDocumentModal('CV/Resume')} disabled={isEmptyOrNull(document)}>
+        //     <Icon type="file-pdf" />
+        //   </Button>
+        // </Tooltip>
       ]}
     >
       <List className="professional-details">
@@ -61,21 +59,15 @@ const ProfessionalCard = ({
         </List.Item>
         <List.Item>
           <label>
-            <Icon type="mail" /> Email 
-          </label>
-          <span>{email}</span>
-        </List.Item>
-        <List.Item>
-          <label>
-            <Icon type="phone" /> Phone 
-          </label>
-          <span>{phone}</span>
-        </List.Item>
-        <List.Item>
-          <label>
-            <Icon type="profile" /> NMC Pin 
+            <Icon type="mail" /> NMC Pin 
           </label>
           <span>{nmcPin}</span>
+        </List.Item>
+        <List.Item>
+          <label>
+            <Icon type="phone" /> DBS Number 
+          </label>
+          <span>{crbDocument}</span>
         </List.Item>
       </List>
       <Modal
