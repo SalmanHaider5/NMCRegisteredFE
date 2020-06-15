@@ -110,7 +110,7 @@ const SignupForm = ({
                 component={CheckboxField}
                 text={
                   <>
-                    I agree to NMC <Button className="link-button" onClick={showTerms} type="link">Terms of Service & Privacy Policy </Button>
+                    I agree to NMC <Button className="link-button" onClick={showTerms} type="link"> Terms & Privacy Policy </Button>
                   </>
                 }
                 size={'large'}
