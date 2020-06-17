@@ -4,7 +4,7 @@ import { defaultTo } from 'ramda'
 import { Form, Button, Icon, Row, Col } from 'antd'
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js'
 
-const StripeCardPayment = ({ secret, formValues, makePaymentRequest, skipPaymentOption, adBlockerExists }) => {
+const StripeCardPayment = ({ secret, formValues, makePaymentRequest, skipPaymentOption, adBlockerExists, termsChecked }) => {
   const { firstName, lastName } = defaultTo({}, formValues)
   const options = {
     hidePostalCode: true,
@@ -50,7 +50,7 @@ const StripeCardPayment = ({ secret, formValues, makePaymentRequest, skipPayment
           <Button type="danger" onClick={skipPaymentOption}>
             Skip <Icon type="right" />
           </Button>
-          <Button className="success-btn" style={{ marginLeft: '20px' }}  onClick={makePayment}>
+          <Button className="success-btn" style={{ marginLeft: '20px' }} disabled={!termsChecked}  onClick={makePayment}>
             <Icon type="pound" /> Make Payment
           </Button>
         </Col>

@@ -76,6 +76,7 @@ export const addDetails = (userId, formValues) => dispatch => {
     .then(response => {
         const { code, response: { title, message } } = response
         showToast(title, message, code)
+        formValues.createdAt = moment()
         const company = getCompanyData(formValues)
         dispatch(initialize('company', company))
         dispatch({

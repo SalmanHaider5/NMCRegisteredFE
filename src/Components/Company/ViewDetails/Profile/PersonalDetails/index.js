@@ -91,7 +91,7 @@ const PersonalDetails = ({ company }) => {
       <List.Item>
         <label>
           <Icon type="calendar" />
-          Joined At
+          Joined On
         </label>
         <span className="label-value">{moment(createdAt).format('LL')}</span>
       </List.Item>

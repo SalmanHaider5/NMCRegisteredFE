@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import moment from 'moment'
-import { Icon } from 'antd'
+import { Icon, Spin } from 'antd'
 import { trim, split, prop, propEq, concat, find, omit, dissoc, type, last, equals } from 'ramda'
 import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfessionalProfile, updateSecurityDetails, changePhoneRequest, clearAddresses, contactUs } from '../../actions'
 import { GENDER_OPTIONS as genders, QUALIFICATION_OPTIONS as qualifications } from '../../constants'
@@ -322,72 +322,73 @@ class Professional extends Component {
         <Header
           logout={this.logout}
         />
-        {
-          isEmptyOrNull(prop('fullName', professionalDetails)) ?
-          <AddDetails
-            findAddresses={this.findAddresses}
-            addressSelectHandler={this.addressSelectHandler}
-            addresses={addresses}
-            professional={professionalDetails}
-            sendVerificationCode={this.sendVerificationCode}
-            verifyProfessionalPhone={this.verifyProfessionalPhone}
-            phoneVerified={phoneVerified}
-            current={current}
-            next={this.next}
-            prev={this.prev}
-            getFormIcon={this.getFormIcon}
-            saveDetails={this.saveDetails}
-            formValues={formValues}
-            fileChangeHandler={this.fileChangeHandler}
-            getFormName={this.getFormName}
-            invalid={invalid}
-            codeSent={codeSent}
-            dateHandler={this.dateHandler}
-            editPhoneNumber={this.editPhoneNumber}
-            fileRemoveHandler={this.fileRemoveHandler}
-            imageRemoveHandler={this.imageRemoveHandler}
-            crbRemoveHandler={this.crbRemoveHandler}
-            changePostalCode={this.changePostalCode}
-          /> :
-          <ViewDetails
-            userId={userId}
-            isLoading={isLoading}
-            collapsed={collapsed}
-            onCollapse={this.onCollapse}
-            professional={professionalDetails}
-            formModal={formModal}
-            formName={formName}
-            showEditFormModal={this.showEditFormModal}
-            hideEditFormModal={this.hideEditFormModal}
-            findAddresses={this.findAddresses}
-            addressSelectHandler={this.addressSelectHandler}
-            updateProfessionalDetails={this.updateProfessionalDetails}
-            addresses={addresses}
-            dateHandler={this.dateHandler}
-            getProfileStatus={this.getProfileStatus}
-            invalid={invalid}
-            pageKey={pageKey}
-            switchPage={this.switchPage}
-            updateSecurityandLoginDetails={this.updateSecurityandLoginDetails}
-            formValues={formValues}
-            phoneVerified={phoneVerified}
-            imageModal={imageModal}
-            documentModal={documentModal}
-            documentModalType={documentModalType}
-            addTimesheet={this.addTimesheet}
-            showImageModal={this.showImageModal}
-            hideImageModal={this.hideImageModal}
-            fileRemoveHandler={this.fileRemoveHandler}
-            imageRemoveHandler={this.imageRemoveHandler}
-            crbRemoveHandler={this.crbRemoveHandler}
-            showDocumentModal={this.showDocumentModal}
-            hideDocumentModal={this.hideDocumentModal}
-            getDocumentType={this.getDocumentType}
-            sendMessage={this.sendMessage}
-            changePostalCode={this.changePostalCode}
-          />
-        }
-          
+        <Spin spinning={isLoading}>
+          {
+            isEmptyOrNull(prop('fullName', professionalDetails)) ?
+            <AddDetails
+              findAddresses={this.findAddresses}
+              addressSelectHandler={this.addressSelectHandler}
+              addresses={addresses}
+              professional={professionalDetails}
+              sendVerificationCode={this.sendVerificationCode}
+              verifyProfessionalPhone={this.verifyProfessionalPhone}
+              phoneVerified={phoneVerified}
+              current={current}
+              next={this.next}
+              prev={this.prev}
+              getFormIcon={this.getFormIcon}
+              saveDetails={this.saveDetails}
+              formValues={formValues}
+              fileChangeHandler={this.fileChangeHandler}
+              getFormName={this.getFormName}
+              invalid={invalid}
+              codeSent={codeSent}
+              dateHandler={this.dateHandler}
+              editPhoneNumber={this.editPhoneNumber}
+              fileRemoveHandler={this.fileRemoveHandler}
+              imageRemoveHandler={this.imageRemoveHandler}
+              crbRemoveHandler={this.crbRemoveHandler}
+              changePostalCode={this.changePostalCode}
+            /> :
+            <ViewDetails
+              userId={userId}
+              isLoading={isLoading}
+              collapsed={collapsed}
+              onCollapse={this.onCollapse}
+              professional={professionalDetails}
+              formModal={formModal}
+              formName={formName}
+              showEditFormModal={this.showEditFormModal}
+              hideEditFormModal={this.hideEditFormModal}
+              findAddresses={this.findAddresses}
+              addressSelectHandler={this.addressSelectHandler}
+              updateProfessionalDetails={this.updateProfessionalDetails}
+              addresses={addresses}
+              dateHandler={this.dateHandler}
+              getProfileStatus={this.getProfileStatus}
+              invalid={invalid}
+              pageKey={pageKey}
+              switchPage={this.switchPage}
+              updateSecurityandLoginDetails={this.updateSecurityandLoginDetails}
+              formValues={formValues}
+              phoneVerified={phoneVerified}
+              imageModal={imageModal}
+              documentModal={documentModal}
+              documentModalType={documentModalType}
+              addTimesheet={this.addTimesheet}
+              showImageModal={this.showImageModal}
+              hideImageModal={this.hideImageModal}
+              fileRemoveHandler={this.fileRemoveHandler}
+              imageRemoveHandler={this.imageRemoveHandler}
+              crbRemoveHandler={this.crbRemoveHandler}
+              showDocumentModal={this.showDocumentModal}
+              hideDocumentModal={this.hideDocumentModal}
+              getDocumentType={this.getDocumentType}
+              sendMessage={this.sendMessage}
+              changePostalCode={this.changePostalCode}
+            />
+          }
+        </Spin>
       </div>
     )
   }

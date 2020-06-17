@@ -33,7 +33,8 @@ class Company extends Component {
       searchDateError: '',
       datePickerType: 'singular',
       adBlockerExists: false,
-      paypalPayment: false
+      paypalPayment: false,
+      termsDrawer: false
     };
   }
 
@@ -75,6 +76,14 @@ class Company extends Component {
   onCollapse = () => {
     const { collapsed } = this.state
     this.setState({ collapsed: !collapsed })
+  }
+
+  showTermsDrawer = () => {
+    this.setState({ termsDrawer: true })
+  }
+
+  hideTermsDrawer = () => {
+    this.setState({ termsDrawer: false })
   }
 
   changePassword = () => {
@@ -343,7 +352,7 @@ class Company extends Component {
   }
   
   render() {
-    const { current, paymentSkipped, collapsed, formName, editFormModal, documentModal, searchDateError, pageKey, documentModalType, imageModal, datePickerType, adBlockerExists, paypalPayment } = this.state
+    const { current, paymentSkipped, collapsed, formName, editFormModal, documentModal, searchDateError, pageKey, documentModalType, imageModal, datePickerType, adBlockerExists, paypalPayment, termsDrawer } = this.state
     const { invalid, addresses, company: { companyDetails, isLoading, professionals, secret, paypalToken }, application: { authentication: { userId } }, formValues } = this.props
     const isPaid = defaultTo(false, prop('isPaid', companyDetails))   
     return(
@@ -404,6 +413,7 @@ class Company extends Component {
             secret={secret}
             paypalToken={paypalToken}
             adBlockerExists={adBlockerExists}
+            termsDrawer={termsDrawer}
             paypalPayment={paypalPayment}
             makePaypalPayment={this.makePaypalPayment}
             makePaymentRequest={this.makePaymentRequest}
@@ -411,6 +421,8 @@ class Company extends Component {
             prev={this.prev}
             changePostalCode={this.changePostalCode}
             getFormIcon={this.getFormIcon}
+            showTermsDrawer={this.showTermsDrawer}
+            hideTermsDrawer={this.hideTermsDrawer}
             getFormName={this.getFormName}
             findAddresses={this.findAddresses}
             addressSelectHandler={this.addressSelectHandler}

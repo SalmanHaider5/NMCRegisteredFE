@@ -58,7 +58,7 @@ const PersonalDetails = ({ professional, phoneVerified }) => {
       <List.Item>
         <label>
           <Icon type="calendar" />
-          Joined At
+          Joined On
         </label>
         <span className="label-value">{moment(createdAt).format('ll')}</span>
       </List.Item>

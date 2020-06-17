@@ -34,7 +34,10 @@ const AddDetails = ({
   isLoading,
   paypalToken,
   paypalPayment,
-  makePaypalPayment
+  makePaypalPayment,
+  termsDrawer,
+  showTermsDrawer,
+  hideTermsDrawer
 }) => {
   const components = [
     <PersonalDetailsForm />,
@@ -58,6 +61,9 @@ const AddDetails = ({
       secret={secret}
       paypalPayment={paypalPayment}
       makePaypalPayment={makePaypalPayment}
+      termsDrawer={termsDrawer}
+      showTermsDrawer={showTermsDrawer}
+      hideTermsDrawer={hideTermsDrawer}
     />
   ]
   return (

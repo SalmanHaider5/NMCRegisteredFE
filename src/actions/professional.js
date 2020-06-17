@@ -1,5 +1,6 @@
 import { defaultTo, isNil, type } from 'ramda'
 import Cookies from 'js-cookie'
+import moment from 'moment'
 import { initialize, change } from 'redux-form'
 import { SERVER_URL as url } from '../constants'
 import * as types from './'
@@ -25,6 +26,7 @@ export const createDetails = (userId, formValues) => dispatch => {
         const { code, response: { title, message } } = response
         showToast(title, message, code)
         formValues.document = type(formValues.document) === 'File' ? formValues.document.name : formValues.document
+        formValues.createdAt = moment()
         const professional = getProfessionalData(formValues)
         dispatch(initialize('professional', professional))
         dispatch({

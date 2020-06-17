@@ -1,18 +1,29 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { defaultTo } from 'ramda'
-import { Row, Col, Card, List, Alert, Button } from 'antd'
+import { defaultTo, map } from 'ramda'
+import { Row, Col, Card, List, Alert, Button, Form, Drawer, Icon } from 'antd'
 import moment from 'moment'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 import PaypalBtn from 'react-paypal-checkout'
 import StripeCardPayment from './StripeCardPayment'
-import { TextField, RadioField } from '../../../utils/custom-components'
-import { SERVER_URL as url, isRequired } from '../../../constants'
-import { showToast } from '../../../utils/helpers'
+import { TextField, RadioField, CheckboxField } from '../../../utils/custom-components'
+import { SERVER_URL as url, isRequired, TERMS } from '../../../constants'
+import { showToast, isEmptyOrNull } from '../../../utils/helpers'
+import Terms from './Terms'
 
-const PaymentForm = ({ formValues, secret, makePaymentRequest, skipPaymentOption, adBlockerExists, makePaypalPayment }) => {
-  const { firstName, lastName, postalCode, balance, vat, paymentMethod } = defaultTo({}, formValues)
+const PaymentForm = ({
+  formValues,
+  secret,
+  makePaymentRequest,
+  skipPaymentOption,
+  adBlockerExists,
+  makePaypalPayment,
+  termsDrawer,
+  showTermsDrawer,
+  hideTermsDrawer
+}) => {
+  const { firstName, lastName, postalCode, balance, vat, paymentMethod, termsChecked = false } = defaultTo({}, formValues)
   const stripePromise = adBlockerExists ? {} : loadStripe("pk_test_cmqEvoYCsQr8Ur3q2AoEY5V800VuRo430P")
   
   const onSuccess = (payment) => {
@@ -87,7 +98,7 @@ const PaymentForm = ({ formValues, secret, makePaymentRequest, skipPaymentOption
               <List.Item className="bill-row">
                 <label>
                   <List.Item.Meta
-                    title="Total Dues"
+                    title="Total"
                     description="Valid Till"
                   />
                 </label>
@@ -111,7 +122,7 @@ const PaymentForm = ({ formValues, secret, makePaymentRequest, skipPaymentOption
                   <a href="https://www.paypal.com/us/webapps/mpp/paypal-safety-and-security"><b>PayPal</b></a> appears safe for buyers, as the site platform is both secure and encrypted
                 </>:
                 <>
-                  <a href="https://stripe.com/payments"><b>Stripe</b></a> invest heavily in securing our infrastructure in close partnership with world-class security experts
+                  <a href="https://stripe.com/payments"><b>Stripe</b></a> payments are Strong Customer Authentication (SCA) ready, Dynamic 3-D Secure and PCI Compliant
                 </>
               }
               type={paymentMethod === 'Paypal' ? 'info' : 'success'}
@@ -127,17 +138,10 @@ const PaymentForm = ({ formValues, secret, makePaymentRequest, skipPaymentOption
             defaultValue={'Pay with Card'}
           />
           <Field
-            name="firstName"
+            name="Name"
             component={TextField}
-            label={'First Name'}
-            fieldData={firstName}
-            readOnly={true}
-          />
-          <Field
-            name="lastName"
-            component={TextField}
-            label={'Last Name'}
-            fieldData={lastName}
+            label={'Name'}
+            fieldData={firstName +' '+ lastName}
             readOnly={true}
           />
           <Field
@@ -147,24 +151,51 @@ const PaymentForm = ({ formValues, secret, makePaymentRequest, skipPaymentOption
             fieldData={postalCode}
             readOnly={true}
           />
+          <Form.Item
+            label="Card Details"
+            labelCol={{ span: 5, offset: 3 }}
+            wrapperCol={{ span: 12, offset: 1 }}
+            style={{ margin: '0' }}
+            colon={false}
+          >
+            <Field
+              name="termsChecked"
+              component={CheckboxField}
+              text={
+                <>
+                  I agree to NMC <Button className="link-button" type="link" onClick={showTermsDrawer}> NMC Terms and Conditions </Button>
+                </>
+              }
+              size={'large'}
+              type={'password'}
+              validate={[isRequired]}
+              tooltipPlacement={'topRight'}
+            />
+          </Form.Item>
           {
             adBlockerExists ? '' :
             paymentMethod === 'Paypal' ?
             <>
               <Row>
               <Col span={17} offset={4} className="paypal-container">
-                <PaypalBtn 
-                  env={'sandbox'} 
-                  client={client} 
-                  currency={'GBP'} 
-                  total={parseInt(balance) + parseInt(balance * vat / 100)} 
-                  locale={'en_GB'} 
-                  style={style}
-                  className="paypal-button"
-                  onError={onError} 
-                  onSuccess={onSuccess} 
-                  onCancel={onCancel}
-                />
+                {
+                  termsChecked ? 
+                  <PaypalBtn 
+                    env={'sandbox'} 
+                    client={client} 
+                    currency={'GBP'} 
+                    total={parseInt(balance) + parseInt(balance * vat / 100)} 
+                    locale={'en_GB'} 
+                    style={style}
+                    className="paypal-button"
+                    onError={onError}
+                    disabled
+                    onSuccess={onSuccess} 
+                    onCancel={onCancel}
+                  /> :
+                  <Button type="primary" className="paypal-button" size="large" disabled={!termsChecked}>Pay with Paypal</Button>
+
+                }
                 <Button type="link" onClick={skipPaymentOption}><u>Skip</u></Button>
               </Col>
             </Row>
@@ -176,11 +207,39 @@ const PaymentForm = ({ formValues, secret, makePaymentRequest, skipPaymentOption
                 adBlockerExists={adBlockerExists}
                 skipPaymentOption={skipPaymentOption}
                 makePaymentRequest={makePaymentRequest}
+                termsChecked={termsChecked}
               />
             </Elements>
           }
         </Col>
-      </Row> 
+      </Row>
+      <Drawer
+            title={<><Icon type="paper-clip" /> NMC Terms and Conditions</>}
+            placement="right"
+            className="terms-drawer"
+            closable={true}
+            width={680}
+            onClose={hideTermsDrawer}
+            visible={termsDrawer}
+          >
+            <span>
+              <h2><u>Licence Agreement Terms</u></h2>
+              {
+                map(term => {
+                  return(
+                    <span key={term.id}>
+                      <h3>{term.title}</h3>
+                      <p>{term.text}</p>
+                      {
+                        isEmptyOrNull(term.options) ? '' : <Terms options={term.options} />
+
+                      }
+                    </span>
+                  )
+                }, TERMS)
+              }
+            </span>
+          </Drawer>
     </div>
   )
 }
