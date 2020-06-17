@@ -245,13 +245,17 @@ export const updateProfile = (userId, values) => dispatch => {
 
 const filterProfessionalsByShift = (professional, timesheet, values) => dispatch => {
     if(isEmptyOrNull(timesheet)){
-        console.log('Is it here???')
         const { date } = values
         for(let i = 0; i < length(date); i++){
             dispatch({
                 type: types.ENLIST_PROFESSIONAL,
                 payload: { index: i, professional: {} }
             })
+            if(i === length(date) - 1){
+                dispatch({
+                    type: types.FIND_PROFESSIONALS_SUCCESS
+                })
+            }
         }
     }else{
         const { id } = timesheet
@@ -294,6 +298,9 @@ const filterProfessionalsByShift = (professional, timesheet, values) => dispatch
                 dispatch({
                     type: types.FIND_PROFESSIONALS_SUCCESS
                 })
+            })
+            .catch(err => {
+                console.log('Error', err)
             })
         }
     }
@@ -338,6 +345,7 @@ const filterProfessionalsByPostalCode = (values, professional) => dispatch => {
         fetch(endpoint)
         .then(res => res.json())
         .then(response => {
+            console.log('Response', response)
             const { metres } = response
             const miles = parseFloat(metres) / 1609
             if(parseInt(miles) < 26){

@@ -23,7 +23,7 @@ const PaymentForm = ({
   showTermsDrawer,
   hideTermsDrawer
 }) => {
-  const { firstName, lastName, postalCode, balance, vat, paymentMethod, termsChecked = false } = defaultTo({}, formValues)
+  const { firstName, lastName, balance, vat, paymentMethod, termsChecked = false } = defaultTo({}, formValues)
   const stripePromise = adBlockerExists ? {} : loadStripe("pk_test_cmqEvoYCsQr8Ur3q2AoEY5V800VuRo430P")
   
   const onSuccess = (payment) => {
@@ -84,7 +84,7 @@ const PaymentForm = ({
                   />
                 </label>
                 <span>
-                  £ {balance}
+                  £ {balance}.00
                 </span>
               </List.Item>
               <List.Item>
@@ -105,7 +105,7 @@ const PaymentForm = ({
                 <span>
                   <List.Item.Meta
                     className="net-balance"
-                    title={`£ ${parseInt(balance) + parseInt(balance * vat / 100)}`}
+                    title={`£ ${parseInt(balance) + parseInt(balance * vat / 100)}.00`}
                     description={moment().add(1, 'years').format('LL')}
                   />
                 </span>
@@ -144,15 +144,8 @@ const PaymentForm = ({
             fieldData={firstName +' '+ lastName}
             readOnly={true}
           />
-          <Field
-            name="postalCode"
-            component={TextField}
-            label={'Postal Code'}
-            fieldData={postalCode}
-            readOnly={true}
-          />
           <Form.Item
-            label="Card Details"
+            label="Accept Terms"
             labelCol={{ span: 5, offset: 3 }}
             wrapperCol={{ span: 12, offset: 1 }}
             style={{ margin: '0' }}

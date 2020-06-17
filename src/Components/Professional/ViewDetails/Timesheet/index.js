@@ -135,7 +135,6 @@ class Timesheet extends Component {
     const { timesheet: { timesheets }, dispatch } = this.props
     const { schedule } = find(propEq('id', timesheetId))(timesheets)
     const selectedShift = find(propEq('id', shiftId))(schedule)
-    
     const formValues = {}
     if(!isNil(selectedShift)){
       formValues.id = selectedShift.id
@@ -155,7 +154,9 @@ class Timesheet extends Component {
   updateTimesheetShift = () => {
     const { formValues, dispatch } = this.props
     const { editableTimeheet } = this.state
-    const { startTime, endTime } = formValues
+    const { shift } = formValues
+    const startTime = shift === 'Customized Shift' ? moment(formValues.startTime).format('LTS') : formValues.startTime
+    const endTime = shift === 'Customized Shift' ? moment(formValues.endTime).format('LTS') : formValues.endTime
     formValues.time = `${startTime} - ${endTime}`
     formValues.status = true
     dispatch(changeTimesheetShift(omit(['day', 'startTime', 'endTime'], formValues), editableTimeheet))
@@ -167,6 +168,7 @@ class Timesheet extends Component {
   }
 
   addStartTime = (time, timeString) => {
+    console.log('Time', time)
     const { dispatch } = this.props
     dispatch(change('timesheet', 'startTime', time))
   }
@@ -456,6 +458,8 @@ class Timesheet extends Component {
                     <ShiftsSelectBox
                       shifts={shifts}
                       selectedShift={selectedShift}
+                      addStartTime={this.addStartTime}
+                      addEndTime={this.addEndTime}
                       selectShift={this.selectShift}
                     />
                   </span>

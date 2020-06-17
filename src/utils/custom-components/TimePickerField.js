@@ -39,7 +39,7 @@ export const TimePickerField = ({
             disabled={disabled}
             inputReadOnly={readOnly}
             format={TIME_FORMAT}
-            use12Hours
+            use24Hours
           />
         </Tooltip>
       </FormItem>

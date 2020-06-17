@@ -217,8 +217,9 @@ button.payment-button{
     top: 10px;
     font-size: 9px;
 }
-.net-balance .ant-list-item-meta-title{
-    padding-left: 37px;
+.net-balance .ant-list-item-meta-title,
+.net-balance .ant-list-item-meta-description{
+    text-align: end;
 }
 .payment-container .ant-alert.ant-alert-error{
     margin-bottom: 20px;

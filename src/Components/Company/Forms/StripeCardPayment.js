@@ -2,12 +2,14 @@ import React from 'react'
 import { Field } from 'redux-form'
 import { defaultTo } from 'ramda'
 import { Form, Button, Icon, Row, Col } from 'antd'
-import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js'
+import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from '@stripe/react-stripe-js'
 
 const StripeCardPayment = ({ secret, formValues, makePaymentRequest, skipPaymentOption, adBlockerExists, termsChecked }) => {
   const { firstName, lastName } = defaultTo({}, formValues)
+  
   const options = {
     hidePostalCode: true,
+    showIcon: true
   }
   const stripe = useStripe()
   const elements = useElements()
@@ -23,7 +25,7 @@ const StripeCardPayment = ({ secret, formValues, makePaymentRequest, skipPayment
 
     const response = await stripe.confirmCardPayment(secret, {
       payment_method: {
-        card: elements.getElement(CardElement),
+        card: elements.getElement(CardNumberElement),
         billing_details: {
           name: `${firstName} ${lastName}`
         }
@@ -34,14 +36,38 @@ const StripeCardPayment = ({ secret, formValues, makePaymentRequest, skipPayment
   return (
     <span>
       <Form.Item
-        label="Card Details"
+        label="Card Number"
         labelCol={{ span: 5, offset: 3 }}
         wrapperCol={{ span: 12, offset: 1 }}
         colon={false}
       >
         <Field
-          name="cardDetails"
-          component={CardElement}
+          name="cardNumber"
+          component={CardNumberElement}
+          options={options}
+        />
+      </Form.Item>
+      <Form.Item
+        label="Card Expiry"
+        labelCol={{ span: 5, offset: 3 }}
+        wrapperCol={{ span: 12, offset: 1 }}
+        colon={false}
+      >
+        <Field
+          name="cardExpiry"
+          component={CardExpiryElement}
+          options={options}
+        />
+      </Form.Item>
+      <Form.Item
+        label="CVC"
+        labelCol={{ span: 5, offset: 3 }}
+        wrapperCol={{ span: 12, offset: 1 }}
+        colon={false}
+      >
+        <Field
+          name="cvc"
+          component={CardCvcElement}
           options={options}
         />
       </Form.Item>

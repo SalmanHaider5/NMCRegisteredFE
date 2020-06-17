@@ -1,6 +1,6 @@
 export const TITLE = "NMC Registered"
 export const DATE_FORMAT = "DD/MM/YYYY"
-export const TIME_FORMAT = "hh:mm"
+export const TIME_FORMAT = "HH:mm"
 export const GET_ADDRESS_API_KEY = "dVsQRsLdEkasx1cfi4PGMg25238"
 export const TIMESHEET_DAYS = [
     {id: 1, name: 'Monday'},
@@ -13,9 +13,9 @@ export const TIMESHEET_DAYS = [
 ]
 export const TIMESHEET_SHIFTS = [
     {id: 1, name: 'Early Shift', startTime: '07:00:00', endTime: '15:00:00'},
-    {id: 2, name: 'Late Shift', startTime: '14:00:00', endTime: '22:00:00'},
-    {id: 3, name: 'Night Shift', startTime: '20:00:00', endTime: '08:00:00'},
-    {id: 4, name: 'Early Long Shift', startTime: '07:00:00', endTime: '20:00:00'},
+    {id: 2, name: 'Early Long Shift', startTime: '07:00:00', endTime: '20:00:00'},
+    {id: 3, name: 'Late Shift', startTime: '14:00:00', endTime: '22:00:00'},
+    {id: 4, name: 'Night Shift', startTime: '20:00:00', endTime: '08:00:00'},
     {id: 5, name: 'Customized Shift'}
 ]
 
@@ -98,7 +98,7 @@ export const PRIVACY_POLICY = [
     {
         id: 3,
         title: 'Do we solicit information/Data?',
-        text: 'Only by one method, voluntary submissions. The use of &quot;cookies&quot; and other technologies is not incorporated, monitored or logged by us for any information gathering agenda'
+        text: 'Only by one method, voluntary submissions. The use of "cookies" and other technologies is not incorporated, monitored or logged by us for any information gathering agenda'
     },
     {
         id: 4,
