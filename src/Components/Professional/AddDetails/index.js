@@ -1,11 +1,12 @@
 import React from 'react'
-import { length } from 'ramda'
+import { length, prop } from 'ramda'
 import { Row, Col, Card, Icon, Button } from 'antd'
 import { isEmptyOrNull } from '../../../utils/helpers'
 import AddPhoneForm from '../DetailForms/AddPhoneForm'
 import PersonalDetailsForm from '../DetailForms/PersonalDetailsForm'
 import AddressForm from '../DetailForms/AddressForm'
 import ProfessionalDetailsForm from '../DetailForms/ProfessionalDetailsForm'
+import BankDetailsForm from '../DetailForms/BankDetailsForm'
 
 import './addDetails.css'
 
@@ -31,7 +32,8 @@ const AddDetails = ({
   imageRemoveHandler,
   fileRemoveHandler,
   crbRemoveHandler,
-  changePostalCode
+  changePostalCode,
+  saveBankDetails
 }) => {
   const { phone } = professional
   const isPhoneAdded = !isEmptyOrNull(phone) && phoneVerified ? true : false
@@ -62,7 +64,13 @@ const AddDetails = ({
         <Col xs={0} sm={0} md={0} lg={7} xl={5} offset={1} className="progress-panel">
           <div className="progress-tail">
             {
-              isPhoneAdded ? getFormIcon(current, 'form-icon') :  <Icon type="solution" className="form-icon" />
+              isPhoneAdded ?
+                isEmptyOrNull(prop('fullName', professional)) ?
+                  getFormIcon(current, 'form-icon')
+                :
+                <Icon type="bank" className="form-icon" />
+              :
+                <Icon type="solution" className="form-icon" />
             }
           </div>
         </Col>
@@ -70,21 +78,31 @@ const AddDetails = ({
           <Card
             title={
               isPhoneAdded ?
-              <span>
-                {getFormIcon(current)} {getFormName(current)}
-              </span> :
+                isEmptyOrNull(prop('fullName', professional)) ?
+                <span>
+                  {getFormIcon(current)} {getFormName(current)}
+                </span>:
+                <span>
+                  <Icon type="bank" /> Banking Details
+                </span>
+              :
               <span>
                 <Icon type="solution" /> Mobile Verification
               </span>
             }
             bordered={false}
           >
-            { isPhoneAdded ? components[current] :
-              <AddPhoneForm
-                sendVerificationCode={sendVerificationCode}
-                codeSent={codeSent}
-                editPhoneNumber={editPhoneNumber}
-              /> }
+            { 
+              !isPhoneAdded ?
+                <AddPhoneForm
+                  sendVerificationCode={sendVerificationCode}
+                  codeSent={codeSent}
+                  editPhoneNumber={editPhoneNumber}
+                /> :
+                isEmptyOrNull(prop('fullName', professional)) ?
+                components[current] :
+                <BankDetailsForm />
+            }
             <Row>
               <Col span={5} offset={3}>
                 {
@@ -98,8 +116,12 @@ const AddDetails = ({
               <Col span={12} offset={1} className="form-actions">
                 {
                   isPhoneAdded ?
-                    current === 2 ?
-                    <Button className="next-btn success-btn" disabled={invalid} onClick={saveDetails}>
+                    current === 2 || !isEmptyOrNull(prop('fullName', professional)) ?
+                    <Button
+                      className="next-btn success-btn"
+                      disabled={invalid}
+                      onClick={isEmptyOrNull(prop('fullName', professional)) ? saveDetails: saveBankDetails}
+                    >
                       <Icon type="check" /> Save
                     </Button> :
                     <Button className="next-btn" type="primary" disabled={current === 1 ? (invalid || length(addresses.addresses) === 0) : invalid} onClick={next}>

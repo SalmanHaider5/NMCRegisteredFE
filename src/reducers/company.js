@@ -6,6 +6,7 @@ const initState = {
     isLoading: false,
     secret: '',
     companyDetails: {},
+    offers:[],
     professionals: [],
     paypalToken: ''
 }
@@ -115,10 +116,12 @@ const company = (state=initState, action) => {
                 professionals: []
             }
         case actions.FETCH_COMPANY_DETAILS_SUCCESS:
+            const { company: { offers } } = payload
             return {
                 ...state,
                 isLoading: false,
-                companyDetails: payload.company
+                companyDetails: payload.company,
+                offers
             }
         case actions.FIND_PROFESSIONALS_FAILURE:
         case actions.UPDATE_SHIFT_FAILURE:

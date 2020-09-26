@@ -4,10 +4,12 @@ import { ModalBox } from '../../../../utils/custom-components'
 import PersonalDetails from './PersonalDetails/'
 import AddressDetails from './AddressDetails/'
 import ProfessionalDetails from './ProfessionalDetails/'
+import BankDetails from './BankDetails/'
 import PersonalDetailsForm from '../../DetailForms/PersonalDetailsForm'
 import AddressForm from '../../DetailForms/AddressForm'
 import ProfessionalDetailsForm from '../../DetailForms/ProfessionalDetailsForm'
 import './profile.css'
+import BankDetailsForm from '../../DetailForms/BankDetailsForm'
 
 const Profile = ({
   userId,
@@ -37,7 +39,8 @@ const Profile = ({
   documentModal,
   documentModalType,
   getDocumentType,
-  changePostalCode
+  changePostalCode,
+  modifyBankDetails
 }) => {
   const { dateOfBirth } = professional
   return (
@@ -105,7 +108,7 @@ const Profile = ({
                 <Card
                   title={
                     <span>
-                      <Icon type="pencil" />
+                      <Icon type="highlight" />
                       Professional Details
                     </span>
                   }
@@ -133,10 +136,33 @@ const Profile = ({
                 </Card>
               </Col>
             </Row>
+            <Row>
+              <Col span={24} className='pro-card'>
+                <Card
+                  title={
+                    <span>
+                      <Icon type="bank" />
+                      Bank Details
+                    </span>
+                  }
+                  extra={
+                    <Button type="link" onClick={() => showEditFormModal("Bank")}>
+                      <Icon type="edit" />
+                    </Button>
+                  }
+                >
+                  {
+                    <BankDetails
+                      professional={professional}
+                    />
+                  }
+                </Card>
+              </Col>
+            </Row>
             <ModalBox
               title={`Edit ${formName} Details`}
               visible={formModal}
-              size={formName === 'Experience' ? 500 : 850}
+              size={formName === 'Experience' ? 500 : formName === 'Bank' ? 1050 : 850}
               content={
                 formName === 'Personal' ?
                 <PersonalDetailsForm
@@ -158,6 +184,8 @@ const Profile = ({
                   crbRemoveHandler={crbRemoveHandler}
                   imageRemoveHandler={imageRemoveHandler}
                 /> :
+                formName === 'Bank' ?
+                <BankDetailsForm /> :
                 ''
               }
               submitText={
@@ -167,7 +195,7 @@ const Profile = ({
               }
               cancelText={<><Icon type="close" /> Cancel</>}
               submitDisabled={invalid}
-              submitHandler={updateProfessionalDetails}
+              submitHandler={formName === 'Bank' ? modifyBankDetails : updateProfessionalDetails}
               cancelHandler={hideEditFormModal}
             />
           </div>  

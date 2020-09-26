@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import { map, pathOr, defaultTo, isEmpty } from 'ramda'
+import { map, isEmpty } from 'ramda'
 import { Row, Col, Empty, PageHeader, Icon } from 'antd'
 import ProfessionalCard from './ProfessionalCard'
 import { isEmptyOrNull, mapIndexed } from '../../../../utils/helpers'
@@ -15,19 +15,25 @@ const ProfessionalsList = ({
   imageModal,
   showImageModal,
   hideImageModal,
-  formValues
+  formValues,
+  searchInputValue,
+  currentWeek,
+  offerModal,
+  showOfferModal,
+  hideOfferModal,
+  company,
+  offerFormShifts,
+  submitOfferRequest
 }) => {
-  const shift =  pathOr('', ['searchForm', 'shift'], formValues)
-  const { searchForm = {} } = defaultTo({}, formValues)
-  const { searchDate } = searchForm
+  // const { searchForm = {} } = defaultTo({}, formValues)
   
   return (
     <>
       {
-        isEmptyOrNull(shift) ?
+        isEmptyOrNull(searchInputValue) ?
         '' :
         isEmpty(professionals) ?
-        <Empty description="No professionals available for this shift." /> :
+        <Empty description="No professionals available for this search" /> :
         mapIndexed((date, index) => {
         return(
           <>
@@ -55,6 +61,13 @@ const ProfessionalsList = ({
                         imageModal={imageModal}
                         showImageModal={showImageModal}
                         hideImageModal={hideImageModal}
+                        offerModal={offerModal}
+                        company={company}
+                        formValues={formValues}
+                        showOfferModal={showOfferModal}
+                        hideOfferModal={hideOfferModal}
+                        offerFormShifts={offerFormShifts}
+                        submitOfferRequest={submitOfferRequest}
                       />
                     </Col>
                   )
@@ -63,7 +76,7 @@ const ProfessionalsList = ({
             </Row>
           </>
         )
-        }, searchDate)
+        }, currentWeek)
       }
     </>
   )

@@ -22,3 +22,5 @@ export const max35Hours = value => value > 35 ? `Max 35 hours` : undefined
 export const max200Words = value => split(' ', defaultTo('',value)).length > 200 ? 'Max 200 words allowed' : undefined
 export const isValidNMC = value => /^[0-9]{2}[a-zA-Z]{1}[0-9]{4}[a-zA-Z]{1}$/i.test(value) ? undefined : 'Invalid NMC Pin Format'
 export const max30Miles = value => value > 30 ? `Max 30 miles allowed` : undefined
+export const min6CharactersRequired = value => value.length < 6 ? 'Minimum 6 characters required' : ''
+export const min9CharactersRequired = value => value.length < 9 ? 'Minimum 9 characters required' : ''

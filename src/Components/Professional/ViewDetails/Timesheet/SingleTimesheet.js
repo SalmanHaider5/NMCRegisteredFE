@@ -68,7 +68,7 @@ const SingleTimesheet = ({
                   { isNil(schedule) ? '-' : prop('name', schedule) }
                 </h4>
                 <span style={{fontSize: '14px', color: 'rgba(0, 0, 0, 0.45)'}}>
-                  { isNil(schedule) ? '00:00 AA - 00:00 AA' : `${prop('time', schedule)}` }
+                  { isNil(schedule) ? '00:00 - 00:00' : `${prop('time', schedule)}` }
                 </span>
               </div>
               <Button type="link" disabled={prop('expiryStatus', schedule)} onClick={() => showEditShiftModal(timesheet.id, schedule.id)}>

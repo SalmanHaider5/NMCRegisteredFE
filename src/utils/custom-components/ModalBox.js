@@ -1,5 +1,6 @@
 import React from 'react'
 import { Modal } from 'antd'
+import { isEmptyOrNull } from '../helpers'
 
 export const ModalBox = ({
   content,
@@ -8,6 +9,7 @@ export const ModalBox = ({
   submitHandler,
   cancelHandler,
   submitText,
+  top,
   cancelText,
   submitDisabled,
   size
@@ -18,6 +20,7 @@ export const ModalBox = ({
       visible={visible}
       onOk={submitHandler}
       width={size}
+      style={{ top: isEmptyOrNull(top) ? '' : `${top}px` }}
       okButtonProps={{ className: 'success-btn', disabled: submitDisabled, size: 'small' }}
       cancelButtonProps={{ type: 'primary', size: 'small' }}
       onCancel={cancelHandler}

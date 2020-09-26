@@ -66,7 +66,7 @@ const PaymentForm = ({
           <Card title={<>Licensing Fee </>}>
             <List>
               <div className="payment-logo-container">
-                <img alt="Payment Methods" src={paymentMethod === 'Paypal' ? `${url}assets/paypal.png` : `${url}assets/payment.png`} />
+                <img alt="Payment Methods" src={paymentMethod === 'Paypal' ? `${url}images/assets/paypal.png` : `${url}images/assets/payment.png`} />
               </div>
               <List.Item>
                 <label>

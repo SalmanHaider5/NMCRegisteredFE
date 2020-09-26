@@ -1,5 +1,5 @@
 import * as actions from '../actions'
-import { equals, type as dataType, defaultTo } from 'ramda'
+import { equals, type as dataType, defaultTo, lensProp, set } from 'ramda'
 import { isEmptyOrNull } from '../utils/helpers'
 
 const initState = {
@@ -19,6 +19,8 @@ const professional = (state=initState, action) => {
         case actions.ADD_PROFESSIONAL_DETAILS_REQUEST:
         case actions.ADD_PROFESSIONAL_PHONE_REQUEST:
         case actions.VERIFY_PROFESSIONAL_PHONE_REQUEST:
+        case actions.ADD_BANK_DETAILS_REQUEST:
+        case actions.UPDATE_BANK_DETAILS_REQUEST:
             return{
                 ...state,
                 isLoading: true
@@ -31,6 +33,18 @@ const professional = (state=initState, action) => {
                 ...state,
                 isLoading: false,
                 professionalDetails: payload
+            }
+        case actions.ADD_BANK_DETAILS_SUCCESS:
+            return{
+                ...state,
+                isLoading: false,
+                professionalDetails: set(lensProp('bankDetails'), payload, state.professionalDetails)
+            }
+        case actions.UPDATE_BANK_DETAILS_SUCCESS:
+            return{
+                ...state,
+                isLoading: false,
+                professionalDetails: set(lensProp('bankDetails'), payload, state.professionalDetails)
             }
         case actions.ADD_PROFESSIONAL_PHONE_SUCCESS:
             const professionalDetails = state.professionalDetails
@@ -94,6 +108,8 @@ const professional = (state=initState, action) => {
         case actions.ADD_PROFESSIONAL_PHONE_FAILURE:
         case actions.ADD_PROFESSIONAL_DETAILS_FAILURE:
         case actions.VERIFY_PROFESSIONAL_PHONE_FAILURE:
+        case actions.ADD_BANK_DETAILS_FAILURE:
+        case actions.UPDATE_BANK_DETAILS_FAILURE:
             return{
                 ...state,
                 isLoading: false

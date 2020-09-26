@@ -89,3 +89,62 @@ div.steps-content.search-content{
   padding-top: 3px;
   padding-right: 25px;
 }
+.search-container .shift-cell,
+.search-container .shift-name,
+.search-container .shift-date{
+  display: inline-block;
+  padding: 10px;
+  text-align: center;
+  /* font-weight: 700; */
+  border: 1px solid #68606012;
+}
+.search-container .shift-cell{
+  width: 120px;
+  padding: 0;
+}
+.search-container .shift-cell .ant-form-item-control-wrapper{
+  text-align: center;
+}
+.search-container .shift-cell .checkbox-container  .ant-form-item{
+  margin: 0;
+}
+.search-container .shift-name{
+  width: 175px;
+  color: #fff;
+  background-color: #1890ff;
+}
+.search-container .empty-shift-cell{
+  display: inline-table;
+  background-color: #1890ff;
+  width: 175px;
+}
+.search-container .shift-date{
+  width: 120px;
+  background-color: #1890ff;
+  color: #fff;
+}
+.search-container .search-btn button{
+  float: right;
+  margin-left: 10px;
+  right: 95px;
+  top: 20px;
+}
+.professionals-list .ant-card .ant-list-item .ant-btn-primary.ant-btn-block{
+  height: 50px;
+}
+.professionals-list .ant-card .ant-list-item .ant-btn-primary.ant-btn-block span{
+  position: relative;
+}
+.offer-modal{
+  top: 20px;
+}
+.offer-form-container .ant-checkbox-group{
+  /* width: 100%; */
+}
+.offer-form-container .ant-checkbox-group-item.ant-checkbox-wrapper{
+  min-width: 45%;
+  line-height: 3em;
+}
+.price-field{
+  width: 20%;
+}

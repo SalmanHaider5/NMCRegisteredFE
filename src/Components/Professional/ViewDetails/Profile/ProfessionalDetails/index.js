@@ -67,23 +67,6 @@ const ProfessionalDetails = ({
               }
             </span>
           </List.Item>
-          {/* <List.Item>
-            <label>
-              <Icon type={fileType === 'pdf' ? `file-pdf` : `file-word` } />
-              CV/Resume { isEmptyOrNull(document) ? '' :  <Tag color="cyan">{document}</Tag> }
-            </label>
-            <span className="label-value">
-              {
-                isEmptyOrNull(document) ?
-                `Not added yet`:
-                <Tooltip title="View Resume/CV">
-                  <Button type="link" onClick={() => showDocumentModal('CV/Resume')} >
-                    <Icon type="eye" />
-                  </Button>
-                </Tooltip>
-              }
-            </span>
-          </List.Item> */}
           <List.Item>
             <label>
               <Icon type="user" />

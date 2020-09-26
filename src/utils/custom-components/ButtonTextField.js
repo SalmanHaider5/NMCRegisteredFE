@@ -20,6 +20,7 @@ export const ButtonTextField = ({
   addonAfterText,
   isRequired,
   enterButton,
+  fieldData,
   onSearch,
   id
 }) => {
@@ -50,7 +51,7 @@ export const ButtonTextField = ({
             onSearch={onSearch}
             disabled={disabled}
             type={type}
-            value={value}
+            value={readOnly ? fieldData : value}
             readOnly={readOnly}
             addonAfter={addonAfterText}
           />

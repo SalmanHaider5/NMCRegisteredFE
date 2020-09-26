@@ -6,12 +6,24 @@ const changePassword = {
   confirmPassword: ''
 }
 
-const searchForm = {
-  skill: '',
-  serchDate: '',
-  shift: ''
+const shiftsForm = {
+  shift1: false,
+  shift2: false,
+  shift3: false,
+  shift4: false,
+  shift5: false
 }
 
+const searchForm = {
+  skill: '',
+  day0: shiftsForm,
+  day1: shiftsForm,
+  day2: shiftsForm,
+  day3: shiftsForm,
+  day4: shiftsForm,
+  day5: shiftsForm,
+  day6: shiftsForm
+} 
 const getContactFormData = response => {
   return {
     name: join(' ', [pathOr('', ['firstName'], response), pathOr('', ['lastName'], response)]),
@@ -21,6 +33,7 @@ const getContactFormData = response => {
     message: ''
   }
 }
+
 
 export const getCompanyData = (response) => {
   return {

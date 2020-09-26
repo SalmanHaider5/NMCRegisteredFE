@@ -40,7 +40,8 @@ const ViewDetails = ({
   sendMessage,
   pageKey,
   switchPage,
-  changePostalCode
+  changePostalCode,
+  modifyBankDetails
 }) => {
   const { Sider, Footer, Content } = Layout
   return (
@@ -115,6 +116,7 @@ const ViewDetails = ({
                 documentModalType={documentModalType}
                 getDocumentType={getDocumentType}
                 changePostalCode={changePostalCode}
+                modifyBankDetails={modifyBankDetails}
               />
             </Route>
             <Route path="/professional/:userId/security">

@@ -4,10 +4,10 @@ import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import moment from 'moment'
 import { detected } from 'adblockdetect'
 import { Icon, message } from 'antd'
-import { concat, omit, trim, find, propEq, split, prop, defaultTo, last, equals, head, append, length } from 'ramda'
-import { addDetails, logoutUser, getCompanyDetails, clearAddresses, getAdresses, updatePassword, contactUs, makePayment, makePaypalPayment, updateProfile, searchProfessionals, getClientPaymentToken } from '../../actions'
+import { concat, omit, trim, find, propEq, split, prop, defaultTo, head, last, equals, append, range, map, pickBy, keys } from 'ramda'
+import { addDetails, logoutUser, getCompanyDetails, clearAddresses, getAdresses, updatePassword, contactUs, makePayment, makePaypalPayment, updateProfile, searchProfessionals, getClientPaymentToken, sendOfferRequest } from '../../actions'
 import { QUALIFICATION_OPTIONS as skills, TIMESHEET_SHIFTS as shifts } from '../../constants'
-import { getCompanyFormValues, isEmptyOrNull } from '../../utils/helpers'
+import { getCompanyFormValues, isEmptyOrNull, mapIndexed } from '../../utils/helpers'
 import AddDetails from './AddDetails'
 import ViewDetails from './ViewDetails'
 import Header from '../Header'
@@ -34,7 +34,17 @@ class Company extends Component {
       datePickerType: 'singular',
       adBlockerExists: false,
       paypalPayment: false,
-      termsDrawer: false
+      termsDrawer: false,
+      searchDrawer: false,
+      week: 1,
+      currentWeek: [],
+      searchInputValue: '',
+      offerModal: false,
+      offerFormShifts: [],
+      professionalId: '',
+      requestTypes: [],
+      indeterminate: true,
+      allRequests: true
     };
   }
 
@@ -47,14 +57,17 @@ class Company extends Component {
     if(last(split('/', pathname)) === 'professionals'){
       this.setState({ pageKey: '1' })
     }
-    if(last(split('/', pathname)) === 'profile'){
+    if(last(split('/', pathname)) === 'requests'){
       this.setState({ pageKey: '2' })
     }
-    if(last(split('/', pathname)) === 'changePassword'){
+    if(last(split('/', pathname)) === 'profile'){
       this.setState({ pageKey: '3' })
     }
-    if(last(split('/', pathname)) === 'contact'){
+    if(last(split('/', pathname)) === 'changePassword'){
       this.setState({ pageKey: '4' })
+    }
+    if(last(split('/', pathname)) === 'contact'){
+      this.setState({ pageKey: '5' })
     }
     if(!auth && role !== 'company'){
       history.push('/')
@@ -78,6 +91,41 @@ class Company extends Component {
     this.setState({ collapsed: !collapsed })
   }
 
+  showOfferModal = (selectedProfessional) => {
+    const { company: { professionals } } = this.props
+    const { currentWeek } = this.state
+    const options = mapIndexed((day, index) => {
+      const professional = find(propEq('id', selectedProfessional))(professionals[index])
+      const shift = isEmptyOrNull(professional) ? `N/A` : `${professional.shift} (${professional.time})`
+      const value = `${moment(day).format('dddd')} - ${shift}`
+      return { label: value, value, disabled: isEmptyOrNull(professional) }
+    }, currentWeek)
+    this.setState({
+      offerFormShifts: options,
+      offerModal: true,
+      professionalId: selectedProfessional
+    })
+    
+  }
+
+  submitOfferRequest = () => {
+    const { formValues: { offerForm }, match: { params: { userId } }, dispatch } = this.props
+    const { shifts } = offerForm
+    const { professionalId } = this.state
+    offerForm.shifts = shifts.toString()
+    offerForm.company = userId
+    offerForm.professional = professionalId
+    dispatch(sendOfferRequest(offerForm))
+    this.hideOfferModal()
+  }
+
+  hideOfferModal = () => {
+    this.setState({
+      offerModal: false,
+      professionalId: ''
+    })
+  }
+
   showTermsDrawer = () => {
     this.setState({ termsDrawer: true })
   }
@@ -91,6 +139,76 @@ class Company extends Component {
     const { changePassword } = formValues
     const values = omit(['confirmPassword'], changePassword)
     dispatch(updatePassword(userId, values))
+  }
+
+  showSearchDrawer = () => {
+    const { week } = this.state
+    const weekStart = moment().add((parseInt(week) - 1) * 7, 'days').startOf('week')
+    const days = range(0,7)
+    const weeklyDates = map(day => {
+      return moment(weekStart).add(day, 'days').format('LL')
+    }, days)
+    this.setState({
+      currentWeek: weeklyDates,
+      searchDrawer: true
+    })
+  }
+
+  skipCurrentWeek = () => {
+    const { dispatch } = this.props
+    const { week } = this.state
+    const shiftsForm = {
+      shift1: false,
+      shift2: false,
+      shift3: false,
+      shift4: false,
+      shift5: false
+    }
+    
+    const searchForm = {
+      skill: '',
+      day0: shiftsForm,
+      day1: shiftsForm,
+      day2: shiftsForm,
+      day3: shiftsForm,
+      day4: shiftsForm,
+      day5: shiftsForm,
+      day6: shiftsForm
+    } 
+    dispatch(change('company', 'searchForm', searchForm))
+    this.setState({ week: week + 1 }, () => {
+      this.showSearchDrawer()
+    })
+  }
+
+  resetWeek = () => {
+    const { dispatch } = this.props
+    const shiftsForm = {
+      shift1: false,
+      shift2: false,
+      shift3: false,
+      shift4: false,
+      shift5: false
+    }
+    
+    const searchForm = {
+      skill: '',
+      day0: shiftsForm,
+      day1: shiftsForm,
+      day2: shiftsForm,
+      day3: shiftsForm,
+      day4: shiftsForm,
+      day5: shiftsForm,
+      day6: shiftsForm
+    } 
+    dispatch(change('company', 'searchForm', searchForm))
+    this.setState({ week: 1 }, () => {
+      this.showSearchDrawer()
+    })
+  }
+
+  hideSearchDrawer = () => {
+    this.setState({ searchDrawer: false })
   }
 
   makePaypalPayment = (response) => {
@@ -179,18 +297,27 @@ class Company extends Component {
   }
 
   searchProfessionalsBySkills = e => {
+    const { currentWeek } = this.state
     const { match: { params: { userId } }, dispatch, company: { companyDetails }, formValues } = this.props
     const { searchForm } = formValues
-    const { skill, searchDate } = searchForm
-    const shift = e.target.value
-    searchForm.shift = shift
-    dispatch(change('company', 'searchForm', searchForm))
-    const values = {}
-    values.skill = prop('name', find(propEq('id', skill))(skills))
-    values.shift = prop('name', find(propEq('id', shift))(shifts))
-    values.postalCode = prop('postalCode', companyDetails)
-    values.date = searchDate
+    const skillName = defaultTo('allSkills', prop('name', find(propEq('id', prop('skill', searchForm)))(skills)))
+    const results = mapIndexed((v, index) =>{
+      return map(key => last(split('t', key)), keys(pickBy((value, key) => value === true, prop(`day${index}`, searchForm))))
+    }, currentWeek)
+    const values = mapIndexed((result, i) => {
+      const value = {}
+      value.skill = skillName
+      value.postalCode = prop('postalCode', companyDetails)
+      value.date = currentWeek[i]
+      value.shifts = map(value => prop('name', find(propEq('id', parseInt(value)))(shifts)), result)
+      return value
+    }, results)
     dispatch(searchProfessionals(userId, values))
+    const skillInputValue = skillName === 'allSkills' ?  `(All Skills)` : `(${skillName})`
+    this.setState({
+      searchInputValue: `${head(currentWeek)} - ${last(currentWeek)} ${skillInputValue}` 
+    })
+    this.hideSearchDrawer()
   } 
 
   charityStatusChange = () => {
@@ -282,52 +409,28 @@ class Company extends Component {
   }
 
   showMessage = (type, value) => {
-    const { dispatch, formValues: { searchForm: { searchDate } } } = this.props
-    const { datePickerType } = this.state
+    const { dispatch } = this.props
     if(type === 'skill'){
+      const shiftsForm = {
+        shift1: false,
+        shift2: false,
+        shift3: false,
+        shift4: false,
+        shift5: false
+      }
+      
       const searchForm = {
-        skill: value,
-        searchDate,
-        shift: ''
+        skill: '',
+        day0: shiftsForm,
+        day1: shiftsForm,
+        day2: shiftsForm,
+        day3: shiftsForm,
+        day4: shiftsForm,
+        day5: shiftsForm,
+        day6: shiftsForm
       }
       dispatch(change('company', 'searchForm', searchForm))
-      message.success('Pick a Date')
-    }
-    if(type === 'date'){
-      if(datePickerType === 'singular'){
-        if(moment(value).isSameOrAfter(moment())){
-          const { formValues: { searchForm: { skill } } } = this.props
-          const searchForm = {
-            skill,
-            searchDate: [moment(value).format('YYYY-MM-DD')],
-            shift: ''
-          }
-          dispatch(change('company', 'searchForm', searchForm))
-          message.success('Choose a Shift')
-          this.setState({ searchDateError: '' })
-        }else{
-          this.setState({ searchDateError: '* Previous date cannot be selected' })
-        }
-      }else{
-        if(moment(head(value)).isSameOrAfter(moment())){
-          const { formValues: { searchForm: { skill } } } = this.props
-          const searchDates = this.extractDates(moment(head(value)), moment(last(value)))
-          if(length(searchDates) > 7){
-            this.setState({ searchDateError: '* You can select upto 7 days' })
-          }else{
-            const searchForm = {
-              skill,
-              searchDate: searchDates,
-              shift: ''
-            }
-            dispatch(change('company', 'searchForm', searchForm))
-            message.success('Choose a Shift')
-            this.setState({ searchDateError: '' })
-          }
-        }else{
-          this.setState({ searchDateError: '* Previous date cannot be selected' })
-        }
-      }
+      message.success('Pick a Week and Select Shifts')
     }
   }
 
@@ -352,9 +455,9 @@ class Company extends Component {
   }
   
   render() {
-    const { current, paymentSkipped, collapsed, formName, editFormModal, documentModal, searchDateError, pageKey, documentModalType, imageModal, datePickerType, adBlockerExists, paypalPayment, termsDrawer } = this.state
-    const { invalid, addresses, company: { companyDetails, isLoading, professionals, secret, paypalToken }, application: { authentication: { userId } }, formValues } = this.props
-    const isPaid = defaultTo(false, prop('isPaid', companyDetails))   
+    const { current, paymentSkipped, collapsed, formName, editFormModal, documentModal, searchDateError, pageKey, documentModalType, imageModal, datePickerType, adBlockerExists, paypalPayment, termsDrawer, searchDrawer, week, currentWeek, searchInputValue, offerModal, offerFormShifts } = this.state
+    const { invalid, addresses, company: { offers, companyDetails, isLoading, professionals, secret, paypalToken }, application: { authentication: { userId } }, formValues } = this.props
+    const isPaid = defaultTo(false, prop('isPaid', companyDetails))
     return(
       <div>
         <Header
@@ -379,6 +482,19 @@ class Company extends Component {
             searchDateError={searchDateError}
             pageKey={pageKey}
             datePickerType={datePickerType}
+            searchDrawer={searchDrawer}
+            week={week}
+            offers={offers}
+            searchInputValue={searchInputValue}
+            currentWeek={currentWeek}
+            offerModal={offerModal}
+            offerFormShifts={offerFormShifts}
+            showOfferModal={this.showOfferModal}
+            hideOfferModal={this.hideOfferModal}
+            skipCurrentWeek={this.skipCurrentWeek}
+            resetWeek={this.resetWeek}
+            showSearchDrawer={this.showSearchDrawer}
+            hideSearchDrawer={this.hideSearchDrawer}
             changeDatePickerType={this.changeDatePickerType}
             changePostalCode={this.changePostalCode}
             showImageModal={this.showImageModal}
@@ -400,6 +516,7 @@ class Company extends Component {
             switchPage={this.switchPage}
             showPaymentForm={this.showPaymentForm}
             searchProfessionalsBySkills={this.searchProfessionalsBySkills}
+            submitOfferRequest={this.submitOfferRequest}
           /> 
           :
           <AddDetails

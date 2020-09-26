@@ -18,7 +18,9 @@ export const TextField = ({
   specialText,
   addonAfterText,
   isRequired,
+  maxLength,
   fieldData,
+  width,
   id
 }) => {
   return (
@@ -41,6 +43,8 @@ export const TextField = ({
             placeholder={hintText}
             onFocus={onFocus}
             onBlur={onBlur}
+            maxLength={maxLength}
+            style={{ width }}
             onChange={(e) => {
               onChange(e.target.value)
             }}

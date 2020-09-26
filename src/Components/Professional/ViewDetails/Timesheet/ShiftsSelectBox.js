@@ -30,8 +30,8 @@ const ShiftsSelectBox = ({ shifts, selectedShift, selectShift, addStartTime, add
       {
         selectedShift === 'Customized Shift' ?
         <span>
-          <TimePicker format={timeFormat} onChange={addStartTime} placeholder="Starts Time" />
-          <TimePicker format={timeFormat} onChange={addEndTime} placeholder="End Time" />
+          <TimePicker format={timeFormat} minuteStep={15} onChange={addStartTime} placeholder="Starts Time" />
+          <TimePicker format={timeFormat} minuteStep={15} onChange={addEndTime} placeholder="End Time" />
           <p className="error-message">{customizedShiftError}</p>
         </span> :
         ''

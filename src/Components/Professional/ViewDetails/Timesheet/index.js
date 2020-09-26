@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import { reduxForm, getFormValues, change, reset, initialize } from 'redux-form'
-import { isEmpty, length, find, propEq, map, range, head, last, nth, prop, subtract, omit, filter, isNil, split, equals } from 'ramda'
+import { isEmpty, length, find, propEq, map, range, head, last, nth, prop, subtract, omit, filter, isNil, split, equals, join, dropLast } from 'ramda'
 import { Row, Col, Button, Result, Icon, Divider, Drawer, Spin } from 'antd'
 import { getTimesheetValues, isEmptyOrNull } from '../../../../utils/helpers'
 import { ModalBox } from '../../../../utils/custom-components'
@@ -168,7 +168,6 @@ class Timesheet extends Component {
   }
 
   addStartTime = (time, timeString) => {
-    console.log('Time', time)
     const { dispatch } = this.props
     dispatch(change('timesheet', 'startTime', time))
   }
@@ -194,12 +193,13 @@ class Timesheet extends Component {
           customizedShiftError: 'At least 4 hours required'
         })
       }else{
-        formValues.startTime = moment(formValues.startTime).format('LTS')
-        formValues.endTime = moment(formValues.endTime).format('LTS')
+        formValues.startTime = join(':', dropLast(1, split(':', moment(formValues.startTime).format('LTS'))))
+        formValues.endTime = join(':', dropLast(1, split(':', moment(formValues.endTime).format('LTS'))))
         dispatch(addDailySchedule(formValues))
         this.hideDrawer()
       }
     }else{
+      console.log('Form', formValues)
       dispatch(addDailySchedule(formValues))
       this.hideDrawer()
     }
@@ -220,7 +220,7 @@ class Timesheet extends Component {
       let singleTimesheet = {}
       singleTimesheet.date = weeklyDates[parseInt(day.id) - 1]
       singleTimesheet.shift = isNil(dayFound) ? '' : dayFound.shift
-      singleTimesheet.time = isNil(dayFound) ? `00:00:00 - 00:00:00` : `${dayFound.startTime}-${dayFound.endTime}`
+      singleTimesheet.time = isNil(dayFound) ? `00:00 - 00:00` : `${dayFound.startTime}-${dayFound.endTime}`
       singleTimesheet.status = isNil(dayFound) ? false : true
       return singleTimesheet
     }, days)
@@ -263,7 +263,7 @@ class Timesheet extends Component {
     const shiftDetails = this.getShiftByDay(date, schedule)
     if(isNil(shiftDetails)){
       shift.id = ''
-      shift.time = '00:00 AA - 00:00 AA'
+      shift.time = '00:00 - 00:00'
       shift.name = '-'
       shift.status = false
     }else{

@@ -1,6 +1,6 @@
 import { change, initialize } from 'redux-form'
 import Cookies from 'js-cookie'
-import { pathOr, join, defaultTo, forEach, length } from 'ramda'
+import { pathOr, join, defaultTo, forEach, length, head } from 'ramda'
 import moment from 'moment'
 import { SERVER_URL as url, GET_ADDRESS_URL as apiUrl, GET_ADDRESS_API_KEY as apiKey } from '../constants'
 import { showToast, isEmptyOrNull } from '../utils/helpers'
@@ -105,7 +105,7 @@ export const getCompanyDetails = userId => dispatch => {
     .then(data => {
         if(data.code === 'success'){
             const { company } = data
-            const { firstName, lastName, email, phone, postalCode } = company
+            const { firstName, lastName, email, phone, address, city, postalCode } = company
             if(!isEmptyOrNull(postalCode)){
                 dispatch(getAdresses(postalCode))
             }
@@ -116,19 +116,39 @@ export const getCompanyDetails = userId => dispatch => {
                 subject: '',
                 message: ''
             }
+            const shiftsForm = {
+                shift1: false,
+                shift2: false,
+                shift3: false,
+                shift4: false,
+                shift5: false
+            }
+            
             const searchForm = {
                 skill: '',
-                shift: '',
-                searchDate: ''
-            }
+                day0: shiftsForm,
+                day1: shiftsForm,
+                day2: shiftsForm,
+                day3: shiftsForm,
+                day4: shiftsForm,
+                day5: shiftsForm,
+                day6: shiftsForm
+            } 
             const changePassword = {
                 currentPassword: '',
                 newPassword: '',
                 confirmPassword: ''
             }
+            const offerForm = {
+                shiftRate: '',
+                shifts: [],
+                address: `${address}, ${city}, Postal Code ${postalCode}`,
+                message: ''
+            }
             company.contactForm = contact
             company.changePassword = changePassword
             company.searchForm = searchForm
+            company.offerForm = offerForm
             dispatch(initialize('company', company))
         }
         if(data.code !== 'error'){
@@ -245,13 +265,13 @@ export const updateProfile = (userId, values) => dispatch => {
 
 const filterProfessionalsByShift = (professional, timesheet, values) => dispatch => {
     if(isEmptyOrNull(timesheet)){
-        const { date } = values
-        for(let i = 0; i < length(date); i++){
+        // const { date } = values
+        for(let i = 0; i < length(values); i++){
             dispatch({
                 type: types.ENLIST_PROFESSIONAL,
                 payload: { index: i, professional: {} }
             })
-            if(i === length(date) - 1){
+            if(i === length(values) - 1){
                 dispatch({
                     type: types.FIND_PROFESSIONALS_SUCCESS
                 })
@@ -259,17 +279,19 @@ const filterProfessionalsByShift = (professional, timesheet, values) => dispatch
         }
     }else{
         const { id } = timesheet
-        const { shift, date } = values
+        // const { shifts, date } = values
         const token = pathOr('', ['authToken'], Cookies.getJSON('authToken'))
         const endpoint = new URL(`${url}timesheet/${id}/search`)
-        for(let i = 0; i < length(date); i++){
+        
+        for(let i = 0; i < length(values); i++){
+            const { date, shifts } = values[i]
             endpoint.search = new URLSearchParams({
-                shift,
-                date: date[i]
+                shifts: shifts.toString(),
+                date: moment(date).format('YYYY-MM-DD')
             })
             fetch(endpoint,
                 {
-                headers: {
+                headers: {  
                     authorization: token
                 }
             })
@@ -279,9 +301,8 @@ const filterProfessionalsByShift = (professional, timesheet, values) => dispatch
                 if(code === 'success'){
                     const { timesheet } = response
                     if(!isEmptyOrNull(timesheet)){
-                        const { shift, time } = timesheet
-                        professional.shift = shift
-                        professional.time = time
+                        professional.shift = timesheet.shift
+                        professional.time = timesheet.time
                         dispatch({
                             type: types.ENLIST_PROFESSIONAL,
                             payload: { index: i, professional: isEmptyOrNull(professional) ? {} : professional }
@@ -338,14 +359,14 @@ const filterProfessionalsByTimesheets = (values, professional) => dispatch => {
 }
 
 const filterProfessionalsByPostalCode = (values, professional) => dispatch => {
+    // dispatch(filterProfessionalsByTimesheets(values, professional))
     const professionalCode = pathOr('', ['postCode'], professional)
-    const { postalCode } = values
+    const { postalCode } = head(values)
     if(!isEmptyOrNull(professionalCode)){
         const endpoint = `${apiUrl}distance/${postalCode}/${professionalCode}?api-key=${apiKey}`
         fetch(endpoint)
         .then(res => res.json())
         .then(response => {
-            console.log('Response', response)
             const { metres } = response
             const miles = parseFloat(metres) / 1609
             if(parseInt(miles) < 26){
@@ -358,7 +379,7 @@ const filterProfessionalsByPostalCode = (values, professional) => dispatch => {
 }
 
 export const searchProfessionals = (userId, values) => dispatch => {
-    const { skill } = values
+    const { skill } = head(values)
     dispatch({ type: types.FIND_PROFESSIONALS_REQUEST })
     const token = pathOr('', ['authToken'], Cookies.getJSON('authToken'))
     const endpoint = `${url}${userId}/search/${skill}`
@@ -464,5 +485,38 @@ export const makePaypalPayment = (userId, data) => dispatch => {
     })
     .catch(err => {
 
+    })
+}
+
+export const sendOfferRequest = values => dispatch => {
+    dispatch({ type: types.OFFER_REQUEST_INIT })
+    const token = pathOr('', ['authToken'], Cookies.getJSON('authToken'))
+    const endpoint = `${url}createOffer`
+    fetch(endpoint, {
+        method: 'POST',
+        body: JSON.stringify(values),
+        headers: {
+            authorization: token,
+            'Content-Type':'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(response => {
+        console.log('Response', response)
+        const { code } = response
+        if(code === 'success'){
+            const { response: { title, message } } = response
+            showToast(title, message, code)
+            dispatch({
+                type: types.OFFER_REQUEST_SUCCESS,
+                payload: values
+            })
+        }
+    })
+    .catch(err => {
+        dispatch({
+            type: types.OFFER_REQUEST_FAILURE,
+            error: err
+        })
     })
 }

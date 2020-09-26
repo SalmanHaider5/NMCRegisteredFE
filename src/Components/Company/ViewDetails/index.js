@@ -5,6 +5,7 @@ import FindProfessionals from './FindProfessionals'
 import ChangePassword from './Security'
 import Profile from './Profile'
 import Contact from './Contact'
+import OfferRequests from './OfferRequests'
 
 
 const ViewDetails = ({
@@ -46,7 +47,21 @@ const ViewDetails = ({
   pageKey,
   showPaymentForm,
   datePickerType,
-  changeDatePickerType
+  changeDatePickerType,
+  searchDrawer,
+  showSearchDrawer,
+  hideSearchDrawer,
+  week,
+  currentWeek,
+  skipCurrentWeek,
+  resetWeek,
+  searchInputValue,
+  offerModal,
+  showOfferModal,
+  hideOfferModal,
+  offerFormShifts,
+  submitOfferRequest,
+  offers
 }) => {
   const { Sider, Footer, Content } = Layout
   return (
@@ -55,10 +70,10 @@ const ViewDetails = ({
         breakpoint="xl"
         collapsedWidth="0"
         onBreakpoint={broken => {
-          console.log(broken);
+          // console.log(broken);
         }}
         onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
+          // console.log(collapsed, type);
         }}
       >
         <Menu
@@ -74,18 +89,24 @@ const ViewDetails = ({
             </Link>
           </Menu.Item>
           <Menu.Item key="2">
+            <Link to={`/company/${userId}/requests`}>
+              <Icon type="api" />
+              <span>Offer Requests</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="3">
             <Link to={`/company/${userId}/profile`}>
               <Icon type="profile" />
               <span>View Profile</span>
             </Link>
           </Menu.Item>
-          <Menu.Item key="3">
+          <Menu.Item key="4">
             <Link to={`/company/${userId}/changePassword`}>
               <Icon type="lock" />
               <span>Change Password</span>
             </Link>
           </Menu.Item>
-          <Menu.Item key="4">
+          <Menu.Item key="5">
             <Link to={`/company/${userId}/contact`}>
               <Icon type="mail" />
               <span>Contact Us</span>
@@ -110,6 +131,7 @@ const ViewDetails = ({
               <FindProfessionals
                 userId={userId}
                 isPaid={isPaid}
+                company={company}
                 formValues={formValues}
                 professionals={professionals}
                 isLoading={isLoading}
@@ -119,6 +141,7 @@ const ViewDetails = ({
                 hideDocumentModal={hideDocumentModal}
                 getDocumentType={getDocumentType}
                 imageModal={imageModal}
+                searchInputValue={searchInputValue}
                 showImageModal={showImageModal}
                 hideImageModal={hideImageModal}
                 showMessage={showMessage}
@@ -126,7 +149,22 @@ const ViewDetails = ({
                 datePickerType={datePickerType}
                 changeDatePickerType={changeDatePickerType}
                 searchProfessionalsBySkills={searchProfessionalsBySkills}
+                searchDrawer={searchDrawer}
+                showSearchDrawer={showSearchDrawer}
+                hideSearchDrawer={hideSearchDrawer}
+                week={week}
+                currentWeek={currentWeek}
+                skipCurrentWeek={skipCurrentWeek}
+                resetWeek={resetWeek}
+                offerModal={offerModal}
+                showOfferModal={showOfferModal}
+                hideOfferModal={hideOfferModal}
+                offerFormShifts={offerFormShifts}
+                submitOfferRequest={submitOfferRequest}
               />
+            </Route>
+            <Route path="/company/:userId/requests">
+              <OfferRequests offers={offers} />
             </Route>
             <Route path="/company/:userId/changePassword">
               <ChangePassword

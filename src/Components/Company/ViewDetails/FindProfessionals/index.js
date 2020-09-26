@@ -1,5 +1,5 @@
 import React from 'react'
-import { Spin } from 'antd'
+import { Spin, Input, Form, Drawer } from 'antd'
 import ProfessionalsList from './ProfessionalsList'
 import SearchForm from './SearchForm'
 import { FormSection } from 'redux-form'
@@ -19,11 +19,25 @@ const FindProfessionas = ({
   imageModal,
   showImageModal,
   hideImageModal,
+  searchDrawer,
+  showSearchDrawer,
+  hideSearchDrawer,
   showMessage,
   searchDateError,
   searchProfessionalsBySkills,
   datePickerType,
-  changeDatePickerType
+  changeDatePickerType,
+  week,
+  currentWeek,
+  skipCurrentWeek,
+  resetWeek,
+  searchInputValue,
+  offerModal,
+  showOfferModal,
+  hideOfferModal,
+  company,
+  offerFormShifts,
+  submitOfferRequest
 }) => {
   
   return (
@@ -35,17 +49,52 @@ const FindProfessionas = ({
           </div>
           <div className={isPaid ? 'search-container' : 'unpaid-container'}>
               <div className="search-form">
-                <FormSection name="searchForm">
-                  <SearchForm
-                    isPaid={isPaid}
-                    formValues={formValues}
-                    showMessage={showMessage}
-                    searchDateError={searchDateError}
-                    datePickerType={datePickerType}
-                    changeDatePickerType={changeDatePickerType}
-                    searchProfessionalsBySkills={searchProfessionalsBySkills}
+                {/* <div>
+                  <Button className="success-btn" style={{ float: 'left', marginLeft: '30px' }}>
+                    <Icon type="check" /> Save Results
+                  </Button>
+                  <Button type="primary" style={{ float: 'right', marginRight: '30px' }}>
+                    <Icon type="hourglass" /> History
+                  </Button>
+                </div> */}
+                <Form.Item wrapperCol={{ span: 12, offset: 6 }} style={{ paddingTop: '0px' }}>
+                  <Input.Search
+                    value={searchInputValue}
+                    placeholder="Search Professionals"
+                    onClick={showSearchDrawer}
+                    onSearch={showSearchDrawer}
+                    readOnly
+                    enterButton
                   />
-                </FormSection>
+                </Form.Item>
+                <Drawer
+                  title="Search Professionals"
+                  placement={'top'}
+                  className="search-drawer"
+                  closable={true}
+                  onClose={hideSearchDrawer}
+                  visible={searchDrawer}
+                  height={550}
+                  getContainer={false}
+                  style={{ position: 'absolute'}}
+                >
+                  <FormSection name="searchForm">
+                    <SearchForm
+                      week={week}
+                      currentWeek={currentWeek}
+                      skipCurrentWeek={skipCurrentWeek}
+                      resetWeek={resetWeek}
+                      isPaid={isPaid}
+                      hideSearchDrawer={hideSearchDrawer}
+                      formValues={formValues}
+                      showMessage={showMessage}
+                      searchDateError={searchDateError}
+                      datePickerType={datePickerType}
+                      changeDatePickerType={changeDatePickerType}
+                      searchProfessionalsBySkills={searchProfessionalsBySkills}
+                    />
+                  </FormSection>
+                </Drawer>
               </div>
               <div className="professionals-list">
                 <ProfessionalsList
@@ -57,8 +106,16 @@ const FindProfessionas = ({
                   hideDocumentModal={hideDocumentModal}
                   imageModal={imageModal}
                   formValues={formValues}
+                  currentWeek={currentWeek}
                   showImageModal={showImageModal}
                   hideImageModal={hideImageModal}
+                  searchInputValue={searchInputValue}
+                  offerModal={offerModal}
+                  showOfferModal={showOfferModal}
+                  hideOfferModal={hideOfferModal}
+                  company={company}
+                  offerFormShifts={offerFormShifts}
+                  submitOfferRequest={submitOfferRequest}
                 />
               </div>
           </div>

@@ -34,11 +34,31 @@ const contactForm = {
     subject: '',
     message: ''
 }
+
+const shiftsForm = {
+    shift1: false,
+    shift2: false,
+    shift3: false,
+    shift4: false,
+    shift5: false
+}
+
 const searchForm = {
     skill: '',
-    searchDate: '',
-    shift: ''
-} 
+    day0: shiftsForm,
+    day1: shiftsForm,
+    day2: shiftsForm,
+    day3: shiftsForm,
+    day4: shiftsForm,
+    day5: shiftsForm,
+    day6: shiftsForm
+}
+const offerForm = {
+    shiftRate: '',
+    shifts: [],
+    address: '',
+    message: ''
+}
 
 export const getCompanyFormValues = () => {
     return {
@@ -61,7 +81,8 @@ export const getCompanyFormValues = () => {
         subsidiaryAddress: '',
         changePassword: changeCompanyPassword,
         contactForm,
-        searchForm
+        searchForm,
+        offerForm
     }
 }
 

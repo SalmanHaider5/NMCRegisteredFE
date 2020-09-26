@@ -1,8 +1,10 @@
 import React from 'react'
 import { Card, Icon, List, Button, Tooltip, Modal } from 'antd'
+import { defaultTo } from 'ramda'
 import { isEmptyOrNull } from '../../../../utils/helpers'
-import { DocumentViewer } from '../../../../utils/custom-components'
+import { DocumentViewer, ModalBox } from '../../../../utils/custom-components'
 import { SERVER_URL as url } from '../../../../constants'
+import { OfferForm } from './OfferForm'
 
 const ProfessionalCard = ({
   professional,
@@ -13,9 +15,17 @@ const ProfessionalCard = ({
   getDocumentType,
   imageModal,
   showImageModal,
-  hideImageModal
+  hideImageModal,
+  offerModal,
+  showOfferModal,
+  hideOfferModal,
+  company,
+  offerFormShifts,
+  formValues,
+  submitOfferRequest
 }) => {
   const {
+    id,
     status,
     fullName,
     profilePicture,
@@ -25,6 +35,8 @@ const ProfessionalCard = ({
     time,
     nmcPin
   } = professional
+  const { offerForm = {} } = defaultTo({}, formValues)
+  const { shiftRate, shifts } = offerForm
   return (
     <Card
       title={
@@ -43,11 +55,6 @@ const ProfessionalCard = ({
             <Icon type="user" />
           </Button>
         </Tooltip>
-        // <Tooltip title="CV/Resume">
-        //   <Button type="link" onClick={() => showDocumentModal('CV/Resume')} disabled={isEmptyOrNull(document)}>
-        //     <Icon type="file-pdf" />
-        //   </Button>
-        // </Tooltip>
       ]}
     >
       <List className="professional-details">
@@ -65,9 +72,15 @@ const ProfessionalCard = ({
         </List.Item>
         <List.Item>
           <label>
-            <Icon type="phone" /> DBS Number 
+            <Icon type="solution" /> DBS Number 
           </label>
           <span>{crbDocument}</span>
+        </List.Item>
+        <List.Item>
+          <label>
+            <Icon type="form" /> Send an Offer 
+          </label>
+          <Button type="primary" shape="circle" onClick={() => showOfferModal(id)}><Icon type="paper-clip" /></Button>
         </List.Item>
       </List>
       <Modal
@@ -102,6 +115,18 @@ const ProfessionalCard = ({
       >
         <DocumentViewer document={documentModalType === 'CRB' ? crbDocument : documentModalType === 'CV/Resume' ? document : ''} />
       </Modal>
+      <ModalBox
+        title={<>Send an Offer Request</>}
+        visible={offerModal}
+        top={20}
+        size={800}
+        content={<OfferForm company={company} offerFormShifts={offerFormShifts} />}
+        submitText={<><Icon type="save" /> Send</>}
+        cancelText={<><Icon type="close" /> Cancel </>}
+        cancelHandler={hideOfferModal}
+        submitHandler={submitOfferRequest}
+        submitDisabled={isEmptyOrNull(shiftRate) || isEmptyOrNull(shifts)}
+      />
     </Card>
   )
 }

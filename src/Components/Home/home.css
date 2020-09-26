@@ -22,7 +22,7 @@ body{
     float: left;
     width: 200px;
     height: 65px;
-    background-image: url(https://intelligent-innovation.herokuapp.com/assets/logo.png);
+    background-image: url(https://server.nmcregistered.org.uk/server/images/assets/logo.png);
     background-size: 125px auto;
     background-repeat: no-repeat;
     width: 100%;
@@ -228,7 +228,7 @@ button.home-contact-btn span{
             float: left;
             margin-left: 38px;
             width: 128px;
-            background-image: url(https://intelligent-innovation.herokuapp.com/assets/logo.png);
+            background-image: url(https://server.nmcregistered.org.uk/server/images/assets/logo.png);
             background-size: 128px auto !important;
         }
 
@@ -253,7 +253,7 @@ button.home-contact-btn span{
     float: initial;
     margin-left: 38px;
     width: 128px;
-    background-image: url(https://intelligent-innovation.herokuapp.com/assets/logo.png);
+    background-image: url(https://server.nmcregistered.org.uk/server/images/assets/logo.png);
     background-size: 128px auto !important;
     }
     .home-header-down-btn{

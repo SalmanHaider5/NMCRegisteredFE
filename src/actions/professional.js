@@ -300,3 +300,73 @@ export const changeTimesheetShift = (values, timesheetId) => dispatch => {
 export const changePhoneRequest = () => dispatch => {
     dispatch({ type: types.PHONE_NUMBER_CHANGE_REQUEST })
 }
+
+export const addBankDetails = (userId, formValues) => dispatch => {
+    dispatch({ type: types.ADD_BANK_DETAILS_REQUEST })
+    const endpoint = `${url}professional/${userId}/bankDetails`
+    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
+    fetch(endpoint, {
+        method: 'POST',
+        body: JSON.stringify(formValues),
+        headers: {
+            authorization: token,
+            'Content-Type':'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(response => {
+        const { code, response: { title, message } } = response
+        showToast(title, message, code)
+        if(code === 'success'){
+            dispatch({
+                type: types.ADD_BANK_DETAILS_SUCCESS,
+                payload: formValues
+            })
+        }else{
+            dispatch({
+                type: types.ADD_BANK_DETAILS_FAILURE
+            })
+        }
+    })
+    .catch(err => {
+        dispatch({
+            type: types.ADD_BANK_DETAILS_FAILURE,
+            error: err
+        })
+    })
+}
+
+export const updateBankDetails = (userId, formValues) => dispatch => {
+    dispatch({ type: types.UPDATE_BANK_DETAILS_REQUEST })
+    const endpoint = `${url}professional/${userId}/bankDetails`
+    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
+    fetch(endpoint, {
+        method: 'PUT',
+        body: JSON.stringify(formValues),
+        headers: {
+            authorization: token,
+            'Content-Type':'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(response => {
+        const { code, response: { title, message } } = response
+        showToast(title, message, code)
+        if(code === 'success'){
+            dispatch({
+                type: types.UPDATE_BANK_DETAILS_SUCCESS,
+                payload: formValues
+            })
+        }else{
+            dispatch({
+                type: types.UPDATE_BANK_DETAILS_FAILURE
+            })
+        }
+    })
+    .catch(err => {
+        dispatch({
+            type: types.UPDATE_BANK_DETAILS_FAILURE,
+            error: err
+        })
+    }) 
+}

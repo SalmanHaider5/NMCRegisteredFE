@@ -15,6 +15,14 @@ const getChangePasswordFormValues = twoFactorAuthentication => {
   }
 }
 
+const getBankDetails = bankDetails => {
+  return {
+    insurance: pathOr('', ['insurance'], bankDetails),
+    sortCode: pathOr('', ['sortCode'], bankDetails),
+    accountNumber: pathOr('', ['accountNumber'], bankDetails)
+  }
+}
+
 const getContactFormValues = response => {
   return {
     name: response.fullName,
@@ -45,6 +53,7 @@ export const getProfessionalData = response => {
     distance: pathOr(0, ['distance'], response),
     qualification: pathOr('', ['qualification'], response),
     changePassword: getChangePasswordFormValues(prop('twoFactorAuthentication', response)),
+    bankDetails: getBankDetails(prop('bankDetails', response)),
     contactForm: getContactFormValues(response),
     crbDocument: pathOr('', ['crbDocument'], response),
     cpdHours: pathOr('', ['cpdHours'], response),

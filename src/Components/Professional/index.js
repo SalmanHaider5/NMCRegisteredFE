@@ -5,7 +5,7 @@ import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import moment from 'moment'
 import { Icon, Spin } from 'antd'
 import { trim, split, prop, propEq, concat, find, omit, dissoc, type, last, equals } from 'ramda'
-import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfessionalProfile, updateSecurityDetails, changePhoneRequest, clearAddresses, contactUs } from '../../actions'
+import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfessionalProfile, updateSecurityDetails, changePhoneRequest, clearAddresses, contactUs, addBankDetails, updateBankDetails } from '../../actions'
 import { GENDER_OPTIONS as genders, QUALIFICATION_OPTIONS as qualifications } from '../../constants'
 import { getProfessionalFormValues, isEmptyOrNull } from '../../utils/helpers'
 import Header from '../Header'
@@ -111,7 +111,6 @@ class Professional extends Component {
   }
 
   dateHandler = value => {
-    console.log('Value', 'Working', value)
     const { dispatch } = this.props
     dispatch(change('professional', 'dateOfBirth', moment(value).format('YYYY-MM-DD')))
   }
@@ -282,6 +281,17 @@ class Professional extends Component {
       return 'image'
   }
 
+  saveBankDetails = () => {
+    const { formValues: { bankDetails }, dispatch, match: { params: { userId } } } = this.props
+    dispatch(addBankDetails(userId, bankDetails))
+  }
+
+  modifyBankDetails = () => {
+    const { formValues: { bankDetails }, dispatch, match: { params: { userId } } } = this.props
+    dispatch(updateBankDetails(userId, bankDetails))
+    this.hideEditFormModal()
+  }
+
   sendMessage = () => {
     const { dispatch, formValues: { contactForm } } = this.props
     const { subject } = contactForm
@@ -313,6 +323,8 @@ class Professional extends Component {
       }
     } = this.props
 
+    const { bankDetails } = professionalDetails
+
     if(!auth){
       return <Redirect to="/" />
     }
@@ -324,7 +336,7 @@ class Professional extends Component {
         />
         <Spin spinning={isLoading}>
           {
-            isEmptyOrNull(prop('fullName', professionalDetails)) ?
+            isEmptyOrNull(prop('insurance', bankDetails)) ?
             <AddDetails
               findAddresses={this.findAddresses}
               addressSelectHandler={this.addressSelectHandler}
@@ -343,6 +355,7 @@ class Professional extends Component {
               getFormName={this.getFormName}
               invalid={invalid}
               codeSent={codeSent}
+              saveBankDetails={this.saveBankDetails}
               dateHandler={this.dateHandler}
               editPhoneNumber={this.editPhoneNumber}
               fileRemoveHandler={this.fileRemoveHandler}
@@ -384,6 +397,7 @@ class Professional extends Component {
               showDocumentModal={this.showDocumentModal}
               hideDocumentModal={this.hideDocumentModal}
               getDocumentType={this.getDocumentType}
+              modifyBankDetails={this.modifyBankDetails}
               sendMessage={this.sendMessage}
               changePostalCode={this.changePostalCode}
             />

@@ -77,3 +77,6 @@ div.addform-container div.ant-row.addform-panel{
         width: 95%;
     }
 }
+.form-alert{
+    padding-bottom: 30px;
+}
