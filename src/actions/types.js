@@ -87,5 +87,8 @@ export const UPDATE_BANK_DETAILS_FAILURE          = 'UPDATE_BANK_DETAILS_REQUEST
 export const OFFER_REQUEST_INIT                   = 'OFFER_REQUEST_INIT'
 export const OFFER_REQUEST_SUCCESS                = 'OFFER_REQUEST_SUCCESS'
 export const OFFER_REQUEST_FAILURE                = 'OFFER_REQUEST_FAILURE'
+export const OFFER_UPDATE_REQUEST                 = 'OFFER_UPDATE_REQUEST'
+export const OFFER_UPDATE_SUCCESS                 = 'OFFER_UPDATE_SUCCESS'
+export const OFFER_UPDATE_FAILURE                 = 'OFFER_UPDATE_FAILURE'
 
 

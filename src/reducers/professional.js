@@ -1,5 +1,5 @@
 import * as actions from '../actions'
-import { equals, type as dataType, defaultTo, lensProp, set } from 'ramda'
+import { equals, type as dataType, defaultTo, lensProp, set, findIndex, update, propEq } from 'ramda'
 import { isEmptyOrNull } from '../utils/helpers'
 
 const initState = {
@@ -21,6 +21,7 @@ const professional = (state=initState, action) => {
         case actions.VERIFY_PROFESSIONAL_PHONE_REQUEST:
         case actions.ADD_BANK_DETAILS_REQUEST:
         case actions.UPDATE_BANK_DETAILS_REQUEST:
+        case actions.OFFER_UPDATE_REQUEST:
             return{
                 ...state,
                 isLoading: true
@@ -87,6 +88,19 @@ const professional = (state=initState, action) => {
                 ...state,
                 isLoading: true
             }
+        case actions.OFFER_UPDATE_SUCCESS:
+            const { offers } = state.professionalDetails
+            const { id } = payload
+            const index = findIndex(propEq('id', id))(offers)
+            const updatedOffers = update(index, payload, offers)
+            const updatedDetails = state.professionalDetails
+            updatedDetails.offers = updatedOffers
+            return {
+                ...state,
+                isLoading: false,
+                professionalDetails: updatedDetails
+            }
+
         case actions.PROFESSIONAL_PROFILE_UPDATE_SUCCESS:
             const profilePicture = defaultTo('', payload.profilePicture)
             const document = defaultTo('', payload.document)
@@ -110,6 +124,7 @@ const professional = (state=initState, action) => {
         case actions.VERIFY_PROFESSIONAL_PHONE_FAILURE:
         case actions.ADD_BANK_DETAILS_FAILURE:
         case actions.UPDATE_BANK_DETAILS_FAILURE:
+        case actions.OFFER_UPDATE_FAILURE:
             return{
                 ...state,
                 isLoading: false

@@ -30,7 +30,7 @@ export const MultilineTextField = ({
         extra={specialText}
       >
         <TextArea
-          rows={4}
+          rows={rows || 4}
           id={id}
           {...input}
           value={readOnly ? fieldData : value}

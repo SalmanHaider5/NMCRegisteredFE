@@ -61,7 +61,12 @@ const ViewDetails = ({
   hideOfferModal,
   offerFormShifts,
   submitOfferRequest,
-  offers
+  offers,
+  requestTypes,
+  indeterminate,
+  allRequests,
+  changeRequestType,
+  changeAllRequestTypes
 }) => {
   const { Sider, Footer, Content } = Layout
   return (
@@ -164,7 +169,14 @@ const ViewDetails = ({
               />
             </Route>
             <Route path="/company/:userId/requests">
-              <OfferRequests offers={offers} />
+              <OfferRequests
+                offers={offers}
+                requestTypes={requestTypes}
+                indeterminate={indeterminate}
+                allRequests={allRequests}
+                changeRequestType={changeRequestType}
+                changeAllRequestTypes={changeAllRequestTypes}
+              />
             </Route>
             <Route path="/company/:userId/changePassword">
               <ChangePassword

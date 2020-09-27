@@ -5,7 +5,7 @@ import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import moment from 'moment'
 import { Icon, Spin } from 'antd'
 import { trim, split, prop, propEq, concat, find, omit, dissoc, type, last, equals } from 'ramda'
-import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfessionalProfile, updateSecurityDetails, changePhoneRequest, clearAddresses, contactUs, addBankDetails, updateBankDetails } from '../../actions'
+import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfessionalProfile, updateSecurityDetails, changePhoneRequest, clearAddresses, contactUs, addBankDetails, updateBankDetails, updateOffer } from '../../actions'
 import { GENDER_OPTIONS as genders, QUALIFICATION_OPTIONS as qualifications } from '../../constants'
 import { getProfessionalFormValues, isEmptyOrNull } from '../../utils/helpers'
 import Header from '../Header'
@@ -36,14 +36,17 @@ class Professional extends Component {
     if(last(split('/', pathname)) === 'timesheet'){
       this.setState({ pageKey: '1' })
     }
-    if(last(split('/', pathname)) === 'profile'){
+    if(last(split('/', pathname)) === 'requests'){
       this.setState({ pageKey: '2' })
     }
-    if(last(split('/', pathname)) === 'security'){
+    if(last(split('/', pathname)) === 'profile'){
       this.setState({ pageKey: '3' })
     }
-    if(last(split('/', pathname)) === 'contact'){
+    if(last(split('/', pathname)) === 'security'){
       this.setState({ pageKey: '4' })
+    }
+    if(last(split('/', pathname)) === 'contact'){
+      this.setState({ pageKey: '5' })
     }
     if(!auth && role !== 'professional'){
       history.push('/')
@@ -52,6 +55,14 @@ class Professional extends Component {
 
   switchPage = key => {
     this.setState({ pageKey: key })
+  }
+
+  updateOfferStatus = (offerId, status) => {
+    const { dispatch, professional: { professionalDetails: { offers } }, match: { params: { userId } } } = this.props
+    const offer = find(propEq('id', offerId))(offers)
+    offer.status = status
+    offer.professional = userId
+    dispatch(updateOffer(offer, offer.id))
   }
   
   updateProfessionalDetails = () => {
@@ -323,11 +334,13 @@ class Professional extends Component {
       }
     } = this.props
 
-    const { bankDetails } = professionalDetails
-
+    const { bankDetails, offers } = professionalDetails
+    
     if(!auth){
       return <Redirect to="/" />
     }
+
+    console.log('New', this.props)
   
     return (
       <div>
@@ -377,6 +390,7 @@ class Professional extends Component {
               addressSelectHandler={this.addressSelectHandler}
               updateProfessionalDetails={this.updateProfessionalDetails}
               addresses={addresses}
+              updateOfferStatus={this.updateOfferStatus}
               dateHandler={this.dateHandler}
               getProfileStatus={this.getProfileStatus}
               invalid={invalid}
@@ -389,6 +403,7 @@ class Professional extends Component {
               documentModal={documentModal}
               documentModalType={documentModalType}
               addTimesheet={this.addTimesheet}
+              offers={offers}
               showImageModal={this.showImageModal}
               hideImageModal={this.hideImageModal}
               fileRemoveHandler={this.fileRemoveHandler}

@@ -54,6 +54,7 @@ export const getProfessionalData = response => {
     qualification: pathOr('', ['qualification'], response),
     changePassword: getChangePasswordFormValues(prop('twoFactorAuthentication', response)),
     bankDetails: getBankDetails(prop('bankDetails', response)),
+    offers: pathOr([], ['offers'], response),
     contactForm: getContactFormValues(response),
     crbDocument: pathOr('', ['crbDocument'], response),
     cpdHours: pathOr('', ['cpdHours'], response),

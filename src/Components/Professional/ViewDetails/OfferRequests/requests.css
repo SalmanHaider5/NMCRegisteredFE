@@ -1,0 +1,56 @@
+div.requests-container div.offers-container div.list-content{
+  height: 450px;
+  border-right: 2px solid #eee7e7;
+  overflow-y: auto;
+  padding-left: 20px !important;
+}
+div.requests-container div.list-content .ant-list-item-meta-description{
+  font-weight: 400;
+  padding-left: 28px;
+}
+.offer-content{
+  height: 450px;
+  overflow-y: auto;
+}
+.active-list-item{
+    background: #001529;
+    border-radius: 5px;
+    padding-left: 5px !important;
+}
+.active-list-item h4,
+.active-list-item .ant-list-item-meta-description{
+  color: #fff;
+}
+.list-item{
+  cursor: pointer;
+  padding-left: 5px !important;
+}
+.ant-descriptions-item-label{
+  font-weight: 700 !important;
+}
+.list-arrow{
+  display: none;
+  color: #fff;
+  font-size: 22px;
+  padding-right: 10px;
+}
+.active-list-item .list-arrow{
+  display: block;
+}
+.offers-container{
+  padding-right: 25px;
+}
+.offers-container .action-buttons{
+  position: relative;
+  top: 20px;
+  float: right ;
+}
+.offers-container .action-buttons .ant-btn{
+  margin-right: 20px;
+}
+.offers-container .offer-status{
+  text-transform: uppercase;
+}
+.offers-container .requests-checkbox{
+  padding-left: 25px;
+}

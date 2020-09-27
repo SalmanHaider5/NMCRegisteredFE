@@ -256,8 +256,8 @@ button.payment-button{
     margin-bottom: 20px;
 }
 .requests-container .ant-table-body .shifts-list{
-    padding: 0;
-    list-style-type: none;
+    /* padding: 0;
+    list-style-type: none; */
 }
 .requests-container .ant-table-body{
     /* height: 60vh; */
@@ -278,5 +278,20 @@ button.payment-button{
 }
 .requests-container .ant-checkbox-group{
     padding-bottom: 20px;
+    /* padding-left: 14px; */
+}
+.requests-container .requests-checkbox{
     padding-left: 14px;
+}
+.action-column{
+    text-align: center;
+}
+.ant-menu-item .ant-badge{
+    padding-left: 5px;
+}
+.ant-badge .ant-badge-count{
+    background-color: #096dd9;
+}
+.status-item{
+    text-transform: uppercase;
 }

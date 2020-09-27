@@ -1,10 +1,12 @@
 import React from 'react'
 import { Switch, Route, Link } from 'react-router-dom'
-import { Layout, Menu, Icon } from 'antd'
+import { Layout, Menu, Icon, Badge } from 'antd'
+import { filter, length } from 'ramda'
 import Timesheet from './Timesheet'
 import Profile from './Profile'
 import SecurityAndLogin from './Security'
 import Contact from './Contact'
+import { OfferRequests } from './OfferRequests'
 
 const ViewDetails = ({
   userId,
@@ -41,9 +43,12 @@ const ViewDetails = ({
   pageKey,
   switchPage,
   changePostalCode,
-  modifyBankDetails
+  modifyBankDetails,
+  offers,
+  updateOfferStatus
 }) => {
   const { Sider, Footer, Content } = Layout
+  const pendingOffers = filter(offer => offer.status === 'pending', offers)
   return (
     <Layout style={{ minHeight: '90vh' }}>
       <Sider style={{ marginTop: '-4px' }}
@@ -63,18 +68,25 @@ const ViewDetails = ({
             </Link>
           </Menu.Item>
           <Menu.Item key="2">
+            <Link to={`/professional/${userId}/requests`}>
+              <Icon type="api" />
+              <span>Offer Requests </span>
+              { length(pendingOffers) > 0 ? <Badge count={length(pendingOffers)} /> : '' }
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="3">
             <Link to={`/professional/${userId}/profile`}>
               <Icon type="profile" />
               <span>View Profile</span>
             </Link>
           </Menu.Item>
-          <Menu.Item key="3">
+          <Menu.Item key="4">
             <Link to={`/professional/${userId}/security`}>
               <Icon type="lock" />
               <span>Security & Login</span>
             </Link>
           </Menu.Item>
-          <Menu.Item key="4">
+          <Menu.Item key="5">
             <Link to={`/professional/${userId}/contact`}>
               <Icon type="mail" />
               <span>Contact Us</span>
@@ -86,6 +98,13 @@ const ViewDetails = ({
         <Content>
           <Switch>
             <Route path="/professional/:userId/timesheet" component={Timesheet} />
+            <Route path="/professional/:userId/requests">
+              <OfferRequests
+                offers={offers}
+                isLoading={isLoading}
+                updateOfferStatus={updateOfferStatus}
+              />
+            </Route>
             <Route path="/professional/:userId/profile">
               <Profile
                 userId={userId}

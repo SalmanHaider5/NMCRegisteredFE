@@ -4,7 +4,7 @@ import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import moment from 'moment'
 import { detected } from 'adblockdetect'
 import { Icon, message } from 'antd'
-import { concat, omit, trim, find, propEq, split, prop, defaultTo, head, last, equals, append, range, map, pickBy, keys } from 'ramda'
+import { concat, omit, trim, find, propEq, split, prop, defaultTo, head, last, equals, append, range, map, pickBy, keys, length } from 'ramda'
 import { addDetails, logoutUser, getCompanyDetails, clearAddresses, getAdresses, updatePassword, contactUs, makePayment, makePaypalPayment, updateProfile, searchProfessionals, getClientPaymentToken, sendOfferRequest } from '../../actions'
 import { QUALIFICATION_OPTIONS as skills, TIMESHEET_SHIFTS as shifts } from '../../constants'
 import { getCompanyFormValues, isEmptyOrNull, mapIndexed } from '../../utils/helpers'
@@ -42,9 +42,9 @@ class Company extends Component {
       offerModal: false,
       offerFormShifts: [],
       professionalId: '',
-      requestTypes: [],
+      requestTypes: ['accepted'],
       indeterminate: true,
-      allRequests: true
+      allRequests: false
     };
   }
 
@@ -97,7 +97,7 @@ class Company extends Component {
     const options = mapIndexed((day, index) => {
       const professional = find(propEq('id', selectedProfessional))(professionals[index])
       const shift = isEmptyOrNull(professional) ? `N/A` : `${professional.shift} (${professional.time})`
-      const value = `${moment(day).format('dddd')} - ${shift}`
+      const value = `${moment(day).format('LL')} - ${shift}`
       return { label: value, value, disabled: isEmptyOrNull(professional) }
     }, currentWeek)
     this.setState({
@@ -115,6 +115,7 @@ class Company extends Component {
     offerForm.shifts = shifts.toString()
     offerForm.company = userId
     offerForm.professional = professionalId
+    console.log(offerForm)
     dispatch(sendOfferRequest(offerForm))
     this.hideOfferModal()
   }
@@ -453,11 +454,28 @@ class Company extends Component {
         return `Company Details`
     }
   }
+
+  changeRequestType = (values, options)=> {
+    this.setState({
+      requestTypes: values,
+      indeterminate: !!length(values) && length(values) <  length(options),
+      allRequests: length(values) === length(options)
+    })
+  }
+
+  changeAllRequestTypes = (e, options) => {
+    this.setState({
+      requestTypes: e.target.checked ? map(option => prop('value', option), options) : [],
+      indeterminate: false,
+      allRequests: e.target.checked
+    })
+  }
   
   render() {
-    const { current, paymentSkipped, collapsed, formName, editFormModal, documentModal, searchDateError, pageKey, documentModalType, imageModal, datePickerType, adBlockerExists, paypalPayment, termsDrawer, searchDrawer, week, currentWeek, searchInputValue, offerModal, offerFormShifts } = this.state
+    const { current, paymentSkipped, collapsed, formName, editFormModal, documentModal, searchDateError, pageKey, documentModalType, imageModal, datePickerType, adBlockerExists, paypalPayment, termsDrawer, searchDrawer, week, currentWeek, searchInputValue, offerModal, offerFormShifts, requestTypes, indeterminate, allRequests } = this.state
     const { invalid, addresses, company: { offers, companyDetails, isLoading, professionals, secret, paypalToken }, application: { authentication: { userId } }, formValues } = this.props
     const isPaid = defaultTo(false, prop('isPaid', companyDetails))
+    
     return(
       <div>
         <Header
@@ -489,6 +507,9 @@ class Company extends Component {
             currentWeek={currentWeek}
             offerModal={offerModal}
             offerFormShifts={offerFormShifts}
+            requestTypes={requestTypes}
+            indeterminate={indeterminate}
+            allRequests={allRequests}
             showOfferModal={this.showOfferModal}
             hideOfferModal={this.hideOfferModal}
             skipCurrentWeek={this.skipCurrentWeek}
@@ -517,6 +538,8 @@ class Company extends Component {
             showPaymentForm={this.showPaymentForm}
             searchProfessionalsBySkills={this.searchProfessionalsBySkills}
             submitOfferRequest={this.submitOfferRequest}
+            changeRequestType={this.changeRequestType}
+            changeAllRequestTypes={this.changeAllRequestTypes}
           /> 
           :
           <AddDetails

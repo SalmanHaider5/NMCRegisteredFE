@@ -4,7 +4,7 @@ import moment from 'moment'
 import { initialize, change } from 'redux-form'
 import { SERVER_URL as url } from '../constants'
 import * as types from './'
-import { getAdresses } from './addresses'
+// import { getAdresses } from './addresses'
 import { getProfessionalData } from '../utils/parsers'
 import { showToast, getFormData, isEmptyOrNull } from '../utils/helpers'
 
@@ -118,7 +118,7 @@ export const getProfessionalDetails = userId => dispatch => {
             const professional = getProfessionalData(data.professional)
             const { postCode } = professional
             if(!isEmptyOrNull(postCode)){
-                dispatch(getAdresses(postCode))
+                // dispatch(getAdresses(postCode))
             }
             dispatch(initialize('professional', professional))
             dispatch({
@@ -369,4 +369,39 @@ export const updateBankDetails = (userId, formValues) => dispatch => {
             error: err
         })
     }) 
+}
+
+export const updateOffer = (values, offerId) => dispatch => {
+    dispatch({ type: types.OFFER_UPDATE_REQUEST })
+    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
+    const endpoint = `${url}offer/${offerId}`
+    fetch(endpoint, {
+        method: 'PUT',
+        body: JSON.stringify(values),
+        headers: {
+            authorization: token,
+            'Content-Type':'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(response => {
+        const { code, response: { title, message } } = response
+        showToast(title, message, code)
+        if(code === 'success'){
+            dispatch({
+                type: types.OFFER_UPDATE_SUCCESS,
+                payload: values
+            })
+        }else{
+            dispatch({
+                type: types.OFFER_UPDATE_FAILURE
+            })
+        }
+    })
+    .catch(err => {
+        dispatch({
+            type: types.OFFER_UPDATE_FAILURE,
+            error: err
+        })
+    })   
 }
