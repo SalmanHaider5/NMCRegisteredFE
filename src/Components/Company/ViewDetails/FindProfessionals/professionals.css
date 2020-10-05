@@ -72,9 +72,7 @@ div.steps-content.search-content{
   padding: 7px;
   padding-left: 20px;
 }
-.search-container .empty-date-header{
 
-}
 .search-container .date-header .ant-page-header-heading-title,
 .search-container .date-header .ant-page-header-heading-extra{
   color: #333;
@@ -138,9 +136,7 @@ div.steps-content.search-content{
 .offer-modal{
   top: 20px;
 }
-.offer-form-container .ant-checkbox-group{
-  /* width: 100%; */
-}
+
 .offer-form-container .ant-checkbox-group-item.ant-checkbox-wrapper{
   min-width: 45%;
   line-height: 3em;
