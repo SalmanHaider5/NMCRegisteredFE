@@ -77,6 +77,7 @@ export const getCompanyFormValues = () => {
         charity: false,
         charityReg: '',
         subsidiary: false,
+        paymentCycle: '',
         subsidiaryName: '',
         subsidiaryAddress: '',
         changePassword: changeCompanyPassword,

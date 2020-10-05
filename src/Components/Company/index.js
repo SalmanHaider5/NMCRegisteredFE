@@ -95,7 +95,7 @@ class Company extends Component {
     const { company: { professionals } } = this.props
     const { currentWeek } = this.state
     const options = mapIndexed((day, index) => {
-      const professional = find(propEq('id', selectedProfessional))(professionals[index])
+      const professional = find(propEq('userId', selectedProfessional))(professionals[index])
       const shift = isEmptyOrNull(professional) ? `N/A` : `${professional.shift} (${professional.time})`
       const value = `${moment(day).format('LL')} - ${shift}`
       return { label: value, value, disabled: isEmptyOrNull(professional) }
@@ -114,8 +114,7 @@ class Company extends Component {
     const { professionalId } = this.state
     offerForm.shifts = shifts.toString()
     offerForm.company = userId
-    offerForm.professional = professionalId
-    console.log(offerForm)
+    offerForm.professional = professionalId.toString()
     dispatch(sendOfferRequest(offerForm))
     this.hideOfferModal()
   }

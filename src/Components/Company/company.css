@@ -255,13 +255,7 @@ button.payment-button{
 .requests-container div.steps-header{
     margin-bottom: 20px;
 }
-.requests-container .ant-table-body .shifts-list{
-    /* padding: 0;
-    list-style-type: none; */
-}
-.requests-container .ant-table-body{
-    /* height: 60vh; */
-}
+
 .requests-container .ant-table-body .status-column{
     text-transform: capitalize;
 }

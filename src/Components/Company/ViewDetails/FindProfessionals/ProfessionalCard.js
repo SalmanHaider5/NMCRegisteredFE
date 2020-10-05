@@ -25,7 +25,7 @@ const ProfessionalCard = ({
   submitOfferRequest
 }) => {
   const {
-    id,
+    userId,
     status,
     fullName,
     profilePicture,
@@ -80,7 +80,7 @@ const ProfessionalCard = ({
           <label>
             <Icon type="form" /> Send an Offer 
           </label>
-          <Button type="primary" shape="circle" onClick={() => showOfferModal(id)}><Icon type="paper-clip" /></Button>
+          <Button type="primary" shape="circle" onClick={() => showOfferModal(userId)}><Icon type="paper-clip" /></Button>
         </List.Item>
       </List>
       <Modal

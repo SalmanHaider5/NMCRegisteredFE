@@ -202,11 +202,11 @@ class Home extends Component {
                         <h1 className='header-h1'>Welcome to {TITLE}</h1>
                         {/* <h2 className='header-h2'>We have one goal to achieve:</h2> */}
                         <div className='header-text-div'>
-                          <p className="header-text">Delivering a simplistic solution for Care
+                          <p className="header-text">Delivering a simplistic solution for NHS Trusts, Care
                           Homes and Professionals to link together.</p>
                           <p className="header-text-lower">Our seamless system allows simple and
                             straightforward connection between
-                            Professionals and Care Homes without any
+                            Professionals and Care Homes, NHS Trusts without any
                             agency fees or percentages of earnings per
                             shift.
                           </p>

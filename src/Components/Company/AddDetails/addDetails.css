@@ -77,3 +77,12 @@ div.ant-row.addform-panel{
         width: 95%;
     }
 }
+.payment-cycle-form .payment-cycle-alert{
+    width: 75%;
+    margin: 0 auto;
+    margin-bottom: 30px;
+}
+.payment-cycle-form .ant-radio-wrapper{
+    display: block;
+    line-height: 2.54;
+}

@@ -18,6 +18,7 @@ export const RadioField = ({
   size,
   text
 }) => {
+  console.log('Value', defaultValue)
   return (
     <div className="checkbox-container">
       <FormItem
@@ -29,7 +30,7 @@ export const RadioField = ({
         colon={false}
         required={isRequired}
       >
-        <Radio.Group onChange={onChange} options={options} defaultValue={defaultValue} />
+        <Radio.Group onChange={onChange} options={options} value={value} defaultValue={defaultValue} />
       </FormItem>
     </div>
   )

@@ -4,7 +4,7 @@ import moment from 'moment'
 import { initialize, change } from 'redux-form'
 import { SERVER_URL as url } from '../constants'
 import * as types from './'
-// import { getAdresses } from './addresses'
+import { getAdresses } from './addresses'
 import { getProfessionalData } from '../utils/parsers'
 import { showToast, getFormData, isEmptyOrNull } from '../utils/helpers'
 
@@ -61,6 +61,10 @@ export const addPhone = (userId, values) => dispatch => {
                 type: types.ADD_PROFESSIONAL_PHONE_SUCCESS,
                 payload: values
             })
+        }else{
+            dispatch({
+                type: types.ADD_PROFESSIONAL_PHONE_FAILURE
+            })
         }
     })
     .catch(error => {
@@ -112,13 +116,14 @@ export const getProfessionalDetails = userId => dispatch => {
     })
     .then(res => res.json())
     .then(data => {
+        console.log('Data', data)
         const { code, response: { title, message } } = data
         showToast(title, message, code)
         if(code === 'success' || code === 'info'){
             const professional = getProfessionalData(data.professional)
             const { postCode } = professional
             if(!isEmptyOrNull(postCode)){
-                // dispatch(getAdresses(postCode))
+                dispatch(getAdresses(postCode))
             }
             dispatch(initialize('professional', professional))
             dispatch({
@@ -132,6 +137,7 @@ export const getProfessionalDetails = userId => dispatch => {
         }
     })
     .catch(error => {
+        console.log('Error', error)
         dispatch({
             type: types.FETCH_PROFESSIONAL_DETAILS_FAILURE,
             error

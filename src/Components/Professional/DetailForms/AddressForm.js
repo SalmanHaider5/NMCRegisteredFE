@@ -1,12 +1,13 @@
 import React from 'react'
 import { Field } from 'redux-form'
 import { Spin, Button } from 'antd'
-import { length } from 'ramda'
+import { defaultTo, length } from 'ramda'
 import { TextField, CheckboxField, ButtonTextField, SelectField } from '../../../utils/custom-components'
 import { isRequired, max30Miles, isNumber } from '../../../constants'
 
 const AddressForm = ({
   findAddresses,
+  formValues,
   addressSelectHandler,
   addresses: {
     isLoading,
@@ -15,7 +16,7 @@ const AddressForm = ({
   changePostalCode,
   addForm = false
 }) => {
-  
+  const { postCode } = defaultTo({}, formValues)
   return (
      <Spin spinning={isLoading} tip="Loading..."> 
       <Field
@@ -24,6 +25,7 @@ const AddressForm = ({
 				enterButton={'Find Address'}
 				onSearch={findAddresses}
         label={'Postal Code'}
+        fieldData={postCode}
         readOnly={length(addresses) > 0}
         specialText={
           length(addresses) > 0 ?

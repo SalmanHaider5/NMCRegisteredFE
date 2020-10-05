@@ -50,6 +50,7 @@ const AddDetails = ({
       addresses={addresses}
       changePostalCode={changePostalCode}
       addForm={true}
+      formValues={formValues}
     />,
     <ProfessionalDetailsForm
       formValues={formValues}
@@ -95,6 +96,7 @@ const AddDetails = ({
             { 
               !isPhoneAdded ?
                 <AddPhoneForm
+                  formValues={formValues}
                   sendVerificationCode={sendVerificationCode}
                   codeSent={codeSent}
                   editPhoneNumber={editPhoneNumber}

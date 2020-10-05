@@ -148,3 +148,7 @@ div.steps-content.search-content{
 .price-field{
   width: 20%;
 }
+
+.shifts-row .ant-checkbox-inner{
+  border: 2px solid #1e1c5d;
+}

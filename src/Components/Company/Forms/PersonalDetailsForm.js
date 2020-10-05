@@ -53,7 +53,7 @@ const PersonalDetailsForm = () => {
       <Field
         name="registration"
         component={TextField}
-        label={'Company House No.'}
+        label={'Nature of Business'}
         size={'large'}
         type="text"
         tooltipPlacement={'topRight'}

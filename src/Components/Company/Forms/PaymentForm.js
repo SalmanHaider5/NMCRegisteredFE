@@ -66,7 +66,7 @@ const PaymentForm = ({
           <Card title={<>Licensing Fee </>}>
             <List>
               <div className="payment-logo-container">
-                <img alt="Payment Methods" src={paymentMethod === 'Paypal' ? `${url}images/assets/paypal.png` : `${url}images/assets/payment.png`} />
+                <img alt="Payment Methods" src={paymentMethod === 'Paypal' ? `${url}public/assets/paypal.png` : `${url}public/assets/payment.png`} />
               </div>
               <List.Item>
                 <label>
@@ -132,10 +132,11 @@ const PaymentForm = ({
           <Field
             name="paymentMethod"
             component={RadioField}
-            options={['Pay with Card', 'Paypal']}
-            validate={[isRequired]}
             label="Payment Method"
+            options={['Pay with Card', 'Paypal']}
+            value={'Pay with Card'}
             defaultValue={'Pay with Card'}
+            validate={[isRequired]}
           />
           <Field
             name="Name"

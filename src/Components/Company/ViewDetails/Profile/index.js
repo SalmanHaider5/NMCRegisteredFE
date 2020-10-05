@@ -3,8 +3,10 @@ import { Card, Icon, Button, Row, Col, Spin } from 'antd'
 import { ModalBox } from '../../../../utils/custom-components'
 import PersonalDetails from './PersonalDetails/'
 import ProfessionalDetails from './ProfessionalDetails'
+import PaymentCycle from './PaymentCycle'
 import PersonalDetailsForm from '../../Forms/PersonalDetailsForm'
 import ProfessionalDetailsForm from '../../Forms/ProfessionalDetailsForm'
+import PaymentCycleForm from '../../Forms/PaymentCycleForm'
 import './profile.css'
 
 const Profile = ({
@@ -81,6 +83,25 @@ const Profile = ({
                     />
                   }
                 </Card>
+                <Card
+                  title={
+                    <span>
+                      <Icon type="hourglass" />
+                      Company Payment Cycle
+                    </span>
+                  }
+                  extra={
+                    <Button type="link" onClick={() => showEditFormModal("Cycle")}>
+                      <Icon type="edit" />
+                    </Button>
+                  }
+                >
+                  {
+                    <PaymentCycle
+                      company={company}
+                    />
+                  }
+                </Card>
               </Col>
             </Row>
             <ModalBox
@@ -104,7 +125,9 @@ const Profile = ({
                   charityStatusChange={charityStatusChange}
                   subsidiaryStatusChange={subsidiaryStatusChange}
                 /> :
-                ''
+                formName === 'Cycle' ?
+                <PaymentCycleForm formValues={formValues} />
+                : ''
               }
               submitText={<><Icon type="save" /> Save</>}
               cancelText={<><Icon type="close" /> Cancel </>}

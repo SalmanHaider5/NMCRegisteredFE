@@ -36,6 +36,8 @@ export const QUALIFICATION_OPTIONS = [
     { id: 9, name: 'Nursing Associate' }
 ]
 
+export const paymentCycleDescription = "The payment cycle can affect the uptake of shifts. Faster payment will result in more uptake of shift offers"
+
 export const TERMS = [
     {
         id: 1,

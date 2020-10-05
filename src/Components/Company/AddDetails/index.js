@@ -1,13 +1,13 @@
 import React from 'react'
-import { prop } from 'ramda'
+import { prop, last } from 'ramda'
 import { Row, Col, Card, Icon, Button, Spin } from 'antd'
 import PersonalDetailsForm from '../Forms/PersonalDetailsForm'
 import ProfessionalDetailsForm from '../Forms/ProfessionalDetailsForm'
+import PaymentCycleForm from '../Forms/PaymentCycleForm'
 import PaymentForm from '../Forms/PaymentForm'
+import { isEmptyOrNull } from '../../../utils/helpers'
 
 import './addDetails.css'
-import { isEmptyOrNull } from '../../../utils/helpers'
-import { last } from 'ramda'
 
 const AddDetails = ({
   findAddresses,
@@ -41,6 +41,7 @@ const AddDetails = ({
 }) => {
   const components = [
     <PersonalDetailsForm />,
+    <PaymentCycleForm formValues={formValues} />,
     <ProfessionalDetailsForm
       addresses={addresses}
       findAddresses={findAddresses}
@@ -103,7 +104,7 @@ const AddDetails = ({
               <Row>
                 <Col span={5} offset={3}>
                 {
-                  current === 1 ?
+                  current > 0 ?
                     <Button type="primary" onClick={prev}>
                       <Icon type="left" /> Previous
                     </Button>:
@@ -112,7 +113,7 @@ const AddDetails = ({
                 </Col>
                 <Col span={12} offset={1} className="form-actions">
                   {
-                    current === 1 ?
+                    current === 2 ?
                     <Button className="next-btn success-btn" disabled={invalid} onClick={saveDetails}>
                       <Icon type="check" /> Save
                     </Button> :

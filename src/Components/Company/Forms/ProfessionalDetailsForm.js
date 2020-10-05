@@ -14,7 +14,7 @@ const ProfessionalDetailsForm = ({
   formValues,
   changePostalCode
 }) => {
-  const { charity, subsidiary } = defaultTo({}, formValues)
+  const { charity, subsidiary, postalCode } = defaultTo({}, formValues)
   return (
     <Spin spinning={isLoading} tip="Loading...">
       <Field
@@ -24,6 +24,7 @@ const ProfessionalDetailsForm = ({
 				onSearch={findAddresses}
 				label={'Postal Code'}
         size={'large'}
+        fieldData={postalCode}
         readOnly={length(addresses) > 0}
         specialText={
           length(addresses) > 0 ?
@@ -107,7 +108,7 @@ const ProfessionalDetailsForm = ({
           <Field
             name="subsidiaryName"
             component={TextField}
-            label={'Subsidiary Name'}
+            label={'Parent Company Name'}
             size={'large'}
             type="text"
             tooltipPlacement={'topRight'}
@@ -116,7 +117,7 @@ const ProfessionalDetailsForm = ({
           <Field
             name="subsidiaryAddress"
             component={TextField}
-            label={'Subsidiary Address'}
+            label={'Parent Company Address'}
             size={'large'}
             type="text"
             tooltipPlacement={'topRight'}

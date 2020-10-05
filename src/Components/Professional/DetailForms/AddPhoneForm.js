@@ -1,5 +1,6 @@
 import React from 'react'
 import { Field } from 'redux-form'
+import { defaultTo } from 'ramda'
 import { Button } from 'antd'
 import { ButtonTextField, TextField } from '../../../utils/custom-components'
 import { isRequired, isNumber } from '../../../constants'
@@ -7,8 +8,10 @@ import { isRequired, isNumber } from '../../../constants'
 const AddPhoneForm = ({
   sendVerificationCode,
   codeSent,
-  editPhoneNumber
+  editPhoneNumber,
+  formValues
 }) => {
+  const { phone } = defaultTo({}, formValues)
   return (
     <div>
       <Field
@@ -21,6 +24,7 @@ const AddPhoneForm = ({
         type="text"
         validate={[isRequired, isNumber]}
         readOnly={codeSent}
+        fieldData={phone || ''}
         tooltipPlacement={'topRight'}
         specialText={
           codeSent ?

@@ -87,6 +87,7 @@ const OfferRequests = ({ offers, requestTypes, indeterminate, allRequests, chang
             size={850}
             visible={offerModal}
             content={<SingleRequest offer={offer} />}
+            submitHandler={() => setOfferModal(false)}
             cancelHandler={() => setOfferModal(false)}
           />
         </div>

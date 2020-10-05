@@ -29,7 +29,7 @@ const SearchForm = ({
           <Field
             name="week"
             component={ButtonTextField}
-            enterButton={<Icon type="reload" />}
+            enterButton={<><Icon type="reload" /> Reset</>}
             fieldData={`${head(currentWeek)} - ${last(currentWeek)}`}
             onSearch={resetWeek}
             label="Select Week"
