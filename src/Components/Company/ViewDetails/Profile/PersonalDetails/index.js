@@ -64,7 +64,7 @@ const PersonalDetails = ({ company }) => {
       <List.Item>
         <label>
           <Icon type="barcode" />
-          Company House No.
+          Nature of Business
         </label>
         <span className="label-value">
           {registration}

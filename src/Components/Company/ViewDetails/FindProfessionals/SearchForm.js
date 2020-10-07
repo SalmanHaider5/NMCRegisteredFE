@@ -11,7 +11,6 @@ const SearchForm = ({
   isPaid,
   searchProfessionalsBySkills,
   formValues,
-  showMessage,
   currentWeek,
   skipCurrentWeek,
   resetWeek,
@@ -44,7 +43,6 @@ const SearchForm = ({
             options={skills}
             hintText={'Choose a Skill'}
             disabled={!isPaid}
-            onChange={value => showMessage('skill', value)}
             label={'Skills'}
           />
         </Col>
@@ -69,6 +67,7 @@ const SearchForm = ({
                             name={`shift${index}`}
                             component={CheckboxField}
                             defaultValue={false}
+                            disabled={isEmptyOrNull(skill)}
                           />
                         </FormSection>
                       </div>}

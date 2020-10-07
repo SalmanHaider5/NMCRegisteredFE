@@ -206,8 +206,8 @@ class Home extends Component {
                           Homes and Professionals to link together.</p>
                           <p className="header-text-lower">Our seamless system allows simple and
                             straightforward connection between
-                            Professionals and Care Homes, NHS Trusts without any
-                            agency fees or percentages of earnings per
+                            Professionals, Care Homes and NHS Trusts without any
+                            agency fees or charges per
                             shift.
                           </p>
                           

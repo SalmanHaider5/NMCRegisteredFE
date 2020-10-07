@@ -148,6 +148,7 @@ class Company extends Component {
     const weeklyDates = map(day => {
       return moment(weekStart).add(day, 'days').format('LL')
     }, days)
+    this.showMessage('skill')
     this.setState({
       currentWeek: weeklyDates,
       searchDrawer: true
@@ -408,7 +409,7 @@ class Company extends Component {
     return dates
   }
 
-  showMessage = (type, value) => {
+  showMessage = (type) => {
     const { dispatch } = this.props
     if(type === 'skill'){
       const shiftsForm = {

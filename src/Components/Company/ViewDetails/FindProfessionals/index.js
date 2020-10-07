@@ -49,14 +49,6 @@ const FindProfessionas = ({
           </div>
           <div className={isPaid ? 'search-container' : 'unpaid-container'}>
               <div className="search-form">
-                {/* <div>
-                  <Button className="success-btn" style={{ float: 'left', marginLeft: '30px' }}>
-                    <Icon type="check" /> Save Results
-                  </Button>
-                  <Button type="primary" style={{ float: 'right', marginRight: '30px' }}>
-                    <Icon type="hourglass" /> History
-                  </Button>
-                </div> */}
                 <Form.Item wrapperCol={{ span: 12, offset: 6 }} style={{ paddingTop: '0px' }}>
                   <Input.Search
                     value={searchInputValue}
