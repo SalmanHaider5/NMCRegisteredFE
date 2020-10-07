@@ -339,8 +339,6 @@ class Professional extends Component {
     if(!auth){
       return <Redirect to="/" />
     }
-
-    console.log('New', this.props)
   
     return (
       <div>

@@ -201,9 +201,6 @@ button.skip-button i {
     position: relative;
     top: 18px;
 }
-.ant-card-bordered{
-    /* margin: 20px; */
-}
 
 .timesheet-card .ant-card-head{
     padding: 0;
@@ -267,8 +264,11 @@ button.timesheetbtn{
     font-weight: 500;
 }
 .single-timesheet-switch{
-    width: 120px;
-    margin-left: 20px;
+    width: 170px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    right: 20px;
 }
 .timesheet-available{
     font-size: '13px';
@@ -276,7 +276,11 @@ button.timesheetbtn{
 }
 .single-timesheet-card-shift{
     text-align: center;
-    padding-right: 50px;
+    padding: 0;
+    width: 120px;
+    margin: 0;
+    position: relative;
+    right: 50px;
 }
 .timesheet-panel div.ant-collapse-content-box{
     padding: 0;

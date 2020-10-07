@@ -116,9 +116,8 @@ export const getProfessionalDetails = userId => dispatch => {
     })
     .then(res => res.json())
     .then(data => {
-        console.log('Data', data)
         const { code, response: { title, message } } = data
-        showToast(title, message, code)
+        if(code !== 'success') showToast(title, message, code)
         if(code === 'success' || code === 'info'){
             const professional = getProfessionalData(data.professional)
             const { postCode } = professional

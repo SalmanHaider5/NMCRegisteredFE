@@ -25,7 +25,7 @@ export const ImageInput = ({
     status: 'done',
     url: `${url}${fileAdded}`
   }]
-  console.log('File', fileAdded)
+  
   return (
     <div className="image-input">
       <FormItem

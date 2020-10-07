@@ -18,7 +18,6 @@ export const RadioField = ({
   size,
   text
 }) => {
-  console.log('Value', defaultValue)
   return (
     <div className="checkbox-container">
       <FormItem

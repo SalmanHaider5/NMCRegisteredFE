@@ -37,6 +37,11 @@ const addresses = (state=initState, action) => {
                 isLoading: false,
                 error
             }
+        case actions.ACCOUNT_LOGOUT_REQUEST:
+            return{
+                    isLoading: false,
+                    addresses: []
+                }
         default:
             return{
                 ...state

@@ -74,12 +74,10 @@ const ViewDetails = ({
       <Sider style={{ marginTop: '-4px' }}
         breakpoint="xl"
         collapsedWidth="0"
-        onBreakpoint={broken => {
-          // console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          // console.log(collapsed, type);
-        }}
+        // onBreakpoint={broken => {
+        // }}
+        // onCollapse={(collapsed, type) => {
+        // }}
       >
         <Menu
           defaultSelectedKeys={[pageKey]}

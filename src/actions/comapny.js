@@ -4,7 +4,7 @@ import { pathOr, join, defaultTo, forEach, length, head } from 'ramda'
 import moment from 'moment'
 import { SERVER_URL as url, GET_ADDRESS_URL as apiUrl, GET_ADDRESS_API_KEY as apiKey } from '../constants'
 import { showToast, isEmptyOrNull } from '../utils/helpers'
-// import { getAdresses } from './addresses'
+import { getAdresses } from './addresses'
 import * as types from './'
 import { getCompanyData } from '../utils/parsers'
 
@@ -105,10 +105,9 @@ export const getCompanyDetails = userId => dispatch => {
     .then(data => {
         if(data.code === 'success'){
             const { company } = data
-            console.log('Compay', company)
             const { firstName, lastName, email, phone, address, city, postalCode } = company
             if(!isEmptyOrNull(postalCode)){
-                // dispatch(getAdresses(postalCode))
+                dispatch(getAdresses(postalCode))
             }
             const contact = {
                 name: join(' ', [firstName, lastName]),
@@ -503,7 +502,6 @@ export const sendOfferRequest = values => dispatch => {
     })
     .then(res => res.json())
     .then(response => {
-        console.log('Response', response)
         const { code } = response
         if(code === 'success'){
             const { response: { title, message } } = response

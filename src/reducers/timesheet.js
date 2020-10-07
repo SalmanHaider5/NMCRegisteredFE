@@ -101,6 +101,15 @@ const timesheet = (state=initState, action) => {
                 isLoading: false,
                 timesheets: remove(index, 1, state.timesheets)
             }
+        case actions.ACCOUNT_LOGOUT_REQUEST:
+            return{
+                isLoading: false,
+                timesheet: {
+                    id: '',
+                    schedule: []
+                },
+                timesheets: []
+            }
         default:
             return{
                 ...state

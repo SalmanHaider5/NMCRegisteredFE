@@ -129,7 +129,17 @@ const professional = (state=initState, action) => {
                 ...state,
                 isLoading: false
             }
-        
+        case actions.ACCOUNT_LOGOUT_REQUEST:
+            return{
+                isLoading: false,
+                phoneVerified: false,
+                codeSent: false,
+                professionalDetails: {
+                    professional: {
+                        phone: ''
+                    }
+                }
+            }
         default:
             return{
                 ...state

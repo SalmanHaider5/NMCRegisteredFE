@@ -83,6 +83,11 @@ const account = (state=initState, action) => {
                 ...state,
                 isLoading: false
             }
+        case actions.LOGIN_FAILURE:
+            return{
+                ...state,
+                isLoading: false
+            }
         default:
             return{
                 ...state,

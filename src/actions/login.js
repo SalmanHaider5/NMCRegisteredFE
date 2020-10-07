@@ -31,6 +31,9 @@ export const userLogin = formValues => dispatch => {
                 payload: response
             })
         }
+        if(code === 'error'){
+            dispatch({ type: types.LOGIN_FAILURE })
+        }
     })
     .catch(error => {
         dispatch({
@@ -79,7 +82,6 @@ export const reachUs = values => dispatch => {
     })
     .then(res=> res.json())
     .then(response => {
-        console.log(response)
         const { code, response: { title, message } } = response
         values.name = ''
         values.phone = ''

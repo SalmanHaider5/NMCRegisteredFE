@@ -131,6 +131,15 @@ const company = (state=initState, action) => {
                 ...state,
                 isLoading: false
             }
+        case actions.ACCOUNT_LOGOUT_REQUEST:
+            return{
+                isLoading: false,
+                secret: '',
+                companyDetails: {},
+                offers:[],
+                professionals: [],
+                paypalToken: ''
+            }
         default:
             return{
                 ...state

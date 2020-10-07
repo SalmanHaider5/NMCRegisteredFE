@@ -199,7 +199,6 @@ class Timesheet extends Component {
         this.hideDrawer()
       }
     }else{
-      console.log('Form', formValues)
       dispatch(addDailySchedule(formValues))
       this.hideDrawer()
     }
