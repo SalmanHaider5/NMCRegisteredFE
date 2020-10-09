@@ -17,6 +17,7 @@ const company = (state=initState, action) => {
         case actions.CLIENT_TOKEN_REQUEST:
         case actions.UPDATE_COMPANY_REQUEST:
         case actions.FETCH_PAYPAL_TOKEN_REQUEST:
+        case actions.OFFER_REQUEST_INIT:
             return{
                 ...state,
                 isLoading: true
@@ -38,6 +39,13 @@ const company = (state=initState, action) => {
                 ...state,
                 isLoading: false,
                 paypalToken: payload
+            }
+        case actions.OFFER_REQUEST_SUCCESS:
+            const updatedOffers = append(payload, state.offers)
+            return {
+                ...state,
+                isLoading: false,
+                offers: updatedOffers
             }
         case actions.CLINET_TOKEN_FAILURE:
             return{

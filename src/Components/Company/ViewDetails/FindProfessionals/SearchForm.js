@@ -66,8 +66,8 @@ const SearchForm = ({
                           <Field
                             name={`shift${index}`}
                             component={CheckboxField}
-                            defaultValue={false}
-                            disabled={isEmptyOrNull(skill)}
+                            defaultValue={true}
+                            disabled={isEmptyOrNull(skill) || moment(date).isBefore()}
                           />
                         </FormSection>
                       </div>}

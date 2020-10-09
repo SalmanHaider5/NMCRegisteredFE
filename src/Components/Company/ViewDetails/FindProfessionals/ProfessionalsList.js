@@ -1,7 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 import { map, isEmpty } from 'ramda'
-import { Row, Col, Empty, PageHeader, Icon } from 'antd'
+import { Row, Col, Empty, PageHeader, Icon, Spin } from 'antd'
 import ProfessionalCard from './ProfessionalCard'
 import { isEmptyOrNull, mapIndexed } from '../../../../utils/helpers'
 
@@ -23,12 +23,11 @@ const ProfessionalsList = ({
   hideOfferModal,
   company,
   offerFormShifts,
-  submitOfferRequest
+  submitOfferRequest,
+  isLoading
 }) => {
-  // const { searchForm = {} } = defaultTo({}, formValues)
-  
   return (
-    <>
+    <Spin spinning={isLoading} tip='Loading...'>
       {
         isEmptyOrNull(searchInputValue) ?
         '' :
@@ -78,7 +77,7 @@ const ProfessionalsList = ({
         )
         }, currentWeek)
       }
-    </>
+    </Spin>
   )
 }
 export default ProfessionalsList

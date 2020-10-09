@@ -50,7 +50,7 @@ export const SingleRequest = ({ offers, updateOfferStatus, isLoading }) => {
             renderItem={(offer={}, i) => (
               <List.Item className={index === i ? 'active-list-item' : 'list-item' } onClick={() => setIndex(i)}>
                 <List.Item.Meta
-                  title={<><Icon type="tag" /> &nbsp;&nbsp; {prop('companyFirstName', offer)} {prop('companyLastName', offer)}</>}
+                  title={<><Icon type="tag" /> &nbsp;&nbsp; {prop('companyName', offer)}</>}
                   description={`£ ${offer.shiftRate} per hour`}
                 />
                 <div className="list-arrow">

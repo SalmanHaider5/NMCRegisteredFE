@@ -279,11 +279,12 @@ const filterProfessionalsByShift = (professional, timesheet, values) => dispatch
         }
     }else{
         const { id } = timesheet
-        // const { shifts, date } = values
         const token = pathOr('', ['authToken'], Cookies.getJSON('authToken'))
         const endpoint = new URL(`${url}timesheet/${id}/search`)
         
         for(let i = 0; i < length(values); i++){
+            const pro = []
+            pro[i] = professional
             const { date, shifts } = values[i]
             endpoint.search = new URLSearchParams({
                 shifts: shifts.toString(),
@@ -301,11 +302,11 @@ const filterProfessionalsByShift = (professional, timesheet, values) => dispatch
                 if(code === 'success'){
                     const { timesheet } = response
                     if(!isEmptyOrNull(timesheet)){
-                        professional.shift = timesheet.shift
-                        professional.time = timesheet.time
+                        pro[i].shift = timesheet.shift
+                        pro[i].time = timesheet.time
                         dispatch({
                             type: types.ENLIST_PROFESSIONAL,
-                            payload: { index: i, professional: isEmptyOrNull(professional) ? {} : professional }
+                            payload: { index: i, professional: isEmptyOrNull(professional) ? {} : pro[i] }
                         })
                     }else{
                         dispatch({
@@ -502,13 +503,16 @@ export const sendOfferRequest = values => dispatch => {
     })
     .then(res => res.json())
     .then(response => {
-        const { code } = response
+        const { code, response: { title, message, offer } } = response
+        showToast(title, message, code)
         if(code === 'success'){
-            const { response: { title, message } } = response
-            showToast(title, message, code)
             dispatch({
                 type: types.OFFER_REQUEST_SUCCESS,
-                payload: values
+                payload: offer
+            })
+        }else{
+            dispatch({
+                type: types.OFFER_REQUEST_FAILURE
             })
         }
     })

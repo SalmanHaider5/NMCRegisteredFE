@@ -106,6 +106,7 @@ const FindProfessionas = ({
                   showOfferModal={showOfferModal}
                   hideOfferModal={hideOfferModal}
                   company={company}
+                  isLoading={isLoading}
                   offerFormShifts={offerFormShifts}
                   submitOfferRequest={submitOfferRequest}
                 />
