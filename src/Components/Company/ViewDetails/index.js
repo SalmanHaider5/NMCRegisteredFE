@@ -66,7 +66,8 @@ const ViewDetails = ({
   indeterminate,
   allRequests,
   changeRequestType,
-  changeAllRequestTypes
+  changeAllRequestTypes,
+  updateOfferStatus
 }) => {
   const { Sider, Footer, Content } = Layout
   return (
@@ -74,10 +75,6 @@ const ViewDetails = ({
       <Sider style={{ marginTop: '-4px' }}
         breakpoint="xl"
         collapsedWidth="0"
-        // onBreakpoint={broken => {
-        // }}
-        // onCollapse={(collapsed, type) => {
-        // }}
       >
         <Menu
           defaultSelectedKeys={[pageKey]}
@@ -174,6 +171,7 @@ const ViewDetails = ({
                 allRequests={allRequests}
                 changeRequestType={changeRequestType}
                 changeAllRequestTypes={changeAllRequestTypes}
+                updateOfferStatus={updateOfferStatus}
               />
             </Route>
             <Route path="/company/:userId/changePassword">

@@ -289,3 +289,10 @@ button.payment-button{
 .status-item{
     text-transform: uppercase;
 }
+.requests-list-container{
+    width: 96%;
+    margin: 0 auto;
+}
+.requests-list-container td.action-column button{
+    margin-right: 5px;
+}

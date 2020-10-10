@@ -6,7 +6,8 @@ export const SingleRequest = ({ offers, updateOfferStatus, isLoading }) => {
   const options = [
     { label: 'Pending Requests', value: 'pending' },
     { label: 'Accepted Requests', value: 'accepted' },
-    { label: 'Declined Requests Requests', value: 'declined' },
+    { label: 'Declined Requests', value: 'declined' },
+    { label: 'Approved Shifts', value: 'approved' }
   ];
   const [index, setIndex] = useState(0)
   const [requestTypes, setRequestTypes] = useState(['pending'])
@@ -68,7 +69,7 @@ export const SingleRequest = ({ offers, updateOfferStatus, isLoading }) => {
                 bordered
                 title="Offer Details"
               >
-                <Descriptions.Item label="Company Name" span={2}>{selectedOffer.companyFirstName + ' ' + selectedOffer.companyLastName}</Descriptions.Item>
+                <Descriptions.Item label="Company Name" span={2}>{selectedOffer.companyName}</Descriptions.Item>
                 <Descriptions.Item label="Shift Rate" span={2}>GBP {selectedOffer.shiftRate} per Hour</Descriptions.Item>
                 <Descriptions.Item label="Company Address" span={4}>{selectedOffer.address}</Descriptions.Item>
                 <Descriptions.Item label="Shifts" span={4}>

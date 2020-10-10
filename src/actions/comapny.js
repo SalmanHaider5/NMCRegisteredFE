@@ -505,6 +505,7 @@ export const sendOfferRequest = values => dispatch => {
     .then(response => {
         const { code, response: { title, message, offer } } = response
         showToast(title, message, code)
+        console.log('Offer', response)
         if(code === 'success'){
             dispatch({
                 type: types.OFFER_REQUEST_SUCCESS,
@@ -522,4 +523,39 @@ export const sendOfferRequest = values => dispatch => {
             error: err
         })
     })
+}
+
+export const updateOffer = (values, offerId) => dispatch => {
+    dispatch({ type: types.COMPANY_OFFER_UPDATE_REQUEST })
+    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
+    const endpoint = `${url}offer/${offerId}`
+    fetch(endpoint, {
+        method: 'PUT',
+        body: JSON.stringify(values),
+        headers: {
+            authorization: token,
+            'Content-Type':'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(response => {
+        const { code, response: { title, message } } = response
+        showToast(title, message, code)
+        if(code === 'success'){
+            dispatch({
+                type: types.COMPANY_OFFER_UPDATE_SUCCESS,
+                payload: values
+            })
+        }else{
+            dispatch({
+                type: types.COMPANY_OFFER_UPDATE_FAILURE
+            })
+        }
+    })
+    .catch(err => {
+        dispatch({
+            type: types.OFFER_UPDATE_FAILURE,
+            error: err
+        })
+    })   
 }

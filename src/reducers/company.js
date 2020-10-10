@@ -1,5 +1,5 @@
 import * as actions from '../actions'
-import { pathOr, append, isNil } from 'ramda'
+import { pathOr, append, isNil, findIndex, propEq, update } from 'ramda'
 import { isEmptyOrNull } from '../utils/helpers'
 
 const initState = {
@@ -18,6 +18,7 @@ const company = (state=initState, action) => {
         case actions.UPDATE_COMPANY_REQUEST:
         case actions.FETCH_PAYPAL_TOKEN_REQUEST:
         case actions.OFFER_REQUEST_INIT:
+        case actions.COMPANY_OFFER_UPDATE_REQUEST:
             return{
                 ...state,
                 isLoading: true
@@ -41,8 +42,17 @@ const company = (state=initState, action) => {
                 paypalToken: payload
             }
         case actions.OFFER_REQUEST_SUCCESS:
-            const updatedOffers = append(payload, state.offers)
+            const newOffers = append(payload, state.offers)
             return {
+                ...state,
+                isLoading: false,
+                offers: newOffers
+            }
+        case actions.COMPANY_OFFER_UPDATE_SUCCESS:
+            const { id } = payload
+            const index = findIndex(propEq('id', id))(state.offers)
+            const updatedOffers = update(index, payload, state.offers)
+            return{
                 ...state,
                 isLoading: false,
                 offers: updatedOffers
@@ -135,6 +145,8 @@ const company = (state=initState, action) => {
         case actions.UPDATE_SHIFT_FAILURE:
         case actions.FETCH_COMPANY_DETAILS_FAILURE:
         case actions.FETCH_PAYPAL_TOKEN_FAILURE:
+        case actions.OFFER_REQUEST_FAILURE:
+        case actions.COMPANY_OFFER_UPDATE_FAILURE:
             return{
                 ...state,
                 isLoading: false

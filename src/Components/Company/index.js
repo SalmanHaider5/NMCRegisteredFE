@@ -5,7 +5,7 @@ import moment from 'moment'
 import { detected } from 'adblockdetect'
 import { Icon, message } from 'antd'
 import { concat, omit, trim, find, propEq, split, prop, defaultTo, head, last, equals, append, range, map, pickBy, keys, length } from 'ramda'
-import { addDetails, logoutUser, getCompanyDetails, clearAddresses, getAdresses, updatePassword, contactUs, makePayment, makePaypalPayment, updateProfile, searchProfessionals, getClientPaymentToken, sendOfferRequest } from '../../actions'
+import { addDetails, logoutUser, getCompanyDetails, clearAddresses, getAdresses, updatePassword, contactUs, makePayment, makePaypalPayment, updateProfile, searchProfessionals, getClientPaymentToken, sendOfferRequest, updateOffer } from '../../actions'
 import { QUALIFICATION_OPTIONS as skills, TIMESHEET_SHIFTS as shifts } from '../../constants'
 import { getCompanyFormValues, isEmptyOrNull, mapIndexed } from '../../utils/helpers'
 import AddDetails from './AddDetails'
@@ -297,6 +297,15 @@ class Company extends Component {
     }
   }
 
+  updateOfferStatus = (offerId, status) => {
+    const { dispatch, company: { offers }, match: { params: { userId } } } = this.props
+    const offer = find(propEq('id', offerId))(offers)
+    offer.status = status
+    offer.company = userId
+    dispatch(updateOffer(offer, offer.id))
+  }
+  
+
   searchProfessionalsBySkills = e => {
     const { currentWeek } = this.state
     const { match: { params: { userId } }, dispatch, company: { companyDetails }, formValues } = this.props
@@ -514,6 +523,7 @@ class Company extends Component {
             hideOfferModal={this.hideOfferModal}
             skipCurrentWeek={this.skipCurrentWeek}
             resetWeek={this.resetWeek}
+            updateOfferStatus={this.updateOfferStatus}
             showSearchDrawer={this.showSearchDrawer}
             hideSearchDrawer={this.hideSearchDrawer}
             changeDatePickerType={this.changeDatePickerType}

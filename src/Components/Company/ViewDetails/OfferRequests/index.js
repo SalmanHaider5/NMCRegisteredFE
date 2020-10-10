@@ -1,16 +1,20 @@
 import React, { useState } from 'react'
-import { Checkbox, Button } from 'antd'
+import { Checkbox, Icon } from 'antd'
 import { map, split, filter, indexOf, head, propEq, find } from 'ramda'
 import { Requests, SingleRequest } from './Requests'
+import { ActionButtons } from './ActionButtons'
 import { ModalBox } from '../../../../utils/custom-components'
 
-const OfferRequests = ({ offers, requestTypes, indeterminate, allRequests, changeRequestType, changeAllRequestTypes }) => {
+const OfferRequests = ({ offers, requestTypes, indeterminate, allRequests, changeRequestType, changeAllRequestTypes, updateOfferStatus }) => {
   const [offerModal, setOfferModal] = useState(false)
   const [selectedOffer, setSelectedOffer] = useState('')
+
   const options = [
     { label: 'Pending Requests', value: 'pending' },
     { label: 'Accepted Requests', value: 'accepted' },
-    { label: 'Declined Requests Requests', value: 'declined' },
+    { label: 'Declined Requests', value: 'declined' },
+    { label: 'Approved Shifts', value: 'approved' },
+    { label: 'Rejected Shifts', value: 'rejected' },
   ];
   const viewClickHandler = id => {
     setOfferModal(true)
@@ -54,12 +58,11 @@ const OfferRequests = ({ offers, requestTypes, indeterminate, allRequests, chang
       onFilter: (value, record) => record.status.includes(value)
     },
     {
-      title: 'Check Details',
+      title: 'Actions',
       dataIndex: 'id',
       key: 'id',
       className: 'action-column',
-      render: id => <Button type="primary" shape="circle" icon="eye" onClick={() => viewClickHandler(id)} />
-    }
+      render: (id, row) => <ActionButtons id={id} offer={row} viewClickHandler={viewClickHandler} updateOfferStatus={updateOfferStatus} />}
   ]
   const filteredOffers = filter(offer => indexOf(offer.status, requestTypes) > -1 , offers)
   return (
@@ -89,6 +92,8 @@ const OfferRequests = ({ offers, requestTypes, indeterminate, allRequests, chang
             content={<SingleRequest offer={offer} />}
             submitHandler={() => setOfferModal(false)}
             cancelHandler={() => setOfferModal(false)}
+            submitText={<><Icon type="check" /> Ok</>}
+            cancelText={<><Icon type="close" /> Cancel</>}
           />
         </div>
       </div>

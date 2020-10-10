@@ -4,14 +4,13 @@ import { map, split } from 'ramda'
 
 export const Requests = ({ offers, columns }) => {
   return (
-    <div>
+    <div className="requests-list-container">
       <Table
         bordered
         rowKey="id"
         columns={columns}
         dataSource={offers}
         size="small"
-        pagination={{ position: 'none' }}
       />
     </div>
   )
