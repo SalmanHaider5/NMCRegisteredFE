@@ -70,7 +70,7 @@ const OfferRequests = ({ offers, requestTypes, indeterminate, allRequests, chang
       <div className="inner-wrapper">
         <div className="steps-content">
           <div className="steps-header">
-            <h3>Offer Requests</h3>
+            <h3>Shift Offers</h3>
           </div>
           <div>
             <div className="requests-checkbox">

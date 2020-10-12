@@ -66,13 +66,23 @@ const ProfessionalCard = ({
         </List.Item>
         <List.Item>
           <label>
-            <Icon type="mail" /> NMC Pin 
+            <Icon type="mail" /> NMC Pin &nbsp;&nbsp;
+            <Tooltip title="Check NMC Pin">
+              <a href="https://www.nmc.org.uk/registration/search-the-register/" target="_blank" rel="noopener noreferrer">
+                <Icon type="link" />
+              </a>
+            </Tooltip> 
           </label>
           <span>{nmcPin}</span>
         </List.Item>
         <List.Item>
           <label>
-            <Icon type="solution" /> DBS Number 
+            <Icon type="solution" /> DBS Number &nbsp;&nbsp;
+            <Tooltip title="Check DBS Number">
+              <a href="https://secure.crbonline.gov.uk/crsc/check?execution=e1s1" target="_blank" rel="noopener noreferrer">
+                <Icon type="link" />
+              </a>
+            </Tooltip>
           </label>
           <span>{crbDocument}</span>
         </List.Item>

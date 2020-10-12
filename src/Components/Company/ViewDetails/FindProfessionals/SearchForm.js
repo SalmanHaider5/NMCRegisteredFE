@@ -2,7 +2,7 @@ import React from 'react'
 import { Field, FormSection } from 'redux-form'
 import moment from 'moment'
 import { defaultTo, head, last, insert } from 'ramda'
-import { Row, Col, Icon, Button } from 'antd'
+import { Row, Col, Icon, Button, message } from 'antd'
 import { QUALIFICATION_OPTIONS, TIMESHEET_SHIFTS } from '../../../../constants'
 import { SelectField, ButtonTextField, CheckboxField } from '../../../../utils/custom-components'
 import { isEmptyOrNull, mapIndexed } from '../../../../utils/helpers'
@@ -40,6 +40,7 @@ const SearchForm = ({
           <Field
             name="skill"
             component={SelectField}
+            onChange={() => message.success('Select Shifts')}
             options={skills}
             hintText={'Choose a Skill'}
             disabled={!isPaid}

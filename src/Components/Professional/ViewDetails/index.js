@@ -2,6 +2,7 @@ import React from 'react'
 import { Switch, Route, Link } from 'react-router-dom'
 import { Layout, Menu, Icon, Badge } from 'antd'
 import { filter, length } from 'ramda'
+import { PROFESSIONAL_PAGES, FOOTER_TEXT } from '../../../constants'
 import Timesheet from './Timesheet'
 import Profile from './Profile'
 import SecurityAndLogin from './Security'
@@ -11,8 +12,6 @@ import { OfferRequests } from './OfferRequests'
 const ViewDetails = ({
   userId,
   isLoading,
-  collapsed,
-  onCollapse,
   professional,
   formModal,
   formName,
@@ -49,6 +48,8 @@ const ViewDetails = ({
 }) => {
   const { Sider, Footer, Content } = Layout
   const pendingOffers = filter(offer => offer.status === 'pending', offers)
+  const { timesheetsPage, offersPage, profilePage, securityPage, contactPage } = PROFESSIONAL_PAGES
+  const { label, author, profileLink } = FOOTER_TEXT
   return (
     <Layout style={{ minHeight: '90vh' }}>
       <Sider style={{ marginTop: '-4px' }}
@@ -63,33 +64,33 @@ const ViewDetails = ({
         >
           <Menu.Item key="1">
             <Link to={`/professional/${userId}/timesheet`}>
-              <Icon type="snippets" />
-              <span>Timesheets</span>
+              <Icon type={timesheetsPage.icon} />
+              <span>{timesheetsPage.label}</span>
             </Link>
           </Menu.Item>
           <Menu.Item key="2">
             <Link to={`/professional/${userId}/requests`}>
-              <Icon type="api" />
-              <span>Offer Requests </span>
+              <Icon type={offersPage.icon} />
+              <span>{offersPage.label}</span>
               { length(pendingOffers) > 0 ? <Badge count={length(pendingOffers)} /> : '' }
             </Link>
           </Menu.Item>
           <Menu.Item key="3">
             <Link to={`/professional/${userId}/profile`}>
-              <Icon type="profile" />
-              <span>View Profile</span>
+              <Icon type={profilePage.icon} />
+              <span>{profilePage.label}</span>
             </Link>
           </Menu.Item>
           <Menu.Item key="4">
             <Link to={`/professional/${userId}/security`}>
-              <Icon type="lock" />
-              <span>Security & Login</span>
+              <Icon type={securityPage.icon} />
+              <span>{securityPage.label}</span>
             </Link>
           </Menu.Item>
           <Menu.Item key="5">
             <Link to={`/professional/${userId}/contact`}>
-              <Icon type="mail" />
-              <span>Contact Us</span>
+              <Icon type={contactPage.icon} />
+              <span>{contactPage.label}</span>
             </Link>
           </Menu.Item>
         </Menu>
@@ -151,7 +152,9 @@ const ViewDetails = ({
             </Route>
           </Switch>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+        <Footer style={{ textAlign: 'center' }}>
+            {label} <a href={profileLink} target="_blank" rel="noopener noreferrer">{author}</a>
+        </Footer>
         </Layout>
     </Layout>
   )

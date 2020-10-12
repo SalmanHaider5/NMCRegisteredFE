@@ -1,12 +1,12 @@
 import React from 'react'
 import { Switch, Route, Link } from 'react-router-dom'
 import { Layout, Menu, Icon, Alert, Button } from 'antd'
+import { COMPANY_PAGES, FOOTER_TEXT } from '../../../constants'
 import FindProfessionals from './FindProfessionals'
 import ChangePassword from './Security'
 import Profile from './Profile'
 import Contact from './Contact'
 import OfferRequests from './OfferRequests'
-
 
 const ViewDetails = ({
   userId,
@@ -70,6 +70,8 @@ const ViewDetails = ({
   updateOfferStatus
 }) => {
   const { Sider, Footer, Content } = Layout
+  const { searchPage, offersPage, securityPage, profilePage, contactPage } = COMPANY_PAGES
+  const { label, author, profileLink } = FOOTER_TEXT
   return (
     <Layout style={{ minHeight: '90vh' }}>
       <Sider style={{ marginTop: '-4px' }}
@@ -84,32 +86,32 @@ const ViewDetails = ({
         >
           <Menu.Item key="1">
             <Link to={`/company/${userId}/professionals`}>
-              <Icon type="user" />
-              <span>Find professionals</span>
+              <Icon type={searchPage.icon} />
+              <span>{searchPage.label}</span>
             </Link>
           </Menu.Item>
           <Menu.Item key="2">
             <Link to={`/company/${userId}/requests`}>
-              <Icon type="api" />
-              <span>Offer Requests</span>
+              <Icon type={offersPage.icon} />
+              <span>{offersPage.label}</span>
             </Link>
           </Menu.Item>
           <Menu.Item key="3">
             <Link to={`/company/${userId}/profile`}>
-              <Icon type="profile" />
-              <span>View Profile</span>
+              <Icon type={profilePage.icon} />
+              <span>{profilePage.label}</span>
             </Link>
           </Menu.Item>
           <Menu.Item key="4">
             <Link to={`/company/${userId}/changePassword`}>
-              <Icon type="lock" />
-              <span>Change Password</span>
+              <Icon type={securityPage.icon} />
+              <span>{securityPage.label}</span>
             </Link>
           </Menu.Item>
           <Menu.Item key="5">
             <Link to={`/company/${userId}/contact`}>
-              <Icon type="mail" />
-              <span>Contact Us</span>
+              <Icon type={contactPage.icon} />
+              <span>{contactPage.label}</span>
             </Link>
           </Menu.Item>
         </Menu>
@@ -207,7 +209,9 @@ const ViewDetails = ({
             </Route>
           </Switch>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+        <Footer style={{ textAlign: 'center' }}>
+            {label} <a href={profileLink} target="_blank" rel="noopener noreferrer">{author}</a>
+        </Footer>
         </Layout>
     </Layout>
   )

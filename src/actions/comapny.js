@@ -360,7 +360,6 @@ const filterProfessionalsByTimesheets = (values, professional) => dispatch => {
 }
 
 const filterProfessionalsByPostalCode = (values, professional) => dispatch => {
-    // dispatch(filterProfessionalsByTimesheets(values, professional))
     const professionalCode = pathOr('', ['postCode'], professional)
     const { postalCode } = head(values)
     if(!isEmptyOrNull(professionalCode)){

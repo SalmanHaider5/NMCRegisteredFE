@@ -8,7 +8,7 @@ export const OfferRequests = ({ offers, updateOfferStatus, isLoading }) => {
       <div className="inner-wrapper">
         <div className="steps-content">
           <div className="steps-header">
-            <h3>Offer Requests</h3>
+            <h3>Shift Offers</h3>
           </div>
           <SingleRequest
             offers={offers}

@@ -419,28 +419,8 @@ class Company extends Component {
   }
 
   showMessage = (type) => {
-    const { dispatch } = this.props
     if(type === 'skill'){
-      const shiftsForm = {
-        shift1: false,
-        shift2: false,
-        shift3: false,
-        shift4: false,
-        shift5: false
-      }
-      
-      const searchForm = {
-        skill: '',
-        day0: shiftsForm,
-        day1: shiftsForm,
-        day2: shiftsForm,
-        day3: shiftsForm,
-        day4: shiftsForm,
-        day5: shiftsForm,
-        day6: shiftsForm
-      }
-      dispatch(change('company', 'searchForm', searchForm))
-      message.success('Pick a Week and Select Shifts')
+      message.success('Pick a Week and Choose a Skill')
     }
   }
 

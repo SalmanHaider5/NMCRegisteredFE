@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, FormSection } from 'redux-form'
-import { isNil, prop, equals } from 'ramda'
+import { isNil, prop, equals, isEmpty, not, length } from 'ramda'
 import { Row, Col, Button, Spin, Icon, Drawer } from 'antd'
 import { register, verifyAccount, userLogin, generatePasswordResetLink, verifyLogin, reachUs } from '../../actions'
 import { TITLE } from '../../constants'
@@ -162,6 +162,15 @@ class Home extends Component {
     this.setState({ contactFormModal: false })
   }
 
+  isSignupFormValid = (role, email, password, confirmPassword) => {
+    return not(isEmpty(role)) &&
+            /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email) &&
+            /[A-Z]/.test(password) &&
+            /[0-9]/.test(password) &&
+            length(password) > 7 &&
+            equals(password, confirmPassword)
+  }
+
   render() {
 
     const { selected, loginModal, forgetPassword, contactFormModal, termsDrawer } = this.state
@@ -235,6 +244,7 @@ class Home extends Component {
                             hideTerms={this.hideTerms}
                             registerUser={this.registerUser}
                             showContactFormModal={this.showContactFormModal}
+                            isSignupFormValid={this.isSignupFormValid}
                           />
                         </FormSection>
                       </div>

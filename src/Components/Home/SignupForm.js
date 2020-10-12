@@ -3,7 +3,7 @@ import { Row, Col, Button, Icon, Divider, Drawer } from 'antd'
 import { Field } from 'redux-form'
 import { TextField } from '../../utils/custom-components'
 import { isRequired, isValidEmail, isPasswordMatched, isNumericCharacterExist, isCapitalCharacterExist, isMaxLengthValid, PRIVACY_POLICY } from '../../constants'
-import { map } from 'ramda'
+import { map, pathOr } from 'ramda'
 import { isEmptyOrNull } from '../../utils/helpers'
 
 const SignupForm = ({
@@ -14,9 +14,11 @@ const SignupForm = ({
   termsDrawer,
   showTerms,
   hideTerms,
-  formValues: { password, confirmPassword },
-  showContactFormModal
+  formValues,
+  showContactFormModal,
+  isSignupFormValid
 }) => {
+  const { email, password, confirmPassword } = pathOr({}, ['signup'], formValues)
   return (
     <div>
       <div className='form-wrapper'>
@@ -93,7 +95,7 @@ const SignupForm = ({
                 className='register-btn'
                 size='large'
                 block
-                disabled={!valid || selected === ''}
+                disabled={!isSignupFormValid(selected, email, password, confirmPassword)}
               >
                 <Icon type="user-add" /> Register
               </Button>
@@ -111,21 +113,6 @@ const SignupForm = ({
             visible={termsDrawer}
           >
             <span>
-              {/* <h2><u>Licence Agreement Terms</u></h2>
-              {
-                map(term => {
-                  return(
-                    <span key={term.id}>
-                      <h3>{term.title}</h3>
-                      <p>{term.text}</p>
-                      {
-                        isEmptyOrNull(term.options) ? '' : <TermsClauses options={term.options} />
-
-                      }
-                    </span>
-                  )
-                }, TERMS)
-              } */}
               <h2><u>Privacy Policy</u></h2>
               {
                 map(policy => {
