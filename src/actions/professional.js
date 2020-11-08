@@ -4,7 +4,7 @@ import moment from 'moment'
 import { initialize, change } from 'redux-form'
 import { SERVER_URL as url } from '../constants'
 import * as types from './'
-import { getAdresses } from './addresses'
+// import { getAdresses } from './addresses'
 import { getProfessionalData } from '../utils/parsers'
 import { showToast, getFormData, isEmptyOrNull } from '../utils/helpers'
 
@@ -120,10 +120,10 @@ export const getProfessionalDetails = userId => dispatch => {
         if(code !== 'success') showToast(title, message, code)
         if(code === 'success' || code === 'info'){
             const professional = getProfessionalData(data.professional)
-            const { postCode } = professional
-            if(!isEmptyOrNull(postCode)){
-                dispatch(getAdresses(postCode))
-            }
+            // const { postCode } = professional
+            // if(!isEmptyOrNull(postCode)){
+            //     dispatch(getAdresses(postCode))
+            // }
             dispatch(initialize('professional', professional))
             dispatch({
                 type: types.FETCH_PROFESSIONAL_DETAILS_SUCCESS,

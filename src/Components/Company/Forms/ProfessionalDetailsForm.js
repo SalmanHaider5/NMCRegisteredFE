@@ -37,38 +37,44 @@ const ProfessionalDetailsForm = ({
 				validate={[isRequired]}
 				tooltipPlacement={'topRight'}
 			/>
-      <Field
-        name="addressId"
-        component={SelectField}
-        label={'Choose Address'}
-        options={addresses}
-        size={`large`}
-        hintText={'Address'}
-        onChange={addressSelectHandler}
-      />
-      <Field
-        name="address"
-        component={TextField}
-        label={'Address'}
-        size={'large'}
-        type="text"
-        validate={[isRequired]}
-      />
-      <Field
-        name="city"
-        component={TextField}
-        label={'Town/City'}
-        size={'large'}
-        type="text"
-      />
-      <Field
-        name="county"
-        component={TextField}
-        label={'County'}
-        size={'large'}
-        type="text"
-        validate={[isRequired]}
-      />
+      {
+        length(addresses) > 0 ?
+        <>
+            <Field
+            name="addressId"
+            component={SelectField}
+            label={'Choose Address'}
+            options={addresses}
+            size={`large`}
+            hintText={'Address'}
+            onChange={addressSelectHandler}
+          />
+          <Field
+            name="address"
+            component={TextField}
+            label={'Address'}
+            size={'large'}
+            type="text"
+            validate={[isRequired]}
+          />
+          <Field
+            name="city"
+            component={TextField}
+            label={'Town/City'}
+            size={'large'}
+            type="text"
+          />
+          <Field
+            name="county"
+            component={TextField}
+            label={'County'}
+            size={'large'}
+            type="text"
+            validate={[isRequired]}
+          />
+        </>
+        : ''
+      }
       <Form.Item
         label='Charity'
         labelAlign='left'

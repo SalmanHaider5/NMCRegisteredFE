@@ -4,7 +4,7 @@ import { pathOr, join, defaultTo, forEach, length, head } from 'ramda'
 import moment from 'moment'
 import { SERVER_URL as url, GET_ADDRESS_URL as apiUrl, GET_ADDRESS_API_KEY as apiKey } from '../constants'
 import { showToast, isEmptyOrNull } from '../utils/helpers'
-import { getAdresses } from './addresses'
+// import { getAdresses } from './addresses'
 import * as types from './'
 import { getCompanyData } from '../utils/parsers'
 
@@ -106,9 +106,9 @@ export const getCompanyDetails = userId => dispatch => {
         if(data.code === 'success'){
             const { company } = data
             const { firstName, lastName, email, phone, address, city, postalCode } = company
-            if(!isEmptyOrNull(postalCode)){
-                dispatch(getAdresses(postalCode))
-            }
+            // if(!isEmptyOrNull(postalCode)){
+            //     dispatch(getAdresses(postalCode))
+            // }
             const contact = {
                 name: join(' ', [firstName, lastName]),
                 email,
@@ -369,7 +369,7 @@ const filterProfessionalsByPostalCode = (values, professional) => dispatch => {
         .then(response => {
             const { metres } = response
             const miles = parseFloat(metres) / 1609
-            if(parseInt(miles) < 26){
+            if(parseInt(miles) < 40){
                 dispatch(filterProfessionalsByTimesheets(values, professional))
             }else{
                 dispatch(filterProfessionalsByTimesheets(values, {}))

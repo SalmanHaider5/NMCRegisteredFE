@@ -33,7 +33,8 @@ const ProfessionalCard = ({
     crbDocument,
     shift,
     time,
-    nmcPin
+    nmcPin,
+    dateOfBirth
   } = professional
   const { offerForm = {} } = defaultTo({}, formValues)
   const { shiftRate, shifts } = offerForm
@@ -63,6 +64,12 @@ const ProfessionalCard = ({
             <Icon type="clock-circle" /> {shift}
           </label>
           <span>{time}</span>
+        </List.Item>
+        <List.Item>
+          <label>
+            <Icon type="calendar" /> Date of Birth
+          </label>
+          <span>{dateOfBirth}</span>
         </List.Item>
         <List.Item>
           <label>

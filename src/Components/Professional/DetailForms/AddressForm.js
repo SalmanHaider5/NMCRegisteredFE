@@ -39,7 +39,7 @@ const AddressForm = ({
 				validate={[isRequired]}
 				tooltipPlacement={'topRight'}
 			/>
-      { !addForm || (addForm && length(addresses) > 0) ?
+      { length(addresses) > 0 ?
         <span>
           <Field
             name="addressId"

@@ -42,12 +42,12 @@ export const TERMS = [
     {
         id: 1,
         title: '',
-        text: 'The licence for this software product is wholly owned by Nmc Registered Ltd, hereafter referred to as the "proprietor" and is defined as a Proprietary licence.'
+        text: 'The legal licence for this software product is wholly owned by Nmc Registered Ltd, hereafter referred to as the “proprietor” and is a Proprietary licence.'
     },
     {
         id: 2,
         title: 'Licence',
-        text: 'The licence for this software product remains wholly the ownership of the Proprietor and if infringed can be withdrawn or suspended from the User without notice.'
+        text: 'The Software is licensed, not sold. USER will not remove any identification, modify or obscure any proprietary or copyright notice of the Company from any copy of the Software or documents.The licence for this software product remains wholly the ownership of the proprietor and if infringed can be withdrawn or suspended from the User without notice or dispute.'
     },
     {
         id: 3,
@@ -57,24 +57,24 @@ export const TERMS = [
     {
         id: 4,
         title: 'User Rights',
-        text: 'No rights apply for changes, redistribution, 3rd Party usage or copying of the software without the pre-authorised written consent of the Proprietor.'
+        text: 'No rights apply for changes, redistribution, 3rd Party usage or copying of the software without the pre-authorised written consent of Nmc Registered Ltd.'
     },
     {
         id: 5, 
         title: 'Infringement',
-        text: 'Infringement will be deemed as any action initiated by the User which breeches any clause or implied clauses below:',
+        text: 'Infringement will be deemed as any action initiated by the User which breeches any clause or implied clauses below.',
         options: [
             {
                 id: 1,
-                text: 'Failure to pay the licence fee'
+                text: 'Failure to comply with the Terms of Purchase.'
             },
             {
                 id: 2,
-                text: 'Failure to pay the full amount owed to any professional or 3rd Party sourced through the software system within the agreed set time period of 2 weeks inclusive who has completed the shift duties stipulated by the User beforehand'
+                text: 'Failure to pay the full amount owed to any professional or 3rd Party sourced through the software system who has completed the normal and reasonable duties* stipulated by the User beforehand; within the agreed set time period of 1 Pay Cycle proceeding the completed shift.'
             },
             {
                 id: 3,
-                text: 'Failure to comply with any or all of the proprietors User Rights stipulated above'
+                text: 'Failure to comply with any or all of the proprietors User Rights stipulated above.'
             },
             {
                 id: 4,
@@ -90,22 +90,22 @@ export const PRIVACY_POLICY = [
     {
         id: 1,
         title: '',
-        text: 'The primary purpose of nmcregistered.org.uk is to be a resource and business tool to help maintain your business. We want you to feel secure when visiting our site and vigorously work to ensure your privacy is secured at all times'
+        text: 'The primary purpose of nmcregistered.org.uk is to be a resource and business tool to help you create and sustain your business growth. We want you to feel secure when visiting our site and vigorously work to ensure your privacy to the best of our ability at all times.'
     },
     {
         id: 2,
         title: '',
-        text: 'An overview of how we protect your privacy when connected to nmcregistered.org.uk is as follows'
+        text: 'An overview of how we protect your privacy when connected to nmcregistered.org.uk.'
     },
     {
         id: 3,
         title: 'Do we solicit information/Data?',
-        text: 'Only by one method, voluntary submissions. The use of "cookies" and other technologies is not incorporated, monitored or logged by us for any information gathering agenda'
+        text: 'Information on nmcregistered.org.uk is gathered by one method, voluntary submissions. Only when you agree to share the information/data when you voluntarily submit information on various pages of nmcregistered.org.uk. The use of &quot;cookies&quot; and other technologies is not monitored or logged by us for any information gathering agenda.'
     },
     {
         id: 4,
-        title: '',
-        text: 'It is completely at the individual’s discretion whether or not to provide details of any kind'
+        title: 'How do we use this information?',
+        text: 'Submitted information is assessed to determine what is most beneficial about our site in relation to our clients and to help us identify ways to improve and eventually determine how we can tailor nmcregistered.org.uk to make it a more effective site to service our clients.'
     },
     {
         id: 5,
@@ -115,12 +115,16 @@ export const PRIVACY_POLICY = [
     {
         id: 6,
         title: 'Do we share personal information or data with third parties?',
-        text: 'No, all information submitted is secure and data protected'
+        text: 'No. As an organisation the data submitted may be transferred throughout NMC Registered network, this is a necessary requirement in order for us to provide the quality of service expected by our clients. We do not and will not sell or disclose individual information and will share it only with the relevant members of our organisation aligned to providing our services.'
     },
     {
         id: 7,
         title: 'Your right access your personal data/freedom of information.',
-        text: 'You are entitled to know whether we hold data/information about you; if we do you can obtain access to that data/information to ensure its accuracy or to have it amended where necessary. You can do this by sending us an e-mail to "Privacy Data" via ',
-        buttonText: 'Contact Us'
+        text: 'You are entitled to know whether we hold data/information about you; if we do you can obtain access to that data/information to ensure its accuracy or to have it amended where necessary. You can do this by sending an e-mail via our “Contact Us” page, please mark the subject as “FOI”.'
+    },
+    {
+        id: 8,
+        title: '',
+        text: 'At nmcregistered.org.uk we are focused on maintaining your privacy and creating a sustainable and valuable resource for you to use. If you have any questions regarding the security of our site, please email us via our “Contact Us” page, please mark the subject as “Privacy”.'
     }
 ]
