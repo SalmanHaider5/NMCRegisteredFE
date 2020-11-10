@@ -145,6 +145,7 @@ export const getCompanyDetails = userId => dispatch => {
                 address: `${address}, ${city}, Postal Code ${postalCode}`,
                 message: ''
             }
+            company.paymentMethod = 'Pay with Card'
             company.contactForm = contact
             company.changePassword = changePassword
             company.searchForm = searchForm

@@ -66,7 +66,8 @@ export const TERMS = [
         options: [
             {
                 id: 1,
-                text: 'Failure to comply with the Terms of Purchase.'
+                text: 'Failure to comply with the',
+                button: 'Terms of Purchase'
             },
             {
                 id: 2,
@@ -126,5 +127,73 @@ export const PRIVACY_POLICY = [
         id: 8,
         title: '',
         text: 'At nmcregistered.org.uk we are focused on maintaining your privacy and creating a sustainable and valuable resource for you to use. If you have any questions regarding the security of our site, please email us via our “Contact Us” page, please mark the subject as “Privacy”.'
+    }
+]
+
+export const TERMS_OF_PURCHASE = [
+    {
+        id: 1,
+        title: '',
+        text: 'Last modified on October 26th 2020'
+    },
+    {
+        id: 2,
+        title: 'Introduction',
+        text: 'The Software is licensed, not sold. These terms governing card payments, “Terms of Purchase” apply between you and NMC Registered Ltd, having its registered office located at Kemp House, 160 City Road, London, EC1V 2NX, United Kingdom. By purchasing this service licence, you stipulate that you have read, understand, and agree to be bound by these Terms of Purchase in effect at the time of purchase. You will be required to confirm that you agree to these Terms of Purchase before you purchase our service licence.'
+    },
+    {
+        id: 3,
+        title: 'Payment method and terms',
+        text: 'All our prices are in Pound Sterling currency. Only GBP Invoices will be issued. We accept the following methods of payment:',
+        options: [
+            {
+                id: 1,
+                text: 'All mainstream Debit and Credit Cards'
+            },
+            {
+                id: 2,
+                text: 'PayPal'
+            }
+        ] 
+    },
+    {
+        id: 4,
+        title: '',
+        text: 'You are subject to all terms and conditions of the payment method you select. By submitting any card details you authorise NMC Registered Ltd, or its designated payment processor, to charge the account you have specified for the purchase amount.'
+    },
+    {
+        id: 5,
+        title: 'Taxes',
+        text: 'You are responsible for the payment of any and all applicable taxes.'
+    },
+    {
+        id: 6,
+        title: 'Data Policy',
+        text: 'Your data is important to NMC Registered Ltd. When you purchase a service licence by credit or debit card through our website, you are giving NMC Registered Ltd your permission to securely transmit the information provided to our designated payment processor for the sole purpose of processing your card payment and delivering the service license to you.'
+    },
+    {
+        id: 7,
+        title: '',
+        text: 'We will not store your card details or disclose any financial information about you to any third parties.'
+    },
+    {
+        id: 8,
+        title: '',
+        text: 'By entering your card information, you are stating that you are an authorised user of the card and that the associated information entered (card holder name, card number, billing information, etc.) is accurate, and you authorise NMC Registered Ltd to charge the purchase amount to your card.'
+    },
+    {
+        id: 9,
+        title: '',
+        text: 'By clicking Make Payment you agree to these Terms of Purchase and consent to receiving a one-time confirmation of payment electronically to the email address you have provided.'
+    },
+    {
+        id: 10,
+        title: 'Warranties and Limitation of Liability',
+        text: 'Except as specifically provided in this Agreement, the Software is provided “as is” without warranty of any kind, express or implied, including but not limited to warranties of performance. The customer accepts full liability for all and any professionals shift availability status registered on our system.'
+    },
+    {
+        id: 11,
+        title: 'Legal',
+        text: 'In the event of legal matters, all proceedings will be conducted in accordance with applicable UK law and any disputes shall be subject to the exclusive jurisdiction of the English Courts.'
     }
 ]

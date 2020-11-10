@@ -8,7 +8,7 @@ import { Elements } from '@stripe/react-stripe-js'
 import PaypalBtn from 'react-paypal-checkout'
 import StripeCardPayment from './StripeCardPayment'
 import { TextField, RadioField, CheckboxField } from '../../../utils/custom-components'
-import { SERVER_URL as url, isRequired, TERMS } from '../../../constants'
+import { SERVER_URL as url, isRequired, TERMS, TERMS_OF_PURCHASE as TOPs } from '../../../constants'
 import { showToast, isEmptyOrNull } from '../../../utils/helpers'
 import Terms from './Terms'
 
@@ -21,11 +21,13 @@ const PaymentForm = ({
   makePaypalPayment,
   termsDrawer,
   showTermsDrawer,
-  hideTermsDrawer
+  hideTermsDrawer,
+  setTermsDocumentType,
+  termsDocumentType
 }) => {
   const { firstName, lastName, balance, vat, paymentMethod, termsChecked = false } = defaultTo({}, formValues)
   const stripePromise = adBlockerExists ? {} : loadStripe("pk_test_cmqEvoYCsQr8Ur3q2AoEY5V800VuRo430P")
-  
+
   const onSuccess = (payment) => {
     const data = {}
     data.amount = parseInt(balance) + parseInt(balance * vat / 100)
@@ -134,8 +136,8 @@ const PaymentForm = ({
             component={RadioField}
             label="Payment Method"
             options={['Pay with Card', 'Paypal']}
-            value={'Pay with Card'}
-            defaultValue={'Pay with Card'}
+            value={paymentMethod}
+            defaultValue={paymentMethod}
             validate={[isRequired]}
           />
           <Field
@@ -157,7 +159,7 @@ const PaymentForm = ({
               component={CheckboxField}
               text={
                 <>
-                  I agree to NMC <Button className="link-button" type="link" onClick={showTermsDrawer}> NMC Terms and Conditions </Button>
+                  I agree to <Button className="link-button" type="link" onClick={showTermsDrawer}> NMC Terms & Conditions </Button>
                 </>
               }
               size={'large'}
@@ -208,7 +210,13 @@ const PaymentForm = ({
         </Col>
       </Row>
       <Drawer
-            title={<><Icon type="paper-clip" /> NMC Terms and Conditions</>}
+            title={<>
+              {
+                termsDocumentType === 'terms' ?
+                <><Icon type="paper-clip" /> NMC Terms and Conditions</> :
+                <><Icon type="arrow-left" onClick={() => setTermsDocumentType('terms')} /> Terms of Purchase</>
+              }
+            </>}
             placement="right"
             className="terms-drawer"
             closable={true}
@@ -217,20 +225,38 @@ const PaymentForm = ({
             visible={termsDrawer}
           >
             <span>
-              <h2><u>Licence Agreement Terms</u></h2>
+              <h2>
+                <u>
+                  { termsDocumentType === 'terms' ? 'Licence Agreement Terms' : 'Terms of Purchase' }
+                </u>
+              </h2>
               {
-                map(term => {
-                  return(
-                    <span key={term.id}>
-                      <h3>{term.title}</h3>
-                      <p>{term.text}</p>
-                      {
-                        isEmptyOrNull(term.options) ? '' : <Terms options={term.options} />
+                termsDocumentType === 'terms' ?
+                  map(term => {
+                    return(
+                      <span key={term.id}>
+                        <h3>{term.title}</h3>
+                        <p>{term.text}</p>
+                        {
+                          isEmptyOrNull(term.options) ? '' : <Terms options={term.options} setDocumentType={setTermsDocumentType} />
 
-                      }
-                    </span>
-                  )
-                }, TERMS)
+                        }
+                      </span>
+                    )
+                  }, TERMS)
+                :
+                  map(term => {
+                    return(
+                      <span key={term.id}>
+                        <h3>{term.title}</h3>
+                        <p>{term.text}</p>
+                        {
+                          isEmptyOrNull(term.options) ? '' : <Terms options={term.options} />
+
+                        }
+                      </span>
+                    )
+                  }, TOPs)
               }
             </span>
           </Drawer>

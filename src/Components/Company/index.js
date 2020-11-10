@@ -36,6 +36,7 @@ class Company extends Component {
       paypalPayment: false,
       termsDrawer: false,
       searchDrawer: false,
+      termsDocumentType: 'terms',
       week: 1,
       currentWeek: [],
       searchInputValue: '',
@@ -131,7 +132,14 @@ class Company extends Component {
   }
 
   hideTermsDrawer = () => {
-    this.setState({ termsDrawer: false })
+    this.setState({
+      termsDrawer: false,
+      termsDocumentType: 'terms'
+    })
+  }
+
+  setTermsDocumentType = (type) => {
+    this.setState({ termsDocumentType: type })
   }
 
   changePassword = () => {
@@ -429,7 +437,7 @@ class Company extends Component {
       case 0:
         return <Icon type="user" className={className} />
       case 1:
-        return <Icon type="environment" className={className} />
+        return <Icon type="history" className={className} />
       default:
         return <Icon type="highlight" className={className} />
     }
@@ -439,6 +447,8 @@ class Company extends Component {
     switch(current){
       case 0:
         return `Basic Details`
+      case 1:
+        return `Payment Cycle`
       default:
         return `Company Details`
     }
@@ -461,7 +471,7 @@ class Company extends Component {
   }
   
   render() {
-    const { current, paymentSkipped, collapsed, formName, editFormModal, documentModal, searchDateError, pageKey, documentModalType, imageModal, datePickerType, adBlockerExists, paypalPayment, termsDrawer, searchDrawer, week, currentWeek, searchInputValue, offerModal, offerFormShifts, requestTypes, indeterminate, allRequests } = this.state
+    const { current, paymentSkipped, collapsed, formName, editFormModal, documentModal, searchDateError, pageKey, documentModalType, imageModal, datePickerType, adBlockerExists, paypalPayment, termsDrawer, searchDrawer, week, currentWeek, searchInputValue, offerModal, offerFormShifts, requestTypes, indeterminate, allRequests, termsDocumentType } = this.state
     const { invalid, addresses, company: { offers, companyDetails, isLoading, professionals, secret, paypalToken }, application: { authentication: { userId } }, formValues } = this.props
     const isPaid = defaultTo(false, prop('isPaid', companyDetails))
     
@@ -545,6 +555,7 @@ class Company extends Component {
             adBlockerExists={adBlockerExists}
             termsDrawer={termsDrawer}
             paypalPayment={paypalPayment}
+            termsDocumentType={termsDocumentType}
             makePaypalPayment={this.makePaypalPayment}
             makePaymentRequest={this.makePaymentRequest}
             next={this.next}  
@@ -560,6 +571,7 @@ class Company extends Component {
             subsidiaryStatusChange={this.subsidiaryStatusChange}
             saveDetails={this.saveDetails}
             skipPaymentOption={this.skipPaymentOption}
+            setTermsDocumentType={this.setTermsDocumentType}
           />
         }
       </div>

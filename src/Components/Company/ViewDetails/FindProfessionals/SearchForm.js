@@ -31,7 +31,7 @@ const SearchForm = ({
             enterButton={<><Icon type="reload" /> Reset</>}
             fieldData={`${head(currentWeek)} - ${last(currentWeek)}`}
             onSearch={resetWeek}
-            label="Select Week"
+            label="1. Select Week"
             specialText={<Button type="link" className="link-button" onClick={skipCurrentWeek}>Next Week?</Button>}
             readOnly
           />
@@ -44,10 +44,11 @@ const SearchForm = ({
             options={skills}
             hintText={'Choose a Skill'}
             disabled={!isPaid}
-            label={'Skills'}
+            label={'2. Skills'}
           />
         </Col>
       </Row>
+      <h4 style={{ margin: '0 auto', textAlign: 'left', width: '84%' }}>3. Select Shifts</h4>
       <Row className="shifts-row">
         {
           mapIndexed((shift, index) => {

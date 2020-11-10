@@ -37,7 +37,9 @@ const AddDetails = ({
   makePaypalPayment,
   termsDrawer,
   showTermsDrawer,
-  hideTermsDrawer
+  hideTermsDrawer,
+  setTermsDocumentType,
+  termsDocumentType
 }) => {
   const components = [
     <PersonalDetailsForm />,
@@ -65,6 +67,8 @@ const AddDetails = ({
       termsDrawer={termsDrawer}
       showTermsDrawer={showTermsDrawer}
       hideTermsDrawer={hideTermsDrawer}
+      setTermsDocumentType={setTermsDocumentType}
+      termsDocumentType={termsDocumentType}
     />
   ]
   return (
@@ -74,7 +78,7 @@ const AddDetails = ({
           <Col xs={0} sm={0} md={0} lg={7} xl={5} offset={1} className="progress-panel">
             <div className="progress-tail">
               {
-                isEmptyOrNull(companyDetails) ?
+                isEmptyOrNull(prop('firstName', companyDetails)) ?
                 getFormIcon(current, 'form-icon') :
                 <Icon type="money-collect" className="form-icon" />
               }

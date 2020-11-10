@@ -80,6 +80,7 @@ export const getCompanyFormValues = () => {
         paymentCycle: '',
         subsidiaryName: '',
         subsidiaryAddress: '',
+        paymentMethod: '',
         changePassword: changeCompanyPassword,
         contactForm,
         searchForm,

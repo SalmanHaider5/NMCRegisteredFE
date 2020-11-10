@@ -16,7 +16,7 @@ export const COMPANY_PAGES = {
     icon: 'lock'
   },
   contactPage: {
-    label: 'label',
+    label: 'Contact Us',
     icon: 'mail'
   }  
 }
