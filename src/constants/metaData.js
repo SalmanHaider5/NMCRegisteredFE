@@ -101,7 +101,7 @@ export const PRIVACY_POLICY = [
     {
         id: 3,
         title: 'Do we solicit information/Data?',
-        text: 'Information on nmcregistered.org.uk is gathered by one method, voluntary submissions. Only when you agree to share the information/data when you voluntarily submit information on various pages of nmcregistered.org.uk. The use of &quot;cookies&quot; and other technologies is not monitored or logged by us for any information gathering agenda.'
+        text: 'Information on nmcregistered.org.uk is gathered by one method, voluntary submissions. Only when you agree to share the information/data when you voluntarily submit information on various pages of nmcregistered.org.uk. The use of cookies and other technologies is not monitored or logged by us for any information gathering agenda.'
     },
     {
         id: 4,
