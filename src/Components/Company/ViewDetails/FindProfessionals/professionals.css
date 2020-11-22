@@ -130,6 +130,11 @@ div.steps-content.search-content{
 .professionals-list .ant-card .ant-list-item .ant-btn-primary.ant-btn-block{
   height: 50px;
 }
+.professionals-list .ant-card .card-title-extra{
+  font-size: 12px;
+  margin-left: 20px;
+  color: #534444;
+}
 .professionals-list .ant-card .ant-list-item .ant-btn-primary.ant-btn-block span{
   position: relative;
 }

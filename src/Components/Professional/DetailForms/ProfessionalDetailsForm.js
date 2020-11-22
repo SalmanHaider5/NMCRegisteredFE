@@ -63,6 +63,7 @@ const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues, imageRemoveHan
         hintText={'Upload Image'}
         acceptedFileTypes=".jpg,.jpeg,.png"
         type={'picture'}
+        specialText={'Due to security concerns, not uploading an ID Photo may restrict any shift offers.'}
         fileAdded={profilePicture}
         onRemove={imageRemoveHandler}
         removeIcon={true}

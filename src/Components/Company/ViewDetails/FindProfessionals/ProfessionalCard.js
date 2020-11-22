@@ -34,7 +34,8 @@ const ProfessionalCard = ({
     shift,
     time,
     nmcPin,
-    dateOfBirth
+    dateOfBirth,
+    qualification
   } = professional
   const { offerForm = {} } = defaultTo({}, formValues)
   const { shiftRate, shifts } = offerForm
@@ -43,6 +44,7 @@ const ProfessionalCard = ({
       title={
         <span>
           <Icon type="user" /> {fullName}
+          <div className="card-title-extra">{qualification}</div>
         </span>
       }
       extra={
