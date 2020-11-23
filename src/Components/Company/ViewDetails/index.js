@@ -1,6 +1,7 @@
 import React from 'react'
 import { Switch, Route, Link } from 'react-router-dom'
-import { Layout, Menu, Icon, Alert, Button } from 'antd'
+import { filter, length } from 'ramda'
+import { Layout, Menu, Icon, Alert, Button, Badge } from 'antd'
 import { COMPANY_PAGES, FOOTER_TEXT } from '../../../constants'
 import FindProfessionals from './FindProfessionals'
 import ChangePassword from './Security'
@@ -70,6 +71,7 @@ const ViewDetails = ({
   updateOfferStatus
 }) => {
   const { Sider, Footer, Content } = Layout
+  const badgeOffers = filter(offer => offer.status === 'accepted' || offer.status === 'declined' || offer.status === 'rejected', offers)
   const { searchPage, offersPage, securityPage, profilePage, contactPage } = COMPANY_PAGES
   const { label, author, profileLink } = FOOTER_TEXT
   return (
@@ -94,6 +96,7 @@ const ViewDetails = ({
             <Link to={`/company/${userId}/requests`}>
               <Icon type={offersPage.icon} />
               <span>{offersPage.label}</span>
+              { length(badgeOffers) > 0 ? <Badge count={length(badgeOffers)} /> : '' }
             </Link>
           </Menu.Item>
           <Menu.Item key="3">

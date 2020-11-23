@@ -43,9 +43,9 @@ class Company extends Component {
       offerModal: false,
       offerFormShifts: [],
       professionalId: '',
-      requestTypes: ['accepted'],
-      indeterminate: true,
-      allRequests: false
+      requestTypes: ['accepted', 'pending', 'declined', 'approved', 'rejected'],
+      indeterminate: false,
+      allRequests: true
     };
   }
 
@@ -110,11 +110,13 @@ class Company extends Component {
   }
 
   submitOfferRequest = () => {
-    const { formValues: { offerForm }, match: { params: { userId } }, dispatch } = this.props
+    const { formValues: { offerForm }, match: { params: { userId } }, dispatch, company: { companyDetails } } = this.props
+    const { address, city, county } = companyDetails
     const { shifts } = offerForm
     const { professionalId } = this.state
     offerForm.shifts = shifts.toString()
     offerForm.company = userId
+    offerForm.address = `${address}, ${city}, ${county}`
     offerForm.professional = professionalId.toString()
     dispatch(sendOfferRequest(offerForm))
     this.hideOfferModal()

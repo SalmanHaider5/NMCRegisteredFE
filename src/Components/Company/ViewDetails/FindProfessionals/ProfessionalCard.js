@@ -3,7 +3,7 @@ import { Card, Icon, List, Button, Tooltip, Modal } from 'antd'
 import { defaultTo } from 'ramda'
 import { isEmptyOrNull } from '../../../../utils/helpers'
 import { DocumentViewer, ModalBox } from '../../../../utils/custom-components'
-import { SERVER_URL as url } from '../../../../constants'
+import { DOCUMENTS_URL as url } from '../../../../constants'
 import { OfferForm } from './OfferForm'
 
 const ProfessionalCard = ({

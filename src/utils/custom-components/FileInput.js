@@ -1,7 +1,7 @@
 import React from 'react'
 import { isNil } from 'ramda'
 import { Upload, Icon, Form, Button } from 'antd'
-import { SERVER_URL as url } from '../../constants'
+import { DOCUMENTS_URL as url } from '../../constants'
 import { isEmptyOrNull } from '../helpers'
 
 const FormItem = Form.Item

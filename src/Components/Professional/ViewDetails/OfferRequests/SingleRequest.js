@@ -10,9 +10,9 @@ export const SingleRequest = ({ offers, updateOfferStatus, isLoading }) => {
     { label: 'Approved Shifts', value: 'approved' }
   ];
   const [index, setIndex] = useState(0)
-  const [requestTypes, setRequestTypes] = useState(['pending'])
-  const [allTypes, setAllTypes] = useState(false)
-  const [indeterminate, setInderminate] = useState(true)
+  const [requestTypes, setRequestTypes] = useState(['pending', 'accepted', 'declined', 'approved'])
+  const [allTypes, setAllTypes] = useState(true)
+  const [indeterminate, setInderminate] = useState(false)
 
   const changeRequestType = values => {
     setIndex(0)
@@ -27,10 +27,8 @@ export const SingleRequest = ({ offers, updateOfferStatus, isLoading }) => {
     setInderminate(false)
     setAllTypes(event.target.checked)
   }
-
   const filteredOffers = filter(offer => indexOf(offer.status, requestTypes) > -1 , offers)
   const selectedOffer = nth(index, filteredOffers)
-
   return (
     <Spin spinning={isLoading} tip="Loading...">
       <Row gutter={16} className="offers-container">

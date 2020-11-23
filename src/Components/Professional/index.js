@@ -5,7 +5,7 @@ import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import moment from 'moment'
 import { Icon, Spin } from 'antd'
 import { trim, split, prop, propEq, concat, find, omit, dissoc, type, last, equals } from 'ramda'
-import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfessionalProfile, updateSecurityDetails, changePhoneRequest, clearAddresses, contactUs, addBankDetails, updateBankDetails, updateOffer } from '../../actions'
+import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfessionalProfile, updateSecurityDetails, changePhoneRequest, clearAddresses, contactUs, addBankDetails, updateBankDetails, changeOfferStatus } from '../../actions'
 import { GENDER_OPTIONS as genders, QUALIFICATION_OPTIONS as qualifications } from '../../constants'
 import { getProfessionalFormValues, isEmptyOrNull } from '../../utils/helpers'
 import Header from '../Header'
@@ -62,7 +62,7 @@ class Professional extends Component {
     const offer = find(propEq('id', offerId))(offers)
     offer.status = status
     offer.professional = userId
-    dispatch(updateOffer(offer, offer.id))
+    dispatch(changeOfferStatus(offer, offer.id))
   }
   
   updateProfessionalDetails = () => {

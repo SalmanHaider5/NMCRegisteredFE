@@ -1,6 +1,6 @@
 import React from 'react'
 import { List, Icon, Divider, Tooltip, Modal, Avatar, Col, Button } from 'antd'
-import { SERVER_URL as url } from '../../../../../constants'
+import { DOCUMENTS_URL as url } from '../../../../../constants'
 import { isEmptyOrNull } from '../../../../../utils/helpers'
 import { DocumentViewer } from '../../../../../utils/custom-components'
 import WorkExperience from '../WorkExperience'
@@ -25,6 +25,7 @@ const ProfessionalDetails = ({
     crbDocument,
     profilePicture
   } = professional
+  console.log('Picture', `${url}${profilePicture}`)
   return (
     <>
       <Col xs={24} sm={24} md={24} lg={{ span: 11, offset: 0 }} xl={{ span: 11, offset: 0 }}>
@@ -87,6 +88,9 @@ const ProfessionalDetails = ({
               visible={imageModal}
               onCancel={hideImageModal}
               footer={null}
+              style={{
+                top: 20
+              }}
               bodyStyle={{
                 padding: 0
               }}

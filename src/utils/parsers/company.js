@@ -56,6 +56,8 @@ export const getCompanyData = (response) => {
     subsidiary: pathOr(false, ['subsidiary'], response),
     subsidiaryName: pathOr('', ['subsidiaryName'], response),
     subsidiaryAddress: pathOr('', ['subsidiaryAddress'], response),
+    paymentCycle: pathOr('', ['paymentCycle'], response),
+    paymentMethod: 'Pay with Card',
     changePassword,
     searchForm,
     contactForm: getContactFormData(response)

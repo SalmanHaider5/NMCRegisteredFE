@@ -97,6 +97,7 @@ const Profile = ({
                 >
                   {
                     <AddressDetails
+                      formValues={formValues}
                       professional={professional}
                     />
                   }
@@ -153,6 +154,7 @@ const Profile = ({
                 >
                   {
                     <BankDetails
+                      formValues={formValues}
                       professional={professional}
                     />
                   }
@@ -172,6 +174,7 @@ const Profile = ({
                 /> :
                 formName === 'Address' ?
                 <AddressForm
+                  formValues={formValues}
                   findAddresses={findAddresses}
                   addressSelectHandler={addressSelectHandler}
                   changePostalCode={changePostalCode}

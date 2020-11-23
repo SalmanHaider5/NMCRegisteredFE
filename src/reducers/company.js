@@ -147,6 +147,7 @@ const company = (state=initState, action) => {
         case actions.FETCH_PAYPAL_TOKEN_FAILURE:
         case actions.OFFER_REQUEST_FAILURE:
         case actions.COMPANY_OFFER_UPDATE_FAILURE:
+        case actions.ADD_COMPANY_DETAILS_FAILURE:
             return{
                 ...state,
                 isLoading: false

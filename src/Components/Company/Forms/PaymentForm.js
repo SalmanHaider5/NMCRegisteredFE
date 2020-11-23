@@ -8,7 +8,7 @@ import { Elements } from '@stripe/react-stripe-js'
 import PaypalBtn from 'react-paypal-checkout'
 import StripeCardPayment from './StripeCardPayment'
 import { TextField, RadioField, CheckboxField } from '../../../utils/custom-components'
-import { SERVER_URL as url, isRequired, TERMS, TERMS_OF_PURCHASE as TOPs } from '../../../constants'
+import { DOCUMENTS_URL as url, isRequired, TERMS, TERMS_OF_PURCHASE as TOPs } from '../../../constants'
 import { showToast, isEmptyOrNull } from '../../../utils/helpers'
 import Terms from './Terms'
 
@@ -68,7 +68,7 @@ const PaymentForm = ({
           <Card title={<>Licensing Fee </>}>
             <List>
               <div className="payment-logo-container">
-                <img alt="Payment Methods" src={paymentMethod === 'Paypal' ? `${url}public/assets/paypal.png` : `${url}public/assets/payment.png`} />
+                <img alt="Payment Methods" src={paymentMethod === 'Paypal' ? `${url}assets/paypal.png` : `${url}assets/payment.png`} />
               </div>
               <List.Item>
                 <label>

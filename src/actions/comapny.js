@@ -76,13 +76,19 @@ export const addDetails = (userId, formValues) => dispatch => {
     .then(response => {
         const { code, response: { title, message } } = response
         showToast(title, message, code)
-        formValues.createdAt = moment()
-        const company = getCompanyData(formValues)
-        dispatch(initialize('company', company))
-        dispatch({
-            type: types.ADD_COMPANY_DETAILS_SUCCESS,
-            payload: company
-        })
+        if(code === 'success'){
+            formValues.createdAt = moment()
+            const company = getCompanyData(formValues)
+            dispatch(initialize('company', company))
+            dispatch({
+                type: types.ADD_COMPANY_DETAILS_SUCCESS,
+                payload: company
+            })
+        }else{
+            dispatch({
+                type: types.ADD_COMPANY_DETAILS_FAILURE
+            })
+        }
     })
     .catch(error => {
         dispatch({
@@ -103,7 +109,8 @@ export const getCompanyDetails = userId => dispatch => {
     })
     .then(res => res.json())
     .then(data => {
-        if(data.code === 'success'){
+        const { code, response: { title, message }} = data
+        if(code === 'success'){
             const { company } = data
             const { firstName, lastName, email, phone, address, city, postalCode } = company
             // if(!isEmptyOrNull(postalCode)){
@@ -152,12 +159,57 @@ export const getCompanyDetails = userId => dispatch => {
             company.offerForm = offerForm
             dispatch(initialize('company', company))
         }
-        if(data.code !== 'error'){
+        if(code !== 'error'){
+            const { company } = data
+            const { email } = company
+            const contact = {
+                name: '',
+                email,
+                phone: '',
+                subject: '',
+                message: ''
+            }
+            const shiftsForm = {
+                shift1: false,
+                shift2: false,
+                shift3: false,
+                shift4: false,
+                shift5: false
+            }
+            
+            const searchForm = {
+                skill: '',
+                day0: shiftsForm,
+                day1: shiftsForm,
+                day2: shiftsForm,
+                day3: shiftsForm,
+                day4: shiftsForm,
+                day5: shiftsForm,
+                day6: shiftsForm
+            } 
+            const changePassword = {
+                currentPassword: '',
+                newPassword: '',
+                confirmPassword: ''
+            }
+            const offerForm = {
+                shiftRate: '',
+                shifts: [],
+                address: '',
+                message: ''
+            }
+            company.paymentMethod = 'Pay with Card'
+            company.contactForm = contact
+            company.changePassword = changePassword
+            company.searchForm = searchForm
+            company.offerForm = offerForm
+            dispatch(initialize('company', company))
+            showToast(title, message, code)
             dispatch({
                 type: types.FETCH_COMPANY_DETAILS_SUCCESS,
                 payload: data
             })
-        }else{
+        }else if(code === 'error'){
             const { code, response: { title, message } } = data
             showToast(title, message, code)
             if(title === 'Authorization Failed'){
@@ -166,7 +218,10 @@ export const getCompanyDetails = userId => dispatch => {
         }
     })
     .catch(err => {
-        console.log('Error', err)
+        dispatch({
+            type: types.FETCH_COMPANY_DETAILS_FAILURE,
+            error: err
+        })
     })
 }
 

@@ -376,7 +376,7 @@ export const updateBankDetails = (userId, formValues) => dispatch => {
     }) 
 }
 
-export const updateOffer = (values, offerId) => dispatch => {
+export const changeOfferStatus = (values, offerId) => dispatch => {
     dispatch({ type: types.OFFER_UPDATE_REQUEST })
     const token = defaultTo('', Cookies.getJSON('authToken').authToken)
     const endpoint = `${url}offer/${offerId}`

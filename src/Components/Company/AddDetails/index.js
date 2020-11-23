@@ -1,5 +1,5 @@
 import React from 'react'
-import { prop, last } from 'ramda'
+import { prop, last, length } from 'ramda'
 import { Row, Col, Card, Icon, Button, Spin } from 'antd'
 import PersonalDetailsForm from '../Forms/PersonalDetailsForm'
 import ProfessionalDetailsForm from '../Forms/ProfessionalDetailsForm'
@@ -118,7 +118,7 @@ const AddDetails = ({
                 <Col span={12} offset={1} className="form-actions">
                   {
                     current === 2 ?
-                    <Button className="next-btn success-btn" disabled={invalid} onClick={saveDetails}>
+                    <Button className="next-btn success-btn" disabled={invalid || length(addresses.addresses) < 1} onClick={saveDetails}>
                       <Icon type="check" /> Save
                     </Button> :
                     isEmptyOrNull(prop('firstName', companyDetails)) ?

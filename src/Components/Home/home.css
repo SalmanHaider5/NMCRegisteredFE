@@ -6,7 +6,7 @@ body{
     color: #ffffff;
 }
 .header{
-    background-image: url(https://www.amitahealth.org/assets/images/medgroup/pediatric_medicine_p1b.jpg);
+    background-image: url(https://server.nmcregistered.org.uk/uploads/assets/background.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
@@ -22,7 +22,7 @@ body{
     float: left;
     width: 200px;
     height: 65px;
-    background-image: url(https://server.nmcregistered.org.uk/server/public/assets/logo.png);
+    background-image: url(https://server.nmcregistered.org.uk/uploads/assets/logo.png);
     background-size: 125px auto;
     background-repeat: no-repeat;
     width: 100%;
