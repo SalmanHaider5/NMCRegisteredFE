@@ -4,7 +4,7 @@ import { defaultTo } from 'ramda'
 import { TextField, SelectField, MultilineTextField, FileInput } from '../../../utils/custom-components'
 import { isRequired, QUALIFICATION_OPTIONS as qualifications, max35Hours, max200Words, isValidNMC } from '../../../constants'
 
-const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues, imageRemoveHandler }) => {
+const ProfessionalDetailsForm = ({ fileRemoveHandler, formValues, imageRemoveHandler, onFileAttach }) => {
   const { profilePicture } = defaultTo({}, formValues)
   return (
     <div>

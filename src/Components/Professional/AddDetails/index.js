@@ -33,7 +33,8 @@ const AddDetails = ({
   fileRemoveHandler,
   crbRemoveHandler,
   changePostalCode,
-  saveBankDetails
+  saveBankDetails,
+  onFileAttach
 }) => {
   const { phone } = professional
   const isPhoneAdded = !isEmptyOrNull(phone) && phoneVerified ? true : false
@@ -57,6 +58,7 @@ const AddDetails = ({
       fileRemoveHandler={fileRemoveHandler}
       crbRemoveHandler={crbRemoveHandler}
       imageRemoveHandler={imageRemoveHandler}
+      onFileAttach={onFileAttach}
     />
   ]
   return (

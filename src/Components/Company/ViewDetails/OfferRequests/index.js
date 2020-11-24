@@ -23,15 +23,10 @@ const OfferRequests = ({ offers, requestTypes, indeterminate, allRequests, chang
   const offer = find(propEq('id', selectedOffer))(offers) || {}
   const OFFER_COLUMNS = [
     {
-      title: 'Offer ID',
-      dataIndex: 'id',
-      key: 'id'
-    },
-    {
       title: 'Shifts',
       dataIndex: 'shifts',
       key: 'Shifts',
-      render: shifts => map(shift => <ul className="shifts-list"><li>{head(split('(', shift))}</li></ul>, split(',', shifts))
+      render: shifts => map(shift => <ul className="shifts-list" key={shift}><li>{head(split('(', shift))}</li></ul>, split(',', shifts))
     },
     {
       title: 'Shift Rate (per hour)',

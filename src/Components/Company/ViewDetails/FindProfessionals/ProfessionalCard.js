@@ -1,6 +1,7 @@
 import React from 'react'
-import { Card, Icon, List, Button, Tooltip, Modal } from 'antd'
+import moment from 'moment'
 import { defaultTo } from 'ramda'
+import { Card, Icon, List, Button, Tooltip, Modal } from 'antd'
 import { isEmptyOrNull } from '../../../../utils/helpers'
 import { DocumentViewer, ModalBox } from '../../../../utils/custom-components'
 import { DOCUMENTS_URL as url } from '../../../../constants'
@@ -71,7 +72,7 @@ const ProfessionalCard = ({
           <label>
             <Icon type="calendar" /> Date of Birth
           </label>
-          <span>{dateOfBirth}</span>
+          <span>{moment(dateOfBirth).format('L')}</span>
         </List.Item>
         <List.Item>
           <label>

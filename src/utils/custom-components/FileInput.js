@@ -41,8 +41,19 @@ export const FileInput = ({
       >
         <Upload
           name="file"
-          action={'https://www.mocky.io/v2/5cc8019d300000980a055e76'}
+          action="memory"
+          headers={{authorization: 'authorization-text'}}
           listType={type}
+          customRequest={({
+            file,
+            onSuccess
+          }) => {
+            var reader = new window.FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (...args) => {
+              onSuccess('done', file);
+            };
+          }}
           accept={acceptedFileTypes}
           data={file => onChange(file)}
           defaultFileList={isEmptyOrNull(fileAdded) ? [] : defaultFileList}

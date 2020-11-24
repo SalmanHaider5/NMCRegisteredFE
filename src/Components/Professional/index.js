@@ -373,6 +373,7 @@ class Professional extends Component {
               imageRemoveHandler={this.imageRemoveHandler}
               crbRemoveHandler={this.crbRemoveHandler}
               changePostalCode={this.changePostalCode}
+              onFileAttach={this.onFileAttach}
             /> :
             <ViewDetails
               userId={userId}

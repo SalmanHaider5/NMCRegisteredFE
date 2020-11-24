@@ -134,7 +134,7 @@ const company = (state=initState, action) => {
                 professionals: []
             }
         case actions.FETCH_COMPANY_DETAILS_SUCCESS:
-            const { company: { offers } } = payload
+            const { company: { offers = [] } } = payload
             return {
                 ...state,
                 isLoading: false,

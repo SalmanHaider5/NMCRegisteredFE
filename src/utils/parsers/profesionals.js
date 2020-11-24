@@ -57,7 +57,7 @@ export const getProfessionalData = response => {
     offers: pathOr([], ['offers'], response),
     contactForm: getContactFormValues(response),
     crbDocument: pathOr('', ['crbDocument'], response),
-    cpdHours: pathOr('', ['cpdHours'], response),
+    cpdHours: pathOr(0, ['cpdHours'], response),
     experience: pathOr('', ['experience'], response),
     createdAt: pathOr('', ['createdAt'], response),
     updatedAt: pathOr('', ['document'], response)

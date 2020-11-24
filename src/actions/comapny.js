@@ -1,6 +1,6 @@
 import { change, initialize } from 'redux-form'
 import Cookies from 'js-cookie'
-import { pathOr, join, defaultTo, forEach, length, head } from 'ramda'
+import { pathOr, join, defaultTo, forEach, length, head, clone } from 'ramda'
 import moment from 'moment'
 import { SERVER_URL as url, GET_ADDRESS_URL as apiUrl, GET_ADDRESS_API_KEY as apiKey } from '../constants'
 import { showToast, isEmptyOrNull } from '../utils/helpers'
@@ -319,9 +319,18 @@ export const updateProfile = (userId, values) => dispatch => {
     })
 }
 
-const filterProfessionalsByShift = (professional, timesheet, values) => dispatch => {
-    if(isEmptyOrNull(timesheet)){
-        // const { date } = values
+const setProfessionals = (index, timesheet, professional) => dispatch => {
+    let model = clone(professional)
+    model.shift = timesheet.shift
+    model.time = timesheet.time
+    dispatch({
+        type: types.ENLIST_PROFESSIONAL,
+        payload: { index, professional: isEmptyOrNull(professional) ? {} : model }
+    })
+}
+
+const filterProfessionalsByShift = (professional, ts, values) => dispatch => {
+    if(isEmptyOrNull(ts)){
         for(let i = 0; i < length(values); i++){
             dispatch({
                 type: types.ENLIST_PROFESSIONAL,
@@ -334,13 +343,11 @@ const filterProfessionalsByShift = (professional, timesheet, values) => dispatch
             }
         }
     }else{
-        const { id } = timesheet
+        const { id } = ts
         const token = pathOr('', ['authToken'], Cookies.getJSON('authToken'))
         const endpoint = new URL(`${url}timesheet/${id}/search`)
         
         for(let i = 0; i < length(values); i++){
-            const pro = []
-            pro[i] = professional
             const { date, shifts } = values[i]
             endpoint.search = new URLSearchParams({
                 shifts: shifts.toString(),
@@ -358,12 +365,13 @@ const filterProfessionalsByShift = (professional, timesheet, values) => dispatch
                 if(code === 'success'){
                     const { timesheet } = response
                     if(!isEmptyOrNull(timesheet)){
-                        pro[i].shift = timesheet.shift
-                        pro[i].time = timesheet.time
-                        dispatch({
-                            type: types.ENLIST_PROFESSIONAL,
-                            payload: { index: i, professional: isEmptyOrNull(professional) ? {} : pro[i] }
-                        })
+                        dispatch(setProfessionals(i, timesheet, professional))
+                        // professional.shift = timesheet.shift
+                        // professional.time = timesheet.time
+                        // dispatch({
+                        //     type: types.ENLIST_PROFESSIONAL,
+                        //     payload: { index: i, professional: isEmptyOrNull(professional) ? {} : professional }
+                        // })
                     }else{
                         dispatch({
                             type: types.ENLIST_PROFESSIONAL,
@@ -416,6 +424,7 @@ const filterProfessionalsByTimesheets = (values, professional) => dispatch => {
 }
 
 const filterProfessionalsByPostalCode = (values, professional) => dispatch => {
+    // dispatch(filterProfessionalsByTimesheets(values, professional))
     const professionalCode = pathOr('', ['postCode'], professional)
     const { postalCode } = head(values)
     if(!isEmptyOrNull(professionalCode)){

@@ -12,7 +12,6 @@ export const createDetails = (userId, formValues) => dispatch => {
     if(isNil(Cookies.getJSON('authToken'))) return undefined
     const token = defaultTo('', Cookies.getJSON('authToken').authToken)
     dispatch({ type: types.ADD_PROFESSIONAL_DETAILS_REQUEST })
-    
     const endpoint = `${url}${userId}/professional`
     fetch(endpoint, {
         method: 'POST',
@@ -23,6 +22,7 @@ export const createDetails = (userId, formValues) => dispatch => {
     })
     .then(res => res.json())
     .then(response => {
+        console.log('Res', response)
         const { code, response: { title, message } } = response
         showToast(title, message, code)
         formValues.document = type(formValues.document) === 'File' ? formValues.document.name : formValues.document
@@ -35,6 +35,7 @@ export const createDetails = (userId, formValues) => dispatch => {
         })
     })
     .catch(error => {
+        console.log('Error', error)
         dispatch({
             type: types.ADD_PROFESSIONAL_DETAILS_FAILURE,
             error
@@ -120,10 +121,6 @@ export const getProfessionalDetails = userId => dispatch => {
         if(code !== 'success') showToast(title, message, code)
         if(code === 'success' || code === 'info'){
             const professional = getProfessionalData(data.professional)
-            // const { postCode } = professional
-            // if(!isEmptyOrNull(postCode)){
-            //     dispatch(getAdresses(postCode))
-            // }
             dispatch(initialize('professional', professional))
             dispatch({
                 type: types.FETCH_PROFESSIONAL_DETAILS_SUCCESS,
