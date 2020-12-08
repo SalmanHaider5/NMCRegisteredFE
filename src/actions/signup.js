@@ -1,94 +1,76 @@
-import { SERVER_URL as url } from '../constants'
-import { showToast } from '../utils/helpers'
+import { ENDPOINTS as api  } from '../constants'
+import { get, getUrl, post, formatVerificationData, getAccountBasicValues } from '../utils/helpers'
 import * as types from './'
 
 export const register = formValues => dispatch => {
-    dispatch({ type:  types.SIGNUP_REQUEST })
-    const endpoint = `${url}signup`
-    fetch(endpoint, {
-        method: 'POST',
+    
+    post({
+        url: getUrl(api.SIGNUP),
         body: JSON.stringify(formValues),
-        headers: {
-            'Content-Type':'application/json'
-        }
-    })
-    .then(res => res.json())
-    .then(response => {
-        const { code, response: { title, message } } = response
-        showToast(title, message, code)
-        dispatch({
-            type: types.SIGNUP_SUCCESS,
-            payload: response
-        })
-    })
-    .catch(error => {
-        dispatch({
-            type: types.SIGNUP_FAULRE,
-            error
-        })
+        init: types.SIGNUP_REQUEST,
+        success: types.SIGNUP_SUCCESS,
+        failure: types.SIGNUP_FAULRE,
+        dispatch
     })
 }
 
 export const verifyAccount = formValues => dispatch => {
-    dispatch({ type: types.VERIFY_ACCOUNT_REQUEST })
+
     const { userId, token } = formValues
-    const endpoint = `${url}${userId}/verify/${token}`
-    fetch(endpoint)
-    .then(res => res.json())
-    .then(data => {
-        const { code, response: { title, message } } = data
-        showToast(title, message, code)
-        if(code === 'success'){
-            data.userId = userId
-            dispatch({
-                type: types.VERIFY_ACCOUNT_SUCCESS,
-                payload: data
-            })     
-        }
-    })
-    .catch(error => {
-        dispatch({
-            type: types.VERIFY_ACCOUNT_FAILURE,
-            error
-        })
+
+    get({
+        url: getUrl(api.VERIFY_USER, { userId, token }),
+        init: types.VERIFY_ACCOUNT_REQUEST,
+        success: types.VERIFY_ACCOUNT_SUCCESS,
+        failure: types.VERIFY_ACCOUNT_FAILURE,
+        dispatch,
+        format: formatVerificationData
     })
 }
 
+export const clearErrors = () => dispatch => {
+    dispatch({ type: types.CLEAR_ACCOUNT_ERRORS })
+}
+
 export const logoutUser = () => dispatch => {
-    dispatch({ type: types.ACCOUNT_LOGOUT_REQUEST })
+
+    dispatch({
+        type: types.ACCOUNT_LOGOUT_REQUEST,
+        payload: getAccountBasicValues()
+    })
 }
 
 export const generatePasswordResetLink = values => dispatch => {
 
-    const endpoint = `${url}reset`
-    fetch(endpoint, {
-        method: 'POST',
-        body: JSON.stringify(values),
-        headers: {
-            'Content-Type':'application/json'
-        }
-    })
-    .then(res => res.json())
-    .then(response => {
-        const { code, response: { title, message } } = response
-        showToast(title, message, code)
-    })
+    // const endpoint = `${url}reset`
+    // fetch(endpoint, {
+    //     method: 'POST',
+    //     body: JSON.stringify(values),
+    //     headers: {
+    //         'Content-Type':'application/json'
+    //     }
+    // })
+    // .then(res => res.json())
+    // .then(response => {
+    //     const { code, response: { title, message } } = response
+    //     showToast(title, message, code)
+    // })
 
 }
 
 export const resetUserPassword = (id, values) => dispatch => {
-    const endpoint = `${url}resetPassword/${id}`
-    const headers = new Headers()
-    headers.append('Content-Type', 'application/json')
-    headers.append('authorization', values.token)
-    fetch(endpoint, {
-        method: 'POST',
-        body: JSON.stringify(values),
-        headers
-    })
-    .then(res => res.json())
-    .then(response => {
-        const { code, response: { title, message } } = response
-        showToast(title, message, code)
-    })
+    // const endpoint = `${url}resetPassword/${id}`
+    // const headers = new Headers()
+    // headers.append('Content-Type', 'application/json')
+    // headers.append('authorization', values.token)
+    // fetch(endpoint, {
+    //     method: 'POST',
+    //     body: JSON.stringify(values),
+    //     headers
+    // })
+    // .then(res => res.json())
+    // .then(response => {
+    //     const { code, response: { title, message } } = response
+    //     showToast(title, message, code)
+    // })
 }

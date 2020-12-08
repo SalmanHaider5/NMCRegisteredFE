@@ -1,3 +1,4 @@
+import { initialize } from 'redux-form'
 import moment from 'moment'
 import { pathOr, prop } from 'ramda'
 import { isEmptyOrNull } from '../helpers'
@@ -25,16 +26,20 @@ const getBankDetails = bankDetails => {
 
 const getContactFormValues = response => {
   return {
-    name: response.fullName,
-    email: response.email,
-    phone: response.phone,
+    name: pathOr('', ['fullName'], response),
+    email: pathOr('', ['email'], response),
+    phone: pathOr('', ['phone'], response),
     subject: '',
     message: ''
   }
 }
 
-export const getProfessionalData = response => {
-  return {
+const initializeForm = (dispatch, professional) => {
+  dispatch(initialize('professional', professional))
+}
+
+export const getProfessionalData = (dispatch, response) => {
+  const professional =  {
     profilePicture: pathOr('', ['profilePicture'], response),
     status: pathOr('', ['status'], response),
     email: pathOr('', ['email'], response),
@@ -60,6 +65,9 @@ export const getProfessionalData = response => {
     cpdHours: pathOr(0, ['cpdHours'], response),
     experience: pathOr('', ['experience'], response),
     createdAt: pathOr('', ['createdAt'], response),
-    updatedAt: pathOr('', ['document'], response)
+    updatedAt: pathOr('', ['updatedAt'], response)
   }
+  if(!isEmptyOrNull(professional))
+    initializeForm(dispatch, professional)
+  return professional
 }

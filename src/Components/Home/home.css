@@ -196,7 +196,7 @@ button.home-contact-btn{
     width: 150px;
     margin-top:20px;
     color: #fff;
-    background: #808080cc !important;
+    background: transparent;
 }
 button.home-contact-btn span{
     color: #fff;
@@ -295,4 +295,9 @@ button.home-contact-btn span{
 }
 .privacy-btn{
     margin-top: 15px;
+}
+@media only screen and (max-width: 600px){
+    div.ant-drawer.ant-drawer-left.ant-drawer-open.contact-drawer div.ant-drawer-content-wrapper{
+        width: 100% !important;
+    }
 }

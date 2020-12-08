@@ -1,14 +1,14 @@
 import * as actions from '../actions'
-import { pathOr, isEmpty } from 'ramda'
-import { mapIndexed, showToast } from '../utils/helpers'
+import { empty } from 'ramda'
 
 const initState = {
     isLoading: false,
-    addresses: []
+    addresses: [],
+    error: {}
 }
 
 const addresses = (state=initState, action) => {
-    const { type, payload } = action
+    const { type, payload, error } = action
     switch(type){
         case actions.FETCH_POST_CODES_ADDRESSES_REQUEST:
             return{
@@ -21,17 +21,13 @@ const addresses = (state=initState, action) => {
                 addresses: []
             }
         case actions.FETCH_POST_CODES_ADDRESSES_SUCCESS:
-            const addresses = pathOr([], ['addresses'], payload)
-            if(isEmpty(addresses))
-                showToast('Invalid Post Code', `Server Error: ${payload.Message}`, 'error')
-            const formattedAddresses = mapIndexed((address, index)=>{ return { id: index, name: address } }, addresses)
             return{
                 ...state,
                 isLoading: false,
-                addresses: formattedAddresses
+                error: empty(error),
+                addresses: payload
             }
         case actions.FETCH_POST_CODES_ADDRESSES_FAILURE:
-            const { error } = payload
             return{
                 ...state,
                 isLoading: false,

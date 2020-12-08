@@ -25,7 +25,6 @@ const ProfessionalDetails = ({
     crbDocument,
     profilePicture
   } = professional
-  console.log('Picture', `${url}${profilePicture}`)
   return (
     <>
       <Col xs={24} sm={24} md={24} lg={{ span: 11, offset: 0 }} xl={{ span: 11, offset: 0 }}>

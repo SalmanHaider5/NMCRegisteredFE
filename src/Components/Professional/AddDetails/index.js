@@ -61,6 +61,7 @@ const AddDetails = ({
       onFileAttach={onFileAttach}
     />
   ]
+
   return (
     <div className="addform-container">
       <Row className="addform-panel">
@@ -131,7 +132,7 @@ const AddDetails = ({
                     <Button className="next-btn" type="primary" disabled={current === 1 ? (invalid || length(addresses.addresses) === 0) : invalid} onClick={next}>
                       Next <Icon type="right" />
                     </Button> :
-                  <Button className="success-btn next-btn" onClick={verifyProfessionalPhone} disabled={!codeSent}>
+                  <Button className="success-btn next-btn" onClick={verifyProfessionalPhone} disabled={!codeSent || isEmptyOrNull(formValues.phoneCode)}>
                     <Icon type="check-circle" /> Verify
                   </Button>  
                 }

@@ -1,7 +1,10 @@
 export const TITLE = "NMC Registered"
 export const DATE_FORMAT = "DD/MM/YYYY"
 export const TIME_FORMAT = "HH:mm"
+export const GENERAL_ERROR = { title: 'Server Error', name: "Something went wrong!" }
 export const GET_ADDRESS_API_KEY = "dVsQRsLdEkasx1cfi4PGMg25238"
+export const ADDRESSES_ERROR_TITLE = 'Invalid Post Code'
+export const ADDRESSES_ERROR_MESSAGE = 'Please check your post code and request again'
 export const TIMESHEET_DAYS = [
     {id: 1, name: 'Monday'},
     {id: 2, name: 'Tuesday'},

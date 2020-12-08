@@ -51,6 +51,7 @@ class Home extends Component {
   registerUser = () => {
     const { formValues: { signup: { email, password } }, dispatch } = this.props
     const { selected } = this.state
+    this.setState({ selected: '' })
     dispatch(register({ email, password, role: selected }))
     dispatch(reset('users'))
   }
@@ -177,7 +178,7 @@ class Home extends Component {
     const { valid, formValues= {}, application: { isLoading, twoFactorAuth, authentication: { auth, role, userId } } } = this.props
 
     const modalType = twoFactorAuth ? 'Mobile Verification' : forgetPassword ? 'Forget Password' : contactFormModal ? 'Contact Us' :  'Login'
-    
+
     if(auth && !isEmptyOrNull(role)){
       return <Redirect to={ equals(role, 'professional') ? `/${role}/${userId}/timesheet` : `/${role}/${userId}/professionals` } />
     }
@@ -274,7 +275,7 @@ class Home extends Component {
           closable={true}
           onClose={this.hideContactFormModal}
           visible={contactFormModal}
-          width={512}
+          width={'40%'}
         >
           <FormSection name="contactForm">
             <ContactForm />

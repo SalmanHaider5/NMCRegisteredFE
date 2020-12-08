@@ -58,11 +58,11 @@ class Professional extends Component {
   }
 
   updateOfferStatus = (offerId, status) => {
-    const { dispatch, professional: { professionalDetails: { offers } }, match: { params: { userId } } } = this.props
+    const { dispatch, professional: { profile: { offers } }, match: { params: { userId } } } = this.props
     const offer = find(propEq('id', offerId))(offers)
     offer.status = status
     offer.professional = userId
-    dispatch(changeOfferStatus(offer, offer.id))
+    dispatch(changeOfferStatus(userId, offer, offer.id))
   }
   
   updateProfessionalDetails = () => {
@@ -89,8 +89,13 @@ class Professional extends Component {
 
   updateSecurityandLoginDetails = () => {
     const { formValues: { changePassword }, dispatch, match: { params: { userId } } } = this.props
+    const { currentPassword, newPassword, confirmPassword } = changePassword
     const values = dissoc('confirmPassword', changePassword)
-    dispatch(updateSecurityDetails(userId, values))
+    if(isEmptyOrNull(currentPassword) || isEmptyOrNull(newPassword) || isEmptyOrNull(confirmPassword)){
+      dispatch(updateSecurityDetails(userId, values, '2fa'))
+    }else{
+      dispatch(updateSecurityDetails(userId, values, 'password'))
+    }
   }
 
   showImageModal = () => {
@@ -148,35 +153,25 @@ class Professional extends Component {
   }
 
   hideEditFormModal = () => {
-    const { documentFile, imageFile, crbFile } = this.state
-    const { dispatch, professional: { professionalDetails } } = this.props
-    const { document, profilePicture, crbDocument } = professionalDetails
+    const { imageFile } = this.state
+    const { dispatch, professional: { profile } } = this.props
+    const { profilePicture } = profile
     this.setState({
       formModal: false,
       formName: ''
     })
 
-    if(!isEmptyOrNull(documentFile)){
-      dispatch(change('professional', 'document', documentFile))
-    }else{
-      dispatch(change('professional', 'document', document))
-    }
-    if(!isEmptyOrNull(imageFile)){
-      dispatch(change('professional', 'profilePicture', imageFile))
-    }else{
+    if(isEmptyOrNull(imageFile)){
       dispatch(change('professional', 'profilePicture', profilePicture))
-    }
-    if(!isEmptyOrNull(crbFile)){
-      dispatch(change('professional', 'crbDocument', crbFile))
     }else{
-      dispatch(change('professional', 'crbDocument', crbDocument))
+      dispatch(change('professional', 'profilePicture', imageFile))
     }
   }
 
   saveDetails = () => {
     const { dispatch, match: { params: { userId } }, formValues, history } = this.props
     const { status, qualification, dateOfBirth } = formValues
-    const values = omit(['status', 'phone', 'postalCode', 'changePassword', 'addressId'], formValues)
+    const values = omit(['status', 'postalCode', 'changePassword', 'addressId'], formValues)
     values.status = prop('name', find(propEq('id', status))(genders))
     values.qualification = prop('name', find(propEq('id', qualification))(qualifications))
     values.dateOfBirth = dateOfBirth
@@ -318,7 +313,7 @@ class Professional extends Component {
       formValues,
       professional: {
         isLoading,
-        professionalDetails,
+        profile,
         phoneVerified,
         codeSent
       },
@@ -334,7 +329,7 @@ class Professional extends Component {
       }
     } = this.props
 
-    const { bankDetails, offers } = professionalDetails
+    const { bankDetails, offers } = profile
     
     if(!auth){
       return <Redirect to="/" />
@@ -352,7 +347,7 @@ class Professional extends Component {
               findAddresses={this.findAddresses}
               addressSelectHandler={this.addressSelectHandler}
               addresses={addresses}
-              professional={professionalDetails}
+              professional={profile}
               sendVerificationCode={this.sendVerificationCode}
               verifyProfessionalPhone={this.verifyProfessionalPhone}
               phoneVerified={phoneVerified}
@@ -380,7 +375,7 @@ class Professional extends Component {
               isLoading={isLoading}
               collapsed={collapsed}
               onCollapse={this.onCollapse}
-              professional={professionalDetails}
+              professional={profile}
               formModal={formModal}
               formName={formName}
               showEditFormModal={this.showEditFormModal}

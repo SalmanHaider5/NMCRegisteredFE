@@ -1,9 +1,12 @@
-import Cookies from 'js-cookie'
-import { defaultTo, forEach, length } from 'ramda'
-import moment from 'moment'
-import { SERVER_URL as url } from '../constants'
+import { ENDPOINTS as api } from '../constants'
 import * as types from './'
-import { showToast } from '../utils/helpers'
+import {
+    destroyWithAuth,
+    getAuthToken,
+    getUrl,
+    getWithAuth,
+    postWithAuth
+} from '../utils/helpers'
 
 export const addDailySchedule = formValues => dispatch => {
     dispatch({
@@ -13,44 +16,16 @@ export const addDailySchedule = formValues => dispatch => {
 }
 
 export const addTimesheet = (userId, data) => dispatch => {
-    dispatch({ type: types.ADD_TIMESHEET_REQUEST })
-    const endpoint = `${url}${userId}/professional/addTimesheet`
-    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
-    fetch(endpoint, {
-        method: 'POST',
+
+    postWithAuth({
+        type: 'json',
+        url: getUrl(api.TIMESHEET, { userId }),
+        token: getAuthToken(),
         body: JSON.stringify(data),
-        headers: {
-            authorization: token,
-            'Content-Type':'application/json'
-        }
-    })
-    .then(res => res.json())
-    .then(response => {
-        const { code, response: { title, message }, timesheetId, schedule } = response
-        showToast(title, message, code)
-        if(code === 'success'){
-            const { timesheet: { startingDay, endingDay } } = data
-            dispatch({
-                type: types.ADD_TIMESHEET_SUCCESS,
-                payload: {
-                    id: timesheetId,
-                    startingDay,
-                    endingDay,
-                    schedule
-                }
-            })
-        }else{
-            dispatch({
-                type: types.ADD_TIMESHEET_FAILURE,
-                error: response.error
-            })
-        }   
-    })
-    .catch(err => {
-        dispatch({
-            type: types.ADD_TIMESHEET_FAILURE,
-            error: err
-        })
+        init: types.ADD_TIMESHEET_REQUEST,
+        success: types.ADD_TIMESHEET_SUCCESS,
+        failure: types.ADD_TIMESHEET_FAILURE,
+        dispatch
     })
 }
 
@@ -61,82 +36,25 @@ export const resetScheduleForm = () => dispatch => {
 }
 
 export const fetchTimesheets = userId => dispatch => {
-    const endpoint = `${url}${userId}/professional/timesheets`
-    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
-    fetch(endpoint, {
-        headers: {
-            authorization: token
-        }
-    })
-    .then(res => res.json())
-    .then(response => {
-        const { code, response: { title, message }, timesheets } = response
-        showToast(title, message, code)
-        forEach(timesheet => {
-            dispatch({ type: types.FETCH_TIMESHEETS_REQUEST })
-            const { id, startingDay, endingDay } = timesheet
-            const endpoint = `${url}timesheet/${id}`
-            if(moment(endingDay).isBefore(moment())){
-                const { id } = timesheet
-                dispatch(removeTimesheet(id))
-            }else{
-                const { id } = timesheet
-                fetch(endpoint, {
-                    headers: {
-                        authorization: token
-                    }
-                })
-                .then(res => res.json())
-                .then(response => {
-                    const { code, timesheet } = response
-                    if(code === 'success'){
-                        dispatch({
-                            type: types.FETCH_TIMESHEETS_SUCCESS,
-                            payload: { length: length(timesheets), timesheet: { id, startingDay, endingDay, schedule: timesheet } }
-                        })
-                    }
-                    else{
-                        dispatch({
-                            type: types.FETCH_TIMESHEETS_FAILURE,
-                            error: response.error
-                        })
-                    }
-                })
-            }
-        }, timesheets)
+    getWithAuth({
+        url: getUrl(api.TIMESHEET, { userId }),
+        token: getAuthToken(),
+        init: types.FETCH_TIMESHEETS_REQUEST,
+        success: types.FETCH_TIMESHEETS_SUCCESS,
+        failure: types.FETCH_TIMESHEETS_FAILURE,
+        dispatch
     })
 }
 
-export const removeTimesheet = id => dispatch => {
-    dispatch({ type: types.REMOVE_TIMESHEET_REQUEST })
-    const endpoint = `${url}timesheet/${id}`
-    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
-    fetch(endpoint, {
-        method: 'DELETE',
-        headers: {
-            authorization: token
-        }
-    })
-    .then(res => res.json())
-    .then(response => {
-        const { code, response: { title, message } } = response
-        showToast(title, message, code)
-        if(code === 'success'){
-            dispatch({
-                type: types.REMOVE_TIMESHEET_SUCCESS,
-                payload: id
-            })
-        }else{
-            dispatch({
-                type: types.REMOVE_TIMESHEET_FAILURE,
-                error: response.error
-            })
-        }
-    })
-    .catch(err => {
-        dispatch({
-            type: types.REMOVE_TIMESHEET_FAILURE,
-            error: err
-        })
+export const removeTimesheet = (userId, timesheetId) => dispatch => {
+
+    destroyWithAuth({
+        url: getUrl(api.SINGLE_TIMESHEET, { userId, timesheetId }),
+        token: getAuthToken(),
+        init: types.REMOVE_TIMESHEET_REQUEST,
+        success: types.REMOVE_TIMESHEET_SUCCESS,
+        failure: types.REMOVE_TIMESHEET_FAILURE,
+        dispatch,
+        payload: timesheetId
     })
 }

@@ -98,6 +98,17 @@ export const addDetails = (userId, formValues) => dispatch => {
     })
 }
 
+// export const getCompanyDetails = userId => dispatch => {
+//     const endpoint = `${url}${userId}/company`
+//     get({
+//         url: endpoint,
+//         init: types.FETCH_COMPANY_DETAILS_REQUEST,
+//         success: types.FETCH_COMPANY_DETAILS_SUCCESS,
+//         failure: types.FETCH_COMPANY_DETAILS_FAILURE,
+//         dispatch
+//     })
+// }
+
 export const getCompanyDetails = userId => dispatch => {
     dispatch({ type: types.FETCH_COMPANY_DETAILS_REQUEST })
     const token = pathOr('', ['authToken'], Cookies.getJSON('authToken'))
@@ -360,7 +371,7 @@ const filterProfessionalsByShift = (professional, ts, values) => dispatch => {
                 }
             })
             .then(res => res.json())
-            .then(response => {
+            .then(response => { 
                 const { code } = response
                 if(code === 'success'){
                     const { timesheet } = response

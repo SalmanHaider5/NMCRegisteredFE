@@ -17,7 +17,6 @@ const AddressForm = ({
   addForm = false
 }) => {
   const { postCode } = defaultTo({}, formValues)
-  console.log('Post Code', formValues, postCode)
   return (
      <Spin spinning={isLoading} tip="Loading..."> 
       <Field

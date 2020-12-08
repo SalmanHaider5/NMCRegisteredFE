@@ -1,301 +1,167 @@
-import { defaultTo, isNil, type } from 'ramda'
-import Cookies from 'js-cookie'
-import moment from 'moment'
-import { initialize, change } from 'redux-form'
-import { SERVER_URL as url } from '../constants'
+import { ENDPOINTS as api } from '../constants'
 import * as types from './'
-// import { getAdresses } from './addresses'
 import { getProfessionalData } from '../utils/parsers'
-import { showToast, getFormData, isEmptyOrNull } from '../utils/helpers'
+import {
+    getFormData,
+    putWithAuth,
+    getWithAuth,
+    getUrl,
+    getAuthToken,
+    postWithAuth,
+    updatePhoneVerificationStatus,
+    getAccountBasicValues,
+    formatData,
+    setModifiedProfileData,
+    setProfessionalModifiedSecurity
+} from '../utils/helpers'
 
 export const createDetails = (userId, formValues) => dispatch => {
-    if(isNil(Cookies.getJSON('authToken'))) return undefined
-    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
-    dispatch({ type: types.ADD_PROFESSIONAL_DETAILS_REQUEST })
-    const endpoint = `${url}${userId}/professional`
-    fetch(endpoint, {
-        method: 'POST',
+
+    postWithAuth({
+        type: 'form',
+        url: getUrl(api.PROFESSIONAL_DETAILS, { userId }),
+        token: getAuthToken(),
         body: getFormData(formValues),
-        headers: {
-            authorization: token
-        }
-    })
-    .then(res => res.json())
-    .then(response => {
-        console.log('Res', response)
-        const { code, response: { title, message } } = response
-        showToast(title, message, code)
-        formValues.document = type(formValues.document) === 'File' ? formValues.document.name : formValues.document
-        formValues.createdAt = moment()
-        const professional = getProfessionalData(formValues)
-        dispatch(initialize('professional', professional))
-        dispatch({
+        init: types.ADD_PROFESSIONAL_DETAILS_REQUEST,
+        success: types.ADD_PROFESSIONAL_DETAILS_SUCCESS,
+        failure: types.ADD_PROFESSIONAL_DETAILS_FAILURE,
+        dispatch,
+        format: formatData,
+        errorException: {
+            type: types.ACCOUNT_LOGOUT_REQUEST,
+            payload: getAccountBasicValues()
+        },
+        successException: {
             type: types.ADD_PROFESSIONAL_DETAILS_SUCCESS,
-            payload: professional
-        })
-    })
-    .catch(error => {
-        console.log('Error', error)
-        dispatch({
-            type: types.ADD_PROFESSIONAL_DETAILS_FAILURE,
-            error
-        })
+            payload: getProfessionalData(dispatch, formValues)
+        }
     })
 }
 
 export const addPhone = (userId, values) => dispatch => {
-    dispatch({ type: types.ADD_PROFESSIONAL_PHONE_REQUEST })
-    const endpoint = `${url}${userId}/addPhone`
-    fetch(endpoint, {
-        method: 'POST',
+
+    postWithAuth({
+        type: 'json',
+        url: getUrl(api.ADD_PHONE, { userId }),
+        token: getAuthToken(),
         body: JSON.stringify(values),
-        headers: {
-            'Content-Type':'application/json'
-        }
-    })
-    .then(res => res.json())
-    .then(response => {
-        const { code, response: { title, message } } = response
-        showToast(title, message, code)
-        if(code === 'success'){
-            dispatch({
-                type: types.ADD_PROFESSIONAL_PHONE_SUCCESS,
-                payload: values
-            })
-        }else{
-            dispatch({
-                type: types.ADD_PROFESSIONAL_PHONE_FAILURE
-            })
-        }
-    })
-    .catch(error => {
-        dispatch({
-            type: types.ADD_PROFESSIONAL_PHONE_FAILURE,
-            error
-        })
+        init: types.ADD_PROFESSIONAL_PHONE_REQUEST,
+        success: types.ADD_PROFESSIONAL_PHONE_SUCCESS,
+        failure: types.ADD_PROFESSIONAL_PHONE_FAILURE,
+        dispatch
     })
 }
 
 export const verifyPhone = (userId, values) => dispatch => {
-    dispatch({ type: types.VERIFY_PROFESSIONAL_PHONE_REQUEST })
-    const endpoint = `${url}${userId}/verifyPhone`
-    fetch(endpoint, {
-        method: 'POST',
+
+    postWithAuth({
+        type: 'json',
+        url: getUrl(api.VERIFY_PHONE, { userId }),
+        token: getAuthToken(),
         body: JSON.stringify(values),
-        headers: {
-            'Content-Type':'application/json'
-        }
-    })
-    .then(res => res.json())
-    .then(response => {
-        const { code, response: { title, message } } = response
-        showToast(title, message, code)
-        if(code === 'success'){
-            dispatch({
-                type: types.VERIFY_PROFESSIONAL_PHONE_SUCCESS,
-                payload: true
-            })
-        }
-    })
-    .catch(error => {
-        dispatch({
-            type: types.VERIFY_PROFESSIONAL_PHONE_FAILURE,
-            error
-        })
+        init: types.VERIFY_PROFESSIONAL_PHONE_REQUEST,
+        success: types.VERIFY_PROFESSIONAL_PHONE_SUCCESS,
+        failure: types.VERIFY_PROFESSIONAL_PHONE_FAILURE,
+        dispatch,
+        format: updatePhoneVerificationStatus
     })
 }
 
 export const getProfessionalDetails = userId => dispatch => {
-    if(isNil(Cookies.getJSON('authToken'))) return undefined
-    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
-    dispatch({ type: types.FETCH_PROFESSIONAL_DETAILS_REQUEST })
-    const endpoint = `${url}${userId}/professional`
-    fetch(endpoint, {
-        headers: {
-            authorization: token
+
+    getWithAuth({
+        url: getUrl(api.PROFESSIONAL_DETAILS, { userId }),
+        token: getAuthToken(),
+        init: types.FETCH_PROFESSIONAL_DETAILS_REQUEST,
+        success: types.FETCH_PROFESSIONAL_DETAILS_SUCCESS,
+        failure: types.FETCH_PROFESSIONAL_DETAILS_FAILURE,
+        dispatch,
+        format: getProfessionalData,
+        errorException: {
+            type: types.ACCOUNT_LOGOUT_REQUEST,
+            payload: getAccountBasicValues()
         }
-    })
-    .then(res => res.json())
-    .then(data => {
-        const { code, response: { title, message } } = data
-        if(code !== 'success') showToast(title, message, code)
-        if(code === 'success' || code === 'info'){
-            const professional = getProfessionalData(data.professional)
-            dispatch(initialize('professional', professional))
-            dispatch({
-                type: types.FETCH_PROFESSIONAL_DETAILS_SUCCESS,
-                payload: professional
-            })
-        }else if(code === 'error'){
-            dispatch({
-                type: types.ACCOUNT_LOGOUT_REQUEST
-            })
-        }
-    })
-    .catch(error => {
-        console.log('Error', error)
-        dispatch({
-            type: types.FETCH_PROFESSIONAL_DETAILS_FAILURE,
-            error
-        })
     })
 }
 
 export const updateProfessionalProfile = (userId, values) => dispatch => {
-    dispatch({ type: types.PROFESSIONAL_PROFILE_UPDATE_REQUEST })
-    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
-    const endpoint = `${url}${userId}/professional`
-    fetch(endpoint, {
-        method: 'PUT',
+    
+    putWithAuth({
+        type: 'form',
+        url: getUrl(api.PROFESSIONAL_DETAILS, { userId }),
+        token: getAuthToken(),
         body: getFormData(values),
-        headers: {
-            authorization: token
+        init: types.PROFESSIONAL_PROFILE_UPDATE_REQUEST,
+        success: types.PROFESSIONAL_PROFILE_UPDATE_SUCCESS,
+        failure: types.PROFESSIONAL_PROFILE_UPDATE_FAILURE,
+        dispatch,
+        format: formatData,
+        errorException: {},
+        successException: {
+            type: types.PROFESSIONAL_PROFILE_UPDATE_SUCCESS,
+            payload: setModifiedProfileData(dispatch, values)
         }
-    })
-    .then(res => res.json())
-    .then(response => {
-        const { code, response: { title, message }, error = '' } = response
-        showToast(title, message, code)
-        if(code === 'success' && !isEmptyOrNull(response)){
-            const profilePicture = type(values.profilePicture) === 'File' ? values.profilePicture.name : values.profilePicture
-            const document = type(values.document) === 'File' ? values.document.name : values.document
-            dispatch(change('professional', 'profilePicture', profilePicture))
-            dispatch(change('professional', 'document', document))
-            dispatch({
-                type: types.PROFESSIONAL_PROFILE_UPDATE_SUCCESS,
-                payload: values
-            })
-        }else{
-            dispatch({
-                type: types.PROFESSIONAL_PROFILE_UPDATE_FAILURE,
-                error
-            })
-        }
-    })
-    .catch(err => {
-        dispatch({
-            type: types.PROFESSIONAL_PROFILE_UPDATE_FAILURE,
-            error: err
-        })
     })
 }
 
-export const updateSecurityDetails = (userId, values) => dispatch => {
-    dispatch({ type: types.PROFESSIONAL_SECURITY_UPDATE_REQUEST })
-    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
-    const changePassword = {
-        twoFactorAuthentication: values.twoFactorAuthentication,
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: ''
-    }
-    const endpoint = `${url}${userId}/professional/security`
-    fetch(endpoint, {
-        method: 'PUT',
+export const updateSecurityDetails = (userId, values, type) => dispatch => {
+
+    putWithAuth({
+        type: 'json',
+        url: getUrl(api.UPDATE_PROFESSIONAL_SECURITY, { userId, type }),
+        token: getAuthToken(),
         body: JSON.stringify(values),
-        headers: {
-            authorization: token,
-            'Content-Type':'application/json'
+        init: types.PROFESSIONAL_SECURITY_UPDATE_REQUEST,
+        success: types.PROFESSIONAL_SECURITY_UPDATE_SUCCESS,
+        failure: types.PROFESSIONAL_SECURITY_UPDATE_FAILURE,
+        dispatch,
+        format: formatData,
+        errorException: {},
+        successException: {
+            type: types.PROFESSIONAL_SECURITY_UPDATE_SUCCESS,
+            payload: setProfessionalModifiedSecurity(dispatch, values)
         }
-    })
-    .then(res => res.json())
-    .then(response => {
-        const { code, response: { title, message }, error = '' } = response
-        showToast(title, message, code)
-        if(code === 'success'){
-            response.professional = values
-            dispatch(change('professional', 'changePassword', changePassword))
-            dispatch({
-                type: types.PROFESSIONAL_SECURITY_UPDATE_SUCCESS,
-                payload: response
-            })
-        }else{
-            dispatch({
-                type: types.PROFESSIONAL_SECURITY_UPDATE_FAILURE,
-                error
-            })
-        }
-    })
-    .catch(err => {
-        dispatch({
-            type: types.PROFESSIONAL_SECURITY_UPDATE_FAILURE,
-            error: err
-        })
     })
 }
 
-export const changeShiftStatus = (id, status, timesheet) => dispatch => {
-    dispatch({ type: types.SHIFT_STATUS_UPDATE_REQUEST })
-    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
-    const endpoint = `${url}shiftStatusChange/${id}/${status}`
-    fetch(endpoint, {
-        method: 'PUT',
-        headers: {
-            authorization: token,
-            'Content-Type':'application/json'
+export const changeShiftStatus = (userId, shift, status, timesheetId) => dispatch => {
+    putWithAuth({
+        type: 'json',
+        url: getUrl(api.UPDATE_SHIFT_STATUS, { userId, shift }),
+        token: getAuthToken(),
+        body: JSON.stringify({status}),
+        init: types.SHIFT_STATUS_UPDATE_REQUEST,
+        success: types.SHIFT_STATUS_UPDATE_SUCCESS,
+        failure: types.SHIFT_STATUS_UPDATE_FAILURE,
+        dispatch,
+        format: formatData,
+        errorException: {},
+        successException: {
+            type: types.SHIFT_STATUS_UPDATE_SUCCESS,
+            payload: { shift, timesheetId }
         }
-    })
-    .then(res => res.json())
-    .then(response => {
-        const { code, response: { title, message } } = response
-        showToast(title, message, code)
-        if(code === 'success'){
-            dispatch({
-                type: types.SHIFT_STATUS_UPDATE_SUCCESS,
-                payload: { id, timesheetId: timesheet }
-            })
-        }else{
-            dispatch({
-                type: types.SHIFT_STATUS_UPDATE_FAILURE,
-                error: response.error
-            })
-        }
-    })
-    .catch(err => {
-        dispatch({
-            type: types.SHIFT_STATUS_UPDATE_FAILURE,
-            error: err
-        })
     })
 }
 
-export const changeTimesheetShift = (values, timesheetId) => dispatch => {
-    dispatch({ type: types.UPDATE_SHIFT_REQUEST })
-    const { id } = values
-    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
-    const endpoint = `${url}shift/${id}`
-    fetch(endpoint, {
-        method: 'PUT',
-        body: JSON.stringify(values),
-        headers: {
-            authorization: token,
-            'Content-Type':'application/json'
+export const changeTimesheetShift = (userId, shift, timesheetId) => dispatch => {
+
+    const { id } = shift
+    
+    putWithAuth({
+        type: 'json',
+        url: getUrl(api.UPDATE_SHIFT, { userId, shiftId: id }),
+        token: getAuthToken(),
+        body: JSON.stringify(shift),
+        init: types.UPDATE_SHIFT_REQUEST,
+        success: types.UPDATE_SHIFT_SUCCESS,
+        failure: types.UPDATE_SHIFT_FAILURE,
+        dispatch,
+        format: formatData,
+        errorException: {},
+        successException: {
+            type: types.UPDATE_SHIFT_SUCCESS,
+            payload: { timesheetId, shift }
         }
-    })
-    .then(res => res.json())
-    .then(response => {
-        const { code, response: { title, message } } = response
-        showToast(title, message, code)
-        if(code === 'success'){
-            dispatch({
-                type: types.UPDATE_SHIFT_SUCCESS,
-                payload: {
-                    shift: values,
-                    id: timesheetId
-                }
-            })
-        }else{
-            dispatch({
-                type: types.UPDATE_SHIFT_FAILURE,
-                error: response.error
-            })
-        }
-    })
-    .catch(err => {
-        dispatch({
-            type: types.UPDATE_SHIFT_FAILURE,
-            error: err
-        })
     })
 }
 
@@ -304,107 +170,59 @@ export const changePhoneRequest = () => dispatch => {
 }
 
 export const addBankDetails = (userId, formValues) => dispatch => {
-    dispatch({ type: types.ADD_BANK_DETAILS_REQUEST })
-    const endpoint = `${url}professional/${userId}/bankDetails`
-    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
-    fetch(endpoint, {
-        method: 'POST',
+
+    postWithAuth({
+        type: 'json',
+        url: getUrl(api.BANK_DETAILS, { userId }),
+        token: getAuthToken(),
         body: JSON.stringify(formValues),
-        headers: {
-            authorization: token,
-            'Content-Type':'application/json'
-        }
-    })
-    .then(res => res.json())
-    .then(response => {
-        const { code, response: { title, message } } = response
-        showToast(title, message, code)
-        if(code === 'success'){
-            dispatch({
-                type: types.ADD_BANK_DETAILS_SUCCESS,
-                payload: formValues
-            })
-        }else{
-            dispatch({
-                type: types.ADD_BANK_DETAILS_FAILURE
-            })
-        }
-    })
-    .catch(err => {
-        dispatch({
-            type: types.ADD_BANK_DETAILS_FAILURE,
-            error: err
-        })
+        init: types.ADD_BANK_DETAILS_REQUEST,
+        success: types.ADD_BANK_DETAILS_SUCCESS,
+        failure: types.ADD_BANK_DETAILS_FAILURE,
+        dispatch,
+        format: formatData,
+        errorException: {},
+        successException: dispatch({ type: types.ADD_BANK_DETAILS_SUCCESS, payload: formValues })
     })
 }
 
 export const updateBankDetails = (userId, formValues) => dispatch => {
-    dispatch({ type: types.UPDATE_BANK_DETAILS_REQUEST })
-    const endpoint = `${url}professional/${userId}/bankDetails`
-    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
-    fetch(endpoint, {
-        method: 'PUT',
+
+    putWithAuth({
+        type: 'json',
+        url: getUrl(api.BANK_DETAILS, { userId }),
+        token: getAuthToken(),
         body: JSON.stringify(formValues),
-        headers: {
-            authorization: token,
-            'Content-Type':'application/json'
+        init: types.UPDATE_BANK_DETAILS_REQUEST,
+        success: types.UPDATE_BANK_DETAILS_SUCCESS,
+        failure: types.UPDATE_BANK_DETAILS_FAILURE,
+        dispatch,
+        format: formatData,
+        errorException: {},
+        successException: {
+            type: types.UPDATE_BANK_DETAILS_SUCCESS,
+            payload: formValues
         }
     })
-    .then(res => res.json())
-    .then(response => {
-        const { code, response: { title, message } } = response
-        showToast(title, message, code)
-        if(code === 'success'){
-            dispatch({
-                type: types.UPDATE_BANK_DETAILS_SUCCESS,
-                payload: formValues
-            })
-        }else{
-            dispatch({
-                type: types.UPDATE_BANK_DETAILS_FAILURE
-            })
-        }
-    })
-    .catch(err => {
-        dispatch({
-            type: types.UPDATE_BANK_DETAILS_FAILURE,
-            error: err
-        })
-    }) 
 }
 
-export const changeOfferStatus = (values, offerId) => dispatch => {
-    dispatch({ type: types.OFFER_UPDATE_REQUEST })
-    const token = defaultTo('', Cookies.getJSON('authToken').authToken)
-    const endpoint = `${url}offer/${offerId}`
-    fetch(endpoint, {
-        method: 'PUT',
+export const changeOfferStatus = (userId, values, offerId) => dispatch => {
+
+    putWithAuth({
+        type: 'json',
+        url: getUrl(api.UPDATE_OFFER, { userId, offerId }),
+        token: getAuthToken(),
         body: JSON.stringify(values),
-        headers: {
-            authorization: token,
-            'Content-Type':'application/json'
+        init: types.OFFER_UPDATE_REQUEST,
+        success: types.OFFER_UPDATE_SUCCESS,
+        failure: types.OFFER_UPDATE_FAILURE,
+        dispatch,
+        format: formatData,
+        errorException: {},
+        successException: {
+            type: types.OFFER_UPDATE_SUCCESS,
+            payload: values
         }
-    })
-    .then(res => res.json())
-    .then(response => {
-        const { code, response: { title, message } } = response
-        showToast(title, message, code)
-        if(code === 'success'){
-            dispatch({
-                type: types.OFFER_UPDATE_SUCCESS,
-                payload: values
-            })
-        }else{
-            dispatch({
-                type: types.OFFER_UPDATE_FAILURE
-            })
-        }
-    })
-    .catch(err => {
-        dispatch({
-            type: types.OFFER_UPDATE_FAILURE,
-            error: err
-        })
     })   
 }
 

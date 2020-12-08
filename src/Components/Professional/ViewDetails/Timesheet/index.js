@@ -78,8 +78,8 @@ class Timesheet extends Component {
   }
 
   deleteTimesheet = id => {
-    const { dispatch } = this.props
-    dispatch(removeTimesheet(id))
+    const { dispatch, match: { params: { userId } } } = this.props
+    dispatch(removeTimesheet(userId, id))
     this.setState({
       timesheet: {}
     })
@@ -152,14 +152,14 @@ class Timesheet extends Component {
   }
 
   updateTimesheetShift = () => {
-    const { formValues, dispatch } = this.props
+    const { formValues, dispatch, match: { params: { userId } } } = this.props
     const { editableTimeheet } = this.state
     const { shift } = formValues
     const startTime = shift === 'Customized Shift' ? moment(formValues.startTime).format('LTS') : formValues.startTime
     const endTime = shift === 'Customized Shift' ? moment(formValues.endTime).format('LTS') : formValues.endTime
     formValues.time = `${startTime} - ${endTime}`
     formValues.status = true
-    dispatch(changeTimesheetShift(omit(['day', 'startTime', 'endTime'], formValues), editableTimeheet))
+    dispatch(changeTimesheetShift(userId, omit(['day', 'startTime', 'endTime'], formValues), editableTimeheet))
     this.setState({ editShiftModal: false })
   }
 
@@ -276,8 +276,8 @@ class Timesheet extends Component {
   }
   
   changeShiftAvailability = (status, shift, timesheet) => {
-    const { dispatch } = this.props
-    dispatch(changeShiftStatus(shift, status, timesheet))
+    const { dispatch, match: { params: { userId } } } = this.props
+    dispatch(changeShiftStatus(userId, shift, status, timesheet))
   }
 
   render() {
