@@ -1,6 +1,6 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { Spin, Button } from 'antd'
+import { Button } from 'antd'
 import { defaultTo, length } from 'ramda'
 import { TextField, CheckboxField, ButtonTextField, SelectField } from '../../../utils/custom-components'
 import { isRequired, max30Miles, isNumber } from '../../../constants'
@@ -9,16 +9,12 @@ const AddressForm = ({
   findAddresses,
   formValues,
   addressSelectHandler,
-  addresses: {
-    isLoading,
-    addresses
-  },
-  changePostalCode,
-  addForm = false
+  addresses: { addresses },
+  changePostalCode
 }) => {
   const { postCode } = defaultTo({}, formValues)
   return (
-     <Spin spinning={isLoading} tip="Loading..."> 
+    <>
       <Field
 				name="postCode"
 				component={ButtonTextField}
@@ -97,7 +93,7 @@ const AddressForm = ({
         specialText={`You can travel (max 30 miles)`}
         tooltipPlacement={'topRight'}
       />
-    </Spin>
+    </>
   )
 }
 

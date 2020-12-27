@@ -39,6 +39,7 @@ const initializeForm = (dispatch, professional) => {
 }
 
 export const getProfessionalData = (dispatch, response) => {
+
   const professional =  {
     profilePicture: pathOr('', ['profilePicture'], response),
     status: pathOr('', ['status'], response),

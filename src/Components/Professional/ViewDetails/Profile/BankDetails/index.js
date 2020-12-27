@@ -1,13 +1,13 @@
 import React from 'react'
+import { splitEvery, join, defaultTo } from 'ramda'
 import { List, Icon, Col } from 'antd'
-import { splitEvery, join } from 'ramda'
 
-const BankDetails = ({ professional: { bankDetails } }) => {
-  const {
-    sortCode,
-    accountNumber,
-    insurance
-  } = bankDetails
+export const BankDetails = (props) => {
+
+  const { profile } = props,
+    { bankDetails } = defaultTo({}, profile),
+    { sortCode, accountNumber, insurance } = defaultTo({}, bankDetails)
+  
   return (
     <>
       <Col xs={24} sm={24} md={24} lg={{ span: 11, offset: 0 }} xl={{ span: 11, offset: 0 }}>
@@ -42,4 +42,3 @@ const BankDetails = ({ professional: { bankDetails } }) => {
     </>
   )
 }
-export default BankDetails

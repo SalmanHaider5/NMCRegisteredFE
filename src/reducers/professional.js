@@ -4,6 +4,7 @@ import {
     formatBankDetails,
     formatPhoneData,
     getCodeSentStatus,
+    getPhoneVerifiedProfile,
     getProfileWithModifiedOffer
 } from './helpers'
 
@@ -27,6 +28,7 @@ const professional = (state=initState, action) => {
         case actions.PROFESSIONAL_SECURITY_UPDATE_REQUEST:
         case actions.UPDATE_BANK_DETAILS_REQUEST:
         case actions.OFFER_UPDATE_REQUEST:
+        case actions.PROFESSIONAL_MESSAGE_REQUEST:
             return {
                 ...state,
                 isLoading: true
@@ -53,7 +55,8 @@ const professional = (state=initState, action) => {
                 ...state,
                 isLoading: false,
                 error: empty(error),
-                phoneVerified: true
+                phoneVerified: true,
+                profile: getPhoneVerifiedProfile(state, payload)
             }
         case actions.ADD_PROFESSIONAL_DETAILS_SUCCESS:
             return {
@@ -77,6 +80,7 @@ const professional = (state=initState, action) => {
                 profile: payload
             }
         case actions.PROFESSIONAL_SECURITY_UPDATE_SUCCESS:
+        case actions.PROFESSIONAL_MESSAGE_SUCCESS:
             return {
                 ...state,
                 isLoading: false,
@@ -96,12 +100,23 @@ const professional = (state=initState, action) => {
                 error: empty(error),
                 profile: getProfileWithModifiedOffer(payload, state)
             }
+        case actions.PHONE_NUMBER_CHANGE_REQUEST:
+            return {
+                ...state,
+                codeSent: false
+            }
+        case actions.ACCOUNT_LOGOUT_REQUEST:
+            return {
+                ...state,
+                isLoading: false
+            }
         case actions.ADD_PROFESSIONAL_DETAILS_FAILURE:    
         case actions.ADD_PROFESSIONAL_PHONE_FAILURE:
         case actions.FETCH_PROFESSIONAL_DETAILS_FAILURE:
-        case actions.VERIFY_PROFESSIONAL_PHONE_FAILURE:
         case actions.ADD_BANK_DETAILS_FAILURE:
+        case actions.PROFESSIONAL_MESSAGE_FAILURE:
         case actions.PROFESSIONAL_PROFILE_UPDATE_FAILURE:
+        case actions.VERIFY_PROFESSIONAL_PHONE_FAILURE:
         case actions.PROFESSIONAL_SECURITY_UPDATE_FAILURE:
         case actions.UPDATE_BANK_DETAILS_FAILURE:
         case actions.OFFER_UPDATE_FAILURE:

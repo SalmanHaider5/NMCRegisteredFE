@@ -1,33 +1,41 @@
 import React from 'react'
-import { Tooltip, Button, Popconfirm } from 'antd'
-import { equals } from 'ramda'
+import { Button, Popconfirm } from 'antd'
 
-export const ActionButtons = ({ id, offer, viewClickHandler, updateOfferStatus }) => {
+export const ActionButtons = ({ offer, updateOfferStatus }) => {
+
+  const { id } = offer
+
   return (
-    <>
-      <Tooltip title="Check Details">
-        <Button type="primary" shape="circle" icon="eye" onClick={() => viewClickHandler(id)} />
-      </Tooltip>
-      <Tooltip title="Approve Request">
-        <Popconfirm
-          title='Are you sure to approve this professional?'
-          onConfirm={() => updateOfferStatus(id, 'approved')}
-          okText="Yes"
-          cancelText="No"
+    <div className="action-buttons">
+      <Popconfirm
+        title='Are you sure to reject this professional?'
+        onConfirm={() => updateOfferStatus(id, 'rejected')}
+        okText="Yes"
+        cancelText="No"
+      >
+        <Button
+          type="danger"
+          shape="round"
+          icon="close"
         >
-          <Button type="primary" shape="circle" icon="check" disabled={!equals(offer.status, 'accepted')} />
-        </Popconfirm>
-        </Tooltip>
-        <Tooltip title="Reject Request">
-          <Popconfirm
-            title='Are you sure to reject this professional?'
-            onConfirm={() => updateOfferStatus(id, 'rejected')}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button type="primary" shape="circle" icon="close" disabled={!equals(offer.status, 'accepted')} />
-          </Popconfirm>
-        </Tooltip>
-    </>
+          Reject
+        </Button>
+      </Popconfirm>
+      <Popconfirm
+        title='Are you sure to approve this professional?'
+        onConfirm={() => updateOfferStatus(id, 'approved')}
+        okText="Yes"
+        cancelText="No"
+      >
+        <Button
+          type="primary"
+          className="success-btn"
+          shape="round"
+          icon="check"
+        >
+          Approve
+        </Button>
+      </Popconfirm> 
+    </div>
   )
 }

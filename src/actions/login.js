@@ -1,7 +1,5 @@
-import { change } from 'redux-form'
 import { ENDPOINTS as api  } from '../constants'
-import { SERVER_URL as url } from '../constants'
-import { formatVerificationData, getUrl, post, showToast } from '../utils/helpers'
+import { formatVerificationData, getUrl, post } from '../utils/helpers'
 import * as types from './'
 
 export const userLogin = formValues => dispatch => {
@@ -12,95 +10,34 @@ export const userLogin = formValues => dispatch => {
         init: types.LOGIN_REQUEST,
         success: types.LOGIN_SUCCESS,
         failure: types.LOGIN_FAILURE,
+        info: types.TWO_FACTOR_LOGIN,
         dispatch,
         format: formatVerificationData
     })
-
-    // dispatch({ type:  types.LOGIN_REQUEST })
-    // const endpoint = `${url}login`
-    // fetch(endpoint, {
-    //     method: 'POST',
-    //     body: JSON.stringify(formValues),
-    //     headers: {
-    //         'Content-Type':'application/json'
-    //     }
-    // })
-    // .then(res => res.json())
-    // .then(response => {
-    //     const { code, response: { title, message }, role } = response
-    //     showToast(title, message, code)
-    //     dispatch(change('users', 'login.password', ''))
-    //     if(code === 'success'){
-    //         dispatch(reset('users'))
-    //         dispatch({
-    //             type: types.LOGIN_SUCCESS,
-    //             payload: response
-    //         })
-    //     }
-    //     if(code === 'info' && role === 'professional'){
-    //         dispatch({
-    //             type: types.TWO_FACTOR_LOGIN,
-    //             payload: response
-    //         })
-    //     }
-    //     if(code === 'error'){
-    //         dispatch({ type: types.LOGIN_FAILURE })
-    //     }
-    // })
-    // .catch(error => {
-    //     dispatch({
-    //         type: types.LOGIN_FAILURE,
-    //         error
-    //     })
-    // })
 }
 
-export const verifyLogin = values => dispatch => {
+export const verifyLogin = (userId, values) => dispatch => {
 
-    dispatch({ type: types.TWO_FACTOR_AUTHENTICATION_REQUEST })
-
-    const endpoint = `${url}verifyLogin`
-    fetch(endpoint, {
-        method: 'POST',
+    post({
+        url: getUrl(api.VERIFY_LOGIN, { userId }),
         body: JSON.stringify(values),
-        headers: {
-            'Content-Type':'application/json'
-        }
-    })
-    .then(res => res.json())
-    .then(response => {
-        const { code, response: { title, message } } = response
-        showToast(title, message, code)
-        if(code === 'success'){
-            dispatch({
-                type: types.TWO_FACTOR_AUTHENTICATION_SUCCESS,
-                payload: response
-            })
-        }
-    })
-    .catch(err => {
-        dispatch({
-            type: types.VERIFY_PROFESSIONAL_PHONE_FAILURE,
-            error: err
-        })
+        init: types.TWO_FACTOR_AUTHENTICATION_REQUEST,
+        success: types.TWO_FACTOR_AUTHENTICATION_SUCCESS,
+        failure: types.TWO_FACTOR_AUTHENTICATION_FAILURE,
+        dispatch,
+        format: formatVerificationData
     })
 }
 
 export const reachUs = values => dispatch => {
-    const endpoint = `${url}guest/sendMessage`
-    fetch(endpoint, {
-        method: 'POST',
-        body: JSON.stringify(values)
+
+    post({
+        url: getUrl(api.SEND_MESSAGE_BY_GUEST, {}),
+        body: JSON.stringify(values),
+        init: types.MESSAGE_SENDING_REQUEST,
+        success: types.MESSAGE_SENDING_SUCCESS,
+        failure: types.MESSAGE_SENDING_FAILURE,
+        dispatch   
     })
-    .then(res=> res.json())
-    .then(response => {
-        const { code, response: { title, message } } = response
-        values.name = ''
-        values.phone = ''
-        values.email = ''
-        values.message = ''
-        values.subject = ''
-        dispatch(change('users', 'contactForm', values))
-        showToast(title, message, code)
-    })
+    
 }

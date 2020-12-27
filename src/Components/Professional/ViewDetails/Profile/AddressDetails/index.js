@@ -1,8 +1,11 @@
 import React from 'react'
-import { toUpper } from 'ramda'
+import { defaultTo, toUpper } from 'ramda'
 import { List, Icon } from 'antd'
 
-const AddressDetails = ({ professional }) => {
+export const AddressDetails = (props) => {
+
+  const { profile } = props
+
   const {
     postCode,
     address,
@@ -10,7 +13,8 @@ const AddressDetails = ({ professional }) => {
     county,
     hasTransport,
     distance
-  } = professional
+  } = defaultTo({}, profile)
+  
   return (
     <List className="profile-list">
       <List.Item>
@@ -58,4 +62,3 @@ const AddressDetails = ({ professional }) => {
     </List>
   )
 }
-export default AddressDetails

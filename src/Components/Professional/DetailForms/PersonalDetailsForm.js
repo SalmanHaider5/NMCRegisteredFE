@@ -39,20 +39,6 @@ const PersonalDetailsForm = ({ formValues, dateHandler }) => {
         validate={[isRequired]}
         tooltipPlacement={'topRight'}
       />
-      {/* <FormItem
-        label={'Date of Birth'}
-        labelCol={{ span: 5, offset: 3 } }
-        wrapperCol={{ span: 6, offset: 1 }}
-        labelAlign='left'
-        colon={false}
-      >
-        <DatePicker
-          defaultValue={isEmptyOrNull(dateOfBirth) ? null : moment(dateOfBirth, DATE_FORMAT)}
-          onChange={dateHandler}
-          format={DATE_FORMAT}
-          placeholder={'Choose Date'}
-        />
-      </FormItem> */}
     </div>
   )
 }

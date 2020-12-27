@@ -1,17 +1,22 @@
 import React from 'react'
-import { List, Tag, Icon } from 'antd'
 import moment from 'moment'
+import { defaultTo } from 'ramda'
+import { List, Tag, Icon } from 'antd'
 
-const PersonalDetails = ({ professional, phoneVerified }) => {
+export const PersonalDetails = (props) => {
+
+  const { profile, phoneVerified } = props
+
   const {
     fullName,
+    status,
     email,
     isVerified,
+    phone,
     dateOfBirth,
-    createdAt,
-    phone
-  } = professional
-  
+    createdAt
+  } = defaultTo({}, profile)
+
   return (
     <List className="profile-list">
       <List.Item>
@@ -26,7 +31,7 @@ const PersonalDetails = ({ professional, phoneVerified }) => {
           <Icon type="api" />
           Gender
         </label>
-        <span className="label-value">{professional.status}</span>
+        <span className="label-value">{status}</span>
       </List.Item>
       <List.Item>
         <label>
@@ -65,4 +70,3 @@ const PersonalDetails = ({ professional, phoneVerified }) => {
     </List>
   )
 }
-export default PersonalDetails

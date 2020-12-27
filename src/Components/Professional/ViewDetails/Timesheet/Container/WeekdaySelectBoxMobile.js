@@ -1,8 +1,9 @@
 import React from 'react'
 import { map, isNil } from 'ramda'
 import { Row, Col, Button, Icon } from 'antd'
+import { TIMESHEET_DAYS as days } from '../../../../../constants'
 
-const WeekdaySelectBoxMobile = ({ days, showDrawer, getScheduleByDay, addTimesheet, getDayStatus }) => {
+const WeekdaySelectBoxMobile = ({ showDrawer, getScheduleByDay, getDayStatus }) => {
   return(
     <>
       {
@@ -35,11 +36,6 @@ const WeekdaySelectBoxMobile = ({ days, showDrawer, getScheduleByDay, addTimeshe
           )
         }, days)
       }
-      <Col span={24}>
-          <Button className="save-schedule-button-mob success-btn" onClick={addTimesheet}>
-            <Icon type="check-circle" /> Save
-          </Button>
-      </Col>
     </>
   )
 }

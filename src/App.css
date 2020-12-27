@@ -40,23 +40,31 @@
   }
 
   /**  CSS for Toasts     **/
+  .ant-notification-notice.message-toast{
+    background-color: #1890ff;
+    color: white;
+  }
+  .ant-notification-notice{
+    background-color: #001529;
+    color: #fff;
+  }
 .ant-notification-notice-message{
+  color: #fff;
   padding-bottom: 5px;
   width: 95%;
-  font-weight: 700;
+
+  font-weight: 100;
 }
-.ant-notification-notice-success .ant-notification-notice-message{
-  border-bottom: 3px solid #4cae4c;
-  color: #4cae4c;
+.message-toast .ant-notification-notice-message{
+  display: none;
 }
-.ant-notification-notice-error .ant-notification-notice-message{
-  border-bottom: 3px solid #f5222d;
-  color: #f5222d;
+.message-toast .ant-notification-notice-description{
+  width: 90%;
 }
-.ant-notification-notice-info .ant-notification-notice-message{
-  border-bottom: 3px solid #45a6fc;
-  color: #45a6fc;
+a.ant-notification-notice-close{
+  color: #fff;
 }
+
 
 .error-toast{
   background-color: rgb(19, 18, 18);
@@ -73,26 +81,6 @@
 .title-toast{
   background-color: #33327b;
 }
-
-.title-toast .ant-notification-notice-message,
-.title-toast .ant-notification-notice-message i,
-.title-toast .ant-notification-close-icon{
-  color: #fff;
-}
-.title-toast .ant-notification-close-icon{
-  margin-top: 8px;
-}
-
-.ant-notification-notice-warning{
-  background-color: #f8f3d6;
-  border-left: 5px solid #faad14;
-  height: 50px;
-}
-
-.ant-notification-notice-error{
-  /* background-color: #000; */
-  border-bottom: 5px solid #ebc8c4;
-}
 .success-btn{
   color: #fff;
   background-color: #5cb85c;
@@ -106,8 +94,13 @@
 .ant-spin-nested-loading{
   position: inherit;
 }
-i.anticon{
-  /* padding-right: 5px; */
+button i.anticon{
+  padding-right: 5px;
+}
+button.ant-btn-circle i{
+  padding: 0;
+  margin-bottom: 3px;
+  /* vertical-align: unset; */
 }
 
 /* body::-webkit-scrollbar-track

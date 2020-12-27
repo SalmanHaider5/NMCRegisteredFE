@@ -2,10 +2,9 @@ import React from 'react'
 import moment from 'moment'
 import { isNil, prop, isEmpty } from 'ramda'
 import { Card, List, Switch, Icon, Popconfirm, Button } from 'antd'
-import { DATE_FORMAT as dateFormat } from '../../../../constants'
+import { DATE_FORMAT as dateFormat, TIMESHEET_DAYS as days } from '../../../../constants'
 
 const SingleTimesheet = ({
-  days,
   timesheet,
   getTimesheetShiftByDay,
   deleteTimesheet,

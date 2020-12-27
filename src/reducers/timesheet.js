@@ -5,7 +5,8 @@ import {
     getBasicTimesheet,
     getFilteredList,
     getStatusModifiedTimesheet,
-    getUpdatedTimesheet
+    getUpdatedTimesheet,
+    getTimsheetsList
 } from './helpers'
 
 const initState = {
@@ -42,12 +43,11 @@ const timesheet = (state=initState, action) => {
                 timesheet: getBasicTimesheet()
             }
         case actions.ADD_TIMESHEET_SUCCESS:
-            console.log('payload', payload)
             return {
                 ...state,
                 isLoading: false,
                 error: empty(error),
-                timesheets: payload
+                timesheets: getTimsheetsList(state, payload)
             }
         case actions.FETCH_TIMESHEETS_SUCCESS:
             return {

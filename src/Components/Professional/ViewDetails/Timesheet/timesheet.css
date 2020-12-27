@@ -90,9 +90,17 @@ div.timesheet-drawer button.select-button{
     min-height: 60px;
     height: auto;
 }
+div.timesheet-drawer .submit-button{
+    margin-top: 15px;
+}
 
 div.timesheet-drawer button.select-button h4{
     margin-top: 10px;
+}
+
+.new-timesheet-btn i{
+    padding-right: 10px;
+    border-right: 1px solid #fff;
 }
 
 .ant-drawer-body p{
@@ -100,11 +108,14 @@ div.timesheet-drawer button.select-button h4{
 }
 
 div.steps-content{
+    border: none;
     position: relative;
     overflow: hidden;
+    border-radius: 0;
 }
 div.ant-drawer-header{
     background-color: #1e1c5d;
+    border-radius: 0;
 }
 
 div.ant-drawer-header div.ant-drawer-title{
@@ -193,11 +204,12 @@ button.skip-button i {
     font-weight: 500;
 }
 .weekly-row .ant-card{
-    border: none;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    border: none;;
+    /* box-shadow: 0 0 10px rgba(0,0,0,0.5); */
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.6);
 }
 .timesheet-card{
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.6);
     position: relative;
     top: 18px;
 }
@@ -228,6 +240,7 @@ button.skip-button i {
     padding: 20px;
 }
 .weekly-row .ant-col{
+    margin-left: 15px;
     padding-bottom: 10px;
 }
 .weekly-row .ant-col .ant-btn-group{
@@ -236,6 +249,23 @@ button.skip-button i {
 }
 button.ant-btn-primary h4, button.ant-btn-primary h5{
     color: #fff;
+}
+.schedule-action-btns{
+    position: relative;
+    top: 15px;
+}
+.non-submit-btns{
+    float: left;
+    position: relative;
+    left: 40px;
+}
+.non-submit-btns button{
+    margin-right: 10px;
+}
+.submit-btn{
+    float: right;
+    position: relative;
+    right: 45px;
 }
 p.error-message{
     color: #ed5959;

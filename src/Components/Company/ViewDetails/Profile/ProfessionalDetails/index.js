@@ -1,9 +1,12 @@
 import React from 'react'
-import { toUpper } from 'ramda'
+import { defaultTo, toUpper } from 'ramda'
 import { List, Icon } from 'antd'
 import { isEmptyOrNull } from '../../../../../utils/helpers'
 
-const ProfessionalDetails = ({ company }) => {
+const ProfessionalDetails = (props) => {
+
+  const {profile} = props
+
   const {
     postalCode,
     address,
@@ -13,7 +16,8 @@ const ProfessionalDetails = ({ company }) => {
     charityReg,
     subsidiaryName,
     subsidiaryAddress
-  } = company
+  } = defaultTo({}, profile)
+  
   return (
     <List className="profile-list">
       <List.Item>

@@ -1,11 +1,28 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { defaultTo } from 'ramda'
+import {
+  useStripe,
+  useElements,
+  CardNumberElement,
+  CardExpiryElement,
+  CardCvcElement
+} from '@stripe/react-stripe-js'
+import { defaultTo, has, join, not, replace } from 'ramda'
 import { Form, Button, Icon, Row, Col } from 'antd'
-import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from '@stripe/react-stripe-js'
+import { isEmptyOrNull, showToast } from '../../../../../utils/helpers'
 
-const StripeCardPayment = ({ secret, formValues, makePaymentRequest, skipPaymentOption, adBlockerExists, termsChecked }) => {
-  const { firstName, lastName } = defaultTo({}, formValues)
+const StripeCardPayment = (props) => {
+  
+  const {
+    secret,
+    formValues,
+    makePaymentRequest,
+    skipPaymentOption,
+    termsChecked,
+    initProcess,
+    finishProcess
+  } = props,
+    { firstName, lastName } = defaultTo({}, formValues)
   
   const options = {
     hidePostalCode: true,
@@ -17,7 +34,7 @@ const StripeCardPayment = ({ secret, formValues, makePaymentRequest, skipPayment
   const makePayment = async (e) => {
     e.preventDefault();
 
-    makePaymentRequest({})
+    initProcess()
 
     if(!stripe || !elements){
       return;
@@ -27,14 +44,31 @@ const StripeCardPayment = ({ secret, formValues, makePaymentRequest, skipPayment
       payment_method: {
         card: elements.getElement(CardNumberElement),
         billing_details: {
-          name: `${firstName} ${lastName}`
+          name: join(' ', [firstName, lastName])
         }
       }
     })
-    makePaymentRequest(response)
+
+    const hasError = has('error')
+
+    if(not(isEmptyOrNull(response))){
+      finishProcess()
+    }
+
+    if(hasError(response)){
+      const {
+        error: { code, message }
+      } = response,
+        title = replace('_', ' ', code).replace(/\b\w/g, l => l.toUpperCase())
+
+      showToast(title, message, 'error')
+
+    }else{
+      await makePaymentRequest(response)
+    }
   }
   return (
-    <span>
+    <>
       <Form.Item
         label="Card Number"
         labelCol={{ span: 5, offset: 3 }}
@@ -73,15 +107,25 @@ const StripeCardPayment = ({ secret, formValues, makePaymentRequest, skipPayment
       </Form.Item>
       <Row>
         <Col span={12} offset={11}>
-          <Button type="danger" onClick={skipPaymentOption}>
+          <Button
+            type="danger"
+            shape="round"
+            onClick={skipPaymentOption}
+          >
             Skip <Icon type="right" />
           </Button>
-          <Button className="success-btn" style={{ marginLeft: '20px' }} disabled={!termsChecked}  onClick={makePayment}>
-            <Icon type="pound" /> Make Payment
+          <Button
+            shape="round"
+            className="success-btn"
+            style={{ marginLeft: '20px' }}
+            disabled={!termsChecked} 
+            onClick={makePayment}
+          >
+            <Icon type="check" /> Make Payment
           </Button>
         </Col>
       </Row>
-    </span>
+    </>
   )
 }
 export default StripeCardPayment

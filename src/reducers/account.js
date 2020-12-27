@@ -21,6 +21,10 @@ const account = (state=initState, action) => {
         case actions.SIGNUP_REQUEST:
         case actions.VERIFY_ACCOUNT_REQUEST:
         case actions.LOGIN_REQUEST:
+        case actions.MESSAGE_SENDING_REQUEST:
+        case actions.FORGOT_PASSWORD_LINK_REQUEST:
+        case actions.PASSWORD_RESET_REQUEST:
+        case actions.TWO_FACTOR_AUTHENTICATION_REQUEST:
             return {
                 ...state,
                 isLoading: true
@@ -40,6 +44,7 @@ const account = (state=initState, action) => {
             }
         case actions.VERIFY_ACCOUNT_SUCCESS:
         case actions.LOGIN_SUCCESS:
+        case actions.TWO_FACTOR_AUTHENTICATION_SUCCESS:
             Cookies.set('authToken', payload)
             return {
                 ...state,
@@ -53,78 +58,42 @@ const account = (state=initState, action) => {
             Cookies.remove('authToken')
             return {
                 ...state,
+                isLoading: false,
                 authentication: payload
+            }
+        case actions.MESSAGE_SENDING_SUCCESS:
+        case actions.FORGOT_PASSWORD_LINK_SUCCESS:
+        case actions.PASSWORD_RESET_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                error: empty(error)
+            }
+        case actions.TWO_FACTOR_LOGIN:
+            
+            const { twoFactorAuthentication, userId } = payload,
+                { authentication } = state
+            authentication.userId = userId
+            
+            return {
+                ...state,
+                isLoading: false,
+                twoFactorAuth: twoFactorAuthentication,
+                authentication
             }
         case actions.SIGNUP_FAULRE:
         case actions.VERIFY_ACCOUNT_FAILURE:
         case actions.LOGIN_FAILURE:
+        case actions.MESSAGE_SENDING_FAILURE:
+        case actions.FORGOT_PASSWORD_LINK_FAILURE:
+        case actions.PASSWORD_RESET_FAILURE:
+        case actions.TWO_FACTOR_AUTHENTICATION_FAILURE:
             return {
                 ...state,
                 isLoading: false,
                 isError: true,
                 error: error
             }
-        // case actions.SIGNUP_FAULRE:
-        //     return{
-        //         ...state,
-        //         isLoading: false
-        //     }
-        // case actions.VERIFY_ACCOUNT_REQUEST:
-        //     return{
-        //         ...state,
-        //         isLoading: true,
-        //     }
-        // case actions.TWO_FACTOR_LOGIN:
-        //     let user = state.authentication
-        //     user.userId = payload.userId
-        //     return{
-        //         ...state,
-        //         isLoading: false,
-        //         twoFactorAuth: payload.twoFactorAuthenticationEnabled,
-        //         authentication: user
-        //     }
-        // case actions.TWO_FACTOR_AUTHENTICATION_REQUEST:
-        //     return{
-        //         ...state,
-        //         isLoading: true
-        //     }
-        // case actions.VERIFY_ACCOUNT_SUCCESS:
-        // case actions.LOGIN_SUCCESS:
-        // case actions.TWO_FACTOR_AUTHENTICATION_SUCCESS:
-        //     const authentication = {}
-            // authentication.auth = true
-            // authentication.authToken = payload.token
-            // authentication.role = payload.role
-            // authentication.userId = payload.userId
-            // Cookies.set('authToken', authentication)
-        //     return{
-        //         ...state,
-        //         isLoading: false,
-        //         twoFactorAuth: false,
-        //         authentication
-        //     }
-        // case actions.ACCOUNT_LOGOUT_REQUEST:
-        //     Cookies.remove('authToken')
-        //     return{
-        //         isLoading: false,
-        //         authentication: {
-        //             auth: false,
-        //             authToken: '',
-        //             role: '',
-        //             userId: 0
-        //         }
-        //     }
-        // case actions.TWO_FACTOR_AUTHENTICATION_FAILURE:
-        // case actions.VERIFY_ACCOUNT_FAILURE:
-        //     return{
-        //         ...state,
-        //         isLoading: false
-        //     }
-        // case actions.LOGIN_FAILURE:
-        //     return{
-        //         ...state,
-        //         isLoading: false
-        //     }
         default:
             return{
                 ...state,

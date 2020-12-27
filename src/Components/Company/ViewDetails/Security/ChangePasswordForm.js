@@ -1,7 +1,13 @@
 import React from 'react'
 import { Field } from 'redux-form'
 import { TextField } from '../../../../utils/custom-components'
-import { isRequired, isMaxLengthValid, isNumericCharacterExist, isPasswordMatched, isCapitalCharacterExist } from '../../../../constants'
+import {
+  isRequired,
+  isMaxLengthValid,
+  isNumericCharacterExist,
+  isPasswordMatched,
+  isCapitalCharacterExist
+} from '../../../../constants'
 
 const ChangePasswordForm = () => {
   return (

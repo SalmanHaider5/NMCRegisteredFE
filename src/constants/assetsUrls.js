@@ -1,0 +1,1 @@
+export const LOGO_URL = "https://server.nmcregistered.org.uk/uploads/assets/logo.png"

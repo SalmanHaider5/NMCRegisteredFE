@@ -8,10 +8,11 @@ import {
     getUrl,
     getAuthToken,
     postWithAuth,
-    updatePhoneVerificationStatus,
+    updatePhoneVerifiedData,
     getAccountBasicValues,
     formatData,
     setModifiedProfileData,
+    getEmptyForm,
     setProfessionalModifiedSecurity
 } from '../utils/helpers'
 
@@ -63,7 +64,7 @@ export const verifyPhone = (userId, values) => dispatch => {
         success: types.VERIFY_PROFESSIONAL_PHONE_SUCCESS,
         failure: types.VERIFY_PROFESSIONAL_PHONE_FAILURE,
         dispatch,
-        format: updatePhoneVerificationStatus
+        format: updatePhoneVerifiedData
     })
 }
 
@@ -224,5 +225,25 @@ export const changeOfferStatus = (userId, values, offerId) => dispatch => {
             payload: values
         }
     })   
+}
+
+export const contactMessage = (userId, values) => dispatch => {
+
+    postWithAuth({
+        type: 'json',
+        url: getUrl(api.SEND_MESSAGE_BY_USER, { userId }),
+        token: getAuthToken(),
+        body: JSON.stringify(values),
+        init: types.PROFESSIONAL_MESSAGE_REQUEST,
+        success: types.PROFESSIONAL_MESSAGE_SUCCESS,
+        failure: types.PROFESSIONAL_MESSAGE_FAILURE,
+        dispatch,
+        format: formatData,
+        errorException: {},
+        successException: {
+            type: types.PROFESSIONAL_MESSAGE_SUCCESS,
+            payload: getEmptyForm(dispatch, values, 'professional')
+        }
+    })
 }
 

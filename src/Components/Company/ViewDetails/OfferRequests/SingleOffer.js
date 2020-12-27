@@ -1,0 +1,116 @@
+import React from 'react'
+import { Row, Col, Card, Icon, List } from 'antd'
+import { head, defaultTo, split, last, toUpper, equals } from 'ramda'
+import { isEmptyOrNull, mapIndexed } from '../../../../utils/helpers'
+import { ActionButtons } from './ActionButtons'
+
+export const SingleOffer = (props) => {
+
+  const { selectedOffer, updateOfferStatus } = props
+
+  const {
+    shiftRate,
+    shifts,
+    professionalName,
+    professionalNmc,
+    status,
+    message
+  } = defaultTo({}, selectedOffer)
+
+  const list = split(',', shifts)
+  const subTitle = toUpper(status)
+
+  const cardStyle={
+    position: 'relative',
+    width: '90%',
+    margin: '0 auto'
+  }
+
+  return (
+    <Card
+      title={<>
+        <Icon typ="paper-clip" /> Shift Offer Details
+        <span className="receipt-subtitle">{subTitle}</span>
+      </>}
+      bordered={false}
+      style={cardStyle}
+      className="receipt-card"
+    >
+      <Row className="data-container">
+        <Col span={8}>
+          <label>Shifts</label>
+          <List>
+            {
+              mapIndexed((shift, index) => {
+                
+                const shiftArr = split(' - ', shift) 
+                const date = head(shiftArr)
+                const desc = last(shiftArr)
+
+                return <List.Item key={index}>
+                  <List.Item.Meta
+                    title={date}
+                    description={desc}
+                  />
+                </List.Item>
+              }, list)
+            }
+          </List>
+        </Col>
+        <Col span={8}>
+          <label>Professional Details</label>
+          <List>
+            <List.Item>
+              <List.Item.Meta
+                title={'Professional Name'}
+                description={professionalName}
+              />
+            </List.Item>
+            <List.Item>
+              <List.Item.Meta
+                title={'NMC Pin'}
+                description={professionalNmc}
+              />
+            </List.Item>
+          </List>
+        </Col>
+        <Col span={8}>
+          <label>Other Details</label>
+          <List>
+            <List.Item>
+              <List.Item.Meta
+                title={'Shift Rate'}
+                description={`GBP ${shiftRate} per hour`}
+              />
+            </List.Item>
+            <List.Item>
+              <List.Item.Meta
+                title={'Status'}
+                description={toUpper(status)}
+              />
+            </List.Item>
+            {
+              isEmptyOrNull(message) ? '' :
+              <List.Item>
+                <List.Item.Meta
+                  title={'Message'}
+                  description={message}
+                />
+              </List.Item>
+            }
+          </List>
+        </Col>
+        <Col span={24}>
+          {
+            equals(status, 'accepted') ?
+            <ActionButtons
+              offer={selectedOffer}
+              updateOfferStatus={updateOfferStatus}
+            /> : ''
+
+          }
+        </Col>
+      </Row>
+    </Card>
+  )
+}

@@ -1,17 +1,18 @@
 import React from 'react'
 import { FormSection } from 'redux-form'
-import { equals, defaultTo } from 'ramda'
-import { Divider, Button, Icon, Row, Col } from 'antd'
+import { equals, defaultTo, not } from 'ramda'
+import { Divider, Button, Icon } from 'antd'
 import ChangePasswordForm from './ChangePasswordForm'
 import TwoFactorAuthentication from './TwoFactorAuthentication'
 import { isEmptyOrNull } from '../../../../utils/helpers'
 
-const SecurityAndLogin = ({
-  updateSecurityandLoginDetails,
-  formValues
-}) => {
-  const { changePassword = {} } = defaultTo({}, formValues)
-  const { newPassword, confirmPassword } = changePassword
+const SecurityAndLogin = (props) => {
+
+  const { updateSecurityandLoginDetails, formValues } = props,
+    { changePassword } = defaultTo({}, formValues),
+    { newPassword, confirmPassword } = defaultTo({}, changePassword),
+    formInavlid = isEmptyOrNull(newPassword) ? false : not(equals(newPassword, confirmPassword))
+
   return (
     <div>
       <div className="inner-wrapper">
@@ -32,19 +33,14 @@ const SecurityAndLogin = ({
                 <ChangePasswordForm />
               </div>
             </FormSection>
-            <Row>
-              <Col span={5} offset={3}></Col>
-              <Col span={12} offset={1} className="form-align-buttons">
-                <Button
-                  className="success-btn"
-                  onClick={updateSecurityandLoginDetails}
-                  disabled={isEmptyOrNull(newPassword) ? false : !equals(newPassword, confirmPassword)}
-                >
-                  <Icon type="check" />
-                  Save
-                </Button>
-              </Col>
-            </Row>
+            <Button
+              shape="round"
+              className="success-btn content-submit-btn"
+              onClick={updateSecurityandLoginDetails}
+              disabled={formInavlid}
+            >
+              <Icon type="check" /> Save
+            </Button>
           </div>
         </div>
       </div>

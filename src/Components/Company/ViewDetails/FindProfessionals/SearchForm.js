@@ -1,21 +1,23 @@
 import React from 'react'
-import { Field, FormSection } from 'redux-form'
-import moment from 'moment'
+import { Field } from 'redux-form'
 import { defaultTo, head, last, insert } from 'ramda'
 import { Row, Col, Icon, Button, message } from 'antd'
 import { QUALIFICATION_OPTIONS, TIMESHEET_SHIFTS } from '../../../../constants'
-import { SelectField, ButtonTextField, CheckboxField } from '../../../../utils/custom-components'
-import { isEmptyOrNull, mapIndexed } from '../../../../utils/helpers'
+import { SelectField, ButtonTextField } from '../../../../utils/custom-components'
+import { ShiftsCheckboxes } from './ShiftsCheckboxes'
+import { ActionButtons } from './ActionButtons'
 
-const SearchForm = ({
-  isPaid,
-  searchProfessionalsBySkills,
-  formValues,
-  currentWeek,
-  skipCurrentWeek,
-  resetWeek,
-  hideSearchDrawer
-}) => {
+const SearchForm = (props) => {
+
+  const {
+    formValues,
+    profile,
+    currentWeek,
+    skipCurrentWeek,
+    resetWeek
+  } = props
+
+  const { isPaid } = defaultTo({}, profile)
   const { searchForm = {} } = defaultTo({}, formValues)
   const { skill } = searchForm
   const skills = insert(0, {id: 10, name: 'All Skills'}, QUALIFICATION_OPTIONS)
@@ -24,19 +26,28 @@ const SearchForm = ({
   return (
     <span>
       <Row className="search-form-container">
+
         <Col span={12}>
           <Field
+            readOnly
             name="week"
             component={ButtonTextField}
             enterButton={<><Icon type="reload" /> Reset</>}
             fieldData={`${head(currentWeek)} - ${last(currentWeek)}`}
             onSearch={resetWeek}
             label="1. Select Week"
-            specialText={<Button type="link" className="link-button" onClick={skipCurrentWeek}>Next Week?</Button>}
-            readOnly
+            specialText={
+              <Button
+                type="link"
+                className="link-button"
+                onClick={skipCurrentWeek}
+              > Next Week?
+              </Button>
+            }
           />
         </Col>
-        <Col span={11}>
+
+        <Col span={12}>
           <Field
             name="skill"
             component={SelectField}
@@ -50,44 +61,12 @@ const SearchForm = ({
       </Row>
       <h4 style={{ margin: '0 auto', textAlign: 'left', width: '84%' }}>3. Select Shifts</h4>
       <Row className="shifts-row">
-        {
-          mapIndexed((shift, index) => {
-            return <span key={index}>
-              {
-                isEmptyOrNull(shift.name) ? <div className="shift-name"></div> : <div className="shift-name">{shift.name}</div>
-              }
-              {
-                mapIndexed((date, i) => {
-                  return <span key={i}>
-                    { index === 0 ?
-                      <div className="shift-date">
-                        {moment(date).format('Do MMM')}
-                      </div> :
-                      <div className="shift-cell">
-                        <FormSection name={`day${i}`}>
-                          <Field
-                            name={`shift${index}`}
-                            component={CheckboxField}
-                            defaultValue={true}
-                            disabled={isEmptyOrNull(skill) || moment(date).isBefore()}
-                          />
-                        </FormSection>
-                      </div>}
-                  </span>
-                }, currentWeek)
-              }
-              <br />
-            </span>
-          }, shifts)
-        }
-        <div className="search-btn">
-          <Button className="success-btn" disabled={isEmptyOrNull(skill)} onClick={searchProfessionalsBySkills}>
-            <Icon type="search" /> Search
-          </Button>
-          <Button type="danger" onClick={hideSearchDrawer}>
-            <Icon type="close" /> Cancel
-          </Button>
-        </div>
+        <ShiftsCheckboxes
+          skill={skill}
+          shifts={shifts}
+          currentWeek={currentWeek}
+        />
+        <ActionButtons {...props} skill={skill} />
       </Row>
     </span>
   )

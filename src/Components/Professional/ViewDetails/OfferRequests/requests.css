@@ -1,8 +1,21 @@
-div.requests-container div.offers-container div.list-content{
+/* div.requests-container div.offers-container div.list-content{
   height: 450px;
   border-right: 2px solid #eee7e7;
   overflow-y: auto;
   padding-left: 20px !important;
+} */
+.offers-list-container .ant-card-body{
+  padding: 0;
+}
+div.requests-container div.list-content{
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  min-height: 450px;
+  border-right: 1px solid #eee7ee;
+}
+div.requests-container div.list-content li.ant-list-item{
+  border-radius: 0;
+  padding-left: 30px;
 }
 div.requests-container div.list-content .ant-list-item-meta-description{
   font-weight: 400;
@@ -15,7 +28,6 @@ div.requests-container div.list-content .ant-list-item-meta-description{
 .active-list-item{
     background: #1890ff;
     border-radius: 5px;
-    padding-left: 5px !important;
 }
 .active-list-item h4,
 .active-list-item .ant-list-item-meta-description{
@@ -23,7 +35,6 @@ div.requests-container div.list-content .ant-list-item-meta-description{
 }
 .list-item{
   cursor: pointer;
-  padding-left: 5px !important;
 }
 .ant-descriptions-item-label{
   font-weight: 700 !important;
@@ -36,9 +47,6 @@ div.requests-container div.list-content .ant-list-item-meta-description{
 }
 .active-list-item .list-arrow{
   display: block;
-}
-.offers-container{
-  padding-right: 25px;
 }
 .offers-container .action-buttons{
   position: relative;

@@ -5,6 +5,9 @@
     border-radius: 4px;
     box-shadow: none;
 }
+button.ant-button > i.anticon{
+    padding-right: 5px;
+}
 /* Ant Tooltip */
 .ant-tooltip{
     z-index: 10000 !important;
@@ -96,7 +99,21 @@ div.text-area div.ant-form-item-label{
 }
 
 /** Modal Box **/
-div.ant-modal-content, div.ant-modal-header{
+div.ant-modal-root div.ant-modal-content div.ant-modal-header{
+    background-color: #1890ff;
+}
+div.ant-modal-root div.ant-modal-content div.ant-modal-header .ant-modal-title,
+div.ant-modal-root div.ant-modal-content .ant-modal-close-x{
+    color: #fff;
+}
+div.ant-modal-root div.ant-modal-content div.ant-modal-header .ant-modal-title i{
+    padding-right: 5px;
+}
+/** Field Erros  **/
+.field-error{
+    color: red;
+}
+/* div.ant-modal-content, div.ant-modal-header{
     border-radius: 0px;
 }
 div.ant-modal-header{
@@ -121,4 +138,36 @@ div.ant-modal-footer button{
 }
 div.ant-modal-content div.ant-modal-body{
     background-color: #fff;
+} */
+
+/** Receipt Card **/
+
+.receipt-card .ant-card-head{
+    border-bottom: 5px solid #1890ff;
+    color: #1890ff;
+}
+.receipt-card .ant-card-head .receipt-subtitle{
+    display: block;
+    position: relative;
+    left: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #a19a9a;
+}
+
+/* .receipt-card .ant-card-head-title, */
+.receipt-card .ant-card-extra{
+    padding: 0;
+}
+
+.receipt-card .data-container{
+    position: relative;
+    top: 20px;
+    width: 95%;
+    margin: 0 auto;
+}
+.receipt-card .data-container label{
+    font-size: 14px;
+    font-weight: 500;
+    color: #1890ff;
 }

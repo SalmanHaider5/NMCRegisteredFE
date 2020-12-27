@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormSection } from 'redux-form'
-import { Divider, Button, Icon, Row, Col } from 'antd'
+import { Divider, Button, Icon } from 'antd'
 import ContactForm from './ContactForm'
 
 const Contact = ({ sendMessage }) => {
@@ -18,14 +18,13 @@ const Contact = ({ sendMessage }) => {
                 <ContactForm />
               </FormSection>
             </div>
-            <Row>
-              <Col span={6} offset={2}></Col>
-              <Col span={12} offset={1} className="form-align-buttons">
-                <Button className="success-btn" onClick={sendMessage}>
-                  <Icon type="export" /> Send
-                </Button>
-              </Col>
-            </Row>
+            <Button
+              shape="round"
+              className="success-btn content-submit-btn"
+              onClick={sendMessage}
+            >
+              <Icon type="export" /> Send
+            </Button>
           </div>
         </div>
       </div>

@@ -1,10 +1,11 @@
 import React from 'react'
 import { List, Icon } from 'antd'
+import { defaultTo } from 'ramda'
 
-const PaymentCycle = ({ company }) => {
-  const {
-    paymentCycle
-  } = company
+const PaymentCycle = (props) => {
+  
+  const { profile } = props
+  const { paymentCycle } = defaultTo({}, profile)
   
   return (
     <List className="profile-list">

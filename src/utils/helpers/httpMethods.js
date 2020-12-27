@@ -1,6 +1,6 @@
-import { equals, isEmpty } from 'ramda'
+import { equals, isEmpty, not } from 'ramda'
 import { ADDRESSES_ERROR_MESSAGE, ADDRESSES_ERROR_TITLE, GENERAL_ERROR } from '../../constants'
-import { formatServerError, isError, showToast, formatData, isEmptyOrNull, getHeaders } from './helpers'
+import { formatServerError, isError, showToast, formatData, isEmptyOrNull, getHeaders, isInfo } from './helpers'
 
 export const get = ({ url, init, success, failure, dispatch, format=formatData }) =>  {
   
@@ -32,7 +32,7 @@ export const get = ({ url, init, success, failure, dispatch, format=formatData }
 
 }
 
-export const post = ({ url, body, init, success, failure, dispatch, format = formatData }) => {
+export const post = ({ url, body, init, success, failure, info, dispatch, format = formatData }) => {
   
   dispatch({ type: init })
 
@@ -47,6 +47,7 @@ export const post = ({ url, body, init, success, failure, dispatch, format = for
     return equals(res.status, 200) ? res.json() : ''
   })
   .then(response => {
+    
     if(isEmpty(response)){
       dispatch({ type: failure, error: GENERAL_ERROR })
     }else{
@@ -56,6 +57,9 @@ export const post = ({ url, body, init, success, failure, dispatch, format = for
       if(isError(type)){
         const { error } = response
         dispatch({ type: failure, error: formatServerError(error) })
+      }else if(isInfo(type) && not(isEmptyOrNull(info)) ){
+        const { data } = response
+        dispatch({ type: info, payload: data })
       }else{
         const { data } = response
         dispatch({ type: success, payload: format(data) })
@@ -224,7 +228,6 @@ export const putWithAuth = ({
     return equals(res.status, 200) ? res.json() : ''
   })
   .then(response => {
-    console.log('res', response)
     if(isEmpty(response)){
       dispatch({ type: failure, error: GENERAL_ERROR })
     }else{
@@ -347,7 +350,6 @@ export const getAddressesWithCustomRequest = ({ url, init, success, failure, dis
     }
   })
   .catch(error => {
-    console.log(error)
     dispatch({ type: failure, error: formatServerError(error) })
   })
 

@@ -1,45 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import moment from 'moment'
-import { defaultTo } from 'ramda'
-import { Card, Icon, List, Button, Tooltip, Modal } from 'antd'
+import { defaultTo, equals } from 'ramda'
+import { Card, Icon, List, Button, Tooltip } from 'antd'
 import { isEmptyOrNull } from '../../../../utils/helpers'
-import { DocumentViewer, ModalBox } from '../../../../utils/custom-components'
-import { DOCUMENTS_URL as url } from '../../../../constants'
-import { OfferForm } from './OfferForm'
+import { NMC_WEB_LINK as nmcUrl, DBS_WEB_LINK as dbsUrl } from '../../../../constants'
+import { CardImageModal } from './CardImageModal'
+import { OfferFormModal } from './OfferFormModal'
 
-const ProfessionalCard = ({
-  professional,
-  documentModal,
-  documentModalType,
-  showDocumentModal,
-  hideDocumentModal,
-  getDocumentType,
-  imageModal,
-  showImageModal,
-  hideImageModal,
-  offerModal,
-  showOfferModal,
-  hideOfferModal,
-  company,
-  offerFormShifts,
-  formValues,
-  submitOfferRequest
-}) => {
+const ProfessionalCard = (props) => {
+
+  const [imageModal, setImageModal] = useState(false)
+
+  const { professional, showOfferModal } = props
   const {
     userId,
     status,
     fullName,
     profilePicture,
-    document,
     crbDocument,
     shift,
     time,
     nmcPin,
     dateOfBirth,
     qualification
-  } = professional
-  const { offerForm = {} } = defaultTo({}, formValues)
-  const { shiftRate, shifts } = offerForm
+  } = defaultTo({}, professional)
+
   return (
     <Card
       title={
@@ -50,12 +35,16 @@ const ProfessionalCard = ({
       }
       extra={
         <span>
-          <Icon type={status === 'Female' ? 'woman' : 'man'} /> {status}
+          <Icon type={equals(status, 'Female') ? 'woman' : 'man'} /> {status}
         </span>
       }
       actions={[
         <Tooltip title="Professional ID">
-          <Button type="link" onClick={showImageModal} disabled={isEmptyOrNull(profilePicture)}>
+          <Button
+            type="link"
+            onClick={() => setImageModal(true)}
+            disabled={isEmptyOrNull(profilePicture)}
+          >
             <Icon type="user" />
           </Button>
         </Tooltip>
@@ -78,7 +67,7 @@ const ProfessionalCard = ({
           <label>
             <Icon type="mail" /> NMC Pin &nbsp;&nbsp;
             <Tooltip title="Check NMC Pin">
-              <a href="https://www.nmc.org.uk/registration/search-the-register/" target="_blank" rel="noopener noreferrer">
+              <a href={nmcUrl} target="_blank" rel="noopener noreferrer">
                 <Icon type="link" />
               </a>
             </Tooltip> 
@@ -89,7 +78,7 @@ const ProfessionalCard = ({
           <label>
             <Icon type="solution" /> DBS Number &nbsp;&nbsp;
             <Tooltip title="Check DBS Number">
-              <a href="https://secure.crbonline.gov.uk/crsc/check?execution=e1s1" target="_blank" rel="noopener noreferrer">
+              <a href={dbsUrl} target="_blank" rel="noopener noreferrer">
                 <Icon type="link" />
               </a>
             </Tooltip>
@@ -100,53 +89,24 @@ const ProfessionalCard = ({
           <label>
             <Icon type="form" /> Send an Offer 
           </label>
-          <Button type="primary" shape="circle" onClick={() => showOfferModal(userId)}><Icon type="paper-clip" /></Button>
+          <Button
+            type="primary"
+            shape="circle"
+            onClick={() => showOfferModal(userId)}
+          >
+            <Icon type="paper-clip" />
+          </Button>
         </List.Item>
       </List>
-      <Modal
-        visible={imageModal}
-        onCancel={hideImageModal}
-        footer={null}
-        bodyStyle={{
-          padding: 0
-        }}
-      >
-        <div className="professionals-card modal-image">
-          <img alt={fullName} src={`${url}${profilePicture}`} style={{ width: '100%'}} />
-        </div>
-      </Modal>
-      <Modal
-        visible={documentModal}
-        footer={null}
-        style={{
-          top: 20
-        }}
-        className="document-modal"
-        bodyStyle={{
-          padding: 0,
-          overflow: 'hidden',
-          backgroundColor: 'transparent'
-        }}
-        maskStyle={{
-          color: '#000'
-        }}
-        width={getDocumentType(documentModalType === 'CRB' ? crbDocument : document) === 'document' ? 750 : 'fit-content'}
-        onCancel={hideDocumentModal}
-      >
-        <DocumentViewer document={documentModalType === 'CRB' ? crbDocument : documentModalType === 'CV/Resume' ? document : ''} />
-      </Modal>
-      <ModalBox
-        title={<>Send an Offer Request</>}
-        visible={offerModal}
-        top={20}
-        size={800}
-        content={<OfferForm company={company} offerFormShifts={offerFormShifts} />}
-        submitText={<><Icon type="save" /> Send</>}
-        cancelText={<><Icon type="close" /> Cancel </>}
-        cancelHandler={hideOfferModal}
-        submitHandler={submitOfferRequest}
-        submitDisabled={isEmptyOrNull(shiftRate) || isEmptyOrNull(shifts)}
+
+      <CardImageModal
+        {...props}
+        imageModal={imageModal}
+        setImageModal={setImageModal}
       />
+
+      <OfferFormModal {...props} />
+
     </Card>
   )
 }

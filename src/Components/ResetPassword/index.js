@@ -16,11 +16,17 @@ class ResetPassword extends Component {
     dispatch(reset('resetPassword'))
     history.push('/')
   }
+
+  goToHome = () => {
+    const { history } = this.props
+    history.push('/')
+  }
+
   render() {
     const { invalid } = this.props
     return (
       <>
-        <Header loggedIn={false} />
+        <Header loggedIn={false} clickHandler={this.goToHome} />
         <div className="addform-container">
           <Row gutter={16} className="addform-panel">
             <Col span={5} offset={1} className="progress-panel">
@@ -30,12 +36,7 @@ class ResetPassword extends Component {
             </Col>
             <Col span={19} className="form-panel">
               <Card
-                title={
-                  <>
-                    <Icon type="unlock" />
-                    ResetPassword
-                  </>
-                }
+                title={<><Icon type="unlock" /> ResetPassword </>}
                 bordered={false}
               >
                 <ResetPasswordForm />

@@ -11,8 +11,12 @@ const Terms = ({ options, setDocumentType }) => {
           return(
             <li key={option.id}>
               {option.text}
-              {isEmptyOrNull(option.link) ? '' : <a target="_blank" rel="noopener noreferrer" href={option.link}>{option.linkText}</a>}
-              {isEmptyOrNull(option.button) ? '' : <Button size="small" type="link" onClick={() => setDocumentType('TOPs')}>{option.button}</Button>}
+              { isEmptyOrNull(option.link) ? '' :
+                <a target="_blank" rel="noopener noreferrer" href={option.link}>{option.linkText}</a>
+              }
+              { isEmptyOrNull(option.button) ? '' :
+                <Button size="small" type="link" onClick={() => setDocumentType('TOPs')}>{option.button}</Button>
+              }
             </li>
           )
         }, options)

@@ -1,22 +1,24 @@
 import React from 'react'
 import { Field } from 'redux-form'
 import { defaultTo, length } from 'ramda'
-import { Checkbox, Form, Spin, Button } from 'antd'
+import { Checkbox, Form, Button } from 'antd'
 import { TextField, ButtonTextField, SelectField } from '../../../utils/custom-components'
 import { isRequired } from '../../../constants'
 
 const ProfessionalDetailsForm = ({
   charityStatusChange,
   subsidiaryStatusChange,
-  addresses: { isLoading, addresses },
+  addresses: { addresses = [] },
   findAddresses,
   addressSelectHandler,
   formValues,
   changePostalCode
 }) => {
+  
   const { charity, subsidiary, postalCode } = defaultTo({}, formValues)
+
   return (
-    <Spin spinning={isLoading} tip="Loading...">
+    <>
       <Field
 				name="postalCode"
 				component={ButtonTextField}
@@ -131,7 +133,7 @@ const ProfessionalDetailsForm = ({
         </>:
         null
       }
-    </Spin>
+    </>
   )
 }
 

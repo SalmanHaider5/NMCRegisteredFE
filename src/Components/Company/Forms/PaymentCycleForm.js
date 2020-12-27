@@ -6,7 +6,9 @@ import { RadioField } from '../../../utils/custom-components'
 import { isRequired, paymentCycleDescription } from '../../../constants'
 
 const PaymentCycleForm = ({ formValues }) => {
+
   const { paymentCycle } = defaultTo({}, formValues)
+  
   return (
     <div className="payment-cycle-form">
       <Alert

@@ -1,9 +1,18 @@
 import React from 'react'
-import { map, isNil } from 'ramda'
+import { map, isNil, equals } from 'ramda'
 import { Button, TimePicker } from 'antd'
-import { TIME_FORMAT as timeFormat } from '../../../../constants'
+import { TIME_FORMAT as timeFormat, TIMESHEET_SHIFTS as shifts } from '../../../../constants'
 
-const ShiftsSelectBox = ({ shifts, selectedShift, selectShift, addStartTime, addEndTime, customizedShiftError }) => {
+const ShiftsSelectBox = ({
+  
+  selectedShift,
+  selectShift,
+  addStartTime,
+  addEndTime,
+  customizedShiftError
+
+}) => {
+  
   return (
     <>
       {
@@ -14,13 +23,12 @@ const ShiftsSelectBox = ({ shifts, selectedShift, selectShift, addStartTime, add
               block 
               key={id}
               className="select-button"
-              type={selectedShift === name ? 'primary': 'default'}
+              type={equals(selectedShift, name) ? 'primary': 'default'}
               onClick={() => selectShift(shift)}
             >
               <h4 className="shift-name">{name}</h4>
               {
-                isNil(startTime) || isNil(endTime) ?
-                '' :
+                isNil(startTime) || isNil(endTime) ? '' :
                 <h5 className="shift-time">{startTime}-{endTime}</h5>
               }
             </Button>
@@ -28,11 +36,23 @@ const ShiftsSelectBox = ({ shifts, selectedShift, selectShift, addStartTime, add
         }, shifts)
       }
       {
-        selectedShift === 'Customized Shift' ?
+        equals(selectedShift, 'Customized Shift') ?
         <span>
-          <TimePicker format={timeFormat} minuteStep={15} onChange={addStartTime} placeholder="Starts Time" />
-          <TimePicker format={timeFormat} minuteStep={15} onChange={addEndTime} placeholder="End Time" />
-          <p className="error-message">{customizedShiftError}</p>
+          <TimePicker
+            format={timeFormat}
+            minuteStep={15}
+            onChange={addStartTime}
+            placeholder="Starts Time"
+          />
+          <TimePicker
+            format={timeFormat}
+            minuteStep={15}
+            onChange={addEndTime}
+            placeholder="End Time"
+          />
+          <p className="error-message">
+            {customizedShiftError}
+          </p>
         </span> :
         ''
       }

@@ -1,4 +1,7 @@
-import { pathOr, join } from "ramda"
+import { pathOr, join, not } from "ramda"
+import { initialize } from 'redux-form'
+import moment from 'moment'
+import { isEmptyOrNull } from "../helpers"
 
 const changePassword = {
   currentPassword: '',
@@ -7,11 +10,25 @@ const changePassword = {
 }
 
 const shiftsForm = {
-  shift1: false,
-  shift2: false,
-  shift3: false,
-  shift4: false,
-  shift5: false
+  shift1: true,
+  shift2: true,
+  shift3: true,
+  shift4: true,
+  shift5: true
+}
+
+const getOfferFormDta = response => {
+  const address = pathOr('', ['address'], response)
+  const city = pathOr('', ['city'], response)
+  const county = pathOr('', ['county'], response)
+  const postalCode = pathOr('', ['postalCode'], response)
+
+  return {
+    shiftRate: '',
+    shifts: [],
+    address: `${address}, ${city}, ${county} ${postalCode}`,
+    message: ''
+  }
 }
 
 const searchForm = {
@@ -34,9 +51,13 @@ const getContactFormData = response => {
   }
 }
 
+const initializeForm = (dispatch, company) => {
+  dispatch(initialize('company', company))
+}
 
-export const getCompanyData = (response) => {
-  return {
+export const getCompanyData = (dispatch, response) => {
+
+  const company = {
     firstName: pathOr('', ['firstName'], response),
     lastName: pathOr('', ['lastName'], response),
     organization: pathOr('', ['organization'], response),
@@ -51,15 +72,27 @@ export const getCompanyData = (response) => {
     phone: pathOr('', ['phone'], response),
     registration: pathOr('', ['registration'], response),
     isPaid: pathOr(false, ['isPaid'], response),
+    balance: pathOr(0, ['balance'], response),
+    vat: pathOr(0, ['vat'], response),
     charity: pathOr(false, ['charity'], response),
     charityReg: pathOr('', ['charityReg'], response),
     subsidiary: pathOr(false, ['subsidiary'], response),
     subsidiaryName: pathOr('', ['subsidiaryName'], response),
     subsidiaryAddress: pathOr('', ['subsidiaryAddress'], response),
+    payDate: pathOr(moment(), ['payDate'], response),
     paymentCycle: pathOr('', ['paymentCycle'], response),
-    paymentMethod: 'Pay with Card',
+    joinedAt: pathOr(moment(), ['createdAt'], response),
+    paymentMethod: '',
+    offers: pathOr([], ['offers'], response),
     changePassword,
     searchForm,
-    contactForm: getContactFormData(response)
+    contactForm: getContactFormData(response),
+    offerForm: getOfferFormDta(response)
   }
+
+  if(not(isEmptyOrNull(company)))
+    initializeForm(dispatch, company)
+  
+  return company
+
 }

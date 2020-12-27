@@ -1,4 +1,131 @@
-body{
+.main-container{
+    background-image: url(https://server.nmcregistered.org.uk/uploads/assets/background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+.main-container .gradient-layer{
+    background-color: rgb(17 10 52 / 92%);
+    height: 100vh;
+    opacity: 0.8;
+}
+.main-container .gradient-layer .header{
+    width: 78%;
+    margin: 0 auto;
+    height: 270px;
+}
+.main-container .gradient-layer .text-container{
+    width: 80%;
+    margin: 0 auto;
+}
+.main-container .gradient-layer .text-container .contact-button{
+    top: 15px;
+}
+.main-container .gradient-layer .text-container .contact-button i{
+    border-left: 1px solid #fff;
+    padding-left: 10px;
+}
+.main-container .gradient-layer .text-container h1,
+.main-container .gradient-layer .text-container p{
+    color: #fff;
+}
+.main-container .gradient-layer .header .logo{
+    width: 22%;
+}
+.main-container .gradient-layer .header .logo img{
+    width: 100%;
+    height: 100%;
+    margin-top: 70px;
+}
+
+.main-container .gradient-layer .form-container .form .form-title{
+    font-family: inherit;
+    font-weight: normal;
+    font-size: 22px;
+    text-align: left;
+    color: #fff;
+    position: relative;
+    left: 40px;
+}
+.main-container .gradient-layer .form-container .form{
+    text-align: center;
+    position: relative;
+    width: 85%;
+    top: 150px;
+    right: 70px;
+    padding-top: 20px;
+    padding-bottom: 80px;
+    height: 100%;
+    background-color: rgb(7 8 30 / 52%);
+    margin: 0 auto;
+}
+.main-container .gradient-layer .form-container .form .form-fields{
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+.main-container .gradient-layer .form-container .form input{
+    height: 40px;
+    border: none;
+    border-radius: 0;
+    outline: none;
+    border-bottom: 1px solid #fff;
+    background-color: transparent;
+    box-shadow: none;
+    color: #fff;
+}
+.main-container .gradient-layer .form-container .form .ant-input:focus{
+    outline: none;
+    box-shadow: 0;
+}
+
+.main-container .gradient-layer .form-container .form .ant-input-suffix i{
+    color: #fff;
+    position: relative;
+}
+.main-container .gradient-layer .form-container .form .ant-radio-group{
+    padding-top: 20px;
+    margin-bottom: 20px;
+}
+.main-container .gradient-layer .form-container .form .ant-radio-group .ant-radio-button-wrapper{
+    width: 170px;
+    color: #fff;
+}
+.main-container .gradient-layer .form-container .form .ant-radio-group .ant-radio-button-wrapper i{
+    padding-right: 15px;
+}
+.ant-radio-group .ant-radio-button-wrapper{
+    background: transparent;
+}
+.main-container .gradient-layer .form-container .form .signup-button{
+    float: right;
+    width: 150px;
+    bottom: 20px;
+}
+.main-container .gradient-layer .form-container .form .privacy-button{
+    float: left;
+    bottom: 20px;
+}
+.main-container .gradient-layer .form-container .contact-button{
+    color: #fff;
+    position: relative;
+    float: left;
+    left: 35px;
+    bottom: 20px;
+}
+.terms-drawer .ant-drawer-header,.contact-drawer .ant-drawer-header{
+    border-radius: 0;
+
+}
+.ant-drawer-header i{
+    padding-right: 10px;
+}
+.terms-drawer .ant-drawer-close,
+.contact-drawer .ant-drawer-close{
+
+    color: #fff;
+}
+/* body{
     background: #f0f2f5;
 }
 .intro-header{
@@ -17,8 +144,8 @@ body{
     padding-bottom: 40px;
     overflow: auto;
     height: 100vh;
-}
-.logo{
+}*/
+.header-body .logo{
     float: left;
     width: 200px;
     height: 65px;
@@ -30,9 +157,15 @@ body{
 .profile-logo{
     margin-left: 10%;
 }
+.nav-list-item{
+    border-bottom: 1px solid #1890ff;
+}
+.action-buttons{
+    margin-bottom: 30px;
+}
+/*
 .home-logo{
     float: none;
-    /* margin: 0 auto !important; */
 }
 .header-h1{
    
@@ -70,7 +203,6 @@ div.header-divider{
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 .form-wrapper{
-    /* background-color: #ffffffbd; */
     padding: 20px
 }
 .form-radio-btn{
@@ -191,7 +323,6 @@ button.ant-btn.link-button.ant-btn-link{
     visibility: hidden;
 }
 button.home-contact-btn{
-    /* margin-right: 10px; */
     margin-bottom: 20px;
     width: 150px;
     margin-top:20px;
@@ -300,4 +431,4 @@ button.home-contact-btn span{
     div.ant-drawer.ant-drawer-left.ant-drawer-open.contact-drawer div.ant-drawer-content-wrapper{
         width: 100% !important;
     }
-}
+} */

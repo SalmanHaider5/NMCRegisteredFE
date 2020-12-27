@@ -1,27 +1,25 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { reduxForm, getFormValues, reset, FormSection } from 'redux-form'
-import { isNil, prop, equals, isEmpty, not, length } from 'ramda'
-import { Row, Col, Button, Spin, Icon, Drawer } from 'antd'
+import { reset, reduxForm, getFormValues, FormSection } from 'redux-form'
+import { concat, isNil, prop, equals, not, empty } from 'ramda'
+import { Icon } from 'antd'
 import { register, verifyAccount, userLogin, generatePasswordResetLink, verifyLogin, reachUs } from '../../actions'
-import { TITLE } from '../../constants'
-import { ModalBox } from '../../utils/custom-components'
 import { getUsersFormValues, isEmptyOrNull } from '../../utils/helpers'
-import SignupForm from './SignupForm'
-import LoginForm from './LoginForm'
+import { Main } from './Main'
+import { Loader, ModalBox } from '../../utils/custom-components'
+import LoginForm from './Main/LoginForm'
 import ForgetPasswordForm from './ForgetPasswordForm'
 import TwoFactorAuthForm from './TwoFactorAuthForm'
-import ContactForm from './ContactForm'
+
 import './home.css'
 
 class Home extends Component {
   constructor(props){
     super(props)
     this.state = {
-      selected: '',
+      role: '',
       loginModal: false,
-      termsDrawer: false, 
       forgetPassword: false,
       contactFormModal: false
     }
@@ -35,40 +33,25 @@ class Home extends Component {
   }
 
   selectUser = (type) => {
-    this.setState({ selected: type })
-  }
-
-  showTerms = () => {
-    this.setState({
-      termsDrawer: true,
-      contactFormModal: false
-    })
-  }
-  hideTerms = () => {
-    this.setState({ termsDrawer: false })
+    this.setState({ role: type })
   }
 
   registerUser = () => {
-    const { formValues: { signup: { email, password } }, dispatch } = this.props
-    const { selected } = this.state
-    this.setState({ selected: '' })
-    dispatch(register({ email, password, role: selected }))
+    const {
+      formValues: { signup: { email, password } },
+      dispatch
+    } = this.props,
+      { role } = this.state
+
+    this.setState({ role: empty(role) })
+
+    dispatch(register({ email, password, role }))
+    
     dispatch(reset('users'))
   }
 
   showLoginModal = () => {
     this.setState({ loginModal: true, forgetPassword: false })
-  }
-
-  showContactFormModal = () => {
-    this.setState({
-      termsDrawer: false,
-      contactFormModal: true
-    })
-  }
-
-  hideContactFormModal = () => {
-    this.setState({ contactFormModal: false })
   }
 
   hideLoginModal = () => {
@@ -93,15 +76,22 @@ class Home extends Component {
   sendPasswordResetLink = () => {
     const { formValues: { forgetPassword }, dispatch } = this.props
     dispatch(generatePasswordResetLink(forgetPassword))
+    this.hideLoginModal() 
   }
 
   verifyTwoFactorAuthentication = () => {
-    const { formValues: { twoFactorAuthForm: { code } }, dispatch, application: { authentication: { userId } } } = this.props
+    const {
+      formValues: { twoFactorAuthForm: { code } },
+      dispatch,
+      application: { authentication: { userId } }
+    } = this.props
+
     if(isNil(userId)) return undefined
+
     let values = {}
     values.code = code
     values.professionalId = userId
-    dispatch(verifyLogin(values))
+    dispatch(verifyLogin(userId, values))
   }
 
   getLogimModalContent = (type) => {
@@ -115,13 +105,17 @@ class Home extends Component {
     if(type === 'Forget Password'){
       return(
         <FormSection name="forgetPassword">
-          <ForgetPasswordForm showLoginForm={this.showLoginForm}/>
+          <ForgetPasswordForm
+            showLoginForm={this.showLoginForm}
+          />
         </FormSection>
       )
     }
     return(
       <FormSection name="login">
-        <LoginForm showForgetPasswordForm={this.showForgetPasswordForm}/>
+        <LoginForm
+          showForgetPasswordForm={this.showForgetPasswordForm}
+        />
       </FormSection>
     )
   }
@@ -141,13 +135,6 @@ class Home extends Component {
         </span>
       )
     }
-    if(type === 'Contact Us'){
-      return(
-        <span>
-          <Icon type="mail" /> Reach Us
-        </span>
-      )
-    }
     return(
       <span>
         <Icon type="login" /> Login
@@ -158,103 +145,57 @@ class Home extends Component {
   sendMessage = () => {
     const { dispatch, formValues: { contactForm } } = this.props
     const { subject } =  contactForm
-    contactForm.subject = `${subject} [Contact Form | Guest User]`
+    contactForm.subject = concat(subject, '[Contact Form | Guest User]')
     dispatch(reachUs(contactForm))
     this.setState({ contactFormModal: false })
   }
 
-  isSignupFormValid = (role, email, password, confirmPassword) => {
-    return not(isEmpty(role)) &&
-            /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email) &&
-            /[A-Z]/.test(password) &&
-            /[0-9]/.test(password) &&
-            length(password) > 7 &&
-            equals(password, confirmPassword)
-  }
-
   render() {
 
-    const { selected, loginModal, forgetPassword, contactFormModal, termsDrawer } = this.state
-    const { valid, formValues= {}, application: { isLoading, twoFactorAuth, authentication: { auth, role, userId } } } = this.props
+    const {
+      role: userRole,
+      loginModal,
+      forgetPassword,
+      contactFormModal
+    } = this.state
+
+    const {
+      formValues= {},
+      application: {
+        isLoading,
+        twoFactorAuth,
+        authentication: {
+          auth,
+          role,
+          userId
+        }
+      }
+    } = this.props
 
     const modalType = twoFactorAuth ? 'Mobile Verification' : forgetPassword ? 'Forget Password' : contactFormModal ? 'Contact Us' :  'Login'
 
-    if(auth && !isEmptyOrNull(role)){
+    if(auth &&  not(isEmptyOrNull(role))){
       return <Redirect to={ equals(role, 'professional') ? `/${role}/${userId}/timesheet` : `/${role}/${userId}/professionals` } />
     }
-    return (
-      <Spin spinning={isLoading} tip="Loading...">
-        <div>
-          <header className='header'>
-              <div className='header-inner'>
-                  <Row>
-                    <Col xs={2} sm={2} md={3} lg={2} xl={3}>
-                      
-                    </Col>
-                    <Col xs={20} sm={20} md={19} lg={20} xl={18}>
-                      <div className='logo home-logo'>
-                        <Button className='home-header-btn' ghost onClick={this.showLoginModal}>
-                            <Icon type="login" /> Login
-                        </Button>
-                      </div>                   
-                    </Col>
-                    <Col xs={2} sm={2} md={2} lg={2} xl={3}>
-                      
-                    </Col>
-                  </Row>
 
-                  <Row justify="space-between" >
-                    <Col xs={2} sm={2} md={2} lg={2} xl={3}> </Col>
-                    <Col xs={20} sm={20} md={20} lg={9} xl={9}>
-                      <div className='intro-header'>
-                        <div className='spacer'></div>
-                        <div className='spacer'></div>
-                        <h1 className='header-h1'>Welcome to {TITLE}</h1>
-                        {/* <h2 className='header-h2'>We have one goal to achieve:</h2> */}
-                        <div className='header-text-div'>
-                          <p className="header-text">Delivering a simplistic solution for NHS Trusts, Care
-                          Homes and Professionals to link together.</p>
-                          <p className="header-text-lower">Our seamless system allows simple and
-                            straightforward connection between
-                            Professionals, Care Homes and NHS Trusts without any
-                            agency fees or charges per
-                            shift.
-                          </p>
-                          
-                        </div>
-                        <Button className='home-contact-btn phone-button' onClick={this.showContactFormModal}>
-                        <Icon type="mail" /> Contact Us
-                        </Button> 
-                        <Button className='home-header-down-btn phone-button' onClick={this.showLoginModal}>
-                        <Icon type="login" /> Login
-                        </Button>  
-                      </div>
-                    </Col>
-                    <Col xs={2} sm={2} md={2} lg={1} xl={2}> </Col>
-                    <Col xs={24} sm={24} md={24} lg={10} xl={7}>
-                    <div className='spacer'></div>
-                      <div className='signup-wrapper'>
-                        <FormSection name="signup">
-                          <SignupForm
-                            selected={selected}
-                            selectUser={this.selectUser}
-                            valid={valid}
-                            formValues={formValues}
-                            termsDrawer={termsDrawer}
-                            showTerms={this.showTerms}
-                            hideTerms={this.hideTerms}
-                            registerUser={this.registerUser}
-                            showContactFormModal={this.showContactFormModal}
-                            isSignupFormValid={this.isSignupFormValid}
-                          />
-                        </FormSection>
-                      </div>
-                    </Col>
-                    <Col xs={0} sm={0} md={2} lg={2} xl={3}> </Col>
-                  </Row> 
-              </div>
-          </header>
-        </div>
+    return (
+      <>
+        <Loader
+          size='large'
+          isLoading={isLoading}
+          loadingText={'Loading...'}
+          wrapper={
+            <Main
+              role={userRole}
+              formValues={formValues}
+              selectUser={this.selectUser}
+              registerUser={this.registerUser}
+              sendMessage={this.sendMessage}
+              showLoginModal={this.showLoginModal}
+            />
+          }
+        />
+
         <ModalBox
           title={modalType}
           size={600}
@@ -268,23 +209,7 @@ class Home extends Component {
           }
           cancelHandler={this.hideLoginModal}
         />
-        <Drawer
-          title={<><Icon type="mail" /> Contact Us </>}
-          placement="left"
-          className="contact-drawer"
-          closable={true}
-          onClose={this.hideContactFormModal}
-          visible={contactFormModal}
-          width={'40%'}
-        >
-          <FormSection name="contactForm">
-            <ContactForm />
-          </FormSection>
-          <Button className="success-btn" onClick={this.sendMessage}>
-            <Icon type="export" /> Send us a Message
-          </Button>
-        </Drawer>
-      </Spin>
+      </>
     )
   }
 }

@@ -19,6 +19,7 @@ export const ButtonTextField = ({
   specialText,
   addonAfterText,
   isRequired,
+  autoFocus = false,
   enterButton,
   fieldData,
   onSearch,
@@ -50,6 +51,7 @@ export const ButtonTextField = ({
             }}
             onSearch={onSearch}
             disabled={disabled}
+            autoFocus={autoFocus}
             type={type}
             value={readOnly ? fieldData : value}
             readOnly={readOnly}

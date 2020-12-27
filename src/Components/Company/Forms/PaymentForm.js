@@ -1,266 +1,65 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Field } from 'redux-form'
-import { defaultTo, map } from 'ramda'
-import { Row, Col, Card, List, Alert, Button, Form, Drawer, Icon } from 'antd'
-import moment from 'moment'
-import { loadStripe } from '@stripe/stripe-js'
-import { Elements } from '@stripe/react-stripe-js'
-import PaypalBtn from 'react-paypal-checkout'
-import StripeCardPayment from './StripeCardPayment'
-import { TextField, RadioField, CheckboxField } from '../../../utils/custom-components'
-import { DOCUMENTS_URL as url, isRequired, TERMS, TERMS_OF_PURCHASE as TOPs } from '../../../constants'
-import { showToast, isEmptyOrNull } from '../../../utils/helpers'
-import Terms from './Terms'
+import { defaultTo} from 'ramda'
+import { Button, Form } from 'antd'
+import { TextField, CheckboxField } from '../../../utils/custom-components'
+import { isRequired } from '../../../constants'
+import { TermsDrawer } from './Payment/TermsDrawer'
 
-const PaymentForm = ({
-  formValues,
-  secret,
-  makePaymentRequest,
-  skipPaymentOption,
-  adBlockerExists,
-  makePaypalPayment,
-  termsDrawer,
-  showTermsDrawer,
-  hideTermsDrawer,
-  setTermsDocumentType,
-  termsDocumentType
-}) => {
-  const { firstName, lastName, balance, vat, paymentMethod, termsChecked = false } = defaultTo({}, formValues)
-  const stripePromise = adBlockerExists ? {} : loadStripe("pk_test_cmqEvoYCsQr8Ur3q2AoEY5V800VuRo430P")
+const PaymentForm = ({ formValues, showTermsDrawer }) => {
 
-  const onSuccess = (payment) => {
-    const data = {}
-    data.amount = parseInt(balance) + parseInt(balance * vat / 100)
-    makePaypalPayment(data)
-  }		
+  const [drawerVisible, setDrawerVisible] = useState(false)
+  const [docType, setDocType] = useState('terms')
+  const { firstName, lastName } = defaultTo({}, formValues)
 
-  const onCancel = (data) => {
-    showToast('Payment Cancelled', 'Payment has been cancelled by Company', 'info')
-  }	
-
-  const onError = (err) => {
-    console.log("Error!", err);		
+  const hideDrawer = () => {
+    setDocType('terms')
+    setDrawerVisible(false)
   }
-  const client = {
-    sandbox: 'AUk28ovBXDL4THTSWlK0I5rfVzlBx6-wwmu8OH15vc7RCJjuGmK29IG-1CHuVjGpqmjYtO8VTi3C42V0',
-    production: ''
-  }
-  let style = {
-    'label':'pay', 
-    'tagline': false, 
-    'size':'small', 
-    'shape':'rect', 
-    'color':'blue'
-  }
+
   return (
-    <div className="payment-container" id="payment-container">
-      <Row>
-        {
-          adBlockerExists ?
-          <Alert
-            message={<>Please disable your ad-blocker to make payment and reload the page again or <Button type="link" className="link-button" onClick={skipPaymentOption}>skip</Button> payment option</>}
-            type="error"
-            showIcon
-          /> :
-          ''
-        }
-        <Col span={8}>
-          <Card title={<>Licensing Fee </>}>
-            <List>
-              <div className="payment-logo-container">
-                <img alt="Payment Methods" src={paymentMethod === 'Paypal' ? `${url}assets/paypal.png` : `${url}assets/payment.png`} />
-              </div>
-              <List.Item>
-                <label>
-                  Date
-                </label>
-                <span>
-                  {moment().format('LL')}
-                </span>
-              </List.Item>
-              <List.Item>
-                <label>
-                  <List.Item.Meta
-                    title="Fee"
-                    description="Annual Premium"
-                  />
-                </label>
-                <span>
-                  £ {balance}.00
-                </span>
-              </List.Item>
-              <List.Item>
-                <label>
-                  VAT
-                </label>
-                <span>
-                  {vat}%
-                </span>
-              </List.Item>
-              <List.Item className="bill-row">
-                <label>
-                  <List.Item.Meta
-                    title="Total"
-                    description="Valid Till"
-                  />
-                </label>
-                <span>
-                  <List.Item.Meta
-                    className="net-balance"
-                    title={`£ ${parseInt(balance) + parseInt(balance * vat / 100)}.00`}
-                    description={moment().add(1, 'years').format('LL')}
-                  />
-                </span>
-              </List.Item>
-            </List>
-          </Card>
-        </Col>
-        <Col span={16} id="paypal">
-          <div className="message-container">
-            <Alert
-              message={
-                paymentMethod === 'Paypal' ?
-                <>
-                  <a href="https://www.paypal.com/us/webapps/mpp/paypal-safety-and-security"><b>PayPal</b></a> appears safe for buyers, as the site platform is both secure and encrypted
-                </>:
-                <>
-                  <a href="https://stripe.com/payments"><b>Stripe</b></a> payments are Strong Customer Authentication (SCA) ready, Dynamic 3-D Secure and PCI Compliant
-                </>
-              }
-              type={paymentMethod === 'Paypal' ? 'info' : 'success'}
-              showIcon
-            />
-          </div>
-          <Field
-            name="paymentMethod"
-            component={RadioField}
-            label="Payment Method"
-            options={['Pay with Card', 'Paypal']}
-            value={paymentMethod}
-            defaultValue={paymentMethod}
-            validate={[isRequired]}
-          />
-          <Field
-            name="Name"
-            component={TextField}
-            label={'Name'}
-            fieldData={firstName +' '+ lastName}
-            readOnly={true}
-          />
-          <Form.Item
-            label="Accept Terms"
-            labelCol={{ span: 5, offset: 3 }}
-            wrapperCol={{ span: 12, offset: 1 }}
-            style={{ margin: '0' }}
-            colon={false}
-          >
-            <Field
-              name="termsChecked"
-              component={CheckboxField}
-              text={
-                <>
-                  I agree to <Button className="link-button" type="link" onClick={showTermsDrawer}> NMC Terms & Conditions </Button>
-                </>
-              }
-              size={'large'}
-              type={'password'}
-              validate={[isRequired]}
-              tooltipPlacement={'topRight'}
-            />
-          </Form.Item>
-          {
-            adBlockerExists ? '' :
-            paymentMethod === 'Paypal' ?
-            <>
-              <Row>
-              <Col span={17} offset={4} className="paypal-container">
-                {
-                  termsChecked ? 
-                  <PaypalBtn 
-                    env={'sandbox'} 
-                    client={client} 
-                    currency={'GBP'} 
-                    total={parseInt(balance) + parseInt(balance * vat / 100)} 
-                    locale={'en_GB'} 
-                    style={style}
-                    className="paypal-button"
-                    onError={onError}
-                    disabled
-                    onSuccess={onSuccess} 
-                    onCancel={onCancel}
-                  /> :
-                  <Button type="primary" className="paypal-button" size="large" disabled={!termsChecked}>Pay with Paypal</Button>
-
-                }
-                <Button type="link" onClick={skipPaymentOption}><u>Skip</u></Button>
-              </Col>
-            </Row>
-            </>:
-            <Elements stripe={stripePromise}>
-              <StripeCardPayment
-                secret={secret}
-                formValues={formValues}
-                adBlockerExists={adBlockerExists}
-                skipPaymentOption={skipPaymentOption}
-                makePaymentRequest={makePaymentRequest}
-                termsChecked={termsChecked}
-              />
-            </Elements>
+    <>
+      <Field
+        name="Name"
+        component={TextField}
+        label={'Name'}
+        fieldData={firstName +' '+ lastName}
+        readOnly={true}
+      />
+      <Form.Item
+        label="Accept Terms"
+        labelCol={{ span: 5, offset: 3 }}
+        wrapperCol={{ span: 12, offset: 1 }}
+        style={{ margin: '0' }}
+        colon={false}
+      >
+        <Field
+          name="termsChecked"
+          component={CheckboxField}
+          text={
+            <> I agree to
+              <Button
+                className="link-button"
+                type="link"
+                onClick={() => setDrawerVisible(true)}
+                >
+                  NMC Terms & Conditions
+                </Button>
+            </>
           }
-        </Col>
-      </Row>
-      <Drawer
-            title={<>
-              {
-                termsDocumentType === 'terms' ?
-                <><Icon type="paper-clip" /> NMC Terms and Conditions</> :
-                <><Icon type="arrow-left" onClick={() => setTermsDocumentType('terms')} /> Terms of Purchase</>
-              }
-            </>}
-            placement="right"
-            className="terms-drawer"
-            closable={true}
-            width={680}
-            onClose={hideTermsDrawer}
-            visible={termsDrawer}
-          >
-            <span>
-              <h2>
-                <u>
-                  { termsDocumentType === 'terms' ? 'Licence Agreement Terms' : 'Terms of Purchase' }
-                </u>
-              </h2>
-              {
-                termsDocumentType === 'terms' ?
-                  map(term => {
-                    return(
-                      <span key={term.id}>
-                        <h3>{term.title}</h3>
-                        <p>{term.text}</p>
-                        {
-                          isEmptyOrNull(term.options) ? '' : <Terms options={term.options} setDocumentType={setTermsDocumentType} />
-
-                        }
-                      </span>
-                    )
-                  }, TERMS)
-                :
-                  map(term => {
-                    return(
-                      <span key={term.id}>
-                        <h3>{term.title}</h3>
-                        <p>{term.text}</p>
-                        {
-                          isEmptyOrNull(term.options) ? '' : <Terms options={term.options} />
-
-                        }
-                      </span>
-                    )
-                  }, TOPs)
-              }
-            </span>
-          </Drawer>
-    </div>
+          size={'large'}
+          type={'password'}
+          validate={[isRequired]}
+          tooltipPlacement={'topRight'}
+        />
+      </Form.Item>
+      <TermsDrawer
+        docType={docType}
+        drawerVisible={drawerVisible}
+        setDocType={setDocType}
+        hideDrawer={hideDrawer}
+      />
+    </>
   )
 }
 

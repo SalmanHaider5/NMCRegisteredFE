@@ -1,11 +1,16 @@
+import { defaultTo } from 'ramda'
 import React from 'react'
 import { Field, FormSection } from 'redux-form'
 import { isNumber, isRequired } from '../../../../constants'
 import { MultilineTextField, TextField } from '../../../../utils/custom-components'
 import { MultiCheckField } from '../../../../utils/custom-components/MultiCheckField'
 
-export const OfferForm = ({ company, offerFormShifts }) => {
-  const { address, city, postalCode } = company
+export const OfferForm = (props) => {
+
+  const { profile, offerFormShifts } = props
+
+  const { address, city, postalCode } = defaultTo({}, profile)
+
   return (
     <div className="offer-form-container">
       <FormSection name="offerForm">

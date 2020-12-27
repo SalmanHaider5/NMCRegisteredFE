@@ -1,36 +1,36 @@
 import React from 'react'
-import { Table, Row, Descriptions } from 'antd'
-import { map, split } from 'ramda'
+import { Col, Icon, Card, List } from 'antd'
+import { prop, equals, nth } from 'ramda'
+import { SingleOffer } from './SingleOffer'
 
-export const Requests = ({ offers, columns }) => {
+export const Requests = ({ offers, currentIndex, setIndex, updateOfferStatus }) => {
+
+  const selectedOffer = nth(currentIndex, offers)
+
   return (
-    <div className="requests-list-container">
-      <Table
-        bordered
-        rowKey="id"
-        columns={columns}
-        dataSource={offers}
-        size="small"
-      />
-    </div>
-  )
-}
-
-export const SingleRequest = ({ offer }) => {
-  const { id, status, professionalName, professionalNmc, shiftRate, message, shifts } = offer
-  return(
-    <div>
-      <Row gutter={16}>
-        <Descriptions bordered>
-          <Descriptions.Item label="Offer ID" span={2}>{id}</Descriptions.Item>
-          <Descriptions.Item label="Shift Rate" span={2}>GBP {shiftRate}/hour</Descriptions.Item>
-          <Descriptions.Item label="Professional Name" span={2}>{professionalName}</Descriptions.Item>
-          <Descriptions.Item label="Professional NMC Pin" span={2}>{professionalNmc}</Descriptions.Item>
-          <Descriptions.Item label="Message" span={2}>{message}</Descriptions.Item>
-          <Descriptions.Item label="Status" span={2} className="status-item">{status}</Descriptions.Item>
-          <Descriptions.Item label="Shifts" span={4}><ul>{ map(shift=> <li key={shift}>{shift}</li>, split(',', shifts || '')) }</ul></Descriptions.Item>
-        </Descriptions>
-      </Row>
-    </div>
+    <Card className="offers-list-container">
+      <Col span={6} className="list-content">
+        <List
+          rowKey="id"
+          dataSource={offers}
+          renderItem={
+            (offer, index) => {
+              return <List.Item key={index} className={equals(currentIndex, index) ? 'active-list-item' : 'list-item' } onClick={() => setIndex(index)}>
+                <List.Item.Meta
+                  title={<><Icon type="tag" /> &nbsp;&nbsp; {prop('professionalName', offer)}</>}
+                  description={`£ ${offer.shiftRate} per hour`}
+                />
+                <div className="list-arrow">
+                  <Icon type="arrow-right" />
+                </div>
+              </List.Item>
+            }
+          }
+        />
+      </Col>
+      <Col span={18} className="offer-content">
+          <SingleOffer selectedOffer={selectedOffer} updateOfferStatus={updateOfferStatus} />
+      </Col>
+    </Card>
   )
 }

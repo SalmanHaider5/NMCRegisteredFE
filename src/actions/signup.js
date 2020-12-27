@@ -1,5 +1,5 @@
 import { ENDPOINTS as api  } from '../constants'
-import { get, getUrl, post, formatVerificationData, getAccountBasicValues } from '../utils/helpers'
+import { get, getUrl, post, formatVerificationData, getAccountBasicValues, postWithAuth } from '../utils/helpers'
 import * as types from './'
 
 export const register = formValues => dispatch => {
@@ -42,35 +42,27 @@ export const logoutUser = () => dispatch => {
 
 export const generatePasswordResetLink = values => dispatch => {
 
-    // const endpoint = `${url}reset`
-    // fetch(endpoint, {
-    //     method: 'POST',
-    //     body: JSON.stringify(values),
-    //     headers: {
-    //         'Content-Type':'application/json'
-    //     }
-    // })
-    // .then(res => res.json())
-    // .then(response => {
-    //     const { code, response: { title, message } } = response
-    //     showToast(title, message, code)
-    // })
-
+    post({
+        url: getUrl(api.RESET_PASSWORD_LINK, {}),
+        body: JSON.stringify(values),
+        init: types.FORGOT_PASSWORD_LINK_REQUEST,
+        success: types.FORGOT_PASSWORD_LINK_SUCCESS,
+        failure: types.FORGOT_PASSWORD_LINK_FAILURE,
+        dispatch
+    })
 }
 
-export const resetUserPassword = (id, values) => dispatch => {
-    // const endpoint = `${url}resetPassword/${id}`
-    // const headers = new Headers()
-    // headers.append('Content-Type', 'application/json')
-    // headers.append('authorization', values.token)
-    // fetch(endpoint, {
-    //     method: 'POST',
-    //     body: JSON.stringify(values),
-    //     headers
-    // })
-    // .then(res => res.json())
-    // .then(response => {
-    //     const { code, response: { title, message } } = response
-    //     showToast(title, message, code)
-    // })
+export const resetUserPassword = (userId, values) => dispatch => {
+    const { token } = values
+    
+    postWithAuth({
+        type: 'json',
+        url: getUrl(api.RESET_PASSWORD, { userId }),
+        token,
+        body: JSON.stringify(values),
+        init: types.PASSWORD_RESET_REQUEST,
+        success: types.PASSWORD_RESET_SUCCESS,
+        failure: types.PASSWORD_RESET_FAILURE,
+        dispatch
+    })
 }

@@ -1,8 +1,11 @@
 import React from 'react'
 import { List, Tag, Icon } from 'antd'
 import moment from 'moment'
+import { defaultTo } from 'ramda'
 
-const PersonalDetails = ({ company }) => {
+const PersonalDetails = (props) => {
+
+  const { profile } = props
   const {
     isPaid,
     firstName,
@@ -15,8 +18,8 @@ const PersonalDetails = ({ company }) => {
     registration,
     website,
     payDate,
-    createdAt
-  } = company
+    joinedAt
+  } = defaultTo({}, profile)
   
   return (
     <List className="profile-list">
@@ -93,7 +96,7 @@ const PersonalDetails = ({ company }) => {
           <Icon type="calendar" />
           Joined On
         </label>
-        <span className="label-value">{moment(createdAt).format('LL')}</span>
+        <span className="label-value">{moment(joinedAt).format('LL')}</span>
       </List.Item>
     </List>
   )

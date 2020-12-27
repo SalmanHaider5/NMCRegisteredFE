@@ -13,9 +13,11 @@ import {
     is,
     defaultTo,
     pathOr,
-    type
+    type,
+    not, 
+    length
 } from 'ramda'
-import { change } from 'redux-form'
+import { change, reset } from 'redux-form'
 import Cookies from 'js-cookie'
 import { notification } from 'antd'
 import { GENERAL_ERROR, SERVER_URL, GET_ADDRESS_URL, GET_ADDRESS_API_KEY } from '../../constants'
@@ -41,9 +43,15 @@ export const showToast = (title, message, type)  => {
 
 
     notification.open({
-        message: title,
+        message: '',
         description: message,
-        className: getClassName(type)
+        placement: 'bottomRight',
+        className: 'message-toast'
+    })
+    notification[type]({
+        message: title,
+        placement: "topRight",
+        className: getClassName(type),
     })
 }
 
@@ -139,8 +147,9 @@ export const getAuthToken = () => {
     return pathOr('', ['authToken'], auth)
 }
 
-export const updatePhoneVerificationStatus = (dispatch, data) => {
-    return true
+export const updatePhoneVerifiedData = (dispatch, data) => {
+    dispatch(reset('professional'))
+    return data
 }
 
 const formatAdress = (id, name) => {
@@ -154,6 +163,28 @@ export const getAddressesList = data => {
     }else{
         return mapIndexed((address, index) => formatAdress(index, address), addresses)
     }
+}
+
+export const getEmptyWeekForm = () => {
+    
+    const shiftsForm = {
+        shift1: true,
+        shift2: true,
+        shift3: true,
+        shift4: true,
+        shift5: true
+    }
+
+    return {
+        skill: '',
+        day0: shiftsForm,
+        day1: shiftsForm,
+        day2: shiftsForm,
+        day3: shiftsForm,
+        day4: shiftsForm,
+        day5: shiftsForm,
+        day6: shiftsForm
+      }
 }
 
 export const getHeaders = (type, token) => {
@@ -184,4 +215,32 @@ export const setProfessionalModifiedSecurity = (dispatch, values) => {
     }
     dispatch(change('professional', 'changePassword', changePassword))
     return changePassword
+}
+
+export const isSignupFormValid = (role, email, password, confirmPassword) => {
+    return not(isEmpty(role)) &&
+        /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email) &&
+        /[A-Z]/.test(password) &&
+        /[0-9]/.test(password) &&
+        length(password) > 7 &&
+        equals(password, confirmPassword)
+}
+
+export const getEmptyForm = (dispatch, values, role) => {
+    const form = values
+    form.message = ''
+    form.subject = ''
+    dispatch(change(role, 'contactForm', form))
+}
+
+export const setCompanyUpdatedPassword = dispatch => {
+    
+    const changePassword = {
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+    }
+
+    dispatch(change('company', 'changePassword', changePassword))
+
 }

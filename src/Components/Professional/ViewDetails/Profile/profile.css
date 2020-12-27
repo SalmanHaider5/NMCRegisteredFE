@@ -36,6 +36,11 @@
     color: #000;
 }
 
+.content-submit-btn{
+    float: right;
+    right: 211px;
+}
+
 .profile-view .profile-list .ant-list-item span.label-value{
     position: absolute;
     right: 0;

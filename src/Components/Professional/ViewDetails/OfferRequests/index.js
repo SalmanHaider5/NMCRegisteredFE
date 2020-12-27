@@ -1,8 +1,9 @@
 import React from 'react'
-import { SingleRequest } from './SingleRequest'
+import { Offers } from './Offers'
 import './requests.css'
 
 export const OfferRequests = ({ offers, updateOfferStatus, isLoading }) => {
+
   return (
     <div className="requests-container">
       <div className="inner-wrapper">
@@ -10,7 +11,7 @@ export const OfferRequests = ({ offers, updateOfferStatus, isLoading }) => {
           <div className="steps-header">
             <h3>Shift Offers</h3>
           </div>
-          <SingleRequest
+          <Offers
             offers={offers}
             updateOfferStatus={updateOfferStatus}
             isLoading={isLoading}

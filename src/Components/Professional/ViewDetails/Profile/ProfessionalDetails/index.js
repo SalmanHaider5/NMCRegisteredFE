@@ -1,30 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { List, Icon, Divider, Tooltip, Modal, Avatar, Col, Button } from 'antd'
 import { DOCUMENTS_URL as url } from '../../../../../constants'
 import { isEmptyOrNull } from '../../../../../utils/helpers'
-import { DocumentViewer } from '../../../../../utils/custom-components'
 import WorkExperience from '../WorkExperience'
+import { defaultTo } from 'ramda'
 
-const ProfessionalDetails = ({
-  professional,
-  getDocumentType,
-  documentModal,
-  documentModalType,
-  showDocumentModal,
-  hideDocumentModal,
-  showImageModal,
-  imageModal,
-  hideImageModal
-}) => {
+export const ProfessionalDetails = (props) => {
+
+  const [imageModal, setImageModal] = useState(false)
+
+  const { profile } = props
+
   const {
     fullName,
     nmcPin,
-    cpdHours,
     qualification,
-    document,
+    cpdHours,
     crbDocument,
     profilePicture
-  } = professional
+  } = defaultTo({}, profile)
+
   return (
     <>
       <Col xs={24} sm={24} md={24} lg={{ span: 11, offset: 0 }} xl={{ span: 11, offset: 0 }}>
@@ -74,10 +69,9 @@ const ProfessionalDetails = ({
             </label>
             <span className="label-value">
               {
-                isEmptyOrNull(profilePicture) ?
-                'Not added yet':
+                isEmptyOrNull(profilePicture) ? 'Not added yet':
                 <Tooltip title="View Profile ID">
-                  <Button type="link" onClick={() => showImageModal()}>
+                  <Button type="link" onClick={() => setImageModal(true)}>
                     <Avatar src={`${url}${profilePicture}`} />
                   </Button>
                 </Tooltip>
@@ -85,14 +79,10 @@ const ProfessionalDetails = ({
             </span>
             <Modal
               visible={imageModal}
-              onCancel={hideImageModal}
+              onCancel={() => setImageModal(false)}
               footer={null}
-              style={{
-                top: 20
-              }}
-              bodyStyle={{
-                padding: 0
-              }}
+              style={{ top: 20 }}
+              bodyStyle={{ padding: 0 }}
             >
               <div className="modal-image">
                 <img alt={fullName} src={`${url}${profilePicture}`} style={{ width: '100%'}} />
@@ -100,30 +90,10 @@ const ProfessionalDetails = ({
             </Modal>
           </List.Item>
         </List>
-        <Modal
-          visible={documentModal}
-          footer={null}
-          style={{
-            top: 20
-          }}
-          className="document-modal"
-          bodyStyle={{
-            padding: 0,
-            overflow: 'hidden',
-            backgroundColor: 'transparent'
-          }}
-          maskStyle={{
-            color: '#000'
-          }}
-          width={getDocumentType(documentModalType === 'CRB' ? crbDocument : document) === 'document' ? 750 : 'fit-content'}
-          onCancel={hideDocumentModal}
-        >
-          <DocumentViewer document={documentModalType === 'CRB' ? crbDocument : documentModalType === 'CV/Resume' ? document : ''} />
-        </Modal>
       </Col>
       <Col span={24}>
         <Divider orientation="left">Work Experience</Divider>
-        <WorkExperience professional={professional}/>
+        <WorkExperience profile={profile}/>
       </Col>
     </>
   )

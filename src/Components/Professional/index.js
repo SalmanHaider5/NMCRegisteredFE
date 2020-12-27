@@ -3,14 +3,28 @@ import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import moment from 'moment'
-import { Icon, Spin } from 'antd'
 import { trim, split, prop, propEq, concat, find, omit, dissoc, type, last, equals } from 'ramda'
-import { getAdresses, createDetails, addPhone, verifyPhone, logoutUser, getProfessionalDetails, updateProfessionalProfile, updateSecurityDetails, changePhoneRequest, clearAddresses, contactUs, addBankDetails, updateBankDetails, changeOfferStatus } from '../../actions'
+import {
+  getAdresses,
+  createDetails,
+  addPhone,
+  verifyPhone,
+  logoutUser,
+  getProfessionalDetails,
+  updateProfessionalProfile,
+  updateSecurityDetails,
+  changePhoneRequest,
+  clearAddresses,
+  contactMessage,
+  addBankDetails,
+  updateBankDetails,
+  changeOfferStatus
+} from '../../actions'
 import { GENDER_OPTIONS as genders, QUALIFICATION_OPTIONS as qualifications } from '../../constants'
 import { getProfessionalFormValues, isEmptyOrNull } from '../../utils/helpers'
 import Header from '../Header'
-import AddDetails from './AddDetails'
-import ViewDetails from './ViewDetails'
+import { Container } from './Container'
+import { Loader } from '../../utils/custom-components'
 
 class Professional extends Component {
   constructor(props) {
@@ -31,7 +45,15 @@ class Professional extends Component {
   }
 
   componentDidMount(){
-    const { application: { authentication: { auth, role } }, history, dispatch, match: { params: { userId } }, location: { pathname } } = this.props
+    
+    const {
+      application: { authentication: { auth, role } },
+      history,
+      dispatch,
+      match: { params: { userId } },
+      location: { pathname }
+    } = this.props
+
     dispatch(getProfessionalDetails(userId))
     if(last(split('/', pathname)) === 'timesheet'){
       this.setState({ pageKey: '1' })
@@ -58,72 +80,87 @@ class Professional extends Component {
   }
 
   updateOfferStatus = (offerId, status) => {
-    const { dispatch, professional: { profile: { offers } }, match: { params: { userId } } } = this.props
+
+    const {
+      dispatch,
+      professional: {
+        profile: { offers }
+      },
+      match: {
+        params: { userId }
+      }
+    } = this.props
+
     const offer = find(propEq('id', offerId))(offers)
     offer.status = status
     offer.professional = userId
+
     dispatch(changeOfferStatus(userId, offer, offer.id))
+
   }
   
   updateProfessionalDetails = () => {
-    const { match: { params: { userId } }, dispatch, formValues } = this.props
-    const { status, dateOfBirth, qualification } = formValues
+
+    const {
+      match: {
+        params: { userId }
+      },
+      dispatch,
+      formValues
+    } = this.props,
+      { status, dateOfBirth, qualification } = formValues
+
     let values = formValues
-    if(type(status) === 'String')
+
+    if(equals(type(status), 'String'))
       values.status = status
     else
       values.status = prop('name', find(propEq('id', status))(genders))
-    if(type(qualification) === 'String')
+    if(equals(type(qualification), 'String'))
       values.qualification = qualification
     else
       values.qualification = prop('name', find(propEq('id', qualification))(qualifications))
     
     values.dateOfBirth = dateOfBirth
+
     dispatch(updateProfessionalProfile(userId, values))
-    this.setState({
-      imageFile: '',
-      documentFile: ''
-    })
+
+    this.setState({ imageFile: '' })
     this.hideEditFormModal()
   }
 
   updateSecurityandLoginDetails = () => {
-    const { formValues: { changePassword }, dispatch, match: { params: { userId } } } = this.props
-    const { currentPassword, newPassword, confirmPassword } = changePassword
-    const values = dissoc('confirmPassword', changePassword)
-    if(isEmptyOrNull(currentPassword) || isEmptyOrNull(newPassword) || isEmptyOrNull(confirmPassword)){
+
+    const {
+      formValues: { changePassword },
+      dispatch,
+      match: {
+        params: { userId }
+      }
+    } = this.props,
+      { currentPassword, newPassword, confirmPassword } = changePassword,
+      values = dissoc('confirmPassword', changePassword),
+      passwordNotFound = isEmptyOrNull(currentPassword) || isEmptyOrNull(newPassword) || isEmptyOrNull(confirmPassword)
+      
+    if(passwordNotFound){
       dispatch(updateSecurityDetails(userId, values, '2fa'))
     }else{
       dispatch(updateSecurityDetails(userId, values, 'password'))
     }
-  }
 
-  showImageModal = () => {
-    this.setState({ imageModal: true })
-  }
-  hideImageModal = () => {
-    this.setState({ imageModal: false })
   }
 
   sendVerificationCode = () => {
-    const { formValues: { phone }, match: { params: { userId } }, dispatch } = this.props
+
+    const {
+      formValues: { phone },
+      match: { params: { userId } },
+      dispatch
+    } = this.props
+
     const values = {}
     values.phone = phone
     dispatch(addPhone(userId, values))
-  }
-
-  next = () => {
-    const { current } = this.state
-    this.setState({
-      current: current + 1
-    })
-  }
-
-  showDocumentModal = type => {
-    this.setState({
-      documentModal: true,
-      documentModalType: type
-    })
   }
 
   dateHandler = value => {
@@ -131,53 +168,40 @@ class Professional extends Component {
     dispatch(change('professional', 'dateOfBirth', moment(value).format('YYYY-MM-DD')))
   }
 
-  hideDocumentModal = () => {
-    this.setState({
-      documentModal: false,
-      documentModalType: ''
-    })
-  }
-
-  prev = () => {
-    const { current } = this.state
-    this.setState({
-      current: current - 1
-    })
-  }
-
-  showEditFormModal = (name) => {
-    this.setState({
-      formModal: true,
-      formName: name
-    })
+  showEditFormModal = name => {
+    this.setState({ formModal: true, formName: name})
   }
 
   hideEditFormModal = () => {
-    const { imageFile } = this.state
-    const { dispatch, professional: { profile } } = this.props
-    const { profilePicture } = profile
-    this.setState({
-      formModal: false,
-      formName: ''
-    })
+    const { imageFile } = this.state,
+      { dispatch, professional: { profile } } = this.props,
+      { profilePicture } = profile
 
     if(isEmptyOrNull(imageFile)){
       dispatch(change('professional', 'profilePicture', profilePicture))
     }else{
       dispatch(change('professional', 'profilePicture', imageFile))
     }
+
+    this.setState({ formModal: false, formName: '' })
   }
 
   saveDetails = () => {
-    const { dispatch, match: { params: { userId } }, formValues, history } = this.props
-    const { status, qualification, dateOfBirth } = formValues
-    const values = omit(['status', 'postalCode', 'changePassword', 'addressId'], formValues)
+    const {
+      dispatch,
+      match: { params: { userId } },
+      formValues
+    } = this.props
+
+    const { status, qualification, dateOfBirth } = formValues,
+      values = omit(['status', 'postalCode', 'changePassword', 'addressId'], formValues)
+
     values.status = prop('name', find(propEq('id', status))(genders))
     values.qualification = prop('name', find(propEq('id', qualification))(qualifications))
     values.dateOfBirth = dateOfBirth
+
     dispatch(createDetails(userId, values))
     dispatch(reset('professional'))
-    history.push(`/professional/${userId}/timesheet`)
   }
 
   logout = () => {
@@ -194,12 +218,12 @@ class Professional extends Component {
     dispatch(clearAddresses())
   }
 
-  getProfileStatus = id => {
-    return prop('name', find(propEq('id', id))(genders))
-  }
-
   findAddresses = () => {
-    const { dispatch, formValues: { postCode } } = this.props
+    const { 
+      dispatch,
+      formValues: { postCode }
+    } = this.props
+
     dispatch(getAdresses(trim(postCode)))
   }
 
@@ -214,57 +238,21 @@ class Professional extends Component {
   }
 
   verifyProfessionalPhone = () => {
-    const { formValues: { phoneCode }, dispatch, match: { params: { userId } } } = this.props
+    const {
+      formValues: { phoneCode, phone },
+      dispatch,
+      match: { params: { userId } }
+    } = this.props
+
     const values = {}
     values.code = phoneCode
-    dispatch(verifyPhone(userId, values))
-    dispatch(reset('professional'))
-  }
-
-  hideVerificationModal = () => {
-    const { formValues: { phone }, match: { params: { userId } }, dispatch } = this.props
-    const values = {}
     values.phone = phone
-    dispatch(addPhone(userId, values))
-  }
-
-  getFormIcon = (id, className) => {
-    switch(id){
-      case 0:
-        return <Icon type="user" className={className} />
-      case 1:
-        return <Icon type="environment" className={className} />
-      default:
-        return <Icon type="highlight" className={className} />
-    }
+    dispatch(verifyPhone(userId, values))
   }
 
   editPhoneNumber = () => {
     const { dispatch } = this.props
-    dispatch(change('professional', 'phone', ''))
     dispatch(changePhoneRequest())
-  }
-
-  getFormName = current => {
-    switch(current){
-      case 0:
-        return `Personal Details`
-      case 1:
-        return `Address Details`
-      default:
-        return `Work Experience`
-    }
-  }
-
-  onCollapse = () => {
-    const { collapsed } = this.state
-    this.setState({ collapsed: !collapsed })
-  }
-
-  fileRemoveHandler = () => {
-    const { dispatch, formValues: { document } } = this.props
-    this.setState({ documentFile: document })
-    dispatch(change('professional', 'document', ''))
   }
 
   imageRemoveHandler = () => {
@@ -273,40 +261,52 @@ class Professional extends Component {
     dispatch(change('professional', 'profilePicture', ''))
   }
 
-  crbRemoveHandler = () => {
-    const { dispatch, formValues: { crbDocument } } = this.props
-    this.setState({ crbFile: crbDocument })
-    dispatch(change('professional', 'crbDocument', ''))
-  }
-
-  getDocumentType = document => {
-    const extension = last(split('.', document))
-    if(equals(extension, 'pdf') || equals(extension, 'doc') || equals(extension, 'docs'))
-      return 'document'
-    else if(equals(extension, 'jpg') || equals(extension, 'jpeg') || equals(extension, 'png'))
-      return 'image'
-  }
-
   saveBankDetails = () => {
-    const { formValues: { bankDetails }, dispatch, match: { params: { userId } } } = this.props
+    const {
+      formValues: { bankDetails },
+      dispatch,
+      match: { params: { userId } }
+    } = this.props
+
     dispatch(addBankDetails(userId, bankDetails))
   }
 
   modifyBankDetails = () => {
-    const { formValues: { bankDetails }, dispatch, match: { params: { userId } } } = this.props
+
+    const {
+      formValues: { bankDetails },
+      dispatch,
+      match: {
+        params: { userId }
+      }
+    } = this.props
+
     dispatch(updateBankDetails(userId, bankDetails))
+
     this.hideEditFormModal()
   }
 
   sendMessage = () => {
-    const { dispatch, formValues: { contactForm } } = this.props
-    const { subject } = contactForm
+    
+    const {
+      dispatch,
+      formValues: { contactForm },
+      match: {
+        params: { userId }
+      }
+    } = this.props,
+    { subject } = contactForm
+
     contactForm.subject = `${subject} [Contact Form | Professional]`
-    dispatch(contactUs(contactForm))
+
+    dispatch(contactMessage(userId, contactForm))
+
   }
 
   render() {
-    const { collapsed, formModal, formName, current, imageModal, documentModalType, documentModal, pageKey } = this.state
+
+    const { formModal, formName, pageKey } = this.state
+
     const {
       addresses,
       invalid,
@@ -328,91 +328,52 @@ class Professional extends Component {
         }
       }
     } = this.props
-
-    const { bankDetails, offers } = profile
     
     if(!auth){
       return <Redirect to="/" />
     }
   
     return (
-      <div>
-        <Header
-          logout={this.logout}
-        />
-        <Spin spinning={isLoading}>
-          {
-            isEmptyOrNull(prop('insurance', bankDetails)) ?
-            <AddDetails
-              findAddresses={this.findAddresses}
-              addressSelectHandler={this.addressSelectHandler}
-              addresses={addresses}
-              professional={profile}
-              sendVerificationCode={this.sendVerificationCode}
-              verifyProfessionalPhone={this.verifyProfessionalPhone}
-              phoneVerified={phoneVerified}
-              current={current}
-              next={this.next}
-              prev={this.prev}
-              getFormIcon={this.getFormIcon}
-              saveDetails={this.saveDetails}
-              formValues={formValues}
-              fileChangeHandler={this.fileChangeHandler}
-              getFormName={this.getFormName}
-              invalid={invalid}
-              codeSent={codeSent}
-              saveBankDetails={this.saveBankDetails}
-              dateHandler={this.dateHandler}
-              editPhoneNumber={this.editPhoneNumber}
-              fileRemoveHandler={this.fileRemoveHandler}
-              imageRemoveHandler={this.imageRemoveHandler}
-              crbRemoveHandler={this.crbRemoveHandler}
-              changePostalCode={this.changePostalCode}
-              onFileAttach={this.onFileAttach}
-            /> :
-            <ViewDetails
+      <>
+        <Header clickHandler={this.logout} />
+        <Loader
+          size="large"
+          isLoading={isLoading}
+          loadingText={'Loading...'}
+          wrapper={
+            <Container
               userId={userId}
-              isLoading={isLoading}
-              collapsed={collapsed}
-              onCollapse={this.onCollapse}
-              professional={profile}
-              formModal={formModal}
-              formName={formName}
-              showEditFormModal={this.showEditFormModal}
-              hideEditFormModal={this.hideEditFormModal}
-              findAddresses={this.findAddresses}
-              addressSelectHandler={this.addressSelectHandler}
-              updateProfessionalDetails={this.updateProfessionalDetails}
-              addresses={addresses}
-              updateOfferStatus={this.updateOfferStatus}
-              dateHandler={this.dateHandler}
-              getProfileStatus={this.getProfileStatus}
-              invalid={invalid}
-              pageKey={pageKey}
-              switchPage={this.switchPage}
-              updateSecurityandLoginDetails={this.updateSecurityandLoginDetails}
-              formValues={formValues}
+              profile={profile}
               phoneVerified={phoneVerified}
-              imageModal={imageModal}
-              documentModal={documentModal}
-              documentModalType={documentModalType}
-              addTimesheet={this.addTimesheet}
-              offers={offers}
-              showImageModal={this.showImageModal}
-              hideImageModal={this.hideImageModal}
-              fileRemoveHandler={this.fileRemoveHandler}
-              imageRemoveHandler={this.imageRemoveHandler}
-              crbRemoveHandler={this.crbRemoveHandler}
-              showDocumentModal={this.showDocumentModal}
-              hideDocumentModal={this.hideDocumentModal}
-              getDocumentType={this.getDocumentType}
-              modifyBankDetails={this.modifyBankDetails}
+              formValues={formValues}
+              codeSent={codeSent}
+              formInvalid={invalid}
+              addresses={addresses}
+              pageKey={pageKey}
+              formName={formName}
+              formModal={formModal}
+              updateOfferStatus={this.updateOfferStatus}
+              editPhoneNumber={this.editPhoneNumber}
+              switchPage={this.switchPage}
+              showEditFormModal={this.showEditFormModal}
+              dateHandler={this.dateHandler}
+              verifyProfessionalPhone={this.verifyProfessionalPhone}
+              saveDetails={this.saveDetails}
+              hideEditFormModal={this.hideEditFormModal}
               sendMessage={this.sendMessage}
+              updateProfessionalDetails={this.updateProfessionalDetails}
+              findAddresses={this.findAddresses}
+              saveBankDetails={this.saveBankDetails}
               changePostalCode={this.changePostalCode}
+              modifyBankDetails={this.modifyBankDetails}
+              imageRemoveHandler={this.imageRemoveHandler}
+              addressSelectHandler={this.addressSelectHandler}
+              sendVerificationCode={this.sendVerificationCode}
+              updateSecurityandLoginDetails={this.updateSecurityandLoginDetails}
             />
           }
-        </Spin>
-      </div>
+        />
+      </>
     )
   }
 }

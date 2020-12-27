@@ -5,6 +5,23 @@ export const GENERAL_ERROR = { title: 'Server Error', name: "Something went wron
 export const GET_ADDRESS_API_KEY = "dVsQRsLdEkasx1cfi4PGMg25238"
 export const ADDRESSES_ERROR_TITLE = 'Invalid Post Code'
 export const ADDRESSES_ERROR_MESSAGE = 'Please check your post code and request again'
+export const ADBLOCKER_MESSAGE = 'Please disable your ad-blocker to make payment and reload the page again or skip payment option right now' 
+export const PAYPAL_WEB_LINK = 'https://www.paypal.com/us/webapps/mpp/paypal-safety-and-security'
+export const STRIPE_WEB_LINK = 'https://stripe.com/payments'
+export const NMC_WEB_LINK = 'https://www.nmc.org.uk/registration/search-the-register/'
+export const DBS_WEB_LINK = 'https://secure.crbonline.gov.uk/crsc/check?execution=e1s1'
+export const STRIPE_KEY = 'pk_test_cmqEvoYCsQr8Ur3q2AoEY5V800VuRo430P'
+export const PAYPAL_OPTIONS = {
+    'client-id': 'AUk28ovBXDL4THTSWlK0I5rfVzlBx6-wwmu8OH15vc7RCJjuGmK29IG-1CHuVjGpqmjYtO8VTi3C42V0',
+    'currency': 'GBP'
+}
+export const PAYPAL_BUTTON_STYLE = {
+    color: 'blue',
+    height: 35,
+    shape: 'pill',
+    label: 'checkout',
+    layout: 'horizontal'
+}
 export const TIMESHEET_DAYS = [
     {id: 1, name: 'Monday'},
     {id: 2, name: 'Tuesday'},
@@ -21,6 +38,14 @@ export const TIMESHEET_SHIFTS = [
     {id: 4, name: 'Night Shift', startTime: '20:00', endTime: '08:00'},
     {id: 5, name: 'Customized Shift'}
 ]
+
+export const OFFER_OPTIONS = [
+    { label: 'Pending Requests', value: 'pending' },
+    { label: 'Accepted Requests', value: 'accepted' },
+    { label: 'Declined Requests', value: 'declined' },
+    { label: 'Approved Shifts', value: 'approved' },
+    { label: 'Rejected Shifts', value: 'rejected' }
+];
 
 export const GENDER_OPTIONS = [
     { id: 1, name: 'Male' },

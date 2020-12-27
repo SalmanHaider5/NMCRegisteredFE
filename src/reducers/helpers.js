@@ -11,7 +11,8 @@ import {
   find,
   sort,
   remove,
-  not
+  not,
+  defaultTo
 } from 'ramda'
 import moment from 'moment'
 import { isEmptyOrNull } from "../utils/helpers"
@@ -104,4 +105,70 @@ export const getProfileWithModifiedOffer = (payload, state) => {
   profile.offers = update(index, payload, offers)
 
   return profile
+}
+
+export const getPhoneVerifiedProfile = (state, payload) => {
+  const { profile, profile: { contactForm } } = state,
+    { phone } = payload
+  contactForm.phone = phone
+  profile.phone = phone
+  profile.contactForm = contactForm
+
+  return profile
+
+}
+
+export const getTimsheetsList = (state, payload) => {
+  const timesheets = append(payload, state.timesheets)
+  const getSorted = (a, b) => moment(a.startingDay) - moment(b.startingDay)
+  return sort(getSorted, timesheets)
+}
+
+export const formatCompanyDetails = (state, payload) => {
+
+  const { profile: { email, isVerified, balance, vat } } = state
+
+  return { ...payload, email, isVerified, balance, vat }
+}
+
+export const getAfterPaymentProfile = (state, payload) => {
+  const { profile } = state,
+    { status, payDate } = payload
+  
+  profile.isPaid = status
+  profile.payDate = payDate
+    
+  return profile
+}
+
+export const getCompanyModifiedProfile = (state, payload) => {
+  const { profile } = state
+  const { contactForm = {}, changePassword = {}, email = '', isVerified = false } = defaultTo({}, profile)
+
+  return { ...payload, contactForm, changePassword, email, isVerified }
+
+}
+
+export const getModifiedOffers = (state, payload) => {
+  
+  const { id } = payload,
+    { offers } = state
+
+  const currentIndex = findIndex(propEq('id', id))(offers)
+            
+  return update(currentIndex, payload, offers)
+            
+}
+
+export const getModifiedList = (state, payload) => {
+
+  const { professionals = [] } = state
+  const { index, professional } = payload
+  const data = isNil(professionals[index]) ? [] : professionals[index]
+  const modifiedData = isEmptyOrNull(professional) ? data : append(professional, data)
+
+  professionals[index] = modifiedData
+
+  return professionals
+
 }
