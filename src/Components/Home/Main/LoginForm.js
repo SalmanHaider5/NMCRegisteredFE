@@ -1,12 +1,12 @@
 import React from 'react'
 import { Field } from 'redux-form'
 import { Button } from 'antd'
-import { TextField } from '../../../utils/custom-components'
+import { PasswordField, TextField } from '../../../utils/custom-components'
 import { isRequired, isValidEmail } from '../../../constants'
 
 const LoginForm = ({ showForgetPasswordForm }) => {
   return (
-    <div>
+    <div className="login-form">
       <Field
         name="email"
         component={TextField}
@@ -18,9 +18,10 @@ const LoginForm = ({ showForgetPasswordForm }) => {
       />
       <Field
         name="password"
-        component={TextField}
+        component={PasswordField}
         label={'Password'}
         size={'large'}
+        className="password-field"
         type="password"
         specialText={
           <Button

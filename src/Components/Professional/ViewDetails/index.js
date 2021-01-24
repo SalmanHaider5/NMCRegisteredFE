@@ -45,16 +45,15 @@ const ViewDetails = (props) => {
   return (
     <Layout>
       <Sider
-        collapsible
         breakpoint="xl"
         collapsedWidth="0"
+        className="menu-sider"
       >
         <Menu
           onClick={switchPage}
           defaultSelectedKeys={[pageKey]}
           mode="inline"
           theme="dark"
-          
         >
           <Menu.Item key="1" className="nav-list-item">
             <Link to={`/professional/${userId}/timesheet`}>

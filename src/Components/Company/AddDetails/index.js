@@ -7,8 +7,6 @@ import PaymentCycleForm from '../Forms/PaymentCycleForm'
 import { FormContainer, Loader } from '../../../utils/custom-components'
 import { isEmptyOrNull } from '../../../utils/helpers'
 
-import './addDetails.css'
-
 const AddDetails = (props) => {
 
   const {

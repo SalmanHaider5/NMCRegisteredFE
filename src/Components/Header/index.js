@@ -1,18 +1,18 @@
 import React from 'react'
-import { Row, Col, Icon, Button } from 'antd'
+import { Row, Icon, Button } from 'antd'
 
-const Header = ({ loggedIn = true, clickHandler }) => {
+import './header.css'
+
+const Header = ({ loggedIn = true, clickHandler, perfectProfile }) => {
   return (
     <div className='headers'>
       <div className='header-body'>
           <Row>
-            <Col xs={16} sm={19} md={19} lg={19} xl={20}>
-            <div className='logo profile-logo'></div>
-            </Col>
-            <Col xs={8} sm={5} md={5} lg={5} xl={4}>
-              <Button
+            <div className={perfectProfile ? `logo profile-logo hide` : `logo profile-logo`}></div>
+            <Button
                 ghost
                 onClick={clickHandler}
+                className="right-btn"
               >
                 <Icon
                   type={
@@ -21,7 +21,6 @@ const Header = ({ loggedIn = true, clickHandler }) => {
                 />
                 { loggedIn ? 'Logout' : 'Back to Home' }
               </Button>
-            </Col>
           </Row>
         </div>
     </div>

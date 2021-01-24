@@ -22,14 +22,14 @@ const SecurityAndLogin = (props) => {
           </div>
           <div>
             <FormSection name="changePassword">
-              <Divider>Security</Divider>
-              <div>
+              <Divider>Two Factor Authentication</Divider>
+              <div className="form-section-div">
                 <TwoFactorAuthentication
                   formValues={formValues}
                 />
               </div>
               <Divider>Change Password</Divider>
-              <div className='change-password-div'>
+              <div className='form-section-div'>
                 <ChangePasswordForm />
               </div>
             </FormSection>

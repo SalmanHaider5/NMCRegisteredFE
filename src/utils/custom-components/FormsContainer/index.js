@@ -3,6 +3,8 @@ import React from 'react'
 import { Panel } from './Panel'
 import { TabsPane } from './TabsPane'
 
+import './container.css'
+
 export const FormContainer = (props) => {
 
   const { icon, tabs } = props

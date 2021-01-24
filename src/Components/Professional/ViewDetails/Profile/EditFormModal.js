@@ -27,7 +27,7 @@ export const EditFormModal = (props) => {
   } = props
 
   const title = `Edit ${formName} Details`,
-    modalSize = equals(formName, 'Personal') ? 500 : equals(formName, 'Bank') ? 1050 : 850,
+    modalSize = equals(formName, 'Personal') ? 600 : equals(formName, 'Bank') ? 1050 : 850,
     { dateOfBirth } = defaultTo({}, profile),
     { isLoading } = defaultTo({}, addresses)
 

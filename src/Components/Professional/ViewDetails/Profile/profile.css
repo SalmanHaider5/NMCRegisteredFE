@@ -88,3 +88,12 @@ div.photo-viewer-container{
     width: auto !important;
     height: 100% !important;
 }
+
+@media only screen and (max-width: 600px){
+    .content-submit-btn{
+        right: 10px;
+    }
+    .profile-list .ant-tag{
+        display: none;
+    }
+}

@@ -1,20 +1,12 @@
 import { pathOr, join, not } from "ramda"
 import { initialize } from 'redux-form'
 import moment from 'moment'
-import { isEmptyOrNull } from "../helpers"
+import { getEmptyWeekForm, isEmptyOrNull } from "../helpers"
 
 const changePassword = {
   currentPassword: '',
   newPassword: '',
   confirmPassword: ''
-}
-
-const shiftsForm = {
-  shift1: true,
-  shift2: true,
-  shift3: true,
-  shift4: true,
-  shift5: true
 }
 
 const getOfferFormDta = response => {
@@ -31,16 +23,6 @@ const getOfferFormDta = response => {
   }
 }
 
-const searchForm = {
-  skill: '',
-  day0: shiftsForm,
-  day1: shiftsForm,
-  day2: shiftsForm,
-  day3: shiftsForm,
-  day4: shiftsForm,
-  day5: shiftsForm,
-  day6: shiftsForm
-} 
 const getContactFormData = response => {
   return {
     name: join(' ', [pathOr('', ['firstName'], response), pathOr('', ['lastName'], response)]),
@@ -85,7 +67,7 @@ export const getCompanyData = (dispatch, response) => {
     paymentMethod: '',
     offers: pathOr([], ['offers'], response),
     changePassword,
-    searchForm,
+    searchForm: getEmptyWeekForm(),
     contactForm: getContactFormData(response),
     offerForm: getOfferFormDta(response)
   }

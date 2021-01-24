@@ -351,6 +351,7 @@ button.timesheetbtn{
     .single-timesheet-switch{
         width: 130px;
         margin-left: 0px;
+        right: 150px;
     }
 
     .timesheets-row {
@@ -394,3 +395,54 @@ button.timesheetbtn{
     }
 }
 
+@media only screen and (max-width: 600px){
+    .weekly-row{
+        padding: 0;
+    }
+    .weekly-row .ant-col{
+        margin: 0;
+    }
+    .non-submit-btns{
+        position: absolute;
+        /* bottom: 65px; */
+        top: -95px;
+        width: 100%;
+        text-align: center;
+        /* margin: 0; */
+        float: unset;
+        left: unset;
+    }
+    .submit-btn{
+        float: right;
+        right: 10px;
+        margin-bottom: 30px;
+        /* float: left; */
+    }
+    .timesheet-card .ant-card-body{
+        padding: 5px;
+    }
+    .timesheet-card .single-timesheet-switch{
+        width: 80px;
+        right: 10px;
+    }
+    .timesheet-card-h4{
+        float: left;
+    }
+    .single-timesheet-card-shift{
+        width: 100px;
+        right: 15px;
+    }
+}
+
+@media only screen and (max-width: 340px){
+    .timesheet-card .single-timesheet-card-shift{
+        right: 0;
+    }
+    .timesheet-card .single-timesheet-switch{
+        width: 130px;
+    }
+    .timesheet-card-h4{
+        float: right;
+        margin-left: 8px;
+    }
+}

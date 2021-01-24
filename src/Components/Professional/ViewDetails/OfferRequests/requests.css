@@ -62,3 +62,9 @@ div.requests-container div.list-content .ant-list-item-meta-description{
 .offers-container .requests-checkbox{
   padding-left: 25px;
 }
+
+@media only screen and (max-width: 600px){
+  div.requests-container div.list-content{
+    min-height: 0;
+  }
+}

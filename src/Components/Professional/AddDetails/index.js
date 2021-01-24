@@ -7,8 +7,6 @@ import AddressForm from '../DetailForms/AddressForm'
 import ProfessionalDetailsForm from '../DetailForms/ProfessionalDetailsForm'
 import BankDetailsForm from '../DetailForms/BankDetailsForm'
 import { FormContainer } from '../../../utils/custom-components'
-
-import './addDetails.css'
 import { Loader } from '../../../utils/custom-components'
 
 const AddDetails = (props) => {

@@ -14,7 +14,7 @@ export const PaymentMethods = (props) => {
     { paymentMethod } = defaultTo({}, formValues)
 
   return (
-    <Col span={16} id="payment-container">
+    <Col span={16} xs={24} sm={24} md={24} lg={24} xl={16} id="payment-container">
       <div className="payment-methods-container">
         <h3>Choose a Payment Method</h3>
         <Radio.Group buttonStyle="solid" size="large" onChange={getPaymentClientToken}>

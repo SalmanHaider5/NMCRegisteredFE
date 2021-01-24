@@ -19,7 +19,7 @@ import {
 } from 'ramda'
 import { change, reset } from 'redux-form'
 import Cookies from 'js-cookie'
-import { notification } from 'antd'
+import { notification, message } from 'antd'
 import { GENERAL_ERROR, SERVER_URL, GET_ADDRESS_URL, GET_ADDRESS_API_KEY } from '../../constants'
 
 const getClassName = (type)  =>{
@@ -37,14 +37,14 @@ const getClassName = (type)  =>{
     }
 }
 
-export const showToast = (title, message, type)  => {
+export const showToast = (title, text, type)  => {
 
-    if(isEmptyOrNull(title) || isEmptyOrNull(message) || isEmptyOrNull(type)) return undefined
+    if(isEmptyOrNull(title) || isEmptyOrNull(text) || isEmptyOrNull(type)) return undefined
 
 
     notification.open({
         message: '',
-        description: message,
+        description: text,
         placement: 'bottomRight',
         className: 'message-toast'
     })
@@ -53,6 +53,24 @@ export const showToast = (title, message, type)  => {
         placement: "topRight",
         className: getClassName(type),
     })
+
+    message.config({
+        top: 80,
+        maxCount: 1
+    })
+
+    message.info(text, 5)
+    // .then(() => {
+    //     message[type](text, 5)
+    // })
+
+    // message.config({
+    //     top: '80vh',
+    //     maxCount: 1,
+    //     key:'message'
+    // })
+    
+
 }
 
 export const showErrorToast = (title, text) => {
@@ -168,11 +186,11 @@ export const getAddressesList = data => {
 export const getEmptyWeekForm = () => {
     
     const shiftsForm = {
-        shift1: true,
-        shift2: true,
-        shift3: true,
-        shift4: true,
-        shift5: true
+        shift1: false,
+        shift2: false,
+        shift3: false,
+        shift4: false,
+        shift5: false
     }
 
     return {

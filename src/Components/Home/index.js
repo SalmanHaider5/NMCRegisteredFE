@@ -12,8 +12,6 @@ import LoginForm from './Main/LoginForm'
 import ForgetPasswordForm from './ForgetPasswordForm'
 import TwoFactorAuthForm from './TwoFactorAuthForm'
 
-import './home.css'
-
 class Home extends Component {
   constructor(props){
     super(props)

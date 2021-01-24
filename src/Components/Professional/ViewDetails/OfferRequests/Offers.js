@@ -40,14 +40,14 @@ export const Offers = ({ offers, updateOfferStatus }) => {
         changeRequestType={changeRequestType}
       />
       <Card className="offers-list-container">
-        <Col span={6} className="list-content">
+        <Col xl={6} md={8} lg={8} sm={24} className="list-content">
           <OffersList
             offers={filteredOffers}
             currentIndex={index}
             setIndex={setIndex}
           />
         </Col>
-        <Col span={18} className="offer-content">
+        <Col xl={18} md={16} lg={16} sm={24} className="offer-content">
           {
             isEmpty(filteredOffers) ?
             <Empty /> :

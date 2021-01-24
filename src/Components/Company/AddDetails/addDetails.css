@@ -1,6 +1,6 @@
 .addform-container{
     min-height: 91vh;
-    padding: 35px 6px 0 6px !important;
+    padding: 35px 6px 0 6px;
     background-color: #dbdced;
 }
 div.addform-container div.ant-row.addform-panel{

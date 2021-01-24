@@ -43,6 +43,19 @@ div.ant-form-item-label label{
     font-weight: bold;
     color: rgba(5, 1, 27, 0.82);
 }
+
+aside.menu-sider{
+    background: url(https://ezmediart.com/static12/preview200/stock-video-abstract-animated-blue-hexagons-background-loop-182832.jpg);
+    border: none;
+}
+.menu-sider .ant-menu{
+    background: transparent;
+}
+
+.ant-layout-sider-children{
+    background-color: rgba(5, 1, 27, 0.82);
+}
+
 button.skip-paypal{
     float: left;
     left: 60%;
@@ -300,6 +313,11 @@ button.payment-button{
 .requests-container .ant-table-content .ant-table-thead th i{
     color: #fff;
 }
+div.payment-cycle-alert{
+    width: 75%;
+    margin: 0 auto;
+    margin-bottom: 25px;
+}
 .requests-container .ant-checkbox-group{
     padding-bottom: 20px;
     /* padding-left: 14px; */
@@ -325,4 +343,22 @@ button.payment-button{
 }
 .requests-list-container td.action-column button{
     margin-right: 5px;
+}
+@media only screen and (max-width: 600px){
+    .inner-wrapper{
+        width: 100%;
+    }
+    .inner-wrapper .steps-content{
+        margin: 0;
+    }
+    div.payment-cycle-alert{
+        width: 100%;
+    }
+    .payment-container .message-container{
+        width: 100%;
+        right: 0;
+    }
+    .payment-methods-container{
+        padding-left: 0;
+    }
 }

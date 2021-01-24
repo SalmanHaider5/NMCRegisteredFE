@@ -1,0 +1,43 @@
+.header-body .logo{
+  float: left;
+  height: 60px;
+  background-image: url(https://server.nmcregistered.org.uk/uploads/assets/logo.png);
+  background-size: 150px 50px;
+  background-repeat: no-repeat;
+  width: 80%;
+}
+
+.profile-logo{
+  margin-left: 5%;
+  position: relative;
+  bottom: 5px;
+}
+
+.header-body button{
+  position: relative;
+  top: 3px;
+  right: 80px;
+}
+
+@media only screen and (max-width: 600px){
+  .header-body button{
+    right: 10px;
+  }
+  .header-body button span{
+    display: none;
+  }
+  .header-body button i.anticon{
+    padding-right: 0;
+  }
+  .header-body .logo.hide{
+    background-image: unset;
+  }
+  .ant-layout-sider-zero-width-trigger:hover{
+    background: none !important;
+  }
+  .ant-layout-sider-zero-width-trigger{
+    margin-top: -10px;
+    margin-left: 10px;
+    border-radius: 5px;
+  }
+}

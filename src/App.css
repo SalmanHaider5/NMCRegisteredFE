@@ -103,6 +103,24 @@ button.ant-btn-circle i{
   /* vertical-align: unset; */
 }
 
+.left-btn{
+  position: relative;
+  float: left;
+  left: 0;
+}
+
+.right-btn{
+  position: relative;
+  float: right;
+  right: 0;
+}
+
+.full-btn{
+  position: relative;
+  width: 100%;
+  margin: 20px 0 20px 0;
+}
+
 /* body::-webkit-scrollbar-track
 {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
@@ -125,4 +143,238 @@ body::-webkit-scrollbar-thumb
 					   color-stop(0.44, rgb(122,153,217)),
 					   color-stop(0.72, rgb(73,125,189)),
 					   color-stop(0.86, rgb(28,58,148)));
+} */
+
+/* @media only screen and (max-width: 2000px){
+  .main-container .gradient-layer .form-container .form{
+    right: 50px;
+    width: 80%;
+    top: 160px;
+  }
+} */
+
+/* @media only screen and (max-width: 1700px){
+  .main-container .gradient-layer .form-container .form{
+    right: 50px;
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 1620px){
+  .main-container .gradient-layer .form-container .form{
+    right: 50px;
+    width: 80%;
+  }
+  .main-container .gradient-layer .form-container {
+    top: 120px;
+  } 
+}
+
+@media only screen and (max-width: 1500px){
+  .main-container .gradient-layer .form-container .form{
+    right: 50px;
+    width: 90%;
+    top: 180px;
+  }
+}
+
+@media only screen and (max-width: 1400px){
+  .main-container .gradient-layer .form-container .form{
+    right: 50px;
+    width: 94%;
+    top: 120px;
+  }
+  .main-container .gradient-layer .header{
+    height: 220px;
+  }
+}
+
+@media only screen and (max-width: 1300px) and (max-height: 1050px){
+  .main-container .gradient-layer .form-container .form{
+    right: 50px;
+    width: 100%;
+    top: 230px;
+  }
+  .main-container .gradient-layer .header{
+    height: 310px;
+  }
+}
+
+@media only screen and (max-width: 1300px) and (max-height: 900px){
+  .main-container .gradient-layer .form-container .form{
+    right: 50px;
+    width: 100%;
+    top: 140px;
+  }
+  .main-container .gradient-layer .header{
+    height: 210px;
+  }
+}
+
+@media only screen and (max-width: 1200px){
+  .main-container .gradient-layer .form-container .form{
+    width: 70%;
+    right: 0px;
+  }
+  .main-container .gradient-layer .text-container{
+    width: 90%;
+  }
+}
+@media only screen and (max-width: 1050px){
+  .main-container .gradient-layer .form-container .form{
+    width: 80%;
+    right: 0px;
+  }
+  .main-container .gradient-layer .text-container{
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .gradient-layer{
+    overflow-y: auto;
+  }
+ .main-container .gradient-layer .header{
+   height: 150px;
+ }
+ .main-container .gradient-layer .header .logo{
+   width: 40%;
+   margin: 0 auto;
+ }
+ .main-container .gradient-layer .header .logo img{
+   margin-top: 50px;
+ }
+ .main-container .gradient-layer .text-container{
+   padding: 25px;
+   width: 95%;
+   background-color: rgba(255, 255, 255, 0.5); 
+   margin: 0 auto;
+   margin-top: 40px;
+ }
+ 
+ .main-container .gradient-layer .text-container p,
+ .main-container .gradient-layer .text-container h1{
+    color: #000;
+ }
+ .main-container .gradient-layer .text-container button.contact-button{
+   top: 0px;
+ }
+ .main-container .gradient-layer .form-container .form .ant-radio-group .ant-radio-button-wrapper{
+   width: 275px;
+ }
+
+ .main-container .gradient-layer .form-container .contact-button{
+    float: right;
+    left: 130px;
+    top: 15px;
+ }
+ .contact-drawer .ant-drawer-content-wrapper{
+   width: 50% !important;
+ }
+ .main-container .gradient-layer .form-container .form{
+   right: 0;
+   top: 100px;
+   width: 90%;
+   margin-bottom: 125px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .gradient-layer{
+    overflow-x: hidden;
+  }
+  .main-container .gradient-layer .text-container{
+    width: 94%;
+  }
+  .main-container .gradient-layer .header{
+    height: 100px;
+  }
+  .main-container .gradient-layer .header .logo{
+    width: 100%;
+    padding: 50px;
+    padding-top: 0px;
+  }
+  .main-container .gradient-layer .header .logo img{
+    margin-top: 20px;
+  }
+  .main-container .gradient-layer .text-container h1{
+    text-align: center;
+  }
+  .main-container .gradient-layer .text-container button.contact-button i {
+    display: none;
+    
+  }
+  .main-container .gradient-layer .text-container button.contact-button,
+  .main-container .gradient-layer .form-container .form{
+    width: 100%;
+    left: 0;
+  }
+  .main-container .gradient-layer .form-container .form .ant-radio-group .ant-radio-button-wrapper{
+    width: 150px;
+  }
+  .main-container .gradient-layer .form-container .contact-button{
+    display: none;
+  }
+  .main-container .gradient-layer .form-container .contact-mobile-button{
+    display: block;
+    width: 82%;
+    margin: 0 auto;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .gradient-layer{
+    overflow-x: hidden;
+  }
+  .main-container .gradient-layer .text-container{
+    width: 94%;
+  }
+  .main-container .gradient-layer .header{
+    height: 100px;
+  }
+  .main-container .gradient-layer .header .logo{
+    width: 100%;
+    padding: 50px;
+    padding-top: 0px;
+  }
+  .main-container .gradient-layer .header .logo img{
+    margin-top: 20px;
+  }
+  .main-container .gradient-layer .text-container h1{
+    text-align: center;
+  }
+  .main-container .gradient-layer .text-container button.contact-button i {
+    display: none;
+    
+  }
+  .main-container .gradient-layer .text-container button.contact-button,
+  .main-container .gradient-layer .form-container .form{
+    width: 100%;
+    left: 0;
+  }
+  .main-container .gradient-layer .form-container .form .ant-radio-group .ant-radio-button-wrapper{
+    width: 120px;
+  }
+  .main-container .gradient-layer .form-container .form .ant-radio-group .ant-radio-button-wrapper i{
+    display: none;
+  }
+  .main-container .gradient-layer .form-container .contact-button{
+    display: none;
+  }
+
+  .main-container .gradient-layer .form-container .form .signup-button{
+    width: 115px;
+  }
+  
+  .main-container .gradient-layer .form-container .contact-mobile-button{
+    display: block;
+    width: 82%;
+    margin: 0 auto;
+  }
+}
+
+@media only screen and (min-height: 1000px) and (min-width: 1024px){
+  .main-container .gradient-layer .form-container .form{
+    top: 550px; 
+  }
 } */

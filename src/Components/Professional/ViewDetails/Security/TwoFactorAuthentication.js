@@ -11,7 +11,7 @@ const TwoFactorAuthentication = ({ formValues }) => {
         name="twoFactorAuthentication"
         component={SwitchField}
         size="large"
-        label="Two Factor Authentication"
+        label="2F Auth"
         defaultStatus={false}
         checked={twoFactorAuthentication}
         text={twoFactorAuthentication ? `Enabled` : `Disabled`}

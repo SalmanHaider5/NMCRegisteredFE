@@ -5,7 +5,7 @@
     height: 100vh;
 }
 .main-container .gradient-layer{
-    background-color: rgb(17 10 52 / 92%);
+    background-color: rgba(17, 10, 52);
     height: 100vh;
     opacity: 0.8;
 }
@@ -15,8 +15,9 @@
     height: 270px;
 }
 .main-container .gradient-layer .text-container{
-    width: 80%;
+    width: 55%;
     margin: 0 auto;
+    margin-left: 10%;
 }
 .main-container .gradient-layer .text-container .contact-button{
     top: 15px;
@@ -50,8 +51,8 @@
 .main-container .gradient-layer .form-container .form{
     text-align: center;
     position: relative;
-    width: 85%;
-    top: 150px;
+    width: 70%;
+    top: 220px;
     right: 70px;
     padding-top: 20px;
     padding-bottom: 80px;
@@ -88,7 +89,7 @@
     margin-bottom: 20px;
 }
 .main-container .gradient-layer .form-container .form .ant-radio-group .ant-radio-button-wrapper{
-    width: 170px;
+    width: 160px;
     color: #fff;
 }
 .main-container .gradient-layer .form-container .form .ant-radio-group .ant-radio-button-wrapper i{
@@ -109,9 +110,12 @@
 .main-container .gradient-layer .form-container .contact-button{
     color: #fff;
     position: relative;
-    float: left;
-    left: 35px;
+    float: right;
+    right: 50px;
     bottom: 20px;
+}
+.main-container .gradient-layer .form-container .contact-mobile-button{
+    display: none;
 }
 .terms-drawer .ant-drawer-header,.contact-drawer .ant-drawer-header{
     border-radius: 0;
@@ -157,8 +161,8 @@
 .profile-logo{
     margin-left: 10%;
 }
-.nav-list-item{
-    border-bottom: 1px solid #1890ff;
+.login-form span.ant-input-password input.ant-input{
+    padding-left: 10px;
 }
 .action-buttons{
     margin-bottom: 30px;

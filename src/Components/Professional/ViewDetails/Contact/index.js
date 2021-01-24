@@ -13,7 +13,7 @@ const Contact = ({ sendMessage }) => {
           </div>
           <div>
             <Divider>Get in touch</Divider>
-            <div className='change-password-div'>
+            <div className='form-section-div'>
               <FormSection name="contactForm">
                 <ContactForm />
               </FormSection>

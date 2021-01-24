@@ -12,7 +12,7 @@ export const NMC_WEB_LINK = 'https://www.nmc.org.uk/registration/search-the-regi
 export const DBS_WEB_LINK = 'https://secure.crbonline.gov.uk/crsc/check?execution=e1s1'
 export const STRIPE_KEY = 'pk_test_cmqEvoYCsQr8Ur3q2AoEY5V800VuRo430P'
 export const PAYPAL_OPTIONS = {
-    'client-id': 'AUk28ovBXDL4THTSWlK0I5rfVzlBx6-wwmu8OH15vc7RCJjuGmK29IG-1CHuVjGpqmjYtO8VTi3C42V0',
+    'client-id': 'ATET_OBKQsm2EXXHAEenw8kALfnbgERBkb9U_I2ZVVvATJXtRsrY9easUR2UU_U1I9UYp0ZMYoMo8S6O',
     'currency': 'GBP'
 }
 export const PAYPAL_BUTTON_STYLE = {
@@ -49,8 +49,7 @@ export const OFFER_OPTIONS = [
 
 export const GENDER_OPTIONS = [
     { id: 1, name: 'Male' },
-    { id: 2, name: 'Female' },
-    { id: 3, name: 'Others' }
+    { id: 2, name: 'Female' }
 ]
 export const QUALIFICATION_OPTIONS = [
     { id: 1, name: 'Registered Nurse Learning Disabilities' },

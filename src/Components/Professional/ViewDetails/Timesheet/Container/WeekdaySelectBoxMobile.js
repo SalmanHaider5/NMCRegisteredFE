@@ -16,10 +16,11 @@ const WeekdaySelectBoxMobile = ({ showDrawer, getScheduleByDay, getDayStatus }) 
               <Col span={16} style={{padding: 0}}><p className='timesheet-list-add-p'>{name}</p></Col>
               <Col span={8} style={{padding: 0}}>
               <Button
-                  className={isNil(daySchedule) ? 'timesheet-btn' : 'timesheet-btn shift-add-buttonlist'}
-                  onClick={() => showDrawer(day)}
-                  disabled={getDayStatus(day)}
-                block>
+                className={isNil(daySchedule) ? 'timesheet-btn' : 'timesheet-btn shift-add-buttonlist'}
+                onClick={() => showDrawer(day)}
+                disabled={getDayStatus(day)}
+                block
+              >
                   {
                     isNil(daySchedule) ?
                     <Icon

@@ -1,45 +1,41 @@
 import React, { useState } from 'react'
 import { FormSection } from 'redux-form'
-import { Button, Icon, Drawer } from 'antd'
+import { Button, Icon, Drawer, Divider } from 'antd'
 import SignupForm from './SignupForm'
-import ContactForm from '../ContactForm'
+import { PrivacyPolicy } from './PrivacyPolicy'
 
 export const FormContainer = (props) => {
 
-  const [contactDrawer, setContactDrawer] = useState(false)
-
-  const { sendMessage } = props
+  const [privacyDrawer, setPrivacyDrawer] = useState(false)
 
   return (
-    <div className="form-container">
+    <div className="form-content">
       <div className="form">
-        <h2 className="form-title">Sign Up</h2>
+        <Divider className="form-title">Sign Up</Divider>
         <FormSection name="signup">
           <SignupForm {...props} />
         </FormSection>
         <Button
-          type="link"
-          onClick={() => setContactDrawer(true)}
-          className="contact-button"
+          shape="round"
+          type="primary"
+          icon="file"
+          onClick={() => setPrivacyDrawer(true)}
+          className="full-btn success-btn"
         >
-          Do you have any query?
+          Privacy Policy
         </Button>
       </div>
       <Drawer
-        title={<><Icon type="mail" /> Contact Us </>}
+        title={<><Icon type="paper-clip" /> Privacy Policy</>}
         placement="right"
-        className="contact-drawer"
+        className="terms-drawer"
+        maskStyle={{ backdropFilter: 'blur(3px)' }}
         closable={true}
-        onClose={() => setContactDrawer(false)}
-        visible={contactDrawer}
-        width={'40%'}
+        width={680}
+        onClose={() => setPrivacyDrawer()}
+        visible={privacyDrawer}
       >
-        <FormSection name="contactForm">
-          <ContactForm />
-        </FormSection>
-        <Button className="success-btn" onClick={sendMessage}>
-          <Icon type="export" /> Send us a Message
-        </Button>
+        <PrivacyPolicy />
       </Drawer>
     </div>
   )

@@ -28,9 +28,11 @@ const ViewDetails = (props) => {
 
   return (
     <Layout style={{ minHeight: '90vh' }}>
-      <Sider style={{ marginTop: '-4px' }}
+      <Sider
+        style={{ marginTop: '-4px' }}
         breakpoint="xl"
         collapsedWidth="0"
+        className="menu-sider"
       >
         <Menu
           defaultSelectedKeys={[pageKey]}

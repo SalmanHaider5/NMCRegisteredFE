@@ -8,7 +8,7 @@ const BankDetailsForm = () => {
   return (
     <FormSection name="bankDetails">
       <Row className="form-alert">
-        <Col span={17} offset={3}>
+        <Col>
           <Alert
             message="Permission Required"
             description="To allow payment directly to your bank account we require your permission to give these

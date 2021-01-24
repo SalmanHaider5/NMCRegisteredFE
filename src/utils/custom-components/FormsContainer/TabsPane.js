@@ -1,4 +1,4 @@
-import { Button, Col, Icon, Row, Tabs } from 'antd'
+import { Button, Icon, Divider, Tabs } from 'antd'
 import { equals, length, map, toString } from 'ramda'
 import React, { useState } from 'react'
 
@@ -44,13 +44,34 @@ export const TabsPane = (props) => {
                   </span>
                 }
               >
-                {wrapper}
+                <div className="tabs-content">
+                  {wrapper}
+                </div>
               </TabPane>
             )
           }, tabsData)
         }
       </Tabs>
-      <Row className="action-buttons">
+      <div className="tab-btns">
+        <Divider />
+        {
+          equals(tabKey, '1') ? '' :
+          <Button shape="round" className="left-btn" type="primary" onClick={prevTab}>
+            <Icon type="left" />Back
+          </Button>
+        }
+
+        {
+          equals(tabKey, toString(length(tabsData))) ?
+          <Button shape="round" type="primary" disabled={validate(tabKey)} className="success-btn right-btn" onClick={tabsSubmit}>
+            <Icon type="check" /> Save
+          </Button> :
+          <Button shape="round" type="primary" className="right-btn" onClick={nextTab}>
+            Next <Icon type="right" />
+          </Button>
+        }
+      </div>
+      {/* <Row className="action-buttons">
         <Col span={5} offset={3}>
         {
           equals(tabKey, '1') ? '' :
@@ -70,7 +91,7 @@ export const TabsPane = (props) => {
           </Button>
         }
         </Col>
-      </Row>
+      </Row> */}
     </>
   )
 }

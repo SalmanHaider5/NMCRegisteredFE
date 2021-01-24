@@ -1,0 +1,157 @@
+.addform-container{
+  min-height: 100vh;
+  padding: 30px 20px 0 20px;
+  background-color: #dbdced;
+}
+
+div.addform-container div.ant-row.addform-panel{
+  background-color: #1e1c5d;
+  min-height: 83vh;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.div.ant-row.addform-panel{
+  width: 88%;
+  margin: 0 auto;
+}
+
+.addform-container .progress-tail{
+  text-align: center;
+  border: 10px solid #fff;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  border-radius: 50%;
+  display: table;
+  position: relative;
+  top: 20vh;
+}
+
+.addform-container .form-panel{
+  background-color: white;
+  height: 83vh;
+  
+}
+
+.panel-btns{
+  margin-bottom: 30px;
+}
+
+.addform-container .form-icon{
+  font-size: 100px;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.addform-container .progress-panel i.anticon{
+  color: #fff;
+}
+
+/* .form-panel .tabs-content{
+  padding: 0 0 0 38px;
+} */
+
+.form-panel .panel-btns{
+  width: 82%;
+}
+.addform-panel .form-alert{
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+.form-panel .tab-btns{
+  width: 68%;
+  margin: 0 auto;
+  margin-bottom: 100px;
+}
+
+.ant-message{
+  display: none;
+}
+
+.form-panel{
+  overflow-y: scroll;
+}
+.form-panel::-webkit-scrollbar-track
+{
+-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+background-color: #F5F5F5;
+border-radius: 10px;
+}
+
+.form-panel::-webkit-scrollbar
+{
+width: 10px;
+background-color: #F5F5F5;
+}
+
+.form-panel::-webkit-scrollbar-thumb
+{
+border-radius: 10px;
+background-image: -webkit-gradient(linear,
+           left bottom,
+           left top,
+           color-stop(0.44, rgb(122,153,217)),
+           color-stop(0.72, rgb(73,125,189)),
+           color-stop(0.86, rgb(28,58,148)));
+}
+
+@media only screen and (max-width: 800px){
+  .addform-container{
+    padding: 0;
+  }
+  .form-panel .ant-tabs-nav-wrap{
+    text-align: center;
+  }
+  .form-panel .ant-tabs-nav-wrap .ant-tabs-nav .ant-tabs-tab-active{
+    border-bottom: 2px solid #fff;
+  }
+  .form-panel .ant-tabs-ink-bar{
+    background-color: #1e1c5d;
+  }
+  .form-panel .tab-btns{
+    width: 75%;
+    margin: 0 auto;
+  }
+  .form-panel .ant-tabs-nav-wrap .ant-tabs-nav .ant-tabs-tab-active,
+  .form-panel .ant-tabs-nav-container,
+  .form-panel .ant-card-head{
+    background-color: #1890ff;
+    color: #fff;
+  }
+}
+
+@media only screen and (max-width: 600px){
+  .form-panel .panel-btns{
+    width: 93.4%;
+    margin-bottom: 20px;
+  }
+  .form-panel .tabs-content{
+    width: 90%;
+    margin: 0 auto;
+  }
+  
+  .form-panel .tab-btns{
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 75px;
+  }
+  .addform-panel .form-alert{
+    width: 100%;
+  }
+  .ant-tabs-tab-arrow-show i{
+    color: #fff;
+  }
+  .form-section-div{
+    width: 95%;
+    margin: 0 auto;
+  }
+}
+
+@media only screen and (max-width: 380px){
+  
+  .form-panel .panel-btns{
+    width: 92%;
+    margin-bottom: 60px;
+  }
+}

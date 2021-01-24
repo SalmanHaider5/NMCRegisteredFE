@@ -19,7 +19,7 @@ export const PaymentContainer = (props) => {
             showIcon
           /> : ''
         }
-        <Col span={8}>
+        <Col span={8} xs={24} sm={24} md={24} lg={24} xl={8}>
           <PaymentReceipt formValues={formValues} />
         </Col>
         {

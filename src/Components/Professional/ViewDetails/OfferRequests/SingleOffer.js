@@ -38,7 +38,7 @@ export const SingleOffer = (props) => {
       className="receipt-card"
     >
       <Row className="data-container">
-        <Col span={8}>
+        <Col xl={8} lg={8} md={8} sm={24}>
           <label>Shifts</label>
           <List>
             {
@@ -58,7 +58,7 @@ export const SingleOffer = (props) => {
             }
           </List>
         </Col>
-        <Col span={8}>
+        <Col xl={8} md={8} lg={8} sm={24}>
           <label>Company Details</label>
           <List>
             <List.Item>
@@ -75,7 +75,7 @@ export const SingleOffer = (props) => {
             </List.Item>
           </List>
         </Col>
-        <Col span={8}>
+        <Col xl={8} md={8} lg={8} sm={24}>
           <label>Other Details</label>
           <List>
             <List.Item>

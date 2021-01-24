@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues, reset, change } from 'redux-form'
 import moment from 'moment'
-import { trim, split, prop, propEq, concat, find, omit, dissoc, type, last, equals } from 'ramda'
+import { trim, split, prop, propEq, concat, find, omit, dissoc, type, last, equals, defaultTo, not } from 'ramda'
 import {
   getAdresses,
   createDetails,
@@ -121,7 +121,7 @@ class Professional extends Component {
     else
       values.qualification = prop('name', find(propEq('id', qualification))(qualifications))
     
-    values.dateOfBirth = dateOfBirth
+    values.dateOfBirth = moment(dateOfBirth).format('YYYY-MM-DD')
 
     dispatch(updateProfessionalProfile(userId, values))
 
@@ -328,6 +328,9 @@ class Professional extends Component {
         }
       }
     } = this.props
+
+    const { bankDetails } = defaultTo({}, profile)
+    const perfectProfile = not(isEmptyOrNull(prop('insurance', bankDetails)))
     
     if(!auth){
       return <Redirect to="/" />
@@ -335,7 +338,7 @@ class Professional extends Component {
   
     return (
       <>
-        <Header clickHandler={this.logout} />
+        <Header clickHandler={this.logout} perfectProfile={perfectProfile} />
         <Loader
           size="large"
           isLoading={isLoading}

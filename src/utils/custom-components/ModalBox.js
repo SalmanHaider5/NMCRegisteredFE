@@ -14,7 +14,7 @@ export const ModalBox = ({
   submitDisabled,
   cancelDisabled,
   size,
-  titleIcon = 'hightlight'
+  titleIcon = 'user'
 }) => {
 
   const buttonStyles = {

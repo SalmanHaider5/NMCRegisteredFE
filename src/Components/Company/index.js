@@ -23,7 +23,8 @@ import {
   length,
   not,
   join,
-  and
+  and,
+  or
 } from 'ramda'
 
 import {
@@ -126,21 +127,6 @@ class Company extends Component {
     }
     
   }
-  
-  // next = () => {
-  //   const { current } = this.state
-  //   this.setState({ current: current + 1 })
-  // }
-
-  // prev = () => {
-  //   const { current } = this.state
-  //   this.setState({ current: current - 1 })
-  // }
-
-  // onCollapse = () => {
-  //   const { collapsed } = this.state
-  //   this.setState({ collapsed: !collapsed })
-  // }
 
   showOfferModal = (selectedProfessional) => {
     
@@ -196,21 +182,6 @@ class Company extends Component {
       professionalId: ''
     })
   }
-
-  // showTermsDrawer = () => {
-  //   this.setState({ termsDrawer: true })
-  // }
-
-  // hideTermsDrawer = () => {
-  //   this.setState({
-  //     termsDrawer: false,
-  //     termsDocumentType: 'terms'
-  //   })
-  // }
-
-  // setTermsDocumentType = (type) => {
-  //   this.setState({ termsDocumentType: type })
-  // }
 
   changePassword = () => {
 
@@ -271,11 +242,6 @@ class Company extends Component {
     this.setState({ searchDrawer: false })
   }
 
-  // makePaypalPayment = (response) => {
-  //   const { dispatch, match: { params: { userId } } } = this.props
-  //   dispatch(makePaypalPayment(userId, response))
-  // }
-
   makePaymentRequest = response => {
 
     const {
@@ -329,13 +295,6 @@ class Company extends Component {
     dispatch(endProcess())
   }
 
-  // changeDatePickerType = () => {
-  //   const { datePickerType } = this.state
-  //   this.setState({
-  //     datePickerType: datePickerType === 'singular' ? 'multiple' : 'singular'
-  //   })
-  // }
-
   sendMessage = () => {
 
     const {
@@ -352,10 +311,6 @@ class Company extends Component {
 
     dispatch(contactUs(userId, contactForm))
   }
-
-  // switchPage = key => {
-  //   this.setState({ pageKey: key })
-  // }
 
   changePostalCode = () => {
     const { dispatch } = this.props
@@ -391,14 +346,6 @@ class Company extends Component {
     dispatch(updateProfile(userId, values))
     this.hideEditFormModal()
   }
-
-  // showImageModal = () => {
-  //   this.setState({ imageModal: true })
-  // }
-
-  // hideImageModal = () => {
-  //   this.setState({ imageModal: false })
-  // }
 
   saveDetails = () => {
     
@@ -541,32 +488,12 @@ class Company extends Component {
 
   }
 
-  // showDocumentModal = type => {
-  //   this.setState({
-  //     documentModal: true,
-  //     documentModalType: type
-  //   })
-  // }
-
-  // hideDocumentModal = () => {
-  //   this.setState({
-  //     documentModal: false,
-  //     documentModalType: ''
-  //   })
-  // }
-
   hideEditFormModal = () => {
     this.setState({
       editFormModal: false,
       formName: ''
     })
   }
-
-  // logout = () => {
-  //   const { dispatch, history } = this.props
-  //   dispatch(logoutUser())
-  //   history.push('/')
-  // }
 
   subsidiaryStatusChange = () => {
     
@@ -589,14 +516,6 @@ class Company extends Component {
 
   }
 
-  // getDocumentType = document => {
-  //   const extension = last(split('.', document))
-  //   if(equals(extension, 'pdf') || equals(extension, 'doc') || equals(extension, 'docs'))
-  //     return 'document'
-  //   else if(equals(extension, 'jpg') || equals(extension, 'jpeg') || equals(extension, 'png'))
-  //     return 'image'
-  // }
-
   skipPaymentOption = () => {
     this.setState({ paymentSkipped: true })
   }
@@ -604,10 +523,6 @@ class Company extends Component {
   showPaymentForm = () => {
     this.setState({ paymentSkipped: false })
   }
-
-  // changePaymentMethod = e => {
-  //   this.setState({ paymentMethod: e.target.value })
-  // }
 
   addressSelectHandler = addressId => {
 
@@ -623,43 +538,6 @@ class Company extends Component {
       dispatch(change('company', 'county', address[6]))
     }
   }
-
-  // extractDates = (startDate, endDate) => {
-  //   let dates = [];
-  //   while(!moment(startDate).isAfter(moment(endDate))){
-  //     dates = append(moment(startDate).format('YYYY-MM-DD'), dates)
-  //     startDate = startDate.add(1, 'days')
-  //   }
-  //   return dates
-  // }
-
-  // showMessage = (type) => {
-  //   if(type === 'skill'){
-  //     message.success('Pick a Week and Choose a Skill')
-  //   }
-  // }
-
-  // getFormIcon = (id, className) => {
-  //   switch(id){
-  //     case 0:
-  //       return <Icon type="user" className={className} />
-  //     case 1:
-  //       return <Icon type="history" className={className} />
-  //     default:
-  //       return <Icon type="highlight" className={className} />
-  //   }
-  // }
-
-  // getFormName = current => {
-  //   switch(current){
-  //     case 0:
-  //       return `Basic Details`
-  //     case 1:
-  //       return `Payment Cycle`
-  //     default:
-  //       return `Company Details`
-  //   }
-  // }
 
   changeRequestType = (values, options)=> {
 
@@ -685,6 +563,7 @@ class Company extends Component {
     const {
       paymentSkipped,
       formName,
+      pageKey,
       editFormModal,
       searchDrawer,
       currentWeek,
@@ -712,11 +591,16 @@ class Company extends Component {
       },
       formValues
     } = this.props
+
+    const { firstName, isPaid = false } = defaultTo({}, profile),
+      paymentDone = or(isPaid, paymentSkipped),
+      perfectProfile = and(not(isEmptyOrNull(firstName)), paymentDone)
     
     return(
       <>
         <Header
           clickHandler={this.logout}
+          perfectProfile={perfectProfile}
         />
         <Loader
           size="large"
@@ -726,6 +610,7 @@ class Company extends Component {
             <Container
               userId={userId}
               profile={profile}
+              pageKey={pageKey}
               formInvalid={invalid}
               addresses={addresses}
               formValues={formValues}
