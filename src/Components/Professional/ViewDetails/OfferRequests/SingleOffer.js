@@ -1,8 +1,10 @@
 import React from 'react'
 import { Row, Col, Card, Icon, List } from 'antd'
-import { head, defaultTo, length, join, split, last, toUpper, equals } from 'ramda'
+import { head, defaultTo, length, join, split, last, toUpper, equals, not } from 'ramda'
 import { isEmptyOrNull, mapIndexed } from '../../../../utils/helpers'
 import { OfferActions } from './OfferActions'
+import MessageForm from './MessageForm'
+import { FormSection } from 'redux-form'
 
 export const SingleOffer = (props) => {
 
@@ -14,6 +16,7 @@ export const SingleOffer = (props) => {
     companyName,
     address,
     status,
+    professionalMsg,
     message
   } = defaultTo({}, selectedOffer)
 
@@ -74,9 +77,7 @@ export const SingleOffer = (props) => {
               />
             </List.Item>
           </List>
-        </Col>
-        <Col xl={8} md={8} lg={8} sm={24}>
-          <label>Other Details</label>
+          <label>Shift Details</label>
           <List>
             <List.Item>
               <List.Item.Meta
@@ -90,15 +91,33 @@ export const SingleOffer = (props) => {
                 description={toUpper(status)}
               />
             </List.Item>
+          </List>
+        </Col>
+        <Col xl={8} md={8} lg={8} sm={24}>
+          <label>Messages</label>
+          <List>
             {
               isEmptyOrNull(message) ? '' :
               <List.Item>
                 <List.Item.Meta
-                  title={'Message'}
+                  title={companyName}
                   description={message}
                 />
               </List.Item>
             }
+            <List.Item>
+              {
+                isEmptyOrNull(professionalMsg) && equals(status, 'pending') ?
+                <FormSection name="shiftMessage">
+                  <MessageForm />
+                </FormSection> :
+                not(isEmptyOrNull(professionalMsg)) ?
+                <List.Item.Meta
+                  title={'You'}
+                  description={professionalMsg}
+                /> : ''
+              }
+            </List.Item>
           </List>
         </Col>
         <Col span={24}>

@@ -14,7 +14,8 @@ export const SingleOffer = (props) => {
     professionalName,
     professionalNmc,
     status,
-    message
+    message,
+    professionalMsg
   } = defaultTo({}, selectedOffer)
 
   const list = split(',', shifts)
@@ -72,11 +73,8 @@ export const SingleOffer = (props) => {
                 description={professionalNmc}
               />
             </List.Item>
-          </List>
-        </Col>
-        <Col span={8}>
-          <label>Other Details</label>
-          <List>
+            <label>Shift Details</label>
+            <List>
             <List.Item>
               <List.Item.Meta
                 title={'Shift Rate'}
@@ -89,12 +87,27 @@ export const SingleOffer = (props) => {
                 description={toUpper(status)}
               />
             </List.Item>
+          </List>
+          </List>
+        </Col>
+        <Col span={8}>
+          <label>Messages</label>
+          <List>
             {
               isEmptyOrNull(message) ? '' :
               <List.Item>
                 <List.Item.Meta
-                  title={'Message'}
+                  title={'You'}
                   description={message}
+                />
+              </List.Item>
+            }
+            {
+              isEmptyOrNull(professionalMsg) ? '' :
+              <List.Item>
+                <List.Item.Meta
+                  title={professionalName}
+                  description={professionalMsg}
                 />
               </List.Item>
             }

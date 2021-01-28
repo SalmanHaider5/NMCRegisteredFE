@@ -10,7 +10,7 @@
 div.requests-container div.list-content{
   padding-left: 0 !important;
   padding-right: 0 !important;
-  min-height: 450px;
+  min-height: 550px;
   border-right: 1px solid #eee7ee;
 }
 div.requests-container div.list-content li.ant-list-item{
@@ -22,7 +22,7 @@ div.requests-container div.list-content .ant-list-item-meta-description{
   padding-left: 28px;
 }
 .offer-content{
-  height: 450px;
+  height: 550px;
   overflow-y: auto;
 }
 .active-list-item{

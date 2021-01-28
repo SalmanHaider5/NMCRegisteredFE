@@ -86,15 +86,17 @@ class Professional extends Component {
       professional: {
         profile: { offers }
       },
+      formValues: { shiftMessage: { msg } },
       match: {
         params: { userId }
       }
     } = this.props
 
     const offer = find(propEq('id', offerId))(offers)
+    offer.professionalMsg = defaultTo('', msg)
     offer.status = status
     offer.professional = userId
-
+    
     dispatch(changeOfferStatus(userId, offer, offer.id))
 
   }
