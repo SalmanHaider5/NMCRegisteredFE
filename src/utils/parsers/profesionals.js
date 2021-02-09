@@ -16,6 +16,10 @@ const getChangePasswordFormValues = twoFactorAuthentication => {
   }
 }
 
+const shiftMessage = {
+  msg: ''
+}
+
 const getBankDetails = bankDetails => {
   return {
     insurance: pathOr('', ['insurance'], bankDetails),
@@ -64,6 +68,7 @@ export const getProfessionalData = (dispatch, response) => {
     contactForm: getContactFormValues(response),
     crbDocument: pathOr('', ['crbDocument'], response),
     cpdHours: pathOr(0, ['cpdHours'], response),
+    shiftMessage,
     experience: pathOr('', ['experience'], response),
     createdAt: pathOr('', ['createdAt'], response),
     updatedAt: pathOr('', ['updatedAt'], response)

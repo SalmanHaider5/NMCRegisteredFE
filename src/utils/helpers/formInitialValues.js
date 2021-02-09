@@ -95,6 +95,10 @@ const changePassword = {
     confirmPassword: ''
 }
 
+const shiftMessage = {
+    msg: ''
+}
+
 export const getProfessionalFormValues = () => {
     return {
         profilePicture: '',
@@ -109,7 +113,8 @@ export const getProfessionalFormValues = () => {
         hasTransport: false,
         experience: '',
         changePassword,
-        contactForm
+        contactForm,
+        shiftMessage
     }
 }
 

@@ -118,7 +118,7 @@ export const PRIVACY_POLICY = [
     {
         id: 1,
         title: '',
-        text: 'The primary purpose of nmcregistered.org.uk is to be a resource and business tool to help you create and sustain your business growth. We want you to feel secure when visiting our site and vigorously work to ensure your privacy to the best of our ability at all times.'
+        text: 'The primary purpose of nmcregistered.org.uk is to be a resource and business tool to help you create and sustain your business growth. We want you to feel secure when visiting our site and vigorously work to ensure your privacy to the best of our ability at all times. This site is fully PCI DSS and GDRP compliant'
     },
     {
         id: 2,

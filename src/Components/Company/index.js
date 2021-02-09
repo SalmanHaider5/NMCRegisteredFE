@@ -162,13 +162,13 @@ class Company extends Component {
       company: { profile }
     } = this.props
 
-    const { address, city, county } = profile
+    const { address, city, county, postalCode } = profile
     const { shifts } = offerForm
     const { professionalId } = this.state
 
     offerForm.shifts = shifts.toString()
     offerForm.company = userId
-    offerForm.address = `${address}, ${city}, ${county}`
+    offerForm.address = `Post Code ${postalCode}, ${address}, ${city}, ${county}`
     offerForm.professional = professionalId.toString()
 
     dispatch(sendOfferRequest(userId, offerForm))

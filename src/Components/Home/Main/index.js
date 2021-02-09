@@ -22,7 +22,7 @@ export const Main = (props) => {
             <div className="welcome-text">
               <h1>Welcome to {TITLE}</h1>
               <p>
-                Delivering a simplistic solution for NHS Trusts, Care
+                Delivering a simple solution for NHS Trusts, Care
                 Homes and Professionals to link together.
               </p>
               <p>
