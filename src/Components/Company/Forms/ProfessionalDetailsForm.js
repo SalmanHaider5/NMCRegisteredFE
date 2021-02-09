@@ -31,9 +31,9 @@ const ProfessionalDetailsForm = ({
         specialText={
           length(addresses) > 0 ?
           <Button type="link" onClick={changePostalCode}>
-            Change Post Code?
+            Change Postal Code?
           </Button>:
-          'Enter post code to find your home address'
+          'Enter postal code to find your Business Address'
         }
 				type="text"
 				validate={[isRequired]}

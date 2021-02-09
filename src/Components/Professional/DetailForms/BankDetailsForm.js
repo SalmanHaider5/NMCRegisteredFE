@@ -11,7 +11,7 @@ const BankDetailsForm = () => {
         <Col>
           <Alert
             message="Permission Required"
-            description="To allow payment directly to your bank account we require your permission to give these
+            description="To allow payment directly to your bank account we require your permission to give these 
             details to payroll"
             type="info"
             showIcon
