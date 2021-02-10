@@ -118,7 +118,7 @@ export const PRIVACY_POLICY = [
     {
         id: 1,
         title: '',
-        text: 'The primary purpose of nmcregistered.org.uk is to be a resource and business tool to help you create and sustain your business growth. We want you to feel secure when visiting our site and vigorously work to ensure your privacy to the best of our ability at all times. This site is fully PCI DSS and GDRP compliant'
+        text: 'The primary purpose of nmcregistered.org.uk is to be a resource and business tool to help you create and sustain your business growth. We want you to feel secure when visiting our site and vigorously work to ensure your privacy to the best of our ability at all times. This site is fully PCI DSS and GDRP compliant.'
     },
     {
         id: 2,
@@ -132,26 +132,16 @@ export const PRIVACY_POLICY = [
     },
     {
         id: 4,
-        title: 'How do we use this information?',
-        text: 'Submitted information is assessed to determine what is most beneficial about our site in relation to our clients and to help us identify ways to improve and eventually determine how we can tailor nmcregistered.org.uk to make it a more effective site to service our clients.'
-    },
-    {
-        id: 5,
-        title: 'Do we share information or data with third parties?',
-        text: 'As an organisation the data we collect may be transferred throughout NMC Registered network this is a necessary requirement in order for us to provide the quality of service expected by our clients. We do not or will not sell individual information and will share it only with the relevant members of our organisation aligned to providing our services. Before you submit any information, we will notify you as to why we are asking for specific information and it is completely upon your own discretion as to whether or not you wish to provide it'
-    },
-    {
-        id: 6,
         title: 'Do we share personal information or data with third parties?',
         text: 'No. As an organisation the data submitted may be transferred throughout NMC Registered network, this is a necessary requirement in order for us to provide the quality of service expected by our clients. We do not and will not sell or disclose individual information and will share it only with the relevant members of our organisation aligned to providing our services.'
     },
     {
-        id: 7,
+        id: 5,
         title: 'Your right access your personal data/freedom of information.',
         text: 'You are entitled to know whether we hold data/information about you; if we do you can obtain access to that data/information to ensure its accuracy or to have it amended where necessary. You can do this by sending an e-mail via our “Contact Us” page, please mark the subject as “FOI”.'
     },
     {
-        id: 8,
+        id: 6,
         title: '',
         text: 'At nmcregistered.org.uk we are focused on maintaining your privacy and creating a sustainable and valuable resource for you to use. If you have any questions regarding the security of our site, please email us via our “Contact Us” page, please mark the subject as “Privacy”.'
     }
