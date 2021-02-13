@@ -1,7 +1,8 @@
 import React from 'react'
-import { Col, Icon, Card, List } from 'antd'
+import { Col, Icon, Card, List, Empty } from 'antd'
 import { prop, equals, nth } from 'ramda'
 import { SingleOffer } from './SingleOffer'
+import { isEmptyOrNull } from '../../../../utils/helpers'
 
 export const Requests = ({ offers, currentIndex, setIndex, updateOfferStatus }) => {
 
@@ -29,7 +30,11 @@ export const Requests = ({ offers, currentIndex, setIndex, updateOfferStatus }) 
         />
       </Col>
       <Col span={18} className="offer-content">
+        {
+          isEmptyOrNull(selectedOffer) ?
+          <Empty style={{ marginTop: '50px' }} /> :
           <SingleOffer selectedOffer={selectedOffer} updateOfferStatus={updateOfferStatus} />
+        }
       </Col>
     </Card>
   )

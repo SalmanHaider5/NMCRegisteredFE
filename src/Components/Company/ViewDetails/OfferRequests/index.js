@@ -8,7 +8,7 @@ const OfferRequests = (props) => {
 
   const [index, setIndex] = useState(0)
 
-  const { offers, requestTypes, updateOfferStatus } = props
+  const { offers = [], requestTypes, updateOfferStatus } = props
   
   const filteredOffers = filter(offer => indexOf(offer.status, requestTypes) > -1 , offers)
 

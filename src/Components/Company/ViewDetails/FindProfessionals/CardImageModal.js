@@ -5,8 +5,8 @@ import { DOCUMENTS_URL as url } from '../../../../constants'
 
 export const CardImageModal = (props) => {
 
-  const { profile, imageModal, setImageModal } = props
-  const { fullName, profilePicture } = defaultTo({}, profile)
+  const { professional, imageModal, setImageModal } = props
+  const { fullName, profilePicture } = defaultTo({}, professional)
 
   const imageStyle = {
     width: '100%'

@@ -18,8 +18,8 @@ export const SingleOffer = (props) => {
     professionalMsg
   } = defaultTo({}, selectedOffer)
 
-  const list = split(',', shifts)
-  const subTitle = toUpper(status)
+  const list = split(',', defaultTo('', shifts))
+  const subTitle = toUpper(defaultTo('', status))
 
   const cardStyle={
     position: 'relative',
@@ -84,7 +84,7 @@ export const SingleOffer = (props) => {
             <List.Item>
               <List.Item.Meta
                 title={'Status'}
-                description={toUpper(status)}
+                description={toUpper(defaultTo('', status))}
               />
             </List.Item>
           </List>
