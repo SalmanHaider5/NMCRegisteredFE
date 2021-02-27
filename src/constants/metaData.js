@@ -1,8 +1,10 @@
+import { GET_ADDRESS_KEY, STRIPE, PAYPAL_ID } from '../config/keys'
+
 export const TITLE = "NMC Registered"
 export const DATE_FORMAT = "DD/MM/YYYY"
 export const TIME_FORMAT = "HH:mm"
 export const GENERAL_ERROR = { title: 'Server Error', name: "Something went wrong!" }
-export const GET_ADDRESS_API_KEY = "dVsQRsLdEkasx1cfi4PGMg25238"
+export const GET_ADDRESS_API_KEY = GET_ADDRESS_KEY
 export const ADDRESSES_ERROR_TITLE = 'Invalid Post Code'
 export const ADDRESSES_ERROR_MESSAGE = 'Please check your post code and request again'
 export const ADBLOCKER_MESSAGE = 'Please disable your ad-blocker to make payment and reload the page again or skip payment option right now' 
@@ -10,9 +12,9 @@ export const PAYPAL_WEB_LINK = 'https://www.paypal.com/us/webapps/mpp/paypal-saf
 export const STRIPE_WEB_LINK = 'https://stripe.com/payments'
 export const NMC_WEB_LINK = 'https://www.nmc.org.uk/registration/search-the-register/'
 export const DBS_WEB_LINK = 'https://secure.crbonline.gov.uk/crsc/check?execution=e1s1'
-export const STRIPE_KEY = 'pk_test_cmqEvoYCsQr8Ur3q2AoEY5V800VuRo430P'
+export const STRIPE_KEY = STRIPE
 export const PAYPAL_OPTIONS = {
-    'client-id': 'ATET_OBKQsm2EXXHAEenw8kALfnbgERBkb9U_I2ZVVvATJXtRsrY9easUR2UU_U1I9UYp0ZMYoMo8S6O',
+    'client-id': PAYPAL_ID,
     'currency': 'GBP'
 }
 export const PAYPAL_BUTTON_STYLE = {
