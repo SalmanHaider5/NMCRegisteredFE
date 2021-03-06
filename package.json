@@ -1,7 +1,7 @@
 {
   "name": "nightingale",
-  "homepage": "https://nmcregistered.org.uk/",
-  "version": "0.1.0",
+  "homepage": "https://nmcprofessionals.org.uk/",
+  "version": "1.0.0",
   "private": true,
   "engines": {
     "npm": "6.4.1",

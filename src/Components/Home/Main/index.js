@@ -20,7 +20,7 @@ export const Main = (props) => {
       <Row className="gradient-layer">
         <Col span={24} className="header">
           <div className="logo">
-            <img src={LOGO_URL} alt="NMC Registered" />
+            <img src={LOGO_URL} alt="NMC Professionals" />
           </div>
         </Col>
         <Row className="data-container">

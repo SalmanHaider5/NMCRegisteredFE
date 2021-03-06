@@ -12,7 +12,7 @@ export const PaypalButton = (props) => {
 
   const [{ isPending }] = usePayPalScriptReducer(),
     orderDetails = {
-      description: 'NMC Registered License',
+      description: 'NMC Professionals License',
       amount: {
         currency_code: "GBP",
         value: netAmount
