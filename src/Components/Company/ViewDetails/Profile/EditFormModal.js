@@ -5,6 +5,7 @@ import { defaultTo, equals } from 'ramda'
 import PersonalDetailsForm from '../../Forms/PersonalDetailsForm'
 import ProfessionalDetailsForm from '../../Forms/ProfessionalDetailsForm'
 import PaymentCycleForm from '../../Forms/PaymentCycleForm'
+import PasswordForm from '../../Forms/PasswordForm'
 
 export const EditFormModal = (props) => {
 
@@ -19,12 +20,21 @@ export const EditFormModal = (props) => {
     charityStatusChange,
     subsidiaryStatusChange,
     findAddresses,
+    showEditFormModal,
     addressSelectHandler,
     changePostalCode
   } = props
 
-  const title = `Edit ${formName} Details`
+  const title = equals(formName, 'Password') ? 'Enter your Password' : `Edit ${formName} Details`
   const { isLoading = false } = defaultTo({}, addresses)
+
+  const submitHandler = () => {
+    if(equals(formName, 'Password')){
+      updateCompany()
+    }else{
+      showEditFormModal('Password')
+    }
+  }
 
   const getModalForm = form => {
 
@@ -51,19 +61,22 @@ export const EditFormModal = (props) => {
 
     }else if(equals(form, 'Cycle')){
       return <PaymentCycleForm formValues={formValues} />
+    }else if(equals(form, 'Password')){
+      return <PasswordForm />
     }
   }
 
   return (
     <ModalBox
-      title={<><Icon type="edit" /> {title}</>}
+      title={title}
+      titleIcon={'edit'}
       visible={formModal}
       size={800}
       content={getModalForm(formName)}
       submitText={<><Icon type="check" /> Save</>}
       cancelText={<><Icon type="close" /> Cancel</>}
       submitDisabled={formInvalid}
-      submitHandler={updateCompany}
+      submitHandler={submitHandler}
       cancelHandler={hideEditFormModal}
     />
   )

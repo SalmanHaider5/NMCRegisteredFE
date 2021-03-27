@@ -126,6 +126,7 @@ class Professional extends Component {
     values.dateOfBirth = moment(dateOfBirth).format('YYYY-MM-DD')
 
     dispatch(updateProfessionalProfile(userId, values))
+    dispatch(change('professional', 'password', ''))
 
     this.setState({ imageFile: '' })
     this.hideEditFormModal()
@@ -276,14 +277,15 @@ class Professional extends Component {
   modifyBankDetails = () => {
 
     const {
-      formValues: { bankDetails },
+      formValues: { bankDetails, password },
       dispatch,
       match: {
         params: { userId }
       }
     } = this.props
 
-    dispatch(updateBankDetails(userId, bankDetails))
+    dispatch(updateBankDetails(userId, { password, ...bankDetails } ))
+    dispatch(change('professional', 'password', ''))
 
     this.hideEditFormModal()
   }

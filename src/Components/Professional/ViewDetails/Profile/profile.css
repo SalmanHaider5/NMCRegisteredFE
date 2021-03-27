@@ -15,6 +15,10 @@
     font-size: 22px;
     margin-bottom: 0px;
 }
+
+.password-form input.ant-input{
+    padding-left: 10px !important;
+}
 .profile-view .profile-details .ant-col h1 span.ant-tag{
     background-color: #449d44;
     border-color: #b7eb8f;

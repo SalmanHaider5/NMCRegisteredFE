@@ -344,6 +344,7 @@ class Company extends Component {
     }
 
     dispatch(updateProfile(userId, values))
+    dispatch(change('company', 'password', ''))
     this.hideEditFormModal()
   }
 
