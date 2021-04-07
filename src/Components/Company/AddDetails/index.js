@@ -73,6 +73,7 @@ const AddDetails = (props) => {
 
   const { firstName } = defaultTo({}, profile)
   
+  
   return (
     <>
       <FormContainer

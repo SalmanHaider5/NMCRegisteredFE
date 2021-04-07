@@ -1,3 +1,5 @@
-export const SERVER_URL = ''
-export const DOCUMENTS_URL = ''
+// export const SERVER_URL = 'https://www.nmcregistered.org.uk'
+export const SERVER_URL = 'http://localhost:3000'
+// export const DOCUMENTS_URL = 'https://www.nmcregistered.org.uk/upload/'
+export const DOCUMENTS_URL = 'http://localhost:3000/upload/'
 export const GET_ADDRESS_URL = 'https://api.getAddress.io/'

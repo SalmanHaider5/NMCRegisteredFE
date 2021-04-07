@@ -63,6 +63,7 @@ export const getCompanyData = (dispatch, response) => {
     subsidiaryAddress: pathOr('', ['subsidiaryAddress'], response),
     payDate: pathOr(moment(), ['payDate'], response),
     paymentCycle: pathOr('', ['paymentCycle'], response),
+    location: pathOr(false, ['location'], response),
     joinedAt: pathOr(moment(), ['createdAt'], response),
     paymentMethod: '',
     offers: pathOr([], ['offers'], response),

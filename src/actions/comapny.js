@@ -64,6 +64,22 @@ export const addDetails = (userId, formValues) => dispatch => {
     })
 }
 
+export const addLocation = (userId, values) => dispatch => {
+    
+    postWithAuth({
+        type: 'json',
+        url: getUrl(api.ADD_LOCATION, { userId }),
+        token: getAuthToken(),
+        body: JSON.stringify(values),
+        init: types.ADD_LOCATION_REQUEST,
+        success: types.ADD_LOCATION_SUCCESS,
+        failure: types.ADD_LOCATION_FAILURE,
+        dispatch,
+        format: formatData
+    })
+
+}
+
 
 export const getCompanyDetails = userId => dispatch => {
 

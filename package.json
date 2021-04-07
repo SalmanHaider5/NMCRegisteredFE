@@ -20,6 +20,7 @@
     "react-async-script-loader": "^0.3.0",
     "react-dom": "^16.13.0",
     "react-file-viewer": "^1.2.1",
+    "react-geolocation": "^1.0.4",
     "react-paypal-checkout": "^1.0.9",
     "react-redux": "^6.0.1",
     "react-router-dom": "^4.3.1",

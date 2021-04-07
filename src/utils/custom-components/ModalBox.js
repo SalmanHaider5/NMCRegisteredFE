@@ -13,6 +13,7 @@ export const ModalBox = ({
   cancelText,
   submitDisabled,
   cancelDisabled,
+  closable = true,
   size,
   titleIcon = 'user'
 }) => {
@@ -31,6 +32,7 @@ export const ModalBox = ({
     <Modal
       title={<><Icon type={titleIcon} /> {title}</>}
       visible={visible}
+      closable={closable}
       maskStyle={maskStyle}
       onOk={submitHandler}
       width={size}

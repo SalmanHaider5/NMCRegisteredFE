@@ -42,7 +42,8 @@ import {
   sendOfferRequest,
   updateOffer,
   startProcess,
-  endProcess
+  endProcess,
+  addLocation
 } from '../../actions'
 
 import { Loader } from '../../utils/custom-components'
@@ -549,6 +550,13 @@ class Company extends Component {
     })
   }
 
+  registerLocation = values => {
+    const { dispatch, match: { params: { userId } } } = this.props
+    if(not(isEmptyOrNull(values))){
+      dispatch(addLocation(userId, values))
+    }
+  }
+
   changeAllRequestTypes = (e, options = []) => {
 
     const checked = e.target.checked
@@ -632,6 +640,8 @@ class Company extends Component {
               paypalSecret={paypalSecret}
               adBlockerExists={detected()}
               resetWeek={this.resetWeek}
+              logout={this.logout}
+              registerLocation={this.registerLocation}
               submitOfferRequest={this.submitOfferRequest}
               showOfferModal={this.showOfferModal}
               hideOfferModal={this.hideOfferModal}

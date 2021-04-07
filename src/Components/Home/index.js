@@ -19,6 +19,7 @@ class Home extends Component {
       role: '',
       loginModal: false,
       forgetPassword: false,
+      position: {},
       contactFormModal: false
     }
   }
@@ -58,8 +59,15 @@ class Home extends Component {
     this.setState({ loginModal: false, modalType: '' })
   }
 
+  setPosition = position => {
+    this.setState({
+      position
+    })
+  }
+
   login = () => {
-    const { formValues: { login }, dispatch } = this.props
+    const { formValues: { login, login: { role } }, dispatch } = this.props
+    login.position =  equals(role, 'Company') ? this.state.position : {}
     dispatch(userLogin(login))
   }
 
@@ -93,6 +101,7 @@ class Home extends Component {
   }
 
   getLogimModalContent = (type) => {
+    const { formValues } = this.props
     if(type === 'Mobile Verification'){
       return(
         <FormSection name="twoFactorAuthForm">
@@ -112,6 +121,8 @@ class Home extends Component {
     return(
       <FormSection name="login">
         <LoginForm
+          formValues={formValues}
+          setPosition={this.setPosition}
           showForgetPasswordForm={this.showForgetPasswordForm}
         />
       </FormSection>

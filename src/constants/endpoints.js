@@ -26,5 +26,6 @@ export const ENDPOINTS = {
   STRIPE_SECRET: '/server/:userId/company/client/secret/stripe',
   PAYPAL_SECRET: '/server/:userId/company/client/secret/paypal',
   CREATE_OFFER: '/server/:userId/offer',
-  UPDATE_OFFER: '/server/:userId/offer/:offerId'
+  UPDATE_OFFER: '/server/:userId/offer/:offerId',
+  ADD_LOCATION: '/server/:userId/location'
 }
