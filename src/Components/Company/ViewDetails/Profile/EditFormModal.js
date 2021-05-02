@@ -1,11 +1,12 @@
 import React from 'react'
 import { Icon } from 'antd'
 import { Loader, ModalBox } from '../../../../utils/custom-components'
-import { defaultTo, equals } from 'ramda'
+import { defaultTo, equals, not } from 'ramda'
 import PersonalDetailsForm from '../../Forms/PersonalDetailsForm'
 import ProfessionalDetailsForm from '../../Forms/ProfessionalDetailsForm'
 import PaymentCycleForm from '../../Forms/PaymentCycleForm'
 import PasswordForm from '../../Forms/PasswordForm'
+import EmailForm from '../../Forms/EmailForm'
 
 export const EditFormModal = (props) => {
 
@@ -22,15 +23,22 @@ export const EditFormModal = (props) => {
     findAddresses,
     showEditFormModal,
     addressSelectHandler,
-    changePostalCode
+    changePostalCode,
+    emailForm,
+    updateEmail
   } = props
 
   const title = equals(formName, 'Password') ? 'Enter your Password' : `Edit ${formName} Details`
   const { isLoading = false } = defaultTo({}, addresses)
+  const { email = '', confirmEmail = '' } = defaultTo({}, formValues)
 
   const submitHandler = () => {
     if(equals(formName, 'Password')){
-      updateCompany()
+      if(emailForm){
+        updateEmail()
+      }else{
+        updateCompany()
+      }
     }else{
       showEditFormModal('Password')
     }
@@ -61,6 +69,8 @@ export const EditFormModal = (props) => {
 
     }else if(equals(form, 'Cycle')){
       return <PaymentCycleForm formValues={formValues} />
+    }else if(equals(form, 'Email')){
+      return <EmailForm />
     }else if(equals(form, 'Password')){
       return <PasswordForm />
     }
@@ -75,7 +85,7 @@ export const EditFormModal = (props) => {
       content={getModalForm(formName)}
       submitText={<><Icon type="check" /> Save</>}
       cancelText={<><Icon type="close" /> Cancel</>}
-      submitDisabled={formInvalid}
+      submitDisabled={emailForm ? formInvalid || not(equals(email, confirmEmail)) : formInvalid}
       submitHandler={submitHandler}
       cancelHandler={hideEditFormModal}
     />

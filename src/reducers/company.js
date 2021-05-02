@@ -33,6 +33,7 @@ const company = (state=initState, action) => {
         case actions.COMPANY_PASSWORD_CHANGE_REQUEST:
         case actions.COMPANY_MESSAGE_REQUEST:
         case actions.UPDATE_COMPANY_REQUEST:
+        case actions.UPDATE_EMAIL_REQUEST:
         case actions.ADD_LOCATION_REQUEST:
             return {
                 ...state,
@@ -94,6 +95,15 @@ const company = (state=initState, action) => {
                 isLoading: false,
                 professionals: empty(professionals)
             }
+        case actions.UPDATE_EMAIL_SUCCESS:
+            const profile = state.profile
+            profile.email = payload.email
+            return{
+                ...state,
+                isLoading: false,
+                error: empty(error),
+                profile
+            }
         case actions.ENLIST_PROFESSIONAL:
             return {
                 ...state,
@@ -133,6 +143,7 @@ const company = (state=initState, action) => {
         case actions.UPDATE_COMPANY_FAILURE:
         case actions.OFFER_REQUEST_FAILURE:
         case actions.ADD_LOCATION_FAILURE:
+        case actions.UPDATE_EMAIL_FAILURE:
         case actions.FIND_PROFESSIONALS_FAILURE:
         case actions.COMPANY_OFFER_UPDATE_FAILURE:
         case actions.COMPANY_PASSWORD_CHANGE_FAILURE:

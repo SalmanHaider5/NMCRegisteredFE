@@ -33,10 +33,10 @@ export const Location = ({
               />
               <div style={{ padding: '30px 0 30px 10px' }}>
                 <p>
-                  To continue, you need to register your location. You can login only through registered location.
+                  This is a single site license. You can only login through the registered "site location".
                 </p>
                 <p>
-                  You may logout to register other than current location. Are you sure to Register current location?
+                  If you are not on the site where this licence will be used and you continue with the purchase your next login will determine the registered "site location" which cannot then be changed. 
                 </p>
                 <Button type="primary" shape="round" onClick={getCurrentPosition}>
                   <Icon type="check" />Yes 

@@ -207,6 +207,48 @@ export const updateBankDetails = (userId, formValues) => dispatch => {
     })
 }
 
+export const modifyEmail = (userId, values) => dispatch => {
+
+    console.log('Working', getUrl(api.UPDATE_EMAIL, { userId }))
+
+    putWithAuth({
+        type: 'json',
+        url: getUrl(api.UPDATE_EMAIL, { userId }),
+        token: getAuthToken(),
+        body: JSON.stringify(values),
+        init: types.UPDATE_PROFESSIONAL_EMAIL_REQUEST,
+        success: types.UPDATE_PROFESSIONAL_EMAIL_SUCCESS,
+        failure: types.UPDATE_PROFESSIONAL_EMAIL_FAILURE,
+        dispatch,
+        format: formatData,
+        errorException: {},
+        successException: {
+            type: types.UPDATE_PROFESSIONAL_EMAIL_SUCCESS,
+            payload: values
+        }
+    })
+}
+
+export const modifyPhone = (userId, values, formValues) => dispatch => {
+
+    putWithAuth({
+        type: 'json',
+        url: getUrl(api.UPDATE_PHONE, { userId }),
+        token: getAuthToken(),
+        body: JSON.stringify(values),
+        init: types.UPDATE_PHONE_REQUEST,
+        success: types.UPDATE_PHONE_SUCCESS,
+        failure: types.UPDATE_PHONE_FAILURE,
+        dispatch,
+        format: formatData,
+        errorException: {},
+        successException: {
+            type: types.UPDATE_PHONE_SUCCESS,
+            payload: values
+        }
+    })
+}
+
 export const changeOfferStatus = (userId, values, offerId) => dispatch => {
 
     putWithAuth({

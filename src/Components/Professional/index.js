@@ -18,13 +18,15 @@ import {
   contactMessage,
   addBankDetails,
   updateBankDetails,
-  changeOfferStatus
+  changeOfferStatus,
+  modifyPhone
 } from '../../actions'
 import { GENDER_OPTIONS as genders, QUALIFICATION_OPTIONS as qualifications } from '../../constants'
 import { getProfessionalFormValues, isEmptyOrNull } from '../../utils/helpers'
 import Header from '../Header'
 import { Container } from './Container'
 import { Loader } from '../../utils/custom-components'
+import { modifyEmail } from '../../actions/professional'
 
 class Professional extends Component {
   constructor(props) {
@@ -40,7 +42,9 @@ class Professional extends Component {
       crbFile: '',
       documentModalType: '',
       documentModal: false,
-      pageKey: 0
+      pageKey: 0,
+      emailForm: false,
+      phoneForm: false
     };
   }
 
@@ -172,7 +176,13 @@ class Professional extends Component {
   }
 
   showEditFormModal = name => {
-    this.setState({ formModal: true, formName: name})
+    if(name === 'Email'){
+      this.setState({ formModal: true, formName: name, emailForm: true, phoneForm: false})
+    }else if(name === 'Phone'){
+      this.setState({ formModal: true, formName: name, phoneForm: true, emailForm: false})
+    }else{
+      this.setState({ formModal: true, formName: name})
+    }
   }
 
   hideEditFormModal = () => {
@@ -186,7 +196,37 @@ class Professional extends Component {
       dispatch(change('professional', 'profilePicture', imageFile))
     }
 
-    this.setState({ formModal: false, formName: '' })
+    this.setState({ formModal: false, formName: '', emailForm: false })
+  }
+
+
+  updateEmail = () => {
+    const {
+      dispatch,
+      match: {
+        params: { userId }
+      },
+      formValues: { email }
+    } = this.props
+
+    dispatch(modifyEmail(userId, { email }))
+    dispatch(change('professional', 'password', ''))
+    this.hideEditFormModal()
+  }
+
+  updatePhone = () => {
+    const {
+      dispatch,
+      match: {
+        params: { userId }
+      },
+      formValues,
+      formValues: { phone }
+    } = this.props
+
+    dispatch(modifyPhone(userId, { phone }, formValues))
+    dispatch(change('professional', 'password', ''))
+    this.hideEditFormModal()
   }
 
   saveDetails = () => {
@@ -309,7 +349,7 @@ class Professional extends Component {
 
   render() {
 
-    const { formModal, formName, pageKey } = this.state
+    const { formModal, formName, pageKey, emailForm, phoneForm } = this.state
 
     const {
       addresses,
@@ -357,8 +397,12 @@ class Professional extends Component {
               formInvalid={invalid}
               addresses={addresses}
               pageKey={pageKey}
+              emailForm={emailForm}
               formName={formName}
               formModal={formModal}
+              phoneForm={phoneForm}
+              updatePhone={this.updatePhone}
+              updateEmail={this.updateEmail}
               updateOfferStatus={this.updateOfferStatus}
               editPhoneNumber={this.editPhoneNumber}
               switchPage={this.switchPage}

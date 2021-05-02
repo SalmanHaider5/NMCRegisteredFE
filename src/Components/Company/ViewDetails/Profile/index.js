@@ -10,6 +10,11 @@ import './profile.css'
 const Profile = (props) => {
 
   const { showEditFormModal } = props
+  const emailEditButton = {
+    icon: 'edit',
+    name: 'Email',
+    text: 'Update your Email ID'
+  }
 
   return (
     <div className="inner-wrapper">
@@ -26,6 +31,7 @@ const Profile = (props) => {
                 name="Personal"
                 clickHandler={showEditFormModal}
                 wrapper={<PersonalDetails {...props} />}
+                actions={[emailEditButton]}
               />
             </Col>
             <Col xs={24} sm={24} md={24} lg={12} xl={12}>

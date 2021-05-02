@@ -28,6 +28,8 @@ const professional = (state=initState, action) => {
         case actions.PROFESSIONAL_SECURITY_UPDATE_REQUEST:
         case actions.UPDATE_BANK_DETAILS_REQUEST:
         case actions.OFFER_UPDATE_REQUEST:
+        case actions.UPDATE_PROFESSIONAL_EMAIL_REQUEST:
+        case actions.UPDATE_PHONE_REQUEST:
         case actions.PROFESSIONAL_MESSAGE_REQUEST:
             return {
                 ...state,
@@ -79,6 +81,26 @@ const professional = (state=initState, action) => {
                 error: empty(error),
                 profile: payload
             }
+        case actions.UPDATE_PROFESSIONAL_EMAIL_SUCCESS:
+            const profile = state.profile
+            profile.email = payload.email
+            return {
+                ...state,
+                isLoading: false,
+                error: empty(error),
+                profile
+            }
+        
+        case actions.UPDATE_PHONE_SUCCESS:
+            const phoneProfile = state.profile
+            phoneProfile.phone = payload.phone
+            return {
+                ...state,
+                isLoading: false,
+                error: empty(error),
+                profile: phoneProfile
+            }    
+        
         case actions.PROFESSIONAL_SECURITY_UPDATE_SUCCESS:
         case actions.PROFESSIONAL_MESSAGE_SUCCESS:
             return {
@@ -119,6 +141,8 @@ const professional = (state=initState, action) => {
         case actions.VERIFY_PROFESSIONAL_PHONE_FAILURE:
         case actions.PROFESSIONAL_SECURITY_UPDATE_FAILURE:
         case actions.UPDATE_BANK_DETAILS_FAILURE:
+        case actions.UPDATE_PHONE_FAILURE:
+        case actions.UPDATE_PROFESSIONAL_EMAIL_FAILURE:
         case actions.OFFER_UPDATE_FAILURE:
             return {
                 ...state,

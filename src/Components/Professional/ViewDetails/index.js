@@ -23,7 +23,11 @@ const ViewDetails = (props) => {
     showEditFormModal,
     dateHandler,
     formName,
+    emailForm,
+    updateEmail,
     formModal,
+    phoneForm,
+    updatePhone,
     sendMessage,
     findAddresses,
     updateOfferStatus,
@@ -106,7 +110,11 @@ const ViewDetails = (props) => {
                 formInvalid={formInvalid}
                 phoneVerified={phoneVerified}
                 formModal={formModal}
+                updateEmail={updateEmail}
                 formName={formName}
+                phoneForm={phoneForm}
+                updatePhone={updatePhone}
+                emailForm={emailForm}
                 dateHandler={dateHandler}
                 showEditFormModal={showEditFormModal}
                 findAddresses={findAddresses}

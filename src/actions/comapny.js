@@ -116,7 +116,27 @@ export const updatePassword = (userId, values) => dispatch => {
             payload: setCompanyUpdatedPassword(dispatch)
         }
     })
-} 
+}
+
+export const modifyEmail = (userId, values) => dispatch => {
+
+    putWithAuth({
+        type: 'json',
+        url: getUrl(api.UPDATE_EMAIL, { userId }),
+        token: getAuthToken(),
+        body: JSON.stringify(values),
+        init: types.UPDATE_EMAIL_REQUEST,
+        success: types.UPDATE_EMAIL_SUCCESS,
+        failure: types.UPDATE_EMAIL_FAILURE,
+        dispatch,
+        format: formatData,
+        errorException: {},
+        successException: {
+            type: types.UPDATE_EMAIL_SUCCESS,
+            payload: values
+        }
+    })
+}
 
 export const contactUs = (userId, values) => dispatch => {
 

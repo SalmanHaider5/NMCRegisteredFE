@@ -1,5 +1,6 @@
 import React from 'react'
 import { Icon, Card, Button } from 'antd'
+import { map } from 'ramda'
 
 export const CardContainer = (props) => {
 
@@ -8,6 +9,7 @@ export const CardContainer = (props) => {
     title,
     name,
     wrapper,
+    actions = [],
     clickHandler
   } = props
 
@@ -23,6 +25,19 @@ export const CardContainer = (props) => {
       }
     >
       {wrapper}
+      <br />
+      {
+        map(action => {
+          return <Button
+            type="primary"
+            shape="round"
+            size="large"
+            onClick={() => clickHandler(action.name)}
+            >
+              <Icon type={action.icon} />{action.text}
+            </Button>
+        }, actions)
+      }
     </Card>
   )
 }

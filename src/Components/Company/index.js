@@ -43,7 +43,8 @@ import {
   updateOffer,
   startProcess,
   endProcess,
-  addLocation
+  addLocation,
+  modifyEmail
 } from '../../actions'
 
 import { Loader } from '../../utils/custom-components'
@@ -78,6 +79,7 @@ class Company extends Component {
       searchDrawer: false,
       termsDocumentType: 'terms',
       week: 1,
+      emailForm: '',
       currentWeek: [],
       searchInputValue: '',
       offerModal: false,
@@ -482,18 +484,25 @@ class Company extends Component {
   }
 
   showEditFormModal = (name) => {
-
-    this.setState({
-      editFormModal: true,
-      formName: name
-    })
-
+    if(name === 'Email'){
+      this.setState({
+        editFormModal: true,
+        formName: name,
+        emailForm: true
+      })
+    }else{
+      this.setState({
+        editFormModal: true,
+        formName: name
+      })
+    }
   }
 
   hideEditFormModal = () => {
     this.setState({
       editFormModal: false,
-      formName: ''
+      formName: '',
+      emailForm: false
     })
   }
 
@@ -557,6 +566,20 @@ class Company extends Component {
     }
   }
 
+  updateEmail = () => {
+    const {
+      dispatch,
+      match: {
+        params: { userId }
+      },
+      formValues: { email }
+    } = this.props
+
+    dispatch(modifyEmail(userId, { email }))
+    dispatch(change('company', 'password', ''))
+    this.hideEditFormModal()
+  }
+
   changeAllRequestTypes = (e, options = []) => {
 
     const checked = e.target.checked
@@ -582,6 +605,7 @@ class Company extends Component {
       requestTypes,
       indeterminate,
       allRequests,
+      emailForm
     } = this.state
 
     const {
@@ -635,12 +659,14 @@ class Company extends Component {
               indeterminate={indeterminate}
               requestTypes={requestTypes}
               formName={formName}
+              emailForm={emailForm}
               offerFormShifts={offerFormShifts}
               formModal={editFormModal}
               paypalSecret={paypalSecret}
               adBlockerExists={detected()}
               resetWeek={this.resetWeek}
               logout={this.logout}
+              updateEmail={this.updateEmail}
               registerLocation={this.registerLocation}
               submitOfferRequest={this.submitOfferRequest}
               showOfferModal={this.showOfferModal}
