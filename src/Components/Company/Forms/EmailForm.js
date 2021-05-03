@@ -7,7 +7,7 @@ const EmailForm = () => {
   return (
     <div>
       <Field
-        name="email"
+        name="userEmail"
         component={TextField}
         label={'Email'}
         size={'large'}

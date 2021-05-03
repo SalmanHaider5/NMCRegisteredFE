@@ -30,7 +30,7 @@ export const EditFormModal = (props) => {
 
   const title = equals(formName, 'Password') ? 'Enter your Password' : `Edit ${formName} Details`
   const { isLoading = false } = defaultTo({}, addresses)
-  const { email = '', confirmEmail = '' } = defaultTo({}, formValues)
+  const { userEmail = '', confirmEmail = '' } = defaultTo({}, formValues)
 
   const submitHandler = () => {
     if(equals(formName, 'Password')){
@@ -85,7 +85,7 @@ export const EditFormModal = (props) => {
       content={getModalForm(formName)}
       submitText={<><Icon type="check" /> Save</>}
       cancelText={<><Icon type="close" /> Cancel</>}
-      submitDisabled={emailForm ? formInvalid || not(equals(email, confirmEmail)) : formInvalid}
+      submitDisabled={emailForm ? formInvalid || not(equals(userEmail, confirmEmail)) : formInvalid}
       submitHandler={submitHandler}
       cancelHandler={hideEditFormModal}
     />

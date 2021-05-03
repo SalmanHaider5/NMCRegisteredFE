@@ -206,10 +206,11 @@ class Professional extends Component {
       match: {
         params: { userId }
       },
-      formValues: { email }
+      formValues: { userEmail }
     } = this.props
 
-    dispatch(modifyEmail(userId, { email }))
+    dispatch(change('professional', 'email', userEmail))
+    dispatch(modifyEmail(userId, { email: userEmail }))
     dispatch(change('professional', 'password', ''))
     this.hideEditFormModal()
   }
@@ -221,10 +222,10 @@ class Professional extends Component {
         params: { userId }
       },
       formValues,
-      formValues: { phone }
+      formValues: { userPhone }
     } = this.props
-
-    dispatch(modifyPhone(userId, { phone }, formValues))
+    dispatch(change('professional', 'phone', userPhone))
+    dispatch(modifyPhone(userId, { phone: userPhone }, formValues))
     dispatch(change('professional', 'password', ''))
     this.hideEditFormModal()
   }

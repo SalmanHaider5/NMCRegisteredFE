@@ -7,7 +7,7 @@ const PhoneForm = () => {
   return (
     <div>
       <Field
-        name="phone"
+        name="userPhone"
         component={TextField}
         label={'Phone'}
         size={'large'}

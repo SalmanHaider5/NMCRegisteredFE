@@ -34,11 +34,9 @@ export const EditFormModal = (props) => {
     updateProfessionalDetails
   } = props
 
-  console.log('F', emailForm, phoneForm)
-
   const [editForm, setEditForm] = useState('')
 
-  const { phone = '', confirmPhone = '', email = '', confirmEmail = '' } = defaultTo({}, formValues)
+  const { userPhone = '', confirmPhone = '', userEmail = '', confirmEmail = '' } = defaultTo({}, formValues)
 
   const title = equals(formName, 'Password') ? 'Enter your Password' : `Edit ${formName} Details`,
     modalSize = equals(formName, 'Personal') || equals(formName, 'Password') ? 600 : equals(formName, 'Bank') ? 1050 : 850,
@@ -47,9 +45,9 @@ export const EditFormModal = (props) => {
 
   const getDisabledButton = () => {
     if(emailForm){
-      return formInvalid || not(equals(email, confirmEmail))
+      return formInvalid || not(equals(userEmail, confirmEmail))
     }else if(phoneForm){
-      return formInvalid || not(equals(phone, confirmPhone))
+      return formInvalid || not(equals(userPhone, confirmPhone))
     }else{
       return formInvalid
     }

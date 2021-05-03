@@ -572,10 +572,12 @@ class Company extends Component {
       match: {
         params: { userId }
       },
-      formValues: { email }
+      formValues: { userEmail = '' }
     } = this.props
+    
+    dispatch(change('company', 'email', userEmail))
 
-    dispatch(modifyEmail(userId, { email }))
+    dispatch(modifyEmail(userId, { email: userEmail }))
     dispatch(change('company', 'password', ''))
     this.hideEditFormModal()
   }
