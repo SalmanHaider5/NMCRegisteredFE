@@ -104,10 +104,14 @@ export const TERMS = [
             },
             {
                 id: 3,
-                text: 'Failure to comply with any or all of the proprietors User Rights stipulated above.'
+                text: 'Failure to comply with required "single site location" settings on all or any active devices.'
             },
             {
                 id: 4,
+                text: 'Failure to comply with any or all of the proprietors User Rights stipulated above.'
+            },
+            {
+                id: 5,
                 text: 'Failure to comply with the stated Data Protection Act 2018 rules and principles. See link provided ',
                 linkText: 'here',
                 link: 'http://www.legislation.gov.uk/ukpga/2018/12/contents/enacted'
