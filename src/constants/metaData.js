@@ -116,7 +116,7 @@ export const TERMS = [
                 linkText: 'here',
                 link: 'http://www.legislation.gov.uk/ukpga/2018/12/contents/enacted'
             }
-        ]
+        ]   
     }
 ]
 
@@ -124,32 +124,32 @@ export const PRIVACY_POLICY = [
     {
         id: 1,
         title: '',
-        text: 'The primary purpose of nmcprofessionals.org.uk is to be a resource and business tool to help you create and sustain your business growth. We want you to feel secure when visiting our site and vigorously work to ensure your privacy to the best of our ability at all times. This site is fully PCI DSS and GDRP compliant.'
+        text: 'The primary purpose of nmcprofessionals.org.uk is to be a resource and business tool to help you create and sustain your business growth. We want you to feel secure when visiting our site and vigorously work to ensure your privacy to the best of our ability at all times. This site is fully PCI DSS and GDRP compliant'
     },
     {
         id: 2,
         title: '',
-        text: 'An overview of how we protect your privacy when connected to nmcprofessionals.org.uk.'
+        text: 'An overview of how we protect your privacy when connected to nmcprofessionals.org.uk'
     },
     {
         id: 3,
         title: 'Do we solicit information/Data?',
-        text: 'Information on nmcprofessionals.org.uk is gathered by one method, voluntary submissions. Only when you agree to share the information/data when you voluntarily submit information on various pages of nmcprofessionals.org.uk. The use of cookies and other technologies is not monitored or logged by us for any information gathering agenda.'
+        text: 'Information on nmcprofessionals.org.uk is gathered by one method, voluntary submissions. Only when you agree to share the information/data when you voluntarily submit information on various pages of nmcprofessionals.org.uk. We do use other technologies to monitor location data to protect our "single site location" license terms of use. This is only used with the prior permission from the individual license holder and is never used with non-license users'
     },
     {
         id: 4,
         title: 'Do we share personal information or data with third parties?',
-        text: 'No. As an organisation the data submitted may be transferred throughout NMC Professionals network, this is a necessary requirement in order for us to provide the quality of service expected by our clients. We do not and will not sell or disclose individual information and will share it only with the relevant members of our organisation aligned to providing our services.'
+        text: 'No. As an organisation the data submitted may be transferred throughout NMC Professionals network, this is a necessary requirement in order for us to provide the quality of service expected by our clients. We do not and will not sell or disclose individual information and will share it only with the relevant members of our organisation aligned to providing our services'
     },
     {
         id: 5,
         title: 'Your right access your personal data/freedom of information.',
-        text: 'You are entitled to know whether we hold data/information about you; if we do you can obtain access to that data/information to ensure its accuracy or to have it amended where necessary. You can do this by sending an e-mail via our “Contact Us” page, please mark the subject as “FOI”.'
+        text: 'You are entitled to know whether we hold data/information about you; if we do you can obtain access to that data/information to ensure its accuracy or to have it amended where necessary. You can do this by sending an e-mail via our “Contact Us” page, please mark the subject as “FOI”'
     },
     {
         id: 6,
         title: '',
-        text: 'At nmcprofessionals.org.uk we are focused on maintaining your privacy and creating a sustainable and valuable resource for you to use. If you have any questions regarding the security of our site, please email us via our “Contact Us” page, please mark the subject as “Privacy”.'
+        text: 'At nmcprofessionals.org.uk we are focused on maintaining your privacy and creating a sustainable and valuable resource for you to use. If you have any questions regarding the security of our site, please email us via our “Contact Us” page, please mark the subject as “Privacy”'
     }
 ]
 

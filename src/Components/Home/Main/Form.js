@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { FormSection } from 'redux-form'
 import { Button, Icon, Drawer, Divider } from 'antd'
 import SignupForm from './SignupForm'
 import { PrivacyPolicy } from './PrivacyPolicy'
@@ -12,9 +11,7 @@ export const FormContainer = (props) => {
     <div className="form-content">
       <div className="form">
         <Divider className="form-title">Sign Up</Divider>
-        <FormSection name="signup">
-          <SignupForm {...props} />
-        </FormSection>
+        <SignupForm {...props} />
         <Button
           shape="round"
           type="primary"

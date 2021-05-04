@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Field, FormSection } from 'redux-form'
 import { pathOr } from 'ramda'
 import { Radio, Icon, Button, Drawer } from 'antd'
-// import { Row, Col, Button, Icon, Divider, Drawer } from 'antd'
 import { isSignupFormValid } from '../../../utils/helpers'
 import { PasswordField, TextFieldWithIcon } from '../../../utils/custom-components'
 import { isRequired, isValidEmail, isCapitalCharacterExist, isNumericCharacterExist, isMaxLengthValid, isPasswordMatched } from '../../../constants'
@@ -21,54 +20,53 @@ const SignupForm = (props) => {
 
   return (
     <div className="form-fields">
-
-      <RadioGroup
-        buttonStyle={'solid'}
-        value={role}
-        onChange={e => selectUser(e.target.value)}
-      >
-
-        <Radio.Button value="professional">
-          <Icon type="user" /> Professional
-        </Radio.Button>
-        <Radio.Button value="company">
-          <Icon type="solution" /> Company
-        </Radio.Button>
-
-      </RadioGroup>
-      <Field
-        name="email"
-        component={TextFieldWithIcon}
-        size={'large'}
-        type="text"
-        validate={[isRequired, isValidEmail]}
-        icon={'user'}
-        hintText={'Enter your Email'}
-        iconColor={'#fff'}
-        tooltipPlacement={'topRight'}
-      />
-      <Field
-        name="password"
-        component={PasswordField}
-        size={'large'}
-        type="text"
-        hintText={'Password'}
-        validate={passwordValidations}
-        icon={'lock'}
-        iconColor={'#fff'}
-        tooltipPlacement={'topRight'}
-      />
-      <Field
-        name="confirmPassword"
-        component={PasswordField}
-        size={'large'}
-        type="text"
-        hintText={'Confirm Password'}
-        validate={[isRequired, isPasswordMatched]}
-        icon={'lock'}
-        iconColor={'#fff'}
-        tooltipPlacement={'topRight'}
-      />
+      <FormSection name="signup">
+        <RadioGroup
+          buttonStyle={'solid'}
+          value={role}
+          onChange={e => selectUser(e.target.value)}
+        >
+          <Radio.Button value="professional">
+            <Icon type="user" /> Professional
+          </Radio.Button>
+          <Radio.Button value="company">
+            <Icon type="solution" /> Company
+          </Radio.Button>
+        </RadioGroup>
+        <Field
+          name="email"
+          component={TextFieldWithIcon}
+          size={'large'}
+          type="text"
+          validate={[isRequired, isValidEmail]}
+          icon={'user'}
+          hintText={'Enter your Email'}
+          iconColor={'#fff'}
+          tooltipPlacement={'topRight'}
+        />
+        <Field
+          name="password"
+          component={PasswordField}
+          size={'large'}
+          type="text"
+          hintText={'Password'}
+          validate={passwordValidations}
+          icon={'lock'}
+          iconColor={'#fff'}
+          tooltipPlacement={'topRight'}
+        />
+        <Field
+          name="confirmPassword"
+          component={PasswordField}
+          size={'large'}
+          type="text"
+          hintText={'Confirm Password'}
+          validate={[isRequired, isPasswordMatched]}
+          icon={'lock'}
+          iconColor={'#fff'}
+          tooltipPlacement={'topRight'}
+        />
+      </FormSection>
       <Button
         type="primary"
         className='left-btn'
