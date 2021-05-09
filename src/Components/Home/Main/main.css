@@ -40,6 +40,10 @@
   top: 50%;
   transform: translateY(-50%);
 }
+.full-row-btn{
+  width: 50%;
+  margin: 10px;
+}
 .main-container .gradient-layer .data-container .text-container .welcome-text{
   width: 60%;
   padding-left: 5%;

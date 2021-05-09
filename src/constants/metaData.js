@@ -220,3 +220,116 @@ export const TERMS_OF_PURCHASE = [
         text: 'In the event of legal matters, all proceedings will be conducted in accordance with applicable UK law and any disputes shall be subject to the exclusive jurisdiction of the English Courts.'
     }
 ]
+
+export const PROFESSIONAL_READINGS = [
+    {
+        id: 1,
+        title: '',
+        text: 'Get paid your true value, register today.'
+    },
+    {
+        id: 2,
+        title: '',
+        text: 'NMC Registered is not an Agency.'
+    },
+    {
+        id: 3,
+        title: '',
+        text: 'No agency fees or charges are made for any shift or any work you do.'
+    },
+    {
+        id: 4,
+        title: '',
+        text: 'No shift commissions are ever charged to NHS Trusts or Private Health sector companies. All payments go to you.'
+    },
+    {
+        id: 5,
+        title: '',
+        text: 'To help register more easily, please have this information available.',
+        options: [
+            {
+                id: 1,
+                text: 'Your NMC Pin number. (For shift pre-check)'
+            },
+            {
+                id: 2,
+                text: 'Your DBS number. (For shift pre-check)'
+            },
+            {
+                id: 3,
+                text: 'Your National Insurance number. (So you can be paid)'
+            },
+            {
+                id: 4,
+                text: 'Your mobile phone number. (So we can offer available shifts)'
+            },
+            {
+                id: 5,
+                text: 'ID photo for upload. (For security of work place)'
+            }
+        ]
+    },
+    {
+        id: 6,
+        title: '',
+        text: 'Please let your fellow NMC professionals know of our service.'
+    },
+    {
+        id: 7,
+        title: '',
+        text: 'Get paid your true value.'
+    },
+]
+
+export const COMPANY_READINGS = [
+    {
+        id: 1,
+        title: '',
+        text: 'It is highly recommended that you purchase your license from the device you will be using for searching for NMC Nursing Professionals.'
+    },
+    {
+        id: 2,
+        title: '',
+        text: 'You must ensure on all active devices your locations settings have been turned on. This includes mobile phones if purchasing via your mobile phone.'
+    },
+    {
+        id: 3,
+        title: '',
+        text: 'The license is a “single site location” license.'
+    },
+    {
+        id: 4,
+        title: '',
+        text: 'It can only be used at the place of business; the registered address supplied on the registration form.'
+    },
+    {
+        id: 5,
+        title: '',
+        text: 'You must give permission for location details to be activated by the software to validate your license. Ensure your location settings are turned on.',
+    },
+    {
+        id: 6,
+        title: '',
+        text: 'To protect our proprietary license rights, your location (place of business) will be registered on our system.'
+    },
+    {
+        id: 7,
+        title: '',
+        text: 'The license should be used via a fixed work-station on the site, any obvious deviation of that location can invalidate the license.'
+    },
+    {
+        id: 8,
+        title: '',
+        text: 'The license will not permit access to the search professionals facility via any mobile phone.'
+    },
+    {
+        id: 9,
+        title: '',
+        text: 'These term are not prohibitive; they are necessary to protect our proprietary license rights.'
+    },
+    {
+        id: 10,
+        title: '',
+        text: 'If you are happy with the above, please register for your site license.'
+    },
+]

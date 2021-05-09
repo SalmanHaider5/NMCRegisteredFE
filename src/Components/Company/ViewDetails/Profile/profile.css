@@ -38,6 +38,7 @@
 
 .profile-view .profile-list .ant-list-item span.label-value{
     position: absolute;
+    display: contents;
     right: 0;
     font-weight: 500;
     opacity: 0.8;

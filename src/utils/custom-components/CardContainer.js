@@ -29,9 +29,11 @@ export const CardContainer = (props) => {
       {
         map(action => {
           return <Button
+            block
             type="primary"
             shape="round"
             size="large"
+            className="card-footer-btn"
             onClick={() => clickHandler(action.name)}
             >
               <Icon type={action.icon} />{action.text}

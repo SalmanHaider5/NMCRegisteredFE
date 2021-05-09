@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { Field, FormSection } from 'redux-form'
-import { pathOr } from 'ramda'
+import { equals, map, pathOr } from 'ramda'
 import { Radio, Icon, Button, Drawer } from 'antd'
 import { isSignupFormValid } from '../../../utils/helpers'
+import { COMPANY_READINGS, PROFESSIONAL_READINGS } from '../../../constants'
 import { PasswordField, TextFieldWithIcon } from '../../../utils/custom-components'
 import { isRequired, isValidEmail, isCapitalCharacterExist, isNumericCharacterExist, isMaxLengthValid, isPasswordMatched } from '../../../constants'
 import ContactForm from '../ContactForm'
@@ -10,6 +11,7 @@ import ContactForm from '../ContactForm'
 const SignupForm = (props) => {
 
   const [contactDrawer, setContactDrawer] = useState(false)
+  const [readingsDrawer, setReadingsDrawer] = useState(false)
 
   const { role, formValues, selectUser, registerUser, sendMessage } = props
   const passwordValidations = [isRequired, isCapitalCharacterExist, isNumericCharacterExist, isMaxLengthValid]
@@ -33,6 +35,28 @@ const SignupForm = (props) => {
             <Icon type="solution" /> Company
           </Radio.Button>
         </RadioGroup>
+        {
+          equals(role, 'professional') ?
+          <Button
+            block
+            type="primary"
+            shape="round"
+            className="full-row-btn success-btn"
+            onClick={() => setReadingsDrawer(true)}
+          >
+            Essential Professional Readings <Icon type="login" />
+          </Button> :
+          equals(role, 'company') ?
+          <Button
+            block
+            type="primary"
+            shape="round"
+            className="full-row-btn success-btn"
+            onClick={() => setReadingsDrawer(true)}
+          >
+            Essential Company Readings <Icon type="login" />
+          </Button> : ''
+        }
         <Field
           name="email"
           component={TextFieldWithIcon}
@@ -101,6 +125,37 @@ const SignupForm = (props) => {
         <Button shape="round" className="success-btn" onClick={sendMessage}>
           <Icon type="export" /> Send us a Message
         </Button>
+      </Drawer>
+      <Drawer
+        title={<><Icon type="document" /> {`Essenial ${role} readings`} </>}
+        placement="right"
+        className="contact-drawer"
+        closable={true}
+        onClose={() => setReadingsDrawer(false)}
+        visible={readingsDrawer}
+        width={'40%'}
+      >
+        {
+          equals(role, 'company') ?
+
+          map(option => {
+            return <p>{option.text}</p>
+          }, COMPANY_READINGS) : 
+
+          map(option => {
+            return <>
+              <p>{option.text}</p>
+              <ul>
+              {
+                map(li => {
+                  return <li>{li.text}</li>
+                }, option.options || [])
+              }
+              </ul>
+            </>
+          }, PROFESSIONAL_READINGS)
+
+        }
       </Drawer>
     </div>
   )
