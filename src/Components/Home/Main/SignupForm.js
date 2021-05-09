@@ -44,7 +44,7 @@ const SignupForm = (props) => {
             className="full-row-btn success-btn"
             onClick={() => setReadingsDrawer(true)}
           >
-            Essential Professional Readings <Icon type="login" />
+            Essential Professional Reading <Icon type="user" />
           </Button> :
           equals(role, 'company') ?
           <Button
@@ -54,7 +54,7 @@ const SignupForm = (props) => {
             className="full-row-btn success-btn"
             onClick={() => setReadingsDrawer(true)}
           >
-            Essential Company Readings <Icon type="login" />
+            Essential Company Reading <Icon type="solution" />
           </Button> : ''
         }
         <Field
@@ -127,7 +127,7 @@ const SignupForm = (props) => {
         </Button>
       </Drawer>
       <Drawer
-        title={<><Icon type="document" /> {`Essenial ${role} readings`} </>}
+        title={<><Icon type="document" /> {`Essential ${role} reading`} </>}
         placement="right"
         className="contact-drawer"
         closable={true}
