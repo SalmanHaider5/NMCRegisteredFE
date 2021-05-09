@@ -84,7 +84,10 @@ export const SingleOffer = (props) => {
             <List.Item>
               <List.Item.Meta
                 title={'Status'}
-                description={toUpper(defaultTo('', status))}
+                description={
+                  equals(status, 'declined') ? 'Sorry, the requested professional has had to decline this offer. Please try to search again.' :
+                  toUpper(defaultTo('', status))
+                }
               />
             </List.Item>
           </List>

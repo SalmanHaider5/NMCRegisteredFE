@@ -39,6 +39,7 @@ const SignupForm = (props) => {
           equals(role, 'professional') ?
           <Button
             block
+            size="large"
             type="primary"
             shape="round"
             className="full-row-btn success-btn"
@@ -49,6 +50,7 @@ const SignupForm = (props) => {
           equals(role, 'company') ?
           <Button
             block
+            size="large"
             type="primary"
             shape="round"
             className="full-row-btn success-btn"
