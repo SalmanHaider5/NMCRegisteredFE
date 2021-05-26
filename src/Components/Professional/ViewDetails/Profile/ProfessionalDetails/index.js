@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { List, Icon, Divider, Tooltip, Modal, Avatar, Col, Button } from 'antd'
-import { DOCUMENTS_URL as url } from '../../../../../constants'
+import { BAND_LEVELS, DOCUMENTS_URL as url } from '../../../../../constants'
 import { isEmptyOrNull } from '../../../../../utils/helpers'
 import WorkExperience from '../WorkExperience'
-import { defaultTo } from 'ramda'
+import { defaultTo, find, prop, propEq } from 'ramda'
 
 export const ProfessionalDetails = (props) => {
 
@@ -41,9 +41,9 @@ export const ProfessionalDetails = (props) => {
           <List.Item>
             <label>
               <Icon type="hourglass" />
-              CPD
+              Nursing Band Level
             </label>
-            <span className="label-value">{cpdHours} Hours</span>
+            <span className="label-value">{ prop('name', find(propEq('id', cpdHours))(BAND_LEVELS)) }</span>
           </List.Item>
         </List>
       </Col>

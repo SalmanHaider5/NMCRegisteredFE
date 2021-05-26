@@ -65,6 +65,19 @@ export const QUALIFICATION_OPTIONS = [
     { id: 9, name: 'Nursing Associate' }
 ]
 
+export const BAND_LEVELS = [
+    { id: 1, name: '2' },
+    { id: 2, name: '3' },
+    { id: 3, name: '4' },
+    { id: 4, name: '5' },
+    { id: 5, name: '6' },
+    { id: 6, name: '7' },
+    { id: 7, name: '8a' },
+    { id: 8, name: '8b' },
+    { id: 9, name: '8c/9' },
+]
+
+
 export const paymentCycleDescription = "The payment cycle can affect the uptake of shifts. Faster payment will result in more uptake of shift offers"
 
 export const TERMS = [
@@ -325,7 +338,7 @@ export const COMPANY_READINGS = [
     {
         id: 9,
         title: '',
-        text: 'These term are not prohibitive; they are necessary to protect our proprietary license rights.'
+        text: 'These terms are not prohibitive; they are necessary to protect our proprietary license rights.'
     },
     {
         id: 10,

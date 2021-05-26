@@ -30,6 +30,7 @@ export const CardContainer = (props) => {
         map(action => {
           return <Button
             block
+            key={action.name}
             type="primary"
             shape="round"
             size="large"

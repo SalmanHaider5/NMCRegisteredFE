@@ -26,7 +26,8 @@ export const Main = (props) => {
         <Row className="data-container">
           <Col lg={12} xl={16} sm={24} md={24} xs={24} className="text-container">
             <div className="welcome-text">
-              <h1>Welcome to {TITLE}</h1>
+              <h1 className="full-screen">Welcome to {TITLE}</h1>
+              <h1 className="mobile">Welcome to <br /> {TITLE}</h1>
               <p>
                 Delivering a simple solution for NHS Trusts, Care
                 Homes and Professionals to link together.

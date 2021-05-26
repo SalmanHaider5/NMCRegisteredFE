@@ -47,6 +47,9 @@
   width: 60%;
   padding-left: 5%;
 }
+.main-container .gradient-layer .data-container .text-container .welcome-text h1.mobile{
+  display: none;
+}
 .main-container .gradient-layer .data-container .text-container h1,
 .main-container .gradient-layer .data-container .text-container p{
   color: #fff;
@@ -196,4 +199,13 @@
   .ant-notification{
     display: none;
   }
+}
+
+@media only screen and (max-width: 480px){
+  .main-container .gradient-layer .data-container .text-container .welcome-text h1.full-screen{
+    display: none;
+  }
+  .main-container .gradient-layer .data-container .text-container .welcome-text h1.mobile{
+    display: block;
+  } 
 }

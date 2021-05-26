@@ -81,7 +81,7 @@ const LoginForm = ({ showForgetPasswordForm, formValues, setPosition }) => {
                 className="link-button"
                 onClick={showForgetPasswordForm}
               >
-                Forget Password?
+                Forgot Password?
               </Button>
             }
             validate={[isRequired]}
