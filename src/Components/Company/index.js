@@ -24,7 +24,8 @@ import {
   not,
   join,
   and,
-  or
+  or,
+  pathOr
 } from 'ramda'
 
 import {
@@ -326,6 +327,7 @@ class Company extends Component {
     const {
       formValues,
       dispatch,
+      company,
       match: {
         params: { userId }
       }
@@ -345,6 +347,10 @@ class Company extends Component {
       values.charityReg = ''
       dispatch(change('company', 'charityReg', ''))
     }
+
+    values.isPaid = pathOr(false, ['profile', 'isPaid'], company)
+    values.location = pathOr(false, ['profile', 'location'], company)
+    values.payDate = pathOr(new Date(), ['profile', 'payDate'], company)
 
     dispatch(updateProfile(userId, values))
     dispatch(change('company', 'password', ''))
