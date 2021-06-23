@@ -62,17 +62,17 @@ export const SingleOffer = (props) => {
           </List>
         </Col>
         <Col xl={8} md={8} lg={8} sm={24}>
-          <label>Company Details</label>
+          <label>NHS Trust/Foundation Details</label>
           <List>
             <List.Item>
               <List.Item.Meta
-                title={'Company Name'}
+                title={'NHS Trust/Foundation Name'}
                 description={companyName}
               />
             </List.Item>
             <List.Item>
               <List.Item.Meta
-                title={'Company Address'}
+                title={'Site Address'}
                 description={address}
               />
             </List.Item>

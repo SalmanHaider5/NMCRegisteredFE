@@ -12,6 +12,7 @@ const PersonalDetailsForm = () => {
         label={'First Name'}
         size={'large'}
         type="text"
+        specialText={'Director/Head of Nursing'}
         validate={[isRequired]}
         tooltipPlacement={'topRight'}
       />
@@ -21,13 +22,14 @@ const PersonalDetailsForm = () => {
         label={'Last Name'}
         size={'large'}
         type="text"
+        specialText={'Director/Head of Nursing'}
         validate={[isRequired]}
         tooltipPlacement={'topRight'}
       />
       <Field
         name="organization"
         component={TextField}
-        label={'Organization'}
+        label={'NHS Trust/Foundation Name'}
         size={'large'}
         type="text"
         validate={[isRequired]}
@@ -44,7 +46,7 @@ const PersonalDetailsForm = () => {
       <Field
         name="phone"
         component={TextField}
-        label={'Business Phone'}
+        label={'Contact Phone Number'}
         size={'large'}
         type="text"
         validate={[isRequired]}

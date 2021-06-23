@@ -7,7 +7,7 @@ const PersonalDetails = (props) => {
 
   const { profile } = props
   const {
-    isPaid,
+    // isPaid,
     firstName,
     lastName,
     email,
@@ -17,7 +17,7 @@ const PersonalDetails = (props) => {
     phone,
     registration,
     website,
-    payDate,
+    // payDate,
     joinedAt
   } = defaultTo({}, profile)
   
@@ -26,14 +26,14 @@ const PersonalDetails = (props) => {
       <List.Item>
         <label>
           <Icon type="user" />
-          Name
+          Diector/Head of Nursing Full Name
         </label>
         <span className="label-value">{firstName} {lastName}</span>
       </List.Item>
       <List.Item>
         <label>
           <Icon type="mail" />
-            Email <Tag color={isVerified ? `green` : `red`}>
+            Director/Head of Nursing Email <Tag color={isVerified ? `green` : `red`}>
               {isVerified ? `Verified` : `Not Verified`}
             </Tag>
         </label>
@@ -42,14 +42,14 @@ const PersonalDetails = (props) => {
       <List.Item>
         <label>
           <Icon type="phone" />
-          Phone
+          Contact Phone Number
         </label>
         <span className="label-value">{phone}</span>
       </List.Item>
       <List.Item>
         <label>
           <Icon type="shop" />
-          Organization
+          NHS Trust/Foundation Name
         </label>
         <span className="label-value">
           {organization}
@@ -82,7 +82,7 @@ const PersonalDetails = (props) => {
           {website}
         </span>
       </List.Item>
-      <List.Item>
+      {/* <List.Item>
         <label>
           <Icon type="pound" />
           License Purchased
@@ -90,7 +90,7 @@ const PersonalDetails = (props) => {
         <span className="label-value">
           {isPaid ? moment(payDate).format('LL') : 'Not Purchased'}
         </span>
-      </List.Item>
+      </List.Item> */}
       <List.Item>
         <label>
           <Icon type="calendar" />

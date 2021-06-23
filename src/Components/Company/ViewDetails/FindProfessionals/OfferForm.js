@@ -31,7 +31,7 @@ export const OfferForm = (props) => {
         <Field
           name="companyAddress"
           component={MultilineTextField}
-          label="Company Address"
+          label="Site Address"
           readOnly={true}
           fieldData={`${address}, ${city}, Postal Code ${postalCode}`}
         />
