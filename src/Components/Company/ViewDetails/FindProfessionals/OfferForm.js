@@ -38,7 +38,7 @@ export const OfferForm = (props) => {
         <Field
           name="contactName"
           component={TextField}
-          label='Charged Nurse Contact Name'
+          label='Charge Nurse Contact'
           specialText={'For multiple shifts, please use Customized Message'}
           options={offerFormShifts}
           validate={[isRequired]}
