@@ -29,6 +29,21 @@ export const OfferForm = (props) => {
           validate={[isRequired]}
         />
         <Field
+          name="wardNumber"
+          component={TextField}
+          label='Ward Number'
+          options={offerFormShifts}
+          validate={[isRequired]}
+        />
+        <Field
+          name="contactName"
+          component={TextField}
+          label='Charged Nurse Contact Name'
+          specialText={'For multiple shifts, please use Customized Message'}
+          options={offerFormShifts}
+          validate={[isRequired]}
+        />
+        <Field
           name="companyAddress"
           component={MultilineTextField}
           label="Site Address"

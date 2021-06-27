@@ -35,14 +35,14 @@ const PersonalDetailsForm = () => {
         validate={[isRequired]}
         tooltipPlacement={'topRight'}
       />
-      {/* <Field
+      <Field
         name="tradingName"
         component={TextField}
-        label={'Trading Name'}
+        label={'NHS Trust ID'}
         size={'large'}
         type="text"
         tooltipPlacement={'topRight'}
-      /> */}
+      />
       <Field
         name="phone"
         component={TextField}

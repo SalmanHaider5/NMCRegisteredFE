@@ -21,10 +21,11 @@ export const OfferFormModal = (props) => {
 
   return (
     <ModalBox
-      title={<><Icon type="form" />Send an Offer Request</>}
+      title={'Send an Offer Request'}
+      titleIcon={'form'}
       visible={offerModal}
       top={20}
-      size={800}
+      size={1024}
       content={<OfferForm profile={profile} offerFormShifts={offerFormShifts} />}
       submitText={<><Icon type="check" /> Send</>}
       cancelText={<><Icon type="close" /> Cancel </>}

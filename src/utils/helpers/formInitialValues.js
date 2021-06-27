@@ -55,6 +55,8 @@ const searchForm = {
 }
 const offerForm = {
     shiftRate: '',
+    wardNumber: '',
+    contactName: '',
     shifts: [],
     address: '',
     message: ''

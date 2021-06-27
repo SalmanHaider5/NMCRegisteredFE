@@ -14,6 +14,8 @@ export const SingleOffer = (props) => {
     shiftRate,
     shifts,
     companyName,
+    wardNumber,
+    contactName,
     address,
     status,
     professionalMsg,
@@ -83,6 +85,18 @@ export const SingleOffer = (props) => {
               <List.Item.Meta
                 title={'Shift Rate'}
                 description={`GBP ${shiftRate} per hour`}
+              />
+            </List.Item>
+            <List.Item>
+              <List.Item.Meta
+                title={'Ward Number'}
+                description={wardNumber}
+              />
+            </List.Item>
+            <List.Item>
+              <List.Item.Meta
+                title={'Contact Name'}
+                description={contactName}
               />
             </List.Item>
             <List.Item>

@@ -13,7 +13,7 @@ const PersonalDetails = (props) => {
     email,
     isVerified,
     organization,
-    // tradingName,
+    tradingName,
     phone,
     // registration,
     // website,
@@ -55,15 +55,15 @@ const PersonalDetails = (props) => {
           {organization}
         </span>
       </List.Item>
-      {/* <List.Item>
+      <List.Item>
         <label>
           <Icon type="trademark" />
-          Trading Name
+          NHS Trusting ID
         </label>
         <span className="label-value">
           {tradingName}
         </span>
-      </List.Item> */}
+      </List.Item>
       {/* <List.Item>
         <label>
           <Icon type="barcode" />
