@@ -1,13 +1,14 @@
 import React from 'react'
 import { Field } from 'redux-form'
 import { defaultTo, length } from 'ramda'
-import { Checkbox, Form, Button } from 'antd'
+// import { Checkbox, Form, Button } from 'antd'
+import { Button } from 'antd'
 import { TextField, ButtonTextField, SelectField } from '../../../utils/custom-components'
 import { isRequired } from '../../../constants'
 
 const ProfessionalDetailsForm = ({
-  charityStatusChange,
-  subsidiaryStatusChange,
+  // charityStatusChange,
+  // subsidiaryStatusChange,
   addresses: { addresses = [] },
   findAddresses,
   addressSelectHandler,
@@ -15,7 +16,8 @@ const ProfessionalDetailsForm = ({
   changePostalCode
 }) => {
   
-  const { charity, subsidiary, postalCode } = defaultTo({}, formValues)
+  // const { charity, subsidiary, postalCode } = defaultTo({}, formValues)
+  const { postalCode } = defaultTo({}, formValues)
 
   return (
     <>
@@ -77,7 +79,7 @@ const ProfessionalDetailsForm = ({
         </>
         : ''
       }
-      <Form.Item
+      {/* <Form.Item
         label='Charity'
         labelAlign='left'
         labelCol={{ span: 5, offset: 3 }}
@@ -132,7 +134,7 @@ const ProfessionalDetailsForm = ({
           />
         </>:
         null
-      }
+      } */}
     </>
   )
 }

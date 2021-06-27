@@ -1,7 +1,7 @@
 import React from 'react'
 import { defaultTo, toUpper } from 'ramda'
 import { List, Icon } from 'antd'
-import { isEmptyOrNull } from '../../../../../utils/helpers'
+// import { isEmptyOrNull } from '../../../../../utils/helpers'
 
 const ProfessionalDetails = (props) => {
 
@@ -12,10 +12,10 @@ const ProfessionalDetails = (props) => {
     address,
     city,
     county,
-    charity,
-    charityReg,
-    subsidiaryName,
-    subsidiaryAddress
+    // charity,
+    // charityReg,
+    // subsidiaryName,
+    // subsidiaryAddress
   } = defaultTo({}, profile)
   
   return (
@@ -48,7 +48,7 @@ const ProfessionalDetails = (props) => {
         </label>
         <span className="label-value">{county}</span>
       </List.Item>
-      <List.Item>
+      {/* <List.Item>
         <label>
           <Icon type="car" />
           Charity Registration No.
@@ -68,7 +68,7 @@ const ProfessionalDetails = (props) => {
             Subsidiary Address
           </label>
           <span className="label-value">{ isEmptyOrNull(subsidiaryAddress) ? 'N/A' : subsidiaryAddress}</span>
-        </List.Item>
+        </List.Item> */}
     </List>
   )
 }

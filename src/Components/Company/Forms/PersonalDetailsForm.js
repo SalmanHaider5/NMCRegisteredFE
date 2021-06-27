@@ -9,14 +9,14 @@ const PersonalDetailsForm = () => {
       <Field
         name="firstName"
         component={TextField}
-        label={'First Name'}
+        label={'Full Name'}
         size={'large'}
         type="text"
         specialText={'Director/Head of Nursing'}
         validate={[isRequired]}
         tooltipPlacement={'topRight'}
       />
-      <Field
+      {/* <Field
         name="lastName"
         component={TextField}
         label={'Last Name'}
@@ -25,7 +25,7 @@ const PersonalDetailsForm = () => {
         specialText={'Director/Head of Nursing'}
         validate={[isRequired]}
         tooltipPlacement={'topRight'}
-      />
+      /> */}
       <Field
         name="organization"
         component={TextField}
@@ -35,24 +35,24 @@ const PersonalDetailsForm = () => {
         validate={[isRequired]}
         tooltipPlacement={'topRight'}
       />
-      <Field
+      {/* <Field
         name="tradingName"
         component={TextField}
         label={'Trading Name'}
         size={'large'}
         type="text"
         tooltipPlacement={'topRight'}
-      />
+      /> */}
       <Field
         name="phone"
         component={TextField}
-        label={'Contact Phone Number'}
+        label={'Contact Number'}
         size={'large'}
         type="text"
         validate={[isRequired]}
         tooltipPlacement={'topRight'}
       />
-      <Field
+      {/* <Field
         name="registration"
         component={TextField}
         label={'Nature of Business'}
@@ -67,7 +67,7 @@ const PersonalDetailsForm = () => {
         size={'large'}
         type="text"
         tooltipPlacement={'topRight'}
-      />
+      /> */}
     </div>
   )
 }

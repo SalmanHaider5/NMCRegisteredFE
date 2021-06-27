@@ -13,10 +13,10 @@ const PersonalDetails = (props) => {
     email,
     isVerified,
     organization,
-    tradingName,
+    // tradingName,
     phone,
-    registration,
-    website,
+    // registration,
+    // website,
     // payDate,
     joinedAt
   } = defaultTo({}, profile)
@@ -55,7 +55,7 @@ const PersonalDetails = (props) => {
           {organization}
         </span>
       </List.Item>
-      <List.Item>
+      {/* <List.Item>
         <label>
           <Icon type="trademark" />
           Trading Name
@@ -63,8 +63,8 @@ const PersonalDetails = (props) => {
         <span className="label-value">
           {tradingName}
         </span>
-      </List.Item>
-      <List.Item>
+      </List.Item> */}
+      {/* <List.Item>
         <label>
           <Icon type="barcode" />
           Nature of Business
@@ -81,7 +81,7 @@ const PersonalDetails = (props) => {
         <span className="label-value">
           {website}
         </span>
-      </List.Item>
+      </List.Item> */}
       {/* <List.Item>
         <label>
           <Icon type="pound" />

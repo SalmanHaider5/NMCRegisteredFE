@@ -3,7 +3,7 @@ import { Row, Col } from 'antd'
 import PersonalDetails from './PersonalDetails/'
 import { CardContainer } from '../../../../utils/custom-components'
 import ProfessionalDetails from './ProfessionalDetails'
-import PaymentCycle from './PaymentCycle'
+// import PaymentCycle from './PaymentCycle'
 import { EditFormModal } from './EditFormModal'
 import './profile.css'
 
@@ -42,13 +42,13 @@ const Profile = (props) => {
                 clickHandler={showEditFormModal}
                 wrapper={<ProfessionalDetails {...props} />}
               />
-              <CardContainer
+              {/* <CardContainer
                 icon="hourglass"
                 title="Company Payment Cycle"
                 name="Cycle"
                 clickHandler={showEditFormModal}
                 wrapper={<PaymentCycle {...props} />}
-              />
+              /> */}
             </Col>
           </Row>
           <EditFormModal {...props} />

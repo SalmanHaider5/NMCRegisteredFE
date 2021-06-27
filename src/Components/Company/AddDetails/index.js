@@ -3,7 +3,7 @@ import { defaultTo, isEmpty, or } from 'ramda'
 import PersonalDetailsForm from '../Forms/PersonalDetailsForm'
 import { PaymentContainer } from '../Forms/Payment'
 import ProfessionalDetailsForm from '../Forms/ProfessionalDetailsForm'
-import PaymentCycleForm from '../Forms/PaymentCycleForm'
+// import PaymentCycleForm from '../Forms/PaymentCycleForm'
 import { FormContainer, Loader } from '../../../utils/custom-components'
 import { isEmptyOrNull } from '../../../utils/helpers'
 
@@ -40,17 +40,17 @@ const AddDetails = (props) => {
       wrapper: <PersonalDetailsForm />,
       validation: formInvalid
     },
+    // {
+    //   key: 2,
+    //   icon: 'history',
+    //   label: "Payment Cycle",
+    //   wrapper: <PaymentCycleForm formValues={formValues} />,
+    //   validation: formInvalid
+    // },
     {
       key: 2,
-      icon: 'history',
-      label: "Payment Cycle",
-      wrapper: <PaymentCycleForm formValues={formValues} />,
-      validation: formInvalid
-    },
-    {
-      key: 3,
       icon: 'highlight',
-      label: 'Company Details',
+      label: 'Address Details',
       wrapper: <Loader
         size="large"
         isLoading={isLoading}
