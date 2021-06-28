@@ -2,7 +2,8 @@ import React from 'react'
 import { Switch, Route, Link } from 'react-router-dom'
 import { Layout, Menu, Icon, Badge } from 'antd'
 import { defaultTo, filter, length } from 'ramda'
-import { PROFESSIONAL_PAGES, FOOTER_TEXT } from '../../../constants'
+// import { PROFESSIONAL_PAGES, FOOTER_TEXT } from '../../../constants'
+import { PROFESSIONAL_PAGES } from '../../../constants'
 import Timesheet from './Timesheet'
 import Profile from './Profile'
 import SecurityAndLogin from './Security'
@@ -44,7 +45,7 @@ const ViewDetails = (props) => {
   const { Sider, Footer, Content } = Layout
   const pendingOffers = filter(offer => offer.status === 'pending', offers)
   const { timesheetsPage, offersPage, profilePage, securityPage, contactPage } = PROFESSIONAL_PAGES
-  const { label, author, profileLink } = FOOTER_TEXT
+  // const { label, author, profileLink } = FOOTER_TEXT
 
   return (
     <Layout>
@@ -140,7 +141,7 @@ const ViewDetails = (props) => {
           </Switch>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
-            {label} <a href={profileLink} target="_blank" rel="noopener noreferrer">{author}</a>
+            {/* {label} <a href={profileLink} target="_blank" rel="noopener noreferrer">{author}</a> */}
         </Footer>
         </Layout>
     </Layout>

@@ -29,12 +29,11 @@ export const Main = (props) => {
               <h1 className="full-screen">Welcome to {TITLE}</h1>
               <h1 className="mobile">Welcome to <br /> {TITLE}</h1>
               <p>
-                Delivering a simple solution for NHS Trusts, Care
-                Homes and Professionals to link together.
+                Delivering a simple solution for NHS Trusts and Professionals to link together.
               </p>
               <p>
                 Our seamless system allows simple and straight forward connection between
-                Professionals, Care Homes and NHS Trusts without any agency fees or charges
+                Professionals and NHS Trusts without any agency fees or charges
                 per shift.
               </p>
               <Button

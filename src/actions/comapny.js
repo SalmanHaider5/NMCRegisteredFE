@@ -202,7 +202,7 @@ const setEmptyList = data => dispatch => {
         })
 
         if(equals(index, length(data) - 1)){
-            dispatch({ type: types.FIND_PROFESSIONALS_SUCCESS })
+            setTimeout(() => { dispatch({ type: types.FIND_PROFESSIONALS_SUCCESS }) }, 20000)
         }
     }
 }
@@ -334,16 +334,10 @@ const filterListByAddress = (values, professional) => dispatch => {
     fetch(url)
     .then(res => res.json())
     .then(response => {
-
         const { metres } = response
         const miles = parseInt(parseFloat(metres) / 1609)
-
-        if(miles < 40){
-            dispatch(filterListWithTimesheets(values, professional))
-        }else{
-            dispatch(filterListWithTimesheets(values, {}))
-        }
-
+        const professionalObj = miles < 40 ? professional : {}
+        dispatch(filterListWithTimesheets(values, professionalObj))
     })
 
 }

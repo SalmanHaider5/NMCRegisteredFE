@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { Switch, Route, Link } from 'react-router-dom'
 import { defaultTo, filter, length, not } from 'ramda'
 import { Layout, Menu, Icon, Badge } from 'antd'
-import { COMPANY_PAGES, FOOTER_TEXT } from '../../../constants'
+// import { COMPANY_PAGES, FOOTER_TEXT } from '../../../constants'
+import { COMPANY_PAGES } from '../../../constants'
 import FindProfessionals from './FindProfessionals'
 import ChangePassword from './Security'
 import { Location } from './Location'
@@ -30,7 +31,7 @@ const ViewDetails = (props) => {
   const { Sider, Footer, Content } = Layout
   const badgeOffers = filter(offer => offer.status === 'accepted' || offer.status === 'declined' || offer.status === 'rejected', offers)
   const { searchPage, offersPage, securityPage, profilePage, contactPage } = COMPANY_PAGES
-  const { label, author, profileLink } = FOOTER_TEXT
+  // const { label, author, profileLink } = FOOTER_TEXT
   const { isPaid = false, location = false } = defaultTo({}, profile)
 
   return (
@@ -118,7 +119,7 @@ const ViewDetails = (props) => {
             </Switch>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
-              {label} <a href={profileLink} target="_blank" rel="noopener noreferrer">{author}</a>
+              {/* {label} <a href={profileLink} target="_blank" rel="noopener noreferrer">{author}</a> */}
           </Footer>
         </Layout>
       </Layout>
