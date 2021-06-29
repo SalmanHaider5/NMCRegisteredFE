@@ -45,7 +45,7 @@ export const PROFESSIONAL_PAGES = {
 }
 
 export const FOOTER_TEXT = {
-  label: 'NMC Professionals ©2021 Created by',
+  label: 'NMC Professionals © 2021',
   author: 'Salman Haider',
   profileLink: 'https://www.linkedin.com/in/salman-hayder/'
 }
