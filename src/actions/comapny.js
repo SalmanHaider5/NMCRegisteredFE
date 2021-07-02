@@ -342,6 +342,13 @@ const filterListByAddress = (values, professional) => dispatch => {
 
 }
 
+export const addSearchedProfessionals = professional => dispatch => {
+    dispatch({
+        type: types.ADD_PROFESSIONALS_LIST_BY_DISTANCE,
+        payload: professional
+    })
+}
+
 export const searchProfessionals = (userId, values) => dispatch => {
 
     const { skill } = values

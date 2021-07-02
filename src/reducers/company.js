@@ -14,6 +14,7 @@ const initState = {
     profile: {},
     offers:[],
     professionals: [],
+    professionalList: [],
     paypalSecret: '',
     error: {}
 }
@@ -26,7 +27,6 @@ const company = (state=initState, action) => {
         case actions.ADD_COMPANY_DETAILS_REQUEST:
         case actions.CLIENT_TOKEN_REQUEST:
         case actions.MAKE_PAYMENT_REQUEST:
-        case actions.FIND_PROFESSIONALS_REQUEST:
         case actions.PROCESS_START:
         case actions.OFFER_REQUEST_INIT:
         case actions.COMPANY_OFFER_UPDATE_REQUEST:
@@ -38,6 +38,17 @@ const company = (state=initState, action) => {
             return {
                 ...state,
                 isLoading: true
+            }
+        case actions.ADD_PROFESSIONALS_LIST_BY_DISTANCE:
+            return {
+                ...state,
+                professionalList: append(payload, state.professionalList)
+            }
+        case actions.FIND_PROFESSIONALS_REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+                professionals: []
             }
         case actions.ADD_COMPANY_DETAILS_SUCCESS:
             return {
