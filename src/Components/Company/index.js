@@ -25,9 +25,7 @@ import {
   join,
   and,
   or,
-  pathOr,
-  append,
-  dropLast
+  pathOr
 } from 'ramda'
 
 import {
@@ -40,7 +38,6 @@ import {
   contactUs,
   makePayment,
   updateProfile,
-  searchProfessionals,
   getStripeSecret,
   sendOfferRequest,
   updateOffer,
@@ -435,76 +432,52 @@ class Company extends Component {
     dispatch(updateOffer(offer, offer.id))
   }
 
-  filterProfessionalsByTimesheets = () => {
-    const list = dropLast(1, this.props.company.professionalList)
+  findProfessionals = async (userId, values) => {
 
-    // console.log('ProfProps', this.props.company.professionalList)
-  }
-
-  findProfessionalsByDistance = (values) => {
-    
-    const list = append({}, this.state.professionals)
     const { dispatch } = this.props
-    list.forEach(async (professional, index) => {
-      
-        const { postCode } = professional
-        const { postalCode } = values
-
-        const url = `${apiUrl}distance/${postalCode}/${postCode}?api-key=${apiKey}`
-
-        fetch(url)
-        .then(res => res.json())
-        .then((response) => {
-            const { metres } = response
-            const miles = parseInt(parseFloat(metres) / 1609)
-            const professionalObj = miles < 40 ? professional : {}
-            dispatch(addSearchedProfessionals(professionalObj)) 
-        })
-        .then(() => {
-          if(equals(index, parseInt(length(list) - 1))){
-            this.filterProfessionalsByTimesheets();
-          }
-        })
-      
-    })
-  }
-
-  findProfessionalsBySkills = (userId, values) => {
-
-    const { skill } = values
-    const { dispatch } = this.props
-    const  url = getUrl(api.SEARCH_PROFESSIONALS_BY_SKILL, { userId, skill })
-    const token = getAuthToken()
 
     dispatch({ type: types.FIND_PROFESSIONALS_REQUEST })
 
-    fetch(url, {
-        headers: {
-            authorization: token
-        }
-    })
-    .then(res => res.json())
-    .then(response => {
+    const { data: formValues, skill } = values
+    const endpoint = getUrl(api.FIND_PROFESSIONALS, { userId })
+    const url = new URL(endpoint)
 
+    for await(const [index, query] of formValues.entries()){
+      const { date, shifts } = query
+      url.search = new URLSearchParams({
+        skill,
+        shifts: shifts.toString(),
+        date: moment(date).format('YYYY-MM-DD')
+      })
+      await fetch(url, {
+        headers: {
+          authorization: getAuthToken()
+        }
+      })
+      .then(res => res.json())
+      .then(async response => {
         const { type } = response
         if(equals(type, 'success')){
-
-            const { data } = response
-            this.setState(prevState => ({
-              professionals: [...prevState.professionals, ...data]
-            }))
-
-            this.findProfessionalsByDistance(values)
-
-
-        }else{
-
-            const { message: { title, text } } = response
-            // showToast(title, text, type)
-            dispatch({ type: types.NO_PROFESSIONALS_FOUND })
-
+          const { data } = response
+          for await(const professional of data){
+            const { postCode } = professional
+            const { postalCode } = values
+      
+            const url = `${apiUrl}distance/${postalCode}/${postCode}?api-key=${apiKey}`
+      
+            await fetch(url)
+            .then(res => res.json())
+            .then((response) => {
+                const { metres } = response
+                const miles = parseInt(parseFloat(metres) / 1609)
+                const professionalObj = miles < 40 ? professional : {}
+                dispatch(addSearchedProfessionals(index, professionalObj))
+            })
+          }
         }
-    })
+      })
+    }
+    dispatch({ type: types.FIND_PROFESSIONALS_SUCCESS })
   }
   
 
@@ -516,7 +489,6 @@ class Company extends Component {
       match: {
         params: { userId }
       },
-      dispatch,
       company: { profile },
       formValues
     } = this.props
@@ -540,7 +512,7 @@ class Company extends Component {
       return value
     }, results)
 
-    this.findProfessionalsBySkills(userId, values)
+    this.findProfessionals(userId, values)
 
     const skillInputValue = skillName === 'allSkills' ?  `(All Skills)` : `(${skillName})`
 
@@ -715,7 +687,7 @@ class Company extends Component {
         offers,
         profile,
         isLoading,
-        professionals,
+        professionalList: professionals,
         stripeSecret,
         paypalSecret
       },

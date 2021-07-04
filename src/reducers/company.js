@@ -14,7 +14,9 @@ const initState = {
     profile: {},
     offers:[],
     professionals: [],
-    professionalList: [],
+    professionalList: [
+        [], [], [], [], [], [], []
+    ],
     paypalSecret: '',
     error: {}
 }
@@ -40,15 +42,23 @@ const company = (state=initState, action) => {
                 isLoading: true
             }
         case actions.ADD_PROFESSIONALS_LIST_BY_DISTANCE:
+            const list = state.professionalList
+            list[payload.index] = append(payload.professional, list[payload.index])
             return {
                 ...state,
-                professionalList: append(payload, state.professionalList)
+                professionalList: list
+            }
+
+        case actions.RESET_PROFESSIONALS_LIST:
+            return {
+                ...state,
+                professionalList: []
             }
         case actions.FIND_PROFESSIONALS_REQUEST:
             return {
                 ...state,
                 isLoading: true,
-                professionals: []
+                professionalList: []
             }
         case actions.ADD_COMPANY_DETAILS_SUCCESS:
             return {

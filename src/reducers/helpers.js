@@ -163,11 +163,11 @@ export const getModifiedOffers = (state, payload) => {
 export const getModifiedList = (state, payload) => {
 
   const { professionals = [] } = state
-  const { index, professional } = payload
-  const data = isNil(professionals[index]) ? [] : professionals[index]
-  const modifiedData = isEmptyOrNull(professional) ? data : append(professional, data)
+  // const { index, professionals } = payload
+  // const data = isNil(professionals[index]) ? [] : professionals[index]
+  // const modifiedData = isEmptyOrNull(professional) ? data : append(professional, data)
 
-  professionals[index] = modifiedData
+  professionals[payload.index] = payload.professionals
 
   return professionals
 

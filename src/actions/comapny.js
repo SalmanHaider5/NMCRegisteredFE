@@ -342,10 +342,10 @@ const filterListByAddress = (values, professional) => dispatch => {
 
 }
 
-export const addSearchedProfessionals = professional => dispatch => {
+export const addSearchedProfessionals = (index, professional) => dispatch => {
     dispatch({
         type: types.ADD_PROFESSIONALS_LIST_BY_DISTANCE,
-        payload: professional
+        payload: { professional, index }
     })
 }
 
