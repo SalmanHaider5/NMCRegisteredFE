@@ -1,5 +1,6 @@
 import { append, defaultTo, empty } from 'ramda'
 import * as actions from '../actions'
+import { isEmptyOrNull } from '../utils/helpers'
 import {
     formatCompanyDetails,
     getAfterPaymentProfile,
@@ -43,7 +44,7 @@ const company = (state=initState, action) => {
             }
         case actions.ADD_PROFESSIONALS_LIST_BY_DISTANCE:
             const list = state.professionalList
-            list[payload.index] = append(payload.professional, list[payload.index])
+            list[payload.index] = isEmptyOrNull(payload.professional) ? list[payload.index] : append(payload.professional, list[payload.index])
             return {
                 ...state,
                 professionalList: list
@@ -58,7 +59,7 @@ const company = (state=initState, action) => {
             return {
                 ...state,
                 isLoading: true,
-                professionalList: []
+                professionalList: [[], [], [], [], [], [], []]
             }
         case actions.ADD_COMPANY_DETAILS_SUCCESS:
             return {

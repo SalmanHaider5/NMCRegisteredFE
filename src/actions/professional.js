@@ -208,9 +208,6 @@ export const updateBankDetails = (userId, formValues) => dispatch => {
 }
 
 export const modifyEmail = (userId, values) => dispatch => {
-
-    console.log('Working', getUrl(api.UPDATE_EMAIL, { userId }))
-
     putWithAuth({
         type: 'json',
         url: getUrl(api.UPDATE_EMAIL, { userId }),

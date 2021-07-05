@@ -152,7 +152,7 @@ class Company extends Component {
   showOfferModal = (selectedProfessional) => {
     
     const {
-      company: { professionals }
+      company: { professionalList: professionals }
     } = this.props
 
     const { currentWeek } = this.state
@@ -459,20 +459,24 @@ class Company extends Component {
         const { type } = response
         if(equals(type, 'success')){
           const { data } = response
-          for await(const professional of data){
-            const { postCode } = professional
-            const { postalCode } = values
-      
-            const url = `${apiUrl}distance/${postalCode}/${postCode}?api-key=${apiKey}`
-      
-            await fetch(url)
-            .then(res => res.json())
-            .then((response) => {
-                const { metres } = response
-                const miles = parseInt(parseFloat(metres) / 1609)
-                const professionalObj = miles < 40 ? professional : {}
-                dispatch(addSearchedProfessionals(index, professionalObj))
-            })
+          if(length(data) > 0){
+            for await(const professional of data){
+              const { postCode } = professional
+              const { postalCode } = values
+        
+              const url = `${apiUrl}distance/${postalCode}/${postCode}?api-key=${apiKey}`
+        
+              await fetch(url)
+              .then(res => res.json())
+              .then((response) => {
+                  const { metres } = response
+                  const miles = parseInt(parseFloat(metres) / 1609)
+                  const professionalObj = miles < 40 ? professional : {}
+                  dispatch(addSearchedProfessionals(index, professionalObj))
+              })
+            }
+          }else{
+            dispatch(addSearchedProfessionals(index, {}))
           }
         }
       })
