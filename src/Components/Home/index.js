@@ -67,7 +67,7 @@ class Home extends Component {
 
   login = () => {
     const { formValues: { login, login: { role } }, dispatch } = this.props
-    login.position =  equals(role, 'Company') ? this.state.position : {}
+    login.position =  equals(role, 'NHS Trust') ? this.state.position : {}
     dispatch(userLogin(login))
   }
 

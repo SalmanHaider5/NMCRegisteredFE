@@ -298,12 +298,12 @@ export const COMPANY_READINGS = [
     {
         id: 1,
         title: '',
-        text: 'It is highly recommended that you purchase your license from the device you will be using for searching for NMC Nursing Professionals.'
+        text: 'These terms are not prohibitive; they are necessary to protect our proprietary license rights.'
     },
     {
         id: 2,
         title: '',
-        text: 'You must ensure on all active devices your locations settings have been turned on. This includes mobile phones if purchasing via your mobile phone.'
+        text: 'You must ensure on all active devices your locations settings have been turned on.'
     },
     {
         id: 3,
@@ -313,36 +313,36 @@ export const COMPANY_READINGS = [
     {
         id: 4,
         title: '',
-        text: 'It can only be used at the place of business; the registered address supplied on the registration form.'
+        text: 'To protect our proprietary license rights, your location (place of business) will be registered on our system.'
     },
     {
         id: 5,
         title: '',
-        text: 'You must give permission for location details to be activated by the software to validate your license. Ensure your location settings are turned on.',
+        text: 'The license will not permit access to the search professionals facility via any mobile phone.',
     },
     {
         id: 6,
         title: '',
-        text: 'To protect our proprietary license rights, your location (place of business) will be registered on our system.'
-    },
-    {
-        id: 7,
-        title: '',
-        text: 'The license should be used via a fixed work-station on the site, any obvious deviation of that location can invalidate the license.'
-    },
-    {
-        id: 8,
-        title: '',
-        text: 'The license will not permit access to the search professionals facility via any mobile phone.'
-    },
-    {
-        id: 9,
-        title: '',
-        text: 'These terms are not prohibitive; they are necessary to protect our proprietary license rights.'
-    },
-    {
-        id: 10,
-        title: '',
         text: 'If you are happy with the above, please register for your site license.'
     },
+    // {
+    //     id: 7,
+    //     title: '',
+    //     text: 'The license should be used via a fixed work-station on the site, any obvious deviation of that location can invalidate the license.'
+    // },
+    // {
+    //     id: 8,
+    //     title: '',
+    //     text: 'The license will not permit access to the search professionals facility via any mobile phone.'
+    // },
+    // {
+    //     id: 9,
+    //     title: '',
+    //     text: 'These terms are not prohibitive; they are necessary to protect our proprietary license rights.'
+    // },
+    // {
+    //     id: 10,
+    //     title: '',
+    //     text: 'If you are happy with the above, please register for your site license.'
+    // },
 ]

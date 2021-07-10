@@ -31,11 +31,11 @@ const LoginForm = ({ showForgetPasswordForm, formValues, setPosition }) => {
             <Field
               name="role"
               component={RadioField}
-              options={['Company', 'Professional']}
+              options={['NHS Trust', 'Professional']}
               label={'Role'}
               onChange={event => {
                 const { target: { value } } = event
-                if(equals(value, 'Company')){
+                if(equals(value, 'NHS Trust')){
                   getCurrentPosition()
                 }
               }}
@@ -44,7 +44,7 @@ const LoginForm = ({ showForgetPasswordForm, formValues, setPosition }) => {
         }}
       />
       {
-        equals(role, 'Company') ?
+        equals(role, 'NHS Trust') ?
         <>
           <Alert
             style={{ marginBottom: '20px' }}
@@ -57,7 +57,7 @@ const LoginForm = ({ showForgetPasswordForm, formValues, setPosition }) => {
         </>: ''
       }
       {
-        or(equals(role, 'Professional'), and(equals(role, 'Company'), locationCaptured)) ?
+        or(equals(role, 'Professional'), and(equals(role, 'NHS Trust'), locationCaptured)) ?
         <>
           <Field
             name="email"

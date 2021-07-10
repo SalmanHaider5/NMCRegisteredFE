@@ -32,7 +32,7 @@ const SignupForm = (props) => {
             <Icon type="user" /> Professional
           </Radio.Button>
           <Radio.Button value="company">
-            <Icon type="solution" /> Company
+            <Icon type="solution" /> NHS Trust
           </Radio.Button>
         </RadioGroup>
         {
@@ -56,7 +56,7 @@ const SignupForm = (props) => {
             className="full-row-btn success-btn"
             onClick={() => setReadingsDrawer(true)}
           >
-            Essential Company Reading <Icon type="solution" />
+            Essential NHS Trust Reading <Icon type="solution" />
           </Button> : ''
         }
         <Field
@@ -129,7 +129,7 @@ const SignupForm = (props) => {
         </Button>
       </Drawer>
       <Drawer
-        title={<><Icon type="document" /> {`Essential ${role} reading`} </>}
+        title={<><Icon type="document" /> {`Essential ${role === 'professional' ? 'Professional' : 'NHS Trust'} Reading`} </>}
         placement="right"
         className="contact-drawer"
         closable={true}
