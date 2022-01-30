@@ -1,3 +1,3 @@
-export const GET_ADDRESS_KEY = 'dVsQRsLdEkasx1cfi4PGMg25238'
-export const STRIPE = 'pk_test_cmqEvoYCsQr8Ur3q2AoEY5V800VuRo430P'
-export const PAYPAL_ID = 'ATET_OBKQsm2EXXHAEenw8kALfnbgERBkb9U_I2ZVVvATJXtRsrY9easUR2UU_U1I9UYp0ZMYoMo8S6O'
+export const GET_ADDRESS_KEY = ''
+export const STRIPE = ''
+export const PAYPAL_ID = ''
