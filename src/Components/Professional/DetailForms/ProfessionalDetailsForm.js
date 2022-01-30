@@ -2,7 +2,7 @@ import React from 'react'
 import { Field } from 'redux-form'
 import { defaultTo } from 'ramda'
 import { TextField, SelectField, MultilineTextField, FileInput } from '../../../utils/custom-components'
-import { isRequired, QUALIFICATION_OPTIONS as qualifications, max35Hours, max200Words, isValidNMC } from '../../../constants'
+import { isRequired, QUALIFICATION_OPTIONS as qualifications, BAND_LEVELS as bands, max200Words, isValidNMC } from '../../../constants'
 
 const ProfessionalDetailsForm = ({ formValues, imageRemoveHandler }) => {
   const { profilePicture } = defaultTo({}, formValues)
@@ -37,13 +37,11 @@ const ProfessionalDetailsForm = ({ formValues, imageRemoveHandler }) => {
       />
       <Field
         name="cpdHours"
-        component={TextField}
-        label={'CPD Hours'}
+        component={SelectField}
+        label={'Nursing Band Level'}
+        options={bands}
         size={'large'}
         type="text"
-        specialText={'Max 35 Hours'}
-        validate={[max35Hours]}
-        tooltipPlacement={'topRight'}
       />
       {/* <Field
         name="document"

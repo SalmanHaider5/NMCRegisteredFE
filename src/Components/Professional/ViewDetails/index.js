@@ -140,7 +140,8 @@ const ViewDetails = (props) => {
           </Switch>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
-            {label} <a href={profileLink} target="_blank" rel="noopener noreferrer">{author}</a>
+            {label}
+            {/* <a href={profileLink} target="_blank" rel="noopener noreferrer">{author}</a> */}
         </Footer>
         </Layout>
     </Layout>

@@ -1,6 +1,6 @@
-import { initialize } from 'redux-form'
+import { initialize, change } from 'redux-form'
 import moment from 'moment'
-import { pathOr, prop } from 'ramda'
+import { pathOr, prop, equals, type } from 'ramda'
 import { isEmptyOrNull } from '../helpers'
 
 const getDateOfBirth = dateOfBirth => {
@@ -28,6 +28,14 @@ const getBankDetails = bankDetails => {
   }
 }
 
+const getProfilePicture = (response, dispatch) => {
+  const imageFile = pathOr('', ['profilePicture'], response),
+    profilePicture = equals(type(imageFile), 'File') ? imageFile.name : imageFile
+  
+  dispatch(change('professional', 'profilePicture', profilePicture))
+  return profilePicture
+}
+
 const getContactFormValues = response => {
   return {
     name: pathOr('', ['fullName'], response),
@@ -45,7 +53,7 @@ const initializeForm = (dispatch, professional) => {
 export const getProfessionalData = (dispatch, response) => {
 
   const professional =  {
-    profilePicture: pathOr('', ['profilePicture'], response),
+    profilePicture: getProfilePicture(response, dispatch),
     status: pathOr('', ['status'], response),
     email: pathOr('', ['email'], response),
     isVerified: pathOr(false, ['isVerified'], response),

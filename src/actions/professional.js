@@ -209,8 +209,6 @@ export const updateBankDetails = (userId, formValues) => dispatch => {
 
 export const modifyEmail = (userId, values) => dispatch => {
 
-    console.log('Working', getUrl(api.UPDATE_EMAIL, { userId }))
-
     putWithAuth({
         type: 'json',
         url: getUrl(api.UPDATE_EMAIL, { userId }),
@@ -229,7 +227,7 @@ export const modifyEmail = (userId, values) => dispatch => {
     })
 }
 
-export const modifyPhone = (userId, values, formValues) => dispatch => {
+export const modifyPhone = (userId, values) => dispatch => {
 
     putWithAuth({
         type: 'json',

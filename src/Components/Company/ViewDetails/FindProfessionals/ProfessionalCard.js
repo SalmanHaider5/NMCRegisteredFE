@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import moment from 'moment'
-import { defaultTo, equals } from 'ramda'
+import { defaultTo, equals, find, prop, propEq } from 'ramda'
 import { Card, Icon, List, Button, Tooltip } from 'antd'
 import { isEmptyOrNull } from '../../../../utils/helpers'
-import { NMC_WEB_LINK as nmcUrl, DBS_WEB_LINK as dbsUrl } from '../../../../constants'
+import { NMC_WEB_LINK as nmcUrl, DBS_WEB_LINK as dbsUrl, BAND_LEVELS } from '../../../../constants'
 import { CardImageModal } from './CardImageModal'
 import { OfferFormModal } from './OfferFormModal'
 
@@ -18,6 +18,7 @@ const ProfessionalCard = (props) => {
     fullName,
     profilePicture,
     crbDocument,
+    cpdHours,
     shift,
     time,
     nmcPin,
@@ -56,6 +57,12 @@ const ProfessionalCard = (props) => {
             <Icon type="clock-circle" /> {shift}
           </label>
           <span>{time}</span>
+        </List.Item>
+        <List.Item>
+          <label>
+            <Icon type="clock-circle" /> Band Level
+          </label>
+          <span>{ prop('name', find(propEq('id', cpdHours))(BAND_LEVELS)) }</span>
         </List.Item>
         <List.Item>
           <label>

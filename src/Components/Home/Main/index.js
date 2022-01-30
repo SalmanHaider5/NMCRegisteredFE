@@ -20,20 +20,20 @@ export const Main = (props) => {
       <Row className="gradient-layer">
         <Col span={24} className="header">
           <div className="logo">
-            <img src={LOGO_URL} alt="NMC Professionals" />
+            <img src={LOGO_URL} alt="NMC Registered" />
           </div>
         </Col>
         <Row className="data-container">
           <Col lg={12} xl={16} sm={24} md={24} xs={24} className="text-container">
             <div className="welcome-text">
-              <h1>Welcome to {TITLE}</h1>
+              <h1 className="full-screen">Welcome to {TITLE}</h1>
+              <h1 className="mobile">Welcome to <br /> {TITLE}</h1>
               <p>
-                Delivering a simple solution for NHS Trusts, Care
-                Homes and Professionals to link together.
+                Delivering a simple solution for Private Sector Care Homes and Professionals to link together.
               </p>
               <p>
                 Our seamless system allows simple and straight forward connection between
-                Professionals, Care Homes and NHS Trusts without any agency fees or charges
+                Professionals and Private Sector Care Homes without any agency fees or charges
                 per shift.
               </p>
               <Button

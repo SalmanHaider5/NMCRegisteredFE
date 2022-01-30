@@ -68,7 +68,7 @@ export const EditFormModal = (props) => {
       />
 
     }else if(equals(form, 'Cycle')){
-      return <PaymentCycleForm formValues={formValues} />
+      return <PaymentCycleForm editForm={formModal} formValues={formValues} />
     }else if(equals(form, 'Email')){
       return <EmailForm />
     }else if(equals(form, 'Password')){

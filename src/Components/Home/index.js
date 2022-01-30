@@ -109,7 +109,7 @@ class Home extends Component {
         </FormSection>
       )
     }
-    if(type === 'Forget Password'){
+    if(type === 'Forgot Password'){
       return(
         <FormSection name="forgetPassword">
           <ForgetPasswordForm
@@ -137,7 +137,7 @@ class Home extends Component {
         </span>
       )
     }
-    if(type === 'Forget Password'){
+    if(type === 'Forgot Password'){
       return(
         <span>
           <Icon type="link" /> Send Password Reset Link
@@ -181,7 +181,7 @@ class Home extends Component {
       }
     } = this.props
 
-    const modalType = twoFactorAuth ? 'Mobile Verification' : forgetPassword ? 'Forget Password' : contactFormModal ? 'Contact Us' :  'Login'
+    const modalType = twoFactorAuth ? 'Mobile Verification' : forgetPassword ? 'Forgot Password' : contactFormModal ? 'Contact Us' :  'Login'
 
     if(auth &&  not(isEmptyOrNull(role))){
       return <Redirect to={ equals(role, 'professional') ? `/${role}/${userId}/timesheet` : `/${role}/${userId}/professionals` } />

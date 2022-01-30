@@ -1,5 +1,6 @@
 import { append, defaultTo, empty } from 'ramda'
 import * as actions from '../actions'
+import { isEmptyOrNull } from '../utils/helpers'
 import {
     formatCompanyDetails,
     getAfterPaymentProfile,
@@ -14,6 +15,9 @@ const initState = {
     profile: {},
     offers:[],
     professionals: [],
+    professionalList: [
+        [], [], [], [], [], [], []
+    ],
     paypalSecret: '',
     error: {}
 }
@@ -26,7 +30,6 @@ const company = (state=initState, action) => {
         case actions.ADD_COMPANY_DETAILS_REQUEST:
         case actions.CLIENT_TOKEN_REQUEST:
         case actions.MAKE_PAYMENT_REQUEST:
-        case actions.FIND_PROFESSIONALS_REQUEST:
         case actions.PROCESS_START:
         case actions.OFFER_REQUEST_INIT:
         case actions.COMPANY_OFFER_UPDATE_REQUEST:
@@ -38,6 +41,25 @@ const company = (state=initState, action) => {
             return {
                 ...state,
                 isLoading: true
+            }
+        case actions.ADD_PROFESSIONALS_LIST_BY_DISTANCE:
+            const list = state.professionalList
+            list[payload.index] = isEmptyOrNull(payload.professional) ? list[payload.index] : append(payload.professional, list[payload.index])
+            return {
+                ...state,
+                professionalList: list
+            }
+
+        case actions.RESET_PROFESSIONALS_LIST:
+            return {
+                ...state,
+                professionalList: []
+            }
+        case actions.FIND_PROFESSIONALS_REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+                professionalList: [[], [], [], [], [], [], []]
             }
         case actions.ADD_COMPANY_DETAILS_SUCCESS:
             return {

@@ -29,5 +29,6 @@ export const ENDPOINTS = {
   UPDATE_OFFER: '/server/:userId/offer/:offerId',
   ADD_LOCATION: '/server/:userId/location',
   UPDATE_PHONE: '/server/:userId/phone',
-  UPDATE_EMAIL: '/server/:userId/email'
+  UPDATE_EMAIL: '/server/:userId/email',
+  FIND_PROFESSIONALS: '/server/:userId/professionals/search'
 }

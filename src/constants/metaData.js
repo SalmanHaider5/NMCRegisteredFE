@@ -1,6 +1,6 @@
 import { GET_ADDRESS_KEY, STRIPE, PAYPAL_ID } from '../config/keys'
 
-export const TITLE = "NMC Professionals"
+export const TITLE = "NMC Registered"
 export const DATE_FORMAT = "DD/MM/YYYY"
 export const TIME_FORMAT = "HH:mm"
 export const GENERAL_ERROR = { title: 'Server Error', name: "Something went wrong!" }
@@ -65,13 +65,25 @@ export const QUALIFICATION_OPTIONS = [
     { id: 9, name: 'Nursing Associate' }
 ]
 
+export const BAND_LEVELS = [
+    { id: 1, name: '2' },
+    { id: 2, name: '3' },
+    { id: 3, name: '4' },
+    { id: 4, name: '5' },
+    { id: 5, name: '6' },
+    { id: 6, name: '7' },
+    { id: 7, name: '8a' },
+    { id: 8, name: '8b' },
+    { id: 9, name: '8c/9' },
+]
+
 export const paymentCycleDescription = "The payment cycle can affect the uptake of shifts. Faster payment will result in more uptake of shift offers"
 
 export const TERMS = [
     {
         id: 1,
         title: '',
-        text: 'The legal licence for this software product is wholly owned by Nmc Professionals Ltd, hereafter referred to as the “proprietor” and is a Proprietary licence.'
+        text: 'The legal licence for this software product is wholly owned by Nmc Registered Ltd, hereafter referred to as the “proprietor” and is a Proprietary licence.'
     },
     {
         id: 2,
@@ -86,7 +98,7 @@ export const TERMS = [
     {
         id: 4,
         title: 'User Rights',
-        text: 'No rights apply for changes, redistribution, 3rd Party usage or copying of the software without the pre-authorised written consent of Nmc Professionals Ltd.'
+        text: 'No rights apply for changes, redistribution, 3rd Party usage or copying of the software without the pre-authorised written consent of Nmc Registered Ltd.'
     },
     {
         id: 5, 
@@ -124,22 +136,22 @@ export const PRIVACY_POLICY = [
     {
         id: 1,
         title: '',
-        text: 'The primary purpose of nmcprofessionals.org.uk is to be a resource and business tool to help you create and sustain your business growth. We want you to feel secure when visiting our site and vigorously work to ensure your privacy to the best of our ability at all times. This site is fully PCI DSS and GDRP compliant'
+        text: 'The primary purpose of nmcregistered.org.uk is to be a resource and business tool to help you create and sustain your business growth. We want you to feel secure when visiting our site and vigorously work to ensure your privacy to the best of our ability at all times. This site is fully PCI DSS and GDRP compliant'
     },
     {
         id: 2,
         title: '',
-        text: 'An overview of how we protect your privacy when connected to nmcprofessionals.org.uk'
+        text: 'An overview of how we protect your privacy when connected to nmcregistered.org.uk'
     },
     {
         id: 3,
         title: 'Do we solicit information/Data?',
-        text: 'Information on nmcprofessionals.org.uk is gathered by one method, voluntary submissions. Only when you agree to share the information/data when you voluntarily submit information on various pages of nmcprofessionals.org.uk. We do use other technologies to monitor location data to protect our "single site location" license terms of use. This is only used with the prior permission from the individual license holder and is never used with non-license users'
+        text: 'Information on nmcregistered.org.uk is gathered by one method, voluntary submissions. Only when you agree to share the information/data when you voluntarily submit information on various pages of nmcregistered.org.uk. We do use other technologies to monitor location data to protect our "single site location" license terms of use. This is only used with the prior permission from the individual license holder and is never used with non-license users'
     },
     {
         id: 4,
         title: 'Do we share personal information or data with third parties?',
-        text: 'No. As an organisation the data submitted may be transferred throughout NMC Professionals network, this is a necessary requirement in order for us to provide the quality of service expected by our clients. We do not and will not sell or disclose individual information and will share it only with the relevant members of our organisation aligned to providing our services'
+        text: 'No. As an organisation the data submitted may be transferred throughout NMC Registered network, this is a necessary requirement in order for us to provide the quality of service expected by our clients. We do not and will not sell or disclose individual information and will share it only with the relevant members of our organisation aligned to providing our services'
     },
     {
         id: 5,
@@ -149,7 +161,7 @@ export const PRIVACY_POLICY = [
     {
         id: 6,
         title: '',
-        text: 'At nmcprofessionals.org.uk we are focused on maintaining your privacy and creating a sustainable and valuable resource for you to use. If you have any questions regarding the security of our site, please email us via our “Contact Us” page, please mark the subject as “Privacy”'
+        text: 'At nmcregistered.org.uk we are focused on maintaining your privacy and creating a sustainable and valuable resource for you to use. If you have any questions regarding the security of our site, please email us via our “Contact Us” page, please mark the subject as “Privacy”'
     }
 ]
 
@@ -162,7 +174,7 @@ export const TERMS_OF_PURCHASE = [
     {
         id: 2,
         title: 'Introduction',
-        text: 'The Software is licensed, not sold. These terms governing card payments, “Terms of Purchase” apply between you and NMC Professionals Ltd, having its registered office located at Kemp House, 160 City Road, London, EC1V 2NX, United Kingdom. By purchasing this service licence, you stipulate that you have read, understand, and agree to be bound by these Terms of Purchase in effect at the time of purchase. You will be required to confirm that you agree to these Terms of Purchase before you purchase our service licence.'
+        text: 'The Software is licensed, not sold. These terms governing card payments, “Terms of Purchase” apply between you and NMC Registered Ltd, having its registered office located at Kemp House, 160 City Road, London, EC1V 2NX, United Kingdom. By purchasing this service licence, you stipulate that you have read, understand, and agree to be bound by these Terms of Purchase in effect at the time of purchase. You will be required to confirm that you agree to these Terms of Purchase before you purchase our service licence.'
     },
     {
         id: 3,
@@ -182,7 +194,7 @@ export const TERMS_OF_PURCHASE = [
     {
         id: 4,
         title: '',
-        text: 'You are subject to all terms and conditions of the payment method you select. By submitting any card details you authorise NMC Professionals Ltd, or its designated payment processor, to charge the account you have specified for the purchase amount.'
+        text: 'You are subject to all terms and conditions of the payment method you select. By submitting any card details you authorise NMC Registered Ltd, or its designated payment processor, to charge the account you have specified for the purchase amount.'
     },
     {
         id: 5,
@@ -192,7 +204,7 @@ export const TERMS_OF_PURCHASE = [
     {
         id: 6,
         title: 'Data Policy',
-        text: 'Your data is important to NMC Professionals Ltd. When you purchase a service licence by credit or debit card through our website, you are giving NMC Professionals Ltd your permission to securely transmit the information provided to our designated payment processor for the sole purpose of processing your card payment and delivering the service license to you.'
+        text: 'Your data is important to NMC Registered Ltd. When you purchase a service licence by credit or debit card through our website, you are giving NMC Registered Ltd your permission to securely transmit the information provided to our designated payment processor for the sole purpose of processing your card payment and delivering the service license to you.'
     },
     {
         id: 7,
@@ -202,7 +214,7 @@ export const TERMS_OF_PURCHASE = [
     {
         id: 8,
         title: '',
-        text: 'By entering your card information, you are stating that you are an authorised user of the card and that the associated information entered (card holder name, card number, billing information, etc.) is accurate, and you authorise NMC Professionals Ltd to charge the purchase amount to your card.'
+        text: 'By entering your card information, you are stating that you are an authorised user of the card and that the associated information entered (card holder name, card number, billing information, etc.) is accurate, and you authorise NMC Registered Ltd to charge the purchase amount to your card.'
     },
     {
         id: 9,
@@ -272,7 +284,7 @@ export const PROFESSIONAL_READINGS = [
     {
         id: 6,
         title: '',
-        text: 'Please let your fellow NMC professionals know of our service.'
+        text: 'Please let your fellow NMC Registered know of our service.'
     },
     {
         id: 7,
@@ -325,7 +337,7 @@ export const COMPANY_READINGS = [
     {
         id: 9,
         title: '',
-        text: 'These term are not prohibitive; they are necessary to protect our proprietary license rights.'
+        text: 'These terms are not prohibitive; they are necessary to protect our proprietary license rights.'
     },
     {
         id: 10,

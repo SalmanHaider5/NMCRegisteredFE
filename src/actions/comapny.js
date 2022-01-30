@@ -178,6 +178,14 @@ export const updateProfile = (userId, values) => dispatch => {
     })
 }
 
+export const addSearchedProfessionals = (index, professional) => dispatch => {
+    dispatch({
+        type: types.ADD_PROFESSIONALS_LIST_BY_DISTANCE,
+        payload: { professional, index }
+    })
+}
+
+
 const setProfessionals = (index, timesheet={}, professional) => dispatch => {
 
     let model = clone(professional)

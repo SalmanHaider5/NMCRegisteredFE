@@ -24,7 +24,8 @@ import {
   not,
   join,
   and,
-  or
+  or,
+  pathOr
 } from 'ramda'
 
 import {
@@ -37,19 +38,25 @@ import {
   contactUs,
   makePayment,
   updateProfile,
-  searchProfessionals,
   getStripeSecret,
   sendOfferRequest,
   updateOffer,
   startProcess,
   endProcess,
   addLocation,
-  modifyEmail
+  modifyEmail,
+  addSearchedProfessionals
 } from '../../actions'
-
+import * as types from '../../actions/types'
 import { Loader } from '../../utils/custom-components'
-import { QUALIFICATION_OPTIONS as skills, TIMESHEET_SHIFTS as shifts } from '../../constants'
-import { getCompanyFormValues, getEmptyWeekForm, isEmptyOrNull, mapIndexed } from '../../utils/helpers'
+import {
+  QUALIFICATION_OPTIONS as skills,
+  TIMESHEET_SHIFTS as shifts,
+  ENDPOINTS as api,
+  GET_ADDRESS_URL as apiUrl,
+  GET_ADDRESS_API_KEY as apiKey
+} from '../../constants'
+import { getCompanyFormValues, getEmptyWeekForm, isEmptyOrNull, mapIndexed, getUrl, getAuthToken } from '../../utils/helpers'
 import { Container } from './Container'
 import Header from '../Header'
 
@@ -134,7 +141,7 @@ class Company extends Component {
   showOfferModal = (selectedProfessional) => {
     
     const {
-      company: { professionals }
+      company: { professionalList: professionals }
     } = this.props
 
     const { currentWeek } = this.state
@@ -326,6 +333,7 @@ class Company extends Component {
     const {
       formValues,
       dispatch,
+      company,
       match: {
         params: { userId }
       }
@@ -345,6 +353,10 @@ class Company extends Component {
       values.charityReg = ''
       dispatch(change('company', 'charityReg', ''))
     }
+
+    values.isPaid = pathOr(false, ['profile', 'isPaid'], company)
+    values.location = pathOr(false, ['profile', 'location'], company)
+    values.payDate = pathOr(new Date(), ['profile', 'payDate'], company)
 
     dispatch(updateProfile(userId, values))
     dispatch(change('company', 'password', ''))
@@ -408,6 +420,58 @@ class Company extends Component {
     offer.company = userId
     dispatch(updateOffer(offer, offer.id))
   }
+
+  findProfessionals = async (userId, values) => {
+
+    const { dispatch } = this.props
+
+    dispatch({ type: types.FIND_PROFESSIONALS_REQUEST })
+
+    const { data: formValues, skill } = values
+    const endpoint = getUrl(api.FIND_PROFESSIONALS, { userId })
+    const url = new URL(endpoint)
+
+    for await(const [index, query] of formValues.entries()){
+      const { date, shifts } = query
+      url.search = new URLSearchParams({
+        skill,
+        shifts: shifts.toString(),
+        date: moment(date).format('YYYY-MM-DD')
+      })
+      await fetch(url, {
+        headers: {
+          authorization: getAuthToken()
+        }
+      })
+      .then(res => res.json())
+      .then(async response => {
+        const { type } = response
+        if(equals(type, 'success')){
+          const { data } = response
+          if(length(data) > 0){
+            for await(const professional of data){
+              const { postCode } = professional
+              const { postalCode } = values
+        
+              const url = `${apiUrl}distance/${postalCode}/${postCode}?api-key=${apiKey}`
+        
+              await fetch(url)
+              .then(res => res.json())
+              .then((response) => {
+                  const { metres } = response
+                  const miles = parseInt(parseFloat(metres) / 1609)
+                  const professionalObj = miles < 40 ? professional : {}
+                  dispatch(addSearchedProfessionals(index, professionalObj))
+              })
+            }
+          }else{
+            dispatch(addSearchedProfessionals(index, {}))
+          }
+        }
+      })
+    }
+    dispatch({ type: types.FIND_PROFESSIONALS_SUCCESS })
+  }
   
 
   searchProfessionalsBySkills = e => {
@@ -418,7 +482,6 @@ class Company extends Component {
       match: {
         params: { userId }
       },
-      dispatch,
       company: { profile },
       formValues
     } = this.props
@@ -442,7 +505,7 @@ class Company extends Component {
       return value
     }, results)
 
-    dispatch(searchProfessionals(userId, values))
+    this.findProfessionals(userId, values)
 
     const skillInputValue = skillName === 'allSkills' ?  `(All Skills)` : `(${skillName})`
 
@@ -617,7 +680,7 @@ class Company extends Component {
         offers,
         profile,
         isLoading,
-        professionals,
+        professionalList: professionals,
         stripeSecret,
         paypalSecret
       },
